@@ -1,94 +1,43 @@
 ---
-<<<<<<< HEAD
-title: "eGora Docs"
-description: "Pilot knowledgebase — IT/internal, customer and caterer documentation in one place."
+title: "Egora KAM Knowledge Base"
+description: "Your central hub for account management processes, customer guides, caterer resources, and integrated tool documentation."
 icon: "house"
 ---
 
-<Note>
-  **This is an evaluation pilot.** It exists to test whether [Mintlify](https://mintlify.com) is the
-  right home for eGora's internal knowledgebase. Content here is a small **representative slice** with
-  **non-sensitive sample data only** — not the real, complete documentation. See
-  [EVALUATION.md](https://github.com) in the repo for the scoring rubric.
-</Note>
-
-eGora is a catering marketplace for **Berlin** and **München**. These docs are organised by audience so
-each stakeholder finds what they need without wading through the rest.
-
-<CardGroup cols={3}>
-  <Card title="IT / Internal" icon="server" href="/it/overview">
-    For engineering and KAM: MCP connector setup, the KPI catalog, and how feature releases get
-    communicated.
-  </Card>
-  <Card title="For customers" icon="user" href="/customers/catering-request">
-    How booking catering through eGora works, end to end.
-  </Card>
-  <Card title="For caterers" icon="utensils" href="/caterers/getting-started">
-    Getting started as a caterer on the eGora marketplace.
-  </Card>
-</CardGroup>
-
-## Why this pilot exists
-
-New features regularly ship without being documented or communicated clearly to **KAM, customers and
-caterers**. A docs-as-code knowledgebase aims to fix that by making documentation:
-
-<Steps>
-  <Step title="Versioned in git">
-    Docs live next to a clear review process — every change is a commit, reviewable like code.
-  </Step>
-  <Step title="Published for humans">
-    A searchable site with an AI assistant, organised by audience.
-  </Step>
-  <Step title="Readable by AI">
-    Mintlify auto-generates `llms.txt` and `llms-full.txt`, so the same source can ground the upcoming
-    **Claude Team** "eGora KAM Assistant" — one source of truth for people *and* Claude.
-  </Step>
-</Steps>
-
-<Tip>
-  Switch between **English** and **Deutsch** using the language selector in the top bar — the German
-  market is core to eGora, so i18n quality is one of the things this pilot is testing.
-</Tip>
-=======
-title: "Egora KAM Knowledge Base"
-description: "Your central hub for account management processes, customer guides, caterer resources, and integrated tool documentation."
----
-
-Welcome to the **Egora KAM Knowledge Base** — your single source of truth for everything you need as a Key Account Manager. Whether you're onboarding a new corporate client, supporting a caterer, or looking up the latest process update, this KB has you covered. All content is automatically aggregated from Notion, Slack, Git, and Gleap so you always have the most current context at your fingertips.
+Welcome to the **Egora KAM Knowledge Base** — your single source of truth for everything you need as a Key Account Manager at eGora, the catering marketplace for Berlin and München. Whether you're onboarding a new corporate client, supporting a caterer, or looking up the latest process update, this KB has you covered. All content is automatically aggregated from Notion, Slack, Git, and Gleap so you always have the most current context.
 
 <CardGroup cols={2}>
-  <Card title="KAM Handbook" icon="book" href="/kam-handbook/what-is-this-kb">
-    Process guides and playbooks to help you manage accounts with confidence.
+  <Card title="KAM Handbook" icon="book" href="/introduction">
+    Process guides, playbooks, and onboarding workflows for Key Account Managers.
   </Card>
   <Card title="Customer Guide" icon="users" href="/customer-guide/overview">
-    Resources and references designed to support your corporate customers.
+    Resources and references for corporate customers booking catering through eGora.
   </Card>
   <Card title="Caterer Guide" icon="utensils" href="/caterer-guide/overview">
-    Everything your caterers need to fulfill orders and grow on the platform.
+    Everything catering partners need to fulfill orders and grow on the platform.
   </Card>
-  <Card title="Integrations" icon="plug" href="/integrations/overview">
-    Connect Notion, Slack, Git, Gleap, and more to keep your KB in sync.
+  <Card title="Integrations & Tools" icon="plug" href="/integrations/overview">
+    Connect Notion, Slack, Git, Gleap, and Claude to keep your KB in sync.
   </Card>
 </CardGroup>
 
 ## Getting Started as a New KAM
 
-Follow these three steps to get up and running quickly:
-
 <Steps>
   <Step title="Read the Handbook">
-    Start with the KAM Handbook to understand how this knowledge base is structured, what each section covers, and where to find the processes that govern your day-to-day work.
+    Start with the [KAM Handbook](/introduction) to understand how this knowledge base is structured, what each section covers, and where to find the processes that govern your day-to-day work.
+  </Step>
+  <Step title="Set Up the MCP Connector">
+    Connect Claude Desktop to eGora's live data via the [MCP setup guide](/it/mcp-setup) so you can ask real questions about orders, requests, and accounts directly in chat.
   </Step>
   <Step title="Connect Your Tools">
-    Link your Notion workspace, Slack channels, and Gleap account so that new content, threads, and customer messages are automatically surfaced here in real time.
+    Link your [Notion workspace](/integrations/notion-sync), [Slack channels](/integrations/slack-sync), and [Gleap account](/integrations/gleap-messages) so new content and customer messages are automatically surfaced here.
   </Step>
   <Step title="Start Using AI">
-    Open Claude Teams and start asking questions. With your tools connected, Claude has full context from all your sources and can help you draft responses, summarise accounts, and look up processes instantly.
+    Open [Claude Teams](/integrations/claude-teams-setup) and start asking questions. With your tools connected, Claude has full context from all your sources and can help you draft responses, summarise accounts, and look up processes instantly.
   </Step>
 </Steps>
 
 <Note>
   This knowledge base is updated automatically from all connected sources — Notion docs, Slack threads, Git commits, and Gleap customer messages. You don't need to maintain it manually; just keep your integrations connected and the content stays fresh.
 </Note>
->>>>>>> 360f0a6 (docs: generate Egora KAM Knowledge Base documentation)

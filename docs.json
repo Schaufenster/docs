@@ -1,68 +1,15 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-<<<<<<< HEAD
-  "theme": "mint",
-  "name": "eGora Docs (Pilot)",
-  "colors": {
-    "primary": "#38808a",
-    "light": "#5BA3AD",
-    "dark": "#092440"
-=======
   "name": "Egora KAM Knowledge Base",
   "theme": "maple",
   "colors": {
     "primary": "#ef7025",
     "light": "#eec9bc",
     "dark": "#4fa1ab"
->>>>>>> 360f0a6 (docs: generate Egora KAM Knowledge Base documentation)
   },
   "favicon": "/favicon.svg",
-  "description": "Pilot knowledgebase for eGora — IT/internal, customer and caterer docs. Evaluation only.",
+  "description": "Internal knowledge base for eGora KAMs — processes, customer guides, caterer resources, and connected tools.",
   "navigation": {
-<<<<<<< HEAD
-    "languages": [
-      {
-        "language": "en",
-        "tabs": [
-          {
-            "tab": "IT / Internal",
-            "groups": [
-              {
-                "group": "Getting started",
-                "pages": ["index", "it/overview"]
-              },
-              {
-                "group": "Guides",
-                "pages": ["it/mcp-setup", "it/kpi-catalog"]
-              },
-              {
-                "group": "Release communication",
-                "pages": ["it/feature-changelog"]
-              }
-            ]
-          },
-          {
-            "tab": "For customers",
-            "groups": [
-              {
-                "group": "Booking catering",
-                "pages": ["customers/catering-request"]
-              }
-            ]
-          },
-          {
-            "tab": "For caterers",
-            "groups": [
-              {
-                "group": "Onboarding",
-                "pages": ["caterers/getting-started"]
-              }
-            ]
-          },
-          {
-            "tab": "API reference",
-            "openapi": "/api-reference/openapi.json"
-=======
     "tabs": [
       {
         "tab": "KAM Handbook",
@@ -85,6 +32,13 @@
             ]
           },
           {
+            "group": "Product Updates",
+            "pages": [
+              "it/feature-changelog",
+              "it/kpi-catalog"
+            ]
+          },
+          {
             "group": "Customer Guide",
             "pages": [
               "customer-guide/overview",
@@ -103,40 +57,10 @@
               "caterer-guide/fulfilling-orders",
               "caterer-guide/support-faqs"
             ]
->>>>>>> 360f0a6 (docs: generate Egora KAM Knowledge Base documentation)
           }
         ]
       },
       {
-<<<<<<< HEAD
-        "language": "de",
-        "tabs": [
-          {
-            "tab": "IT / Intern",
-            "groups": [
-              {
-                "group": "Erste Schritte",
-                "pages": ["de/index", "de/it/mcp-setup"]
-              }
-            ]
-          },
-          {
-            "tab": "Für Kund:innen",
-            "groups": [
-              {
-                "group": "Catering buchen",
-                "pages": ["de/customers/catering-anfrage"]
-              }
-            ]
-          },
-          {
-            "tab": "Für Caterer",
-            "groups": [
-              {
-                "group": "Onboarding",
-                "pages": ["de/caterers/erste-schritte"]
-              }
-=======
         "tab": "Integrations & Tools",
         "groups": [
           {
@@ -153,9 +77,9 @@
             "group": "AI & Help Desk",
             "pages": [
               "integrations/claude-teams-setup",
+              "it/mcp-setup",
               "integrations/help-desk-feed",
               "integrations/keeping-kb-updated"
->>>>>>> 360f0a6 (docs: generate Egora KAM Knowledge Base documentation)
             ]
           }
         ]
@@ -163,7 +87,6 @@
     ]
   },
   "navbar": {
-<<<<<<< HEAD
     "links": [
       {
         "label": "eGora",
@@ -179,12 +102,6 @@
   "footer": {
     "socials": {
       "website": "https://egora-catering.de"
-=======
-    "primary": {
-      "type": "button",
-      "label": "Open Knowledge Base",
-      "href": "/"
->>>>>>> 360f0a6 (docs: generate Egora KAM Knowledge Base documentation)
     }
   }
 }
