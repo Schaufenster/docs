@@ -1,0 +1,38 @@
+---
+title: "How to use this KB"
+description: "Read it on the web or ask the eGora KAM Assistant — and which source answers which question."
+icon: "compass"
+---
+
+You can use this knowledge in two ways.
+
+<CardGroup cols={2}>
+  <Card title="Read it here" icon="book-open">
+    Browse the **KAM Handbook**, **IT / Internal** and **Integrations** tabs.
+  </Card>
+  <Card title="Ask the assistant" icon="robot">
+    The **eGora KAM Assistant** (Claude) reads this KB live and can additionally pull in live data and Notion.
+  </Card>
+</CardGroup>
+
+## Which source answers which question
+
+The assistant is connected to three sources. It picks one based on your question:
+
+| Your question | Source |
+| --- | --- |
+| "How does X work / what's the process?" | **This KB** (Mintlify) |
+| "What's the current status / count of record Y?" | **egora-data** (live, PII-stripped) |
+| "What's the latest draft / not yet official?" | **Notion** |
+
+## What the assistant does — and doesn't do
+
+<Check>It drafts customer responses and offer copy (German, informal "Du", with placeholders).</Check>
+<Check>It pulls live status and counts of requests/orders through the connector.</Check>
+<Check>It walks you through the lifecycle and the post-booking checklist.</Check>
+
+<Warning>
+  It does **not** invent prices, dates, quantities, statuses or IDs, and it does **not** perform binding
+  actions (sending offers, confirming bookings, invoicing, refunds) — that stays in the eGora backend,
+  with you.
+</Warning>

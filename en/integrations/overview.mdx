@@ -1,0 +1,58 @@
+---
+title: "How this knowledge base is connected"
+description: "The actual wiring: one git-based source, read by humans and Claude, kept current by automations and reviewed authoring."
+icon: "diagram-project"
+---
+
+<Note>
+  This page describes the **actual** setup — not a wish-list. Where something is only just being turned on
+  during the trial, that is called out explicitly.
+</Note>
+
+The KB is **one git-based source** (`Schaufenster/docs` → Mintlify). It is read by two kinds of consumers
+and fed by a few reviewed inflows.
+
+## Who reads it
+
+<CardGroup cols={2}>
+  <Card title="Humans (this site)" icon="user">
+    KAMs read the web KB directly. Access is restricted to eGora org members.
+  </Card>
+  <Card title="Claude (via MCP)" icon="robot">
+    The eGora KAM Assistant reads the KB through Mintlify's MCP server — see
+    [Connecting Claude](/en/integrations/claude-setup).
+  </Card>
+</CardGroup>
+
+## What feeds Claude
+
+Claude is grounded by **four** sources, each for a different purpose:
+
+| Source | What it is for |
+| --- | --- |
+| **Mintlify KB MCP** | Stable, official knowledge (this KB) |
+| **egora-data MCP** | Live business data (orders, requests, KPIs) — see [egora data](/en/integrations/egora-mcp) |
+| **Notion** | Working documents, read live — see [Notion](/en/integrations/notion) |
+| **Skills** | Power-user behavior in Claude Code / Cowork |
+
+Rule of thumb: **KB MCP** for "how does X work", **egora-data** for "what are the current numbers",
+**Notion** for "what is the newest draft".
+
+## What keeps it current (authoring inflows)
+
+Every change lands as a **reviewable pull request** — nothing is committed silently.
+
+<CardGroup cols={2}>
+  <Card title="Changelog automation" icon="code-branch" href="/en/integrations/changelog">
+    Shipped product code automatically produces a changelog draft.
+  </Card>
+  <Card title="Slack agent" icon="slack" href="/en/integrations/slack-agent">
+    `@mention` the agent in a thread to draft a docs update.
+  </Card>
+  <Card title="Translate content" icon="language">
+    Mintlify's automation keeps German in sync with English (turned on during the trial).
+  </Card>
+  <Card title="Hand edits" icon="pen">
+    Direct edits via git / web editor, reviewed like any other PR.
+  </Card>
+</CardGroup>
