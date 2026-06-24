@@ -1,0 +1,105 @@
+---
+title: "Feeding the Egora Help Desk from the Knowledge Base"
+sidebarTitle: "Help Desk Feed"
+description: "How the Egora KAM Knowledge Base automatically generates and updates help desk articles for customers and caterers from synced content."
+---
+
+The KAM Knowledge Base doesn't just serve internal users — it also powers the customer and caterer help desk. As your KB content stays current through Notion, Slack, and Gleap syncs, help desk articles are automatically refreshed to match. You don't need to maintain two sets of documentation.
+
+## How the help desk feed works
+
+The KB continuously identifies publishable content and pushes it to the appropriate help desk destination. Only pages tagged as externally facing are included — internal KAM process pages are never exposed.
+
+Articles are mapped by category:
+
+| KB Section | Help Desk Destination |
+|---|---|
+| Customer Guide | Customer Help Center |
+| Caterer Guide | Caterer Help Center |
+
+When a page in either of these sections changes, the KB flags it for publishing and either pushes it live automatically or queues it for review, depending on your configuration.
+
+## Content pipeline
+
+<Steps>
+  <Step title="KAM updates content">
+    A KAM updates a Notion page or edits content directly in the KB. This could be a change to a process, a new FAQ, or a correction to an existing article.
+  </Step>
+  <Step title="Sync runs and updates the KB">
+    The scheduled sync pulls changes from all connected sources (Notion, Slack, Gleap) and updates the KB. Syncs run on a configurable schedule — typically every hour.
+  </Step>
+  <Step title="KB identifies changed articles">
+    After each sync, the KB compares updated content against the last published version of each help desk article. Pages with meaningful changes are flagged for publishing.
+  </Step>
+  <Step title="Changes are pushed to the help desk">
+    Flagged articles are sent to the help desk platform via the API. The article content, title, and category mapping are all transferred automatically.
+  </Step>
+  <Step title="Articles go live">
+    Depending on your publish mode, articles either go live immediately or enter a draft queue for the KB owner to review and approve before publishing.
+  </Step>
+</Steps>
+
+## Configuring the help desk connection
+
+<Steps>
+  <Step title="Open Help Desk settings">
+    In the KB admin panel, go to **Integrations → Help Desk**.
+  </Step>
+  <Step title="Select your help desk platform">
+    Choose your platform from the list: **Intercom**, **Zendesk**, or **Freshdesk**. If your platform isn't listed, contact your KB admin to request an integration.
+  </Step>
+  <Step title="Authenticate with your API key">
+    Enter your help desk API key to authorise the connection. You can find your API key in your help desk platform's developer or integration settings.
+  </Step>
+  <Step title="Map KB sections to help desk categories">
+    Assign each eligible KB section to the corresponding help desk category. For example, map **Customer Guide → Customer Help Center** and **Caterer Guide → Caterer Help Center**.
+  </Step>
+  <Step title="Choose your publish mode">
+    Select either **Auto-publish** or **Manual review** mode (see below). You can change this setting at any time from the Help Desk integration page.
+  </Step>
+</Steps>
+
+## Auto-publish vs. manual review
+
+<Tabs>
+  <Tab title="Auto-publish">
+    **Auto-publish** pushes updated help desk articles live as soon as the KB sync completes. There is no approval step.
+
+    **Best for:**
+    - Minor wording corrections and typo fixes
+    - Adding new FAQ entries that don't affect existing workflows
+    - Teams with high content update frequency who want zero lag between KB and help desk
+
+    **Trade-off:** A sync error or an unreviewed change can go live before anyone catches it. Monitor your help desk content regularly if you use this mode.
+  </Tab>
+  <Tab title="Manual review">
+    **Manual review** holds all changes in a draft queue. The KB owner receives a notification and must approve each article before it publishes to the help desk.
+
+    **Best for:**
+    - Significant content changes that affect customer-facing processes
+    - Teams that want a quality check before anything goes external
+    - Periods of rapid platform change where accuracy is critical
+
+    **Trade-off:** There is a delay between a KB update and the help desk reflecting it. Assign a KB owner who can clear the review queue promptly.
+
+    <Tip>
+      Set a daily Slack reminder for your KB owner to check the draft queue. A backlog of unreviewed articles defeats the purpose of automated publishing.
+    </Tip>
+  </Tab>
+</Tabs>
+
+## Monitoring help desk content quality
+
+Gleap ticket trends are your best signal for gaps in help desk coverage. If the same question keeps appearing in Gleap, it means customers or caterers aren't finding the answer in the help center — or the answer isn't clear enough.
+
+Use the following approach to close those gaps:
+
+1. **Review your Gleap digest weekly** — look for recurring ticket topics or questions that cluster around a single theme.
+2. **Cross-reference with the help desk** — search for the topic in your help center. If there's no article, create one in the KB's Customer or Caterer Guide. If an article exists, improve its clarity or completeness.
+3. **Track the impact** — after publishing an improved article, monitor whether the volume of related Gleap tickets drops over the following two weeks.
+
+This feedback loop keeps your help desk content aligned with what customers and caterers actually need to know.
+
+<Note>
+  Only Customer Guide and Caterer Guide pages are eligible for help desk publishing. Internal KAM process pages are never published externally, regardless of your publish mode setting.
+</Note>

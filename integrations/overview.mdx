@@ -1,0 +1,56 @@
+---
+title: "Integrations Overview: How the KB Stays Up to Date"
+sidebarTitle: "Overview"
+description: "Learn how the Egora KAM Knowledge Base automatically pulls content from Notion, Slack, Git, and Gleap to stay accurate and current."
+---
+
+The Egora KAM Knowledge Base doesn't require manual maintenance. It stays current by syncing with the tools your team already uses — Notion for processes, Slack for updates, Git for product changes, and Gleap for customer voice. Every time your source tools change, the KB reflects those changes automatically — so you always have accurate, up-to-date information at your fingertips.
+
+## Connected sources
+
+<CardGroup cols={2}>
+  <Card title="Notion Sync" icon="book" href="/integrations/notion-sync">
+    Process documentation and KAM playbooks sync automatically from your Notion workspace into the KB.
+  </Card>
+  <Card title="Slack Sync" icon="comments" href="/integrations/slack-sync">
+    Key decisions and team updates posted in designated Slack channels are captured and surfaced in the KB.
+  </Card>
+  <Card title="Git Commits" icon="code" href="/integrations/git-commits">
+    Tagged product commits flow into a changelog digest, keeping KAMs informed of every relevant release or fix.
+  </Card>
+  <Card title="Gleap Messages" icon="message" href="/integrations/gleap-messages">
+    Customer and caterer support messages from Gleap are aggregated into structured account insights and help desk content.
+  </Card>
+</CardGroup>
+
+## How sync works
+
+Each connected source feeds into a central sync pipeline that converts raw content into structured KB articles. Here's how the flow works end-to-end:
+
+<Steps>
+  <Step title="Content is created or updated in a source tool">
+    A KAM updates a process doc in Notion, a team lead posts a decision in Slack, an engineer pushes a tagged commit, or a customer submits a Gleap ticket.
+  </Step>
+  <Step title="The sync pipeline picks it up">
+    The KB monitors each source on its configured schedule or trigger. When new or changed content is detected, the pipeline fetches and converts it into a KB-ready format.
+  </Step>
+  <Step title="The KB article is created or updated">
+    Converted content lands in the appropriate section of the KB — categorized, tagged, and timestamped. Existing articles are updated in place; new content creates new articles.
+  </Step>
+  <Step title="Claude Teams and the Help Desk stay current">
+    Claude Teams AI draws on the latest KB content to answer KAM questions accurately. The customer and caterer help desk pulls from the same pipeline to keep FAQ pages relevant.
+  </Step>
+</Steps>
+
+## Sync frequency
+
+| Source | Sync Frequency | Notes |
+|--------|---------------|-------|
+| Notion | Hourly | Full page sync for all tagged pages |
+| Slack | Real-time highlights | Only pinned messages or posts in designated channels |
+| Git | On commit | Commit messages and changelogs for tagged commits only |
+| Gleap | Daily digest | Categorized by account and issue type |
+
+<Info>
+  Manual overrides are possible. Ask the KB owner if you need to force a sync or exclude specific content.
+</Info>

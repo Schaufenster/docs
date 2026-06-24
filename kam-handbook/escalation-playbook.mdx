@@ -1,0 +1,125 @@
+---
+title: "Escalation Playbook: Handling Issues and Complaints"
+sidebarTitle: "Escalation Playbook"
+description: "Step-by-step escalation paths for KAMs to handle customer complaints, caterer failures, platform issues, and billing disputes at Egora."
+---
+
+When something goes wrong, a clear escalation path is your best tool. Customers don't expect perfection — they expect a fast, professional response. This playbook covers the most common scenarios you'll face and gives you the exact steps to resolve them quickly, protect the customer relationship, and close the loop properly.
+
+## Escalation levels
+
+Every issue you encounter falls into one of three escalation levels. Match the level to the situation — don't over-escalate routine issues, and don't under-escalate serious ones.
+
+| Level | Who is involved | When to use |
+|---|---|---|
+| **L1** | KAM handles directly | Routine issues resolvable within your authority: minor delivery delays, menu queries, account access resets, single support tickets |
+| **L2** | KAM + Team Lead | Issues affecting multiple orders or customers, repeated failures by the same caterer, unresolved L1 issues after 24 hours, billing queries above your sign-off threshold |
+| **L3** | KAM + Operations + Management | Platform outages, major data incidents, contract-threatening complaints, media or legal risk, unresolved L2 issues after 48 hours |
+
+Escalate up a level the moment you feel stuck. Waiting costs you more than it saves.
+
+---
+
+## Scenario: Order not delivered
+
+**SLA: Respond to the customer within 15 minutes of becoming aware of the issue.**
+
+<Steps>
+  <Step title="Check order status in the platform">
+    Log in to the Egora platform and pull up the order in question. Note the status, the caterer assigned, the scheduled delivery time, and any system flags or errors attached to the order.
+  </Step>
+  <Step title="Contact the caterer directly">
+    Call the caterer's operations contact immediately — do not rely solely on Slack messages when an order is late. Get a confirmed status and a realistic ETA. If you cannot reach the caterer within 10 minutes, escalate to L2.
+  </Step>
+  <Step title="Notify the customer with an update">
+    Contact the customer via Slack or phone before they contact you. Give them a factual update: what happened, what you're doing, and a realistic ETA or alternative solution. Do not overpromise on timing.
+  </Step>
+  <Step title="Log the incident in Gleap">
+    Open a support ticket in Gleap with the order ID, customer name, caterer name, timeline of events, and your current status. This creates a record and flags the incident for operations visibility.
+  </Step>
+  <Step title="Follow up post-resolution">
+    Once the order is delivered or a resolution is agreed, follow up with the customer to confirm they are satisfied. A brief personal message goes a long way. Close the Gleap ticket and add a resolution note.
+  </Step>
+</Steps>
+
+---
+
+## Scenario: Food quality complaint
+
+<Steps>
+  <Step title="Acknowledge the complaint promptly">
+    Respond to the customer in Gleap or by email within one hour of the complaint being raised. Acknowledge the issue clearly: "Thank you for letting us know — I'm taking this seriously and will come back to you with a resolution shortly."
+  </Step>
+  <Step title="Gather the details">
+    Ask the customer for: photos of the food in question, the order ID, the specific items affected, and the number of people impacted. Log everything in the Gleap ticket. Do not try to assess the complaint without this information.
+  </Step>
+  <Step title="Coordinate compensation with finance">
+    Based on the details, determine whether a credit or refund is appropriate and submit a compensation request to finance with the Gleap ticket reference. Do not commit to a specific amount with the customer until finance has confirmed.
+  </Step>
+  <Step title="Debrief with the caterer">
+    Once the customer is resolved, have a direct conversation with the caterer about what went wrong. Frame it constructively — you need to understand root cause to prevent recurrence. Log the outcome of this conversation in Notion.
+  </Step>
+  <Step title="Document the outcome">
+    Update the Notion account record with a summary of the complaint, the resolution, and any agreed follow-up actions with the caterer. If this is a repeated quality issue from the same caterer, flag it to your Team Lead.
+  </Step>
+</Steps>
+
+---
+
+## Scenario: Billing dispute
+
+<Steps>
+  <Step title="Gather the disputed invoice details">
+    Ask the customer for the specific invoice number(s) in question, the line items they are disputing, and their expected amount. Pull the corresponding records from the CRM and platform billing history.
+  </Step>
+  <Step title="Review internally before responding">
+    Cross-reference the disputed charges with order history and contract terms. In many cases, disputes arise from misunderstanding pricing tiers or minimum order fees — resolve these directly if you can.
+  </Step>
+  <Step title="Respond to the customer with a clear explanation">
+    Send a written response (email or Gleap) within 24 hours explaining either (a) why the charge is correct with supporting evidence, or (b) confirming you are raising an adjustment request with finance. Keep the tone factual and professional.
+  </Step>
+  <Step title="Submit an adjustment request to finance">
+    If a credit or correction is warranted, submit the request to the finance team with full documentation: invoice number, original amount, disputed amount, reason, and Gleap ticket reference. Do not action billing changes yourself.
+  </Step>
+  <Step title="Escalate to the finance lead if unresolved in 48 hours">
+    If the dispute is not resolved within 48 hours of your finance submission, escalate directly to the finance lead and copy your Team Lead. A billing dispute that drags on damages trust faster than almost any other issue.
+  </Step>
+</Steps>
+
+---
+
+## Scenario: Platform outage
+
+<Steps>
+  <Step title="Confirm the outage">
+    Check the Egora internal status page and the #platform-status Slack channel to confirm you are seeing a real outage, not an isolated access issue. Do not raise a customer-facing alert until the outage is confirmed.
+  </Step>
+  <Step title="Notify affected customers proactively">
+    Message all customers with active or imminent orders via Slack. Use this template as a starting point: "We're aware of a platform issue affecting [feature/access] and our engineering team is working on a fix. We'll update you every 30 minutes until it's resolved."
+  </Step>
+  <Step title="Notify operations and management internally">
+    Post in #kam-ops with a list of affected accounts and any orders at risk. Tag the operations lead so they can coordinate with engineering. This is an L3 situation — your manager should be aware immediately.
+  </Step>
+  <Step title="Send regular updates until resolution">
+    Keep customers updated every 30 minutes — even if the update is "we're still working on it." Silence during an outage is the fastest way to lose trust.
+  </Step>
+  <Step title="Send a resolution note and follow up">
+    Once the outage is resolved, send a brief note to affected customers confirming normal service has resumed, and offer to jump on a call if anyone has concerns. Log the incident in Notion.
+  </Step>
+</Steps>
+
+---
+
+<Warning>
+  Never promise refunds or credits without finance approval. When a customer asks for compensation, the right answer is always: "I completely understand, and I'll look into this and get back to you within [X] hours with a resolution." Over-promising and under-delivering is far more damaging than a measured, honest response.
+</Warning>
+
+---
+
+## Post-escalation
+
+Every escalation — regardless of outcome — requires a close-out step. Don't let issues disappear once they're resolved.
+
+1. **Log the outcome in Gleap** — Close the ticket with a resolution note summarising what happened, what was done, and what the customer's final response was.
+2. **Update the Notion account record** — Add a dated summary of the incident to the account's Notion page so any team member picking up the account has full context.
+3. **Share learnings in #kam-ops** — Post a brief note in the #kam-ops Slack channel summarising the scenario, how it was handled, and any process improvements you'd suggest. Escalations are learning opportunities for the whole team.

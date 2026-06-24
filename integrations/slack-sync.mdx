@@ -1,0 +1,69 @@
+---
+title: "Capturing Slack Updates in the Egora Knowledge Base"
+sidebarTitle: "Slack Sync"
+description: "How to connect Slack channels to the Egora KAM Knowledge Base so that key updates, decisions, and highlights are automatically captured."
+---
+
+Important decisions and updates often happen in Slack — but they get buried quickly. The KB captures designated Slack content automatically, surfacing it to KAMs without requiring them to dig through channel history. You stay informed of what matters without monitoring every channel yourself.
+
+## How Slack sync works
+
+The KB does not capture all Slack traffic. Only specific triggers cause a message to be pulled into the KB:
+
+1. **Designated channel posts** — any message posted to a monitored `#kb-updates` channel is automatically captured.
+2. **Emoji reactions** — adding a 📌 reaction to any message in a monitored channel flags it for KB inclusion.
+3. **Bot command** — using the `/kb-update` command in any channel submits the message content directly to the KB pipeline.
+
+This selective approach keeps the KB focused on signal, not noise.
+
+## Setting up Slack sync
+
+<Steps>
+  <Step title="Open the KB admin panel">
+    Navigate to **Integrations → Slack** in the KB admin panel.
+  </Step>
+  <Step title="Connect your Slack workspace">
+    Click **Connect Slack Workspace**. Authorize the KB bot in your Slack workspace. The bot requires permission to read messages in selected channels and respond to slash commands.
+  </Step>
+  <Step title="Select channels to monitor">
+    Choose the Slack channels the bot should watch. Add `#kb-updates` as a minimum. You can include additional team or product channels where relevant updates are posted.
+  </Step>
+  <Step title="Configure the capture trigger">
+    Choose your preferred capture method — monitor an entire channel, capture on emoji reaction, or rely on the slash command. You can enable all three simultaneously.
+  </Step>
+  <Step title="Test with a sample message">
+    Post a test message in a monitored channel or use `/kb-update` to confirm the bot picks it up. Check the KB admin panel to verify the message appears in the capture queue.
+  </Step>
+</Steps>
+
+## Posting KB updates via Slack
+
+You can push quick updates to the KB directly from Slack without logging into the admin panel. Post in the designated `#kb-updates` channel, or use the `/kb-update` slash command from any channel.
+
+The command syntax is:
+
+```text
+/kb-update [category] [title]: [content]
+Example: /kb-update processes Order Cancellation Policy: Orders can be cancelled up to 24 hours before delivery.
+```
+
+The KB pipeline receives the submission, creates a draft article in the specified category, and queues it for review. The KB owner approves or edits it before it goes live.
+
+## What gets captured
+
+The following content is captured from Slack:
+
+- **Message text** — the full body of the captured message
+- **Author** — the Slack display name of the message sender
+- **Timestamp** — the date and time the message was posted
+- **Channel context** — the channel name where the message originated
+
+The following content is **not** captured:
+
+- Thread replies (only the parent message is captured, even if the thread contains follow-up context)
+- Images and media embedded in messages
+- File attachments shared in Slack
+
+<Note>
+  Respect privacy — only post KB-relevant content in monitored channels. Personal or sensitive conversations belong in unmonitored DMs or private channels.
+</Note>

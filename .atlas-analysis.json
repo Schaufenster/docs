@@ -1,0 +1,97 @@
+{
+  "projectType": "saas",
+  "projectName": "Egora KAM Knowledge Base",
+  "projectDescription": "An internal knowledge base for Key Account Managers that consolidates processes, customer communications, and team updates into a single source of truth, powering both the Claude Teams AI assistant and the customer/caterer help desk.",
+  "theme": "maple",
+  "primaryColor": "#ef7025",
+  "lightColor": "#eec9bc",
+  "darkColor": "#4fa1ab",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "KAM Handbook",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "introduction",
+              "kam-handbook/what-is-this-kb",
+              "kam-handbook/how-to-use"
+            ]
+          },
+          {
+            "group": "KAM Processes",
+            "pages": [
+              "kam-handbook/onboarding-accounts",
+              "kam-handbook/account-management",
+              "kam-handbook/escalation-playbook",
+              "kam-handbook/offboarding-accounts"
+            ]
+          },
+          {
+            "group": "Customer & Caterer Guide",
+            "pages": [
+              "customer-guide/overview",
+              "customer-guide/getting-started",
+              "customer-guide/placing-orders",
+              "customer-guide/managing-account",
+              "customer-guide/support-faqs"
+            ]
+          },
+          {
+            "group": "Caterer Guide",
+            "pages": [
+              "caterer-guide/overview",
+              "caterer-guide/getting-started",
+              "caterer-guide/managing-menu",
+              "caterer-guide/fulfilling-orders",
+              "caterer-guide/support-faqs"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Integrations & Tools",
+        "groups": [
+          {
+            "group": "Connected Sources",
+            "pages": [
+              "integrations/overview",
+              "integrations/notion-sync",
+              "integrations/slack-sync",
+              "integrations/git-commits",
+              "integrations/gleap-messages"
+            ]
+          },
+          {
+            "group": "AI & Help Desk",
+            "pages": [
+              "integrations/claude-teams-setup",
+              "integrations/help-desk-feed",
+              "integrations/keeping-kb-updated"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Centralized KAM process documentation sourced from Notion",
+    "Slack conversation and update syncing",
+    "Git commit changelog integration",
+    "Gleap customer message aggregation",
+    "Claude Teams AI assistant feeding",
+    "Customer and caterer help desk content feed",
+    "Account onboarding and escalation playbooks",
+    "Unified search across all knowledge sources"
+  ],
+  "publicApiSurface": [
+    "Knowledge base search",
+    "Help desk article feed",
+    "Claude Teams knowledge context",
+    "Gleap message categorization",
+    "Notion page sync",
+    "Slack channel sync",
+    "Git commit digest"
+  ]
+}

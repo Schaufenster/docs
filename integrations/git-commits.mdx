@@ -1,0 +1,57 @@
+---
+title: "Surfacing Product Changes from Git Commits in the KB"
+sidebarTitle: "Git Commits"
+description: "How the Egora KAM Knowledge Base monitors Git commit history to surface product updates, feature releases, and bug fixes relevant to KAMs."
+---
+
+When the Egora product team ships a new feature or fixes a bug, KAMs need to know — especially when it affects customers or caterers. The KB automatically surfaces relevant changes from Git commit history, so you're never caught off guard on a customer call by a change you didn't know about.
+
+## How Git sync works
+
+The KB monitors the main Egora product repository for commits tagged with specific labels in the commit message. Untagged commits are ignored — only commits that include a recognized tag are pulled into the pipeline.
+
+Tagged commits are compiled into a changelog digest that appears in the KB under the **Product Updates** section. The digest is updated on every tagged commit, so the KB reflects the latest shipped changes in real time.
+
+## Commit tagging conventions
+
+Engineers on the product team use square-bracket tags at the start of their commit messages to signal relevance to KAMs. The following tags are recognized by the KB pipeline:
+
+| Tag | What to use it for |
+|-----|--------------------|
+| `[KAM]` | Updates KAMs must know about, regardless of customer visibility |
+| `[customer-facing]` | Changes visible to customers in the Egora platform |
+| `[caterer]` | Changes affecting caterer workflows or the caterer portal |
+| `[release]` | New feature releases being shipped to production |
+| `[fix]` | Bug fixes that affect user-facing behavior |
+
+Multiple tags can be combined in a single commit message. Here's an example of a well-tagged commit:
+
+```text
+[KAM][customer-facing] Add dietary filter to order search
+
+Customers can now filter menu items by dietary requirement (vegan,
+gluten-free, halal) on the order page. Update customer guide if needed.
+```
+
+This commit would appear in the KAM changelog digest and be flagged as customer-facing — prompting KAMs to check whether any customer-facing documentation needs updating.
+
+## Viewing the changelog in the KB
+
+The auto-generated changelog is available in the KB under **Product Updates → Changelog**. It is updated automatically on every tagged commit — you don't need to refresh or request a sync manually.
+
+You can filter the changelog by tag to focus on a specific type of change. For example, filtering by `[caterer]` shows only commits that affect caterer workflows, which is useful before a caterer business review.
+
+<Tip>
+  Ask the product team to tag any commit that affects customer-visible behavior with `[customer-facing]`. This keeps the changelog accurate without requiring manual updates from anyone outside the engineering team.
+</Tip>
+
+## Digest format
+
+Each entry in the changelog digest includes the following fields:
+
+- **Date** — the date the commit was merged to the main branch
+- **Commit message summary** — the first line of the tagged commit message
+- **Affected area** — derived from the tags applied to the commit (e.g., customer-facing, caterer, release)
+- **Link to full diff** — a direct link to the commit in the product repository for engineers or KB owners who need the full technical detail
+
+The digest presents entries in reverse chronological order, with the most recent changes at the top.

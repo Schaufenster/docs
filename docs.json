@@ -1,15 +1,25 @@
 {
   "$schema": "https://mintlify.com/docs.json",
+<<<<<<< HEAD
   "theme": "mint",
   "name": "eGora Docs (Pilot)",
   "colors": {
     "primary": "#38808a",
     "light": "#5BA3AD",
     "dark": "#092440"
+=======
+  "name": "Egora KAM Knowledge Base",
+  "theme": "maple",
+  "colors": {
+    "primary": "#ef7025",
+    "light": "#eec9bc",
+    "dark": "#4fa1ab"
+>>>>>>> 360f0a6 (docs: generate Egora KAM Knowledge Base documentation)
   },
   "favicon": "/favicon.svg",
   "description": "Pilot knowledgebase for eGora — IT/internal, customer and caterer docs. Evaluation only.",
   "navigation": {
+<<<<<<< HEAD
     "languages": [
       {
         "language": "en",
@@ -52,10 +62,53 @@
           {
             "tab": "API reference",
             "openapi": "/api-reference/openapi.json"
+=======
+    "tabs": [
+      {
+        "tab": "KAM Handbook",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "introduction",
+              "kam-handbook/what-is-this-kb",
+              "kam-handbook/how-to-use"
+            ]
+          },
+          {
+            "group": "KAM Processes",
+            "pages": [
+              "kam-handbook/onboarding-accounts",
+              "kam-handbook/account-management",
+              "kam-handbook/escalation-playbook",
+              "kam-handbook/offboarding-accounts"
+            ]
+          },
+          {
+            "group": "Customer Guide",
+            "pages": [
+              "customer-guide/overview",
+              "customer-guide/getting-started",
+              "customer-guide/placing-orders",
+              "customer-guide/managing-account",
+              "customer-guide/support-faqs"
+            ]
+          },
+          {
+            "group": "Caterer Guide",
+            "pages": [
+              "caterer-guide/overview",
+              "caterer-guide/getting-started",
+              "caterer-guide/managing-menu",
+              "caterer-guide/fulfilling-orders",
+              "caterer-guide/support-faqs"
+            ]
+>>>>>>> 360f0a6 (docs: generate Egora KAM Knowledge Base documentation)
           }
         ]
       },
       {
+<<<<<<< HEAD
         "language": "de",
         "tabs": [
           {
@@ -83,6 +136,26 @@
                 "group": "Onboarding",
                 "pages": ["de/caterers/erste-schritte"]
               }
+=======
+        "tab": "Integrations & Tools",
+        "groups": [
+          {
+            "group": "Connected Sources",
+            "pages": [
+              "integrations/overview",
+              "integrations/notion-sync",
+              "integrations/slack-sync",
+              "integrations/git-commits",
+              "integrations/gleap-messages"
+            ]
+          },
+          {
+            "group": "AI & Help Desk",
+            "pages": [
+              "integrations/claude-teams-setup",
+              "integrations/help-desk-feed",
+              "integrations/keeping-kb-updated"
+>>>>>>> 360f0a6 (docs: generate Egora KAM Knowledge Base documentation)
             ]
           }
         ]
@@ -90,6 +163,7 @@
     ]
   },
   "navbar": {
+<<<<<<< HEAD
     "links": [
       {
         "label": "eGora",
@@ -105,6 +179,12 @@
   "footer": {
     "socials": {
       "website": "https://egora-catering.de"
+=======
+    "primary": {
+      "type": "button",
+      "label": "Open Knowledge Base",
+      "href": "/"
+>>>>>>> 360f0a6 (docs: generate Egora KAM Knowledge Base documentation)
     }
   }
 }
