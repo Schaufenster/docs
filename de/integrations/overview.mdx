@@ -1,0 +1,58 @@
+---
+title: "Wie diese Wissensdatenbank verbunden ist"
+description: "Die tatsächliche Verdrahtung: eine git-basierte Quelle, gelesen von Menschen und Claude, aktuell gehalten durch Automatisierungen und reviewtes Authoring."
+icon: "diagram-project"
+---
+
+<Note>
+  Diese Seite beschreibt das **tatsächliche** Setup — kein Wunschbild. Wo etwas während des Tests gerade
+  erst aktiviert wird, steht das ausdrücklich dabei.
+</Note>
+
+Die KB ist **eine git-basierte Quelle** (`Schaufenster/docs` → Mintlify). Sie wird von zwei Arten von Consumern gelesen
+und durch einige reviewte Inflows gespeist.
+
+## Wer sie liest
+
+<CardGroup cols={2}>
+  <Card title="Menschen (diese Seite)" icon="user">
+    KAMs lesen die Web-KB direkt. Der Zugriff ist auf eGora-Org-Mitglieder beschränkt.
+  </Card>
+  <Card title="Claude (via MCP)" icon="robot">
+    Der eGora KAM Assistant liest die KB über Mintlifys MCP-Server — siehe
+    [Claude anbinden](/de/integrations/claude-setup).
+  </Card>
+</CardGroup>
+
+## Was Claude füttert
+
+Claude wird durch **vier** Quellen geerdet, jede für einen anderen Zweck:
+
+| Quelle | Wofür sie da ist |
+| --- | --- |
+| **Mintlify KB MCP** | Stabiles, offizielles Wissen (diese KB) |
+| **egora-data MCP** | Live-Geschäftsdaten (Bestellungen, Anfragen, KPIs) — siehe [egora data](/de/integrations/egora-mcp) |
+| **Notion** | Arbeitsdokumente, live gelesen — siehe [Notion](/de/integrations/notion) |
+| **Skills** | Power-User-Verhalten in Claude Code / Cowork |
+
+Faustregel: **KB MCP** für "Wie funktioniert X", **egora-data** für "Wie sind die aktuellen Zahlen",
+**Notion** für "Was ist der neueste Entwurf".
+
+## Was sie aktuell hält (Authoring-Inflows)
+
+Jede Änderung landet als **reviewbarer Pull Request** — nichts wird stillschweigend committet.
+
+<CardGroup cols={2}>
+  <Card title="Changelog-Automatisierung" icon="code-branch" href="/de/integrations/changelog">
+    Ausgelieferter Produktcode erzeugt automatisch einen Changelog-Entwurf.
+  </Card>
+  <Card title="Slack-Agent" icon="slack" href="/de/integrations/slack-agent">
+    `@mention` den Agent in einem Thread, um ein Docs-Update zu entwerfen.
+  </Card>
+  <Card title="Inhalte übersetzen" icon="language">
+    Mintlifys Automatisierung hält Deutsch synchron mit Englisch (wird während des Tests aktiviert).
+  </Card>
+  <Card title="Handeditierungen" icon="pen">
+    Direkte Edits via git / Web-Editor, reviewt wie jeder andere PR.
+  </Card>
+</CardGroup>

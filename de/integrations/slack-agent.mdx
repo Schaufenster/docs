@@ -1,0 +1,44 @@
+---
+title: "Slack-Agent (Authoring)"
+description: "Entwirf KB-Updates aus Slack, indem du den Agent @mentionst — Opt-in pro Thread, jede Änderung ist ein reviewbarer PR."
+icon: "slack"
+---
+
+Mit dem Mintlify Slack-Agent kann jede:r aus Slack heraus ein KB-Update entwerfen — ohne dem Agent breiten Zugriff
+auf deine Nachrichten zu geben.
+
+## Wie er eingegrenzt ist (datenschutzfreundlich)
+
+<CardGroup cols={2}>
+  <Card title="Nur @mention" icon="at">
+    Nichts passiert, solange du den Agent nicht in einem Thread **@mentionst**. Er agiert nur in diesem Thread.
+  </Card>
+  <Card title="Kein passives Mitlesen" icon="eye-slash">
+    Channel-"Knowledge Ingestion" ist **aus** (oder auf einen dedizierten `#kb-updates`-Channel beschränkt). Er liest
+    weder DMs noch alle Channels mit.
+  </Card>
+  <Card title="PR-gesichert" icon="code-pull-request">
+    Er öffnet einen **Pull Request** gegen `Schaufenster/docs` — er committet nie direkt auf `main`.
+  </Card>
+  <Card title="Preview-Links" icon="eye">
+    Prüfe die vorgeschlagene Änderung vor dem Merge auf einer Preview-URL.
+  </Card>
+</CardGroup>
+
+## So nutzt du ihn
+
+<Steps>
+  <Step title="Mention den Agent">
+    Schreibe in einem Thread z. B. *"@mintlify document: KAMs können jetzt Du/Sie pro Kunde im Backend setzen."*
+  </Step>
+  <Step title="Prüfe den PR">
+    Der Agent entwirft eine Docs-Änderung und öffnet einen PR mit Preview-Link.
+  </Step>
+  <Step title="Merge">
+    Wenn alles passt, merge — Mintlify deployt neu und die KB (Web + Claude MCP) aktualisiert sich.
+  </Step>
+</Steps>
+
+<Warning>
+  Ein Slack-**Workspace-Admin** genehmigt die Berechtigungen des Agents bei der Installation. Prüfe die angefragten Scopes.
+</Warning>
