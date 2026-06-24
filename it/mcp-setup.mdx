@@ -1,125 +1,120 @@
 ---
 title: "Connect Claude to eGora data (MCP)"
-description: "Set up the eGora MCP connector in Claude Desktop to query orders, requests and companies in chat."
+description: "Connect Claude to the eGora data server via OAuth to query orders, requests, companies and KPIs in chat."
 icon: "plug"
 ---
 
-This connects the **Claude Desktop** app to the eGora data server so you can ask questions about orders,
-catering requests, companies and more — directly in chat, against live (PII-redacted) data.
+This connects **Claude** to the eGora data server so you can ask questions about orders, catering
+requests, companies, KPIs and more — directly in chat, against live (PII-redacted) data.
 
 <Note>
-  Adapted from the internal guide `docs/mcp/setup-claude-desktop-ui.de.md`. The German version of this
-  page is available via the language switcher.
+  There are **two** ways to connect, depending on which Claude you use. **OAuth is the default** for
+  Claude on the web (Cowork / Teams) and is the simplest. The **token** method is only for Claude Code
+  (CLI) and Claude Desktop power users.
 </Note>
 
-## Prerequisites
+## Option A — OAuth (Claude web / Cowork / Teams) — recommended
 
-- **Claude Desktop** (Mac or Windows), reasonably up to date.
-- A **personal access token (PAT)** for eGora — request it from Steffen / the KAM lead. Format
-  `4|XXXX…`. **Never share your token.**
+No token to copy and no client to create — Claude registers itself and you just authorize.
 
-## Setup
+### Prerequisites
+- You are an **eGora Nova user** with the **`admin` role**. If not, ask Steffen to create your user and
+  assign the role (Nova → Users).
+
+### Connect
 
 <Steps>
-  <Step title="Open Developer settings">
-    In Claude Desktop go to **Claude → Settings…** (`⌘ ,`), then select **Developer** in the sidebar.
+  <Step title="Add a custom connector">
+    In Claude, go to **Settings → Connectors → Add custom connector**.
   </Step>
-  <Step title="Edit the config">
-    Under **Local MCP servers**, click **Edit config**. This opens `claude_desktop_config.json` in your
-    default editor.
+  <Step title="Paste the URL, leave the rest blank">
+    URL: `https://egora-catering.de/mcp` — **leave Client ID and Client Secret empty.**
   </Step>
-  <Step title="Add the egora-data server">
-    Paste the block below. If the file already has an `mcpServers` object, add `egora-data` *inside* it
-    rather than overwriting the whole file.
-
-    <CodeGroup>
-    ```json HTTP (recent versions)
-    {
-      "mcpServers": {
-        "egora-data": {
-          "type": "http",
-          "url": "https://staging.egora-catering.de/mcp",
-          "headers": {
-            "Authorization": "Bearer YOUR_TOKEN_HERE"
-          }
-        }
-      }
-    }
-    ```
-
-    ```json mcp-remote (older versions, needs Node.js)
-    {
-      "mcpServers": {
-        "egora-data": {
-          "command": "npx",
-          "args": [
-            "-y",
-            "mcp-remote",
-            "https://staging.egora-catering.de/mcp",
-            "--header",
-            "Authorization: Bearer YOUR_TOKEN_HERE"
-          ]
-        }
-      }
-    }
-    ```
-    </CodeGroup>
-  </Step>
-  <Step title="Insert your token">
-    Replace `YOUR_TOKEN_HERE` with your real token, including the `4|` prefix and the pipe character.
-  </Step>
-  <Step title="Restart Claude Desktop fully">
-    Save the file (`⌘ S`), then **quit completely** with `⌘ Q` — closing the window is not enough, the
-    process keeps running with the old config. Reopen Claude Desktop.
+  <Step title="Connect & authorize">
+    Click **Connect**. You're redirected to **log into eGora's Nova as yourself**, then click
+    **Authorize**. Done — the connector is active.
   </Step>
 </Steps>
 
-After restarting, **Settings → Developer → Local MCP servers** should show `egora-data` with a **green**
-status.
-
-## Test it
-
-Open a new chat and try:
+### Test it
+Open a chat and ask:
 
 > *How many B2B catering requests did we have in the last 7 days, grouped by city?*
 
-Claude should call the `list-catering-requests` tool and answer with real numbers. If Claude asks
-whether it may use the connector — **allow it**.
+Claude should call `list-catering-requests` and answer with real numbers.
 
-## Production vs staging
+## Option B — Token (Claude Code / Desktop power users)
 
-| Staging | Production |
-| --- | --- |
-| `https://staging.egora-catering.de/mcp` | `https://egora-catering.de/mcp` |
+Claude Code (CLI) and older Claude Desktop versions use a **personal access token (PAT)** instead of
+OAuth.
 
-Swap the URL and restart Claude Desktop.
+### Prerequisites
+- A **personal access token** for eGora — request it from Steffen. Format `4|XXXX…`. **Never share it.**
 
-## Security
+### Claude Code
+```bash
+claude mcp add --transport http egora-data https://egora-catering.de/mcp \
+  --header "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+
+### Claude Desktop (config file)
+**Settings → Developer → Local MCP servers → Edit config**, then add inside `mcpServers`:
+
+<CodeGroup>
+```json HTTP (recent versions)
+{
+  "mcpServers": {
+    "egora-data": {
+      "type": "http",
+      "url": "https://egora-catering.de/mcp",
+      "headers": { "Authorization": "Bearer YOUR_TOKEN_HERE" }
+    }
+  }
+}
+```
+
+```json mcp-remote (older versions, needs Node.js)
+{
+  "mcpServers": {
+    "egora-data": {
+      "command": "npx",
+      "args": [
+        "-y", "mcp-remote", "https://egora-catering.de/mcp",
+        "--header", "Authorization: Bearer YOUR_TOKEN_HERE"
+      ]
+    }
+  }
+}
+```
+</CodeGroup>
+
+Replace `YOUR_TOKEN_HERE` with your real token (including the `4|` prefix), save, and **fully quit**
+Claude Desktop (`⌘ Q`) before reopening.
 
 <Warning>
-  The token sits in **plain text** in `claude_desktop_config.json`. Never commit or sync this file
-  (Dropbox, iCloud, OneDrive, git). If your laptop is lost or the file gets synced, have Steffen revoke
-  the token immediately. Don't share tokens in Slack/email — request a separate token per person.
+  The token sits in **plain text** in `claude_desktop_config.json`. Never commit or sync that file. If
+  it leaks, have Steffen revoke the token immediately.
 </Warning>
+
+## Staging vs production
+
+| Production | Staging |
+| --- | --- |
+| `https://egora-catering.de/mcp` | `https://staging.egora-catering.de/mcp` |
 
 ## Troubleshooting
 
 <AccordionGroup>
-  <Accordion title="'failed' right after opening">
+  <Accordion title="OAuth: 'Authorize' page won't load or you can't log in">
+    You need an eGora Nova user with the `admin` role — ask Steffen to set it up.
+  </Accordion>
+  <Accordion title="Token: 'failed' right after connecting">
     Token invalid or expired — request a new one from Steffen.
   </Accordion>
-  <Accordion title="egora-data doesn't appear in the list at all">
-    Broken JSON (missing comma, quote, …). Validate the file, e.g. at jsonlint.com.
+  <Accordion title="Token: 'unknown transport type'">
+    Claude Desktop too old for `"type": "http"` — use the **mcp-remote** variant (needs Node.js).
   </Accordion>
-  <Accordion title="'unknown transport type' or similar">
-    Desktop version too old for `"type": "http"`. Use the **mcp-remote** variant above (requires
-    Node.js: `brew install node` on Mac, or nodejs.org).
-  </Accordion>
-  <Accordion title="Tools visible, but answers are empty">
-    The staging server may be temporarily unreachable — ping Steffen.
-  </Accordion>
-  <Accordion title="Connector is green, but Claude says it has no access">
-    No tool permission granted in the current chat yet — click the 🔌 icon in the chat and enable the
-    tools.
+  <Accordion title="Connected, but Claude says it has no access">
+    No tool permission granted in the current chat yet — enable the connector's tools in the chat.
   </Accordion>
 </AccordionGroup>
