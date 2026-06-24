@@ -1,55 +1,55 @@
-# Mintlify Starter Kit
+# eGora Docs — Mintlify Pilot
 
-Use the starter kit to get your docs deployed and ready to customize.
+A **scoped evaluation** of whether [Mintlify](https://mintlify.com) (docs-as-code) is the right home for
+eGora's internal knowledgebase. This is **not** the real documentation — it's a small, representative
+slice with **non-sensitive sample content only**, built to test authoring, search/AI, German support,
+the API reference, and cost.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+See [`EVALUATION.md`](./EVALUATION.md) for the scoring rubric to fill in during the deploy test.
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+## What's here
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+| Path | Purpose |
+| --- | --- |
+| `docs.json` | Mintlify config: EN + DE languages, audience tabs (IT/Internal, Customers, Caterers, API). |
+| `index.mdx`, `de/index.mdx` | Landing pages (EN / DE). |
+| `it/` | IT/internal slice: overview, MCP connector setup, KPI catalog excerpt, release-communication pattern. |
+| `customers/`, `caterers/` | Customer- and caterer-facing samples. |
+| `de/` | German mirror of a representative subset (tests i18n). |
+| `api-reference/openapi.json` | Trimmed OpenAPI sample → tests Mintlify's API playground. |
+| `favicon.svg` | Placeholder favicon (eGora teal). |
 
-## AI-assisted writing
+Seed content was adapted from the app repo: `docs/mcp/setup-claude-desktop-ui.de.md`,
+`docs/mcp/kpi-cards.md`, and `storage/api-docs/api-docs.json`. Originals were left untouched.
 
-Set up your AI coding tool to work with Mintlify:
+## Run locally
+
+> **Node version:** the Mintlify CLI only supports **LTS Node (18 / 20 / 22)** — it refuses Node 25+.
+> This machine currently has Node 25, so install an LTS first, e.g. `brew install node@22` and prepend
+> it to `PATH`, or use `nvm install 22 && nvm use 22`. (Deploying to Mintlify does **not** need local
+> Node — only local preview does.)
 
 ```bash
-npx skills add https://mintlify.com/docs
+cd egora-docs-pilot
+npx mintlify@latest dev      # serves at http://localhost:3000
+npx mintlify@latest broken-links
 ```
 
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
+(Or install globally: `npm i -g mintlify` then `mintlify dev`.)
 
-See the [AI tools guides](/ai-tools) for tool-specific setup.
+## Deploy to the free Hobby tier
 
-## Development
+1. `git init` here and push to a **new GitHub repo** (a private repo is fine; the published site is
+   public on the free tier).
+2. Create a free account at [dashboard.mintlify.com](https://dashboard.mintlify.com), install the
+   **Mintlify GitHub App**, and connect the repo.
+3. Mintlify deploys to a `*.mintlify.app` subdomain and rebuilds on every push to the default branch.
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
+## Notes
 
-```
-npm i -g mint
-```
-
-Run the following command at the root of your documentation, where your `docs.json` is located:
-
-```
-mint dev
-```
-
-View your local preview at `http://localhost:3000`.
-
-## Publishing changes
-
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
-
-## Need help?
-
-### Troubleshooting
-
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
-
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+- **Public** site, so no real/sensitive data. A real internal KB would need authentication (SSO /
+  password) — a paid Mintlify feature, captured as a cost line in `EVALUATION.md`.
+- The OpenAPI sample is intentionally trimmed; the full app spec is stale (2023) and must be regenerated
+  via l5-swagger before any real API reference.
+- Brand colours in `docs.json` (`#38808a` teal, `#092440` navy) are taken from the eGora frontend; the
+  logo is a placeholder favicon.

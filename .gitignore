@@ -1,0 +1,6 @@
+# Mintlify CLI
+.mintlify/
+node_modules/
+
+# OS
+.DS_Store

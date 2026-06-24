@@ -1,0 +1,120 @@
+---
+title: "Claude mit eGora-Daten verbinden (MCP)"
+description: "Den eGora-MCP-Connector in Claude Desktop einrichten, um Orders, Anfragen und Companies im Chat abzufragen."
+icon: "plug"
+---
+
+Verbindet die **Claude Desktop App** mit dem eGora-Datenserver, sodass Du im Chat direkt Fragen zu
+Orders, Catering-Anfragen, Companies usw. stellen kannst — gegen Live-Daten (PII-redigiert).
+
+<Note>
+  Übernommen aus der internen Anleitung `docs/mcp/setup-claude-desktop-ui.de.md`. Die englische Version
+  erreichst Du über die Sprachauswahl.
+</Note>
+
+## Voraussetzungen
+
+- **Claude Desktop** (Mac oder Windows), möglichst aktuell.
+- Ein **persönlicher Zugriffstoken (PAT)** für eGora — bekommst Du von Steffen / KAM-Lead. Format
+  `4|XXXX…`. Den Token **niemals teilen**.
+
+## Einrichtung
+
+<Steps>
+  <Step title="Entwickler-Einstellungen öffnen">
+    In Claude Desktop: **Claude → Einstellungen…** (`⌘ ,`), dann links **Entwickler** wählen.
+  </Step>
+  <Step title="Config bearbeiten">
+    Bei **Lokale MCP-Server** auf **„Config bearbeiten"** klicken. Damit öffnet sich
+    `claude_desktop_config.json` im Standard-Editor.
+  </Step>
+  <Step title="egora-data ergänzen">
+    Den Block unten einfügen. Falls die Datei schon ein `mcpServers`-Objekt hat, `egora-data`
+    *innerhalb* davon ergänzen (nicht alles überschreiben).
+
+    <CodeGroup>
+    ```json HTTP (aktuelle Versionen)
+    {
+      "mcpServers": {
+        "egora-data": {
+          "type": "http",
+          "url": "https://staging.egora-catering.de/mcp",
+          "headers": {
+            "Authorization": "Bearer DEIN_TOKEN_HIER"
+          }
+        }
+      }
+    }
+    ```
+
+    ```json mcp-remote (ältere Versionen, braucht Node.js)
+    {
+      "mcpServers": {
+        "egora-data": {
+          "command": "npx",
+          "args": [
+            "-y",
+            "mcp-remote",
+            "https://staging.egora-catering.de/mcp",
+            "--header",
+            "Authorization: Bearer DEIN_TOKEN_HIER"
+          ]
+        }
+      }
+    }
+    ```
+    </CodeGroup>
+  </Step>
+  <Step title="Token einsetzen">
+    `DEIN_TOKEN_HIER` durch den echten Token ersetzen (inkl. `4|`-Präfix mit Senkrechtstrich).
+  </Step>
+  <Step title="Claude Desktop vollständig neu starten">
+    Datei speichern (`⌘ S`), dann mit `⌘ Q` **vollständig beenden** — das Fenster zu schließen reicht
+    nicht, der Prozess läuft sonst mit der alten Config weiter. Danach neu öffnen.
+  </Step>
+</Steps>
+
+Nach dem Neustart sollte unter **Einstellungen → Entwickler → Lokale MCP-Server** `egora-data` mit
+**grünem Status** erscheinen.
+
+## Testen
+
+Neuen Chat öffnen und z.B. tippen:
+
+> *Wie viele B2B-Catering-Anfragen hatten wir in den letzten 7 Tagen, gruppiert nach Stadt?*
+
+Claude sollte das `list-catering-requests`-Tool aufrufen und mit echten Zahlen antworten. Falls Claude
+fragt, ob es den Connector benutzen darf — **zustimmen**.
+
+## Production statt Staging
+
+| Staging | Production |
+| --- | --- |
+| `https://staging.egora-catering.de/mcp` | `https://egora-catering.de/mcp` |
+
+URL ersetzen und Claude Desktop neu starten.
+
+## Sicherheit
+
+<Warning>
+  Der Token steht im **Klartext** in `claude_desktop_config.json`. Diese Datei niemals in Dropbox,
+  iCloud, OneDrive oder Git syncen/committen. Bei Verlust: Token sofort durch Steffen widerrufen lassen.
+  Token nicht in Slack/E-Mail teilen — bei Bedarf eigenen Token anfragen.
+</Warning>
+
+## Fehler-Cheatsheet
+
+<AccordionGroup>
+  <Accordion title="„failed“ direkt nach dem Öffnen">
+    Token ungültig oder abgelaufen — neuen Token bei Steffen anfragen.
+  </Accordion>
+  <Accordion title="egora-data taucht gar nicht in der Liste auf">
+    JSON-Syntax kaputt (Komma, Anführungszeichen, …). Datei in einem JSON-Validator prüfen.
+  </Accordion>
+  <Accordion title="„unknown transport type“ o.ä.">
+    Desktop-Version zu alt für `"type": "http"`. Die **mcp-remote**-Variante nutzen (braucht Node.js).
+  </Accordion>
+  <Accordion title="Connector grün, aber Claude sagt „kein Zugriff“">
+    Im aktuellen Chat noch keine Tool-Berechtigung erteilt — 🔌-Icon anklicken und Tools aktivieren.
+  </Accordion>
+</AccordionGroup>

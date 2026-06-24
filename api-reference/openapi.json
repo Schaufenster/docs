@@ -1,0 +1,84 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "eGora API (pilot sample)",
+    "description": "Trimmed sample derived from the eGora l5-swagger spec, used to evaluate Mintlify's auto-generated API reference. The full spec lives at storage/api-docs/api-docs.json in the app repo and needs regenerating before any real rollout.",
+    "version": "1.0.0-pilot",
+    "contact": { "email": "claus@egora.online" }
+  },
+  "servers": [
+    { "url": "https://egora-catering.de/api/v1", "description": "eGora API" }
+  ],
+  "paths": {
+    "/addresstypes": {
+      "get": {
+        "tags": ["Information"],
+        "summary": "List all address types",
+        "operationId": "listAddressTypes",
+        "responses": {
+          "200": {
+            "description": "A list of address types",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/AddressType" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/retailers/{retailer_id}/branches": {
+      "get": {
+        "tags": ["Retailers"],
+        "summary": "List a retailer's branches",
+        "operationId": "listRetailerBranches",
+        "parameters": [
+          {
+            "name": "retailer_id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the retailer (caterer)",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of branches for the retailer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Branch" }
+                }
+              }
+            }
+          },
+          "404": { "description": "Retailer not found" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddressType": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "name": { "type": "string", "example": "Delivery" }
+        }
+      },
+      "Branch": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 42 },
+          "name": { "type": "string", "example": "eGora Caterer — Berlin Mitte" },
+          "city": { "type": "string", "example": "Berlin" },
+          "is_catering": { "type": "boolean", "example": true }
+        }
+      }
+    }
+  }
+}

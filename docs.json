@@ -1,72 +1,110 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "eGora Docs (Pilot)",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#38808a",
+    "light": "#5BA3AD",
+    "dark": "#092440"
   },
   "favicon": "/favicon.svg",
+  "description": "Pilot knowledgebase for eGora — IT/internal, customer and caterer docs. Evaluation only.",
   "navigation": {
-    "pages": [
+    "languages": [
       {
-        "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
+        "language": "en",
+        "tabs": [
+          {
+            "tab": "IT / Internal",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["index", "it/overview"]
+              },
+              {
+                "group": "Guides",
+                "pages": ["it/mcp-setup", "it/kpi-catalog"]
+              },
+              {
+                "group": "Release communication",
+                "pages": ["it/feature-changelog"]
+              }
+            ]
+          },
+          {
+            "tab": "For customers",
+            "groups": [
+              {
+                "group": "Booking catering",
+                "pages": ["customers/catering-request"]
+              }
+            ]
+          },
+          {
+            "tab": "For caterers",
+            "groups": [
+              {
+                "group": "Onboarding",
+                "pages": ["caterers/getting-started"]
+              }
+            ]
+          },
+          {
+            "tab": "API reference",
+            "openapi": "/api-reference/openapi.json"
+          }
+        ]
+      },
+      {
+        "language": "de",
+        "tabs": [
+          {
+            "tab": "IT / Intern",
+            "groups": [
+              {
+                "group": "Erste Schritte",
+                "pages": ["de/index", "de/it/mcp-setup"]
+              }
+            ]
+          },
+          {
+            "tab": "Für Kund:innen",
+            "groups": [
+              {
+                "group": "Catering buchen",
+                "pages": ["de/customers/catering-anfrage"]
+              }
+            ]
+          },
+          {
+            "tab": "Für Caterer",
+            "groups": [
+              {
+                "group": "Onboarding",
+                "pages": ["de/caterers/erste-schritte"]
+              }
+            ]
+          }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    ]
   },
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "eGora",
+        "href": "https://egora-catering.de"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "label": "Catering-Anfrage",
+      "href": "https://egora-catering.de/iframe/catering-form"
     }
-  },
-  "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
-    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "website": "https://egora-catering.de"
     }
   }
 }

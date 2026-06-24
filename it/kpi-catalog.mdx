@@ -1,0 +1,94 @@
+---
+title: "KPI catalog (excerpt)"
+description: "Canonical KPI definitions so MCP/Claude analytics match the Catering KPI page exactly."
+icon: "chart-line"
+---
+
+This is the canonical specification for the KPI cards on the Nova **Catering KPI page**. It exists so
+that **MCP-driven analytics** (Claude, scripts, dashboards) produces numbers **identical** to the in-app
+page.
+
+<Note>
+  This page is a short **excerpt** of the full catalog (`docs/mcp/kpi-cards.md`, ~100 cards) — enough to
+  evaluate how reference-style tables and definitions render in Mintlify. When MCP computation diverges
+  from this spec, **the in-app page is authoritative**.
+</Note>
+
+## Conventions
+
+These apply unless a card overrides them.
+
+### Date fields
+
+| Pattern in the card description | Field used by `KpiResolver` |
+| --- | --- |
+| "created_at date of the request" | `catering_requests.created_at` |
+| "completed_at date of the request" | `catering_requests.completed_at` |
+| "created_at date of the order" | `orders.created_at` |
+| "service_date of the order" | `orders.service_date` |
+
+### Status sets (from the `CateringRequest` model)
+
+```text
+acceptedOrWithOrder() = status_id IN (6, 13)  OR  has-undeleted-Order
+completed()           = status_id IN (3,4,6,7,8,9,10,13,14,15,16,17)
+lost()                = status_id IN (7, 8, 9, 16)
+```
+
+### B2B segmentation
+
+| `b2b_flag` | SQL |
+| --- | --- |
+| `b2bOnly` | `catering_requests.company_id IS NOT NULL` |
+| `nonB2bOnly` | `catering_requests.company_id IS NULL` |
+| `allRequests` | no filter |
+
+<Warning>
+  All `*_eur` fields on MCP resources are **already euros** — do not divide by 100.
+</Warning>
+
+## Conversion Rate KPIs
+
+All cards here use a base set of `CateringRequest` filtered by a `created_at` window. The result is a
+percentage of a status-scoped numerator over the full denominator.
+
+<AccordionGroup>
+  <Accordion title="Converted — converted">
+    **Formula:** `count(acceptedOrWithOrder) / count(all) × 100`
+    · **Date field:** `catering_requests.created_at`
+    · **Canonical:** `CateringHelper::getConverted()`
+  </Accordion>
+  <Accordion title="Completed — completed">
+    **Formula:** `count(completed status set) / count(all) × 100`
+    · **Canonical:** `CateringHelper::getCompleted()`
+  </Accordion>
+  <Accordion title="Lost — lost">
+    **Formula:** `count(lost status set) / count(all) × 100`
+    · **Canonical:** `CateringHelper::getLost()`
+  </Accordion>
+  <Accordion title="Lost vs Completed — lost-vs-completed">
+    **Formula:** `count(lost) / count(completed) × 100` (a ratio — denominator is `completed`, not
+    `all`) · **Canonical:** `CateringHelper::getLostVsCompleted()`
+  </Accordion>
+</AccordionGroup>
+
+### MCP recipe (applies to all rate cards above)
+
+<Steps>
+  <Step title="Count the denominator">
+    `list_catering_requests(date_from=…, date_to=…, b2b=…)` — paginate with `per_page=1` and read
+    `total`.
+  </Step>
+  <Step title="Count the numerator">
+    Same call with `catering_request_status_id ∈ {status set}`.
+  </Step>
+  <Step title="Divide">
+    `result = numerator / denominator × 100`. Apply any extra filters (`lead_source_id`, `city`,
+    `kam_id`, `form_variant`) identically on both calls.
+  </Step>
+</Steps>
+
+<Info>
+  Some cards can't be reproduced exactly with current MCP tools (e.g. the "qualified" flag isn't exposed
+  in `CateringRequestResource`). The full catalog flags every such gap inline.
+</Info>

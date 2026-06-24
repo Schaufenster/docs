@@ -1,20 +1,51 @@
 ---
-title: "Introduction"
-description: "Welcome to your project"
+title: "eGora Docs"
+description: "Pilot knowledgebase — IT/internal, customer and caterer documentation in one place."
+icon: "house"
 ---
 
-Write a short description of your product here. What it does, who it's for, and what they can accomplish with it.
+<Note>
+  **This is an evaluation pilot.** It exists to test whether [Mintlify](https://mintlify.com) is the
+  right home for eGora's internal knowledgebase. Content here is a small **representative slice** with
+  **non-sensitive sample data only** — not the real, complete documentation. See
+  [EVALUATION.md](https://github.com) in the repo for the scoring rubric.
+</Note>
+
+eGora is a catering marketplace for **Berlin** and **München**. These docs are organised by audience so
+each stakeholder finds what they need without wading through the rest.
+
+<CardGroup cols={3}>
+  <Card title="IT / Internal" icon="server" href="/it/overview">
+    For engineering and KAM: MCP connector setup, the KPI catalog, and how feature releases get
+    communicated.
+  </Card>
+  <Card title="For customers" icon="user" href="/customers/catering-request">
+    How booking catering through eGora works, end to end.
+  </Card>
+  <Card title="For caterers" icon="utensils" href="/caterers/getting-started">
+    Getting started as a caterer on the eGora marketplace.
+  </Card>
+</CardGroup>
+
+## Why this pilot exists
+
+New features regularly ship without being documented or communicated clearly to **KAM, customers and
+caterers**. A docs-as-code knowledgebase aims to fix that by making documentation:
+
+<Steps>
+  <Step title="Versioned in git">
+    Docs live next to a clear review process — every change is a commit, reviewable like code.
+  </Step>
+  <Step title="Published for humans">
+    A searchable site with an AI assistant, organised by audience.
+  </Step>
+  <Step title="Readable by AI">
+    Mintlify auto-generates `llms.txt` and `llms-full.txt`, so the same source can ground the upcoming
+    **Claude Team** "eGora KAM Assistant" — one source of truth for people *and* Claude.
+  </Step>
+</Steps>
 
 <Tip>
-  Ready to make this your own? Start by editing this page. Update your `docs.json` file to customize your site. Then fill out the [Quickstart](/quickstart) page.
+  Switch between **English** and **Deutsch** using the language selector in the top bar — the German
+  market is core to eGora, so i18n quality is one of the things this pilot is testing.
 </Tip>
-
-<Card title="Quickstart" icon="rocket" href="/quickstart">
-  This card links to the quickstart page in your project.
-</Card>
-<Card title="Components" icon="puzzle-piece" href="https://mintlify.com/docs/components">
-  Add cards, callouts, steps, tabs, and more to design and structure your pages.
-</Card>
-<Card title="Settings" icon="gear" href="https://mintlify.com/docs/organize/settings">
-  Set your site name, branding, and navigation in the `docs.json` file.
-</Card>
