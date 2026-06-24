@@ -1,0 +1,28 @@
+---
+title: "Notion (working docs, read live)"
+description: "Notion stays the home of in-flux KAM docs; Claude reads it live. Stable knowledge is promoted into this KB."
+icon: "book"
+---
+
+Notion remains where KAMs keep **working, in-flux** documentation. We do **not** sync Notion into this KB
+automatically. Instead:
+
+<CardGroup cols={2}>
+  <Card title="Claude reads Notion live" icon="robot">
+    Via the claude.ai **Notion connector**, the assistant can read the latest Notion drafts directly —
+    no sync, always current.
+  </Card>
+  <Card title="Stable docs get promoted" icon="arrow-up">
+    When a Notion doc hardens into "official" process, it's moved into this KB (git-versioned, reviewed).
+  </Card>
+</CardGroup>
+
+## Why this split
+
+- **Notion** = fast, messy, latest thinking → read live for "what's the newest draft?".
+- **This KB** = curated, reviewed, official → the source of truth for "how do we actually do X?".
+
+<Note>
+  Mintlify also offers a native Notion connector for its Agent. We are evaluating it during the test, but
+  the default model for now is **N1: Notion stays live, Claude reads it directly.**
+</Note>

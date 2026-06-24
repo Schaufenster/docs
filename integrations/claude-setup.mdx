@@ -1,0 +1,38 @@
+---
+title: "Connecting Claude to the KB"
+description: "How a KAM wires Claude (Team Project, Code, Cowork) to the knowledge base, live data, and Notion."
+icon: "robot"
+---
+
+The eGora KAM Assistant becomes useful once Claude can read the three live sources. Setup is per-person.
+
+<Steps>
+  <Step title="Open the eGora KAM Assistant Project">
+    In claude.ai, open the shared Team Project. Power users can also use Claude Code / Cowork.
+  </Step>
+  <Step title="Connect the KB (Mintlify MCP)">
+    Add a **custom connector** pointing at the KB's authenticated MCP endpoint:
+    `https://<kb-domain>/authed/mcp`. Sign in as an eGora org member when prompted.
+
+    In Claude Code instead:
+    ```bash
+    claude mcp add --transport http egora-kb https://<kb-domain>/authed/mcp
+    ```
+  </Step>
+  <Step title="Connect live data (egora-data MCP)">
+    Enable the **egora-data** connector and authenticate. See [egora data](/integrations/egora-mcp).
+  </Step>
+  <Step title="Connect Notion">
+    Enable the **Notion** connector so Claude can read working docs live — see [Notion](/integrations/notion).
+  </Step>
+</Steps>
+
+<Tip>
+  Once connected, ask things like *"How do we onboard a new account?"* (KB), *"How many B2B requests
+  last 7 days?"* (egora-data), or *"What's the latest draft of the escalation process?"* (Notion).
+</Tip>
+
+<Note>
+  Replace `<kb-domain>` with the live KB domain (the `*.mintlify.app` URL during the test, the custom
+  domain later).
+</Note>

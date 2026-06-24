@@ -1,0 +1,48 @@
+---
+title: "Changelog automation"
+description: "Shipped product code auto-drafts a changelog entry, so features stop shipping silently."
+icon: "code-branch"
+---
+
+The original gap this KB targets: **features ship without being communicated** to KAM, customers and
+caterers. The changelog automation closes it.
+
+## How it works (current setup — Route 1)
+
+We use Mintlify's **native automations** during the test:
+
+<CardGroup cols={2}>
+  <Card title="Update from code changes" icon="code">
+    Drafts content updates when product/feature/API source code changes.
+  </Card>
+  <Card title="Draft changelog" icon="list">
+    Drafts a changelog entry from recent product updates on a recurring schedule.
+  </Card>
+</CardGroup>
+
+Each draft lands as a **pull request** to `Schaufenster/docs`, updating
+[Release communication](/it/feature-changelog). A human reviews and merges → the entry reaches both KAMs
+(web) and Claude (MCP).
+
+## Help it along: the `Changelog:` trailer
+
+When a commit is user-facing, add a one-line trailer so the automation has a clean signal:
+
+```
+feature for the salutation style
+
+Changelog: Customers can now be addressed Du/Sie; KAM sets it per customer.
+```
+
+This is optional, but it sharpens the draft — and keeps a clean record if we ever switch the engine.
+
+## The format we want
+
+Each entry says **what changed**, **who's affected** (KAM / Customers / Caterers), and **what to do** —
+see the examples on [Release communication](/it/feature-changelog).
+
+<Note>
+  Route 1 runs on Mintlify's metered Agent credits (a trial during the test). If that becomes limiting,
+  we switch to a credit-free custom pipeline (a GitHub Action + a Claude `changelog` skill) that writes
+  the **same** changelog file — so nothing downstream changes.
+</Note>

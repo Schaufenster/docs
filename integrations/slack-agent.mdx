@@ -1,0 +1,44 @@
+---
+title: "Slack agent (authoring)"
+description: "Draft KB updates from Slack by @mentioning the agent — opt-in per thread, every change is a reviewable PR."
+icon: "slack"
+---
+
+The Mintlify Slack agent lets anyone draft a KB update from Slack — without giving it broad access to your
+messages.
+
+## How it's scoped (privacy-safe)
+
+<CardGroup cols={2}>
+  <Card title="@mention only" icon="at">
+    Nothing happens unless you **@mention** the agent in a thread. It acts only on that thread.
+  </Card>
+  <Card title="No passive reading" icon="eye-slash">
+    Channel "knowledge ingestion" is **off** (or limited to one dedicated `#kb-updates` channel). It does
+    not read DMs or all channels.
+  </Card>
+  <Card title="PR-gated" icon="code-pull-request">
+    It opens a **pull request** to `Schaufenster/docs` — it never commits to `main` directly.
+  </Card>
+  <Card title="Preview links" icon="eye">
+    Review the proposed change on a preview URL before merging.
+  </Card>
+</CardGroup>
+
+## How to use it
+
+<Steps>
+  <Step title="Mention the agent">
+    In a thread, write e.g. *"@mintlify document: KAMs can now set Du/Sie per customer in the backend."*
+  </Step>
+  <Step title="Review the PR">
+    The agent drafts a docs change and opens a PR with a preview link.
+  </Step>
+  <Step title="Merge">
+    Once it's right, merge — Mintlify redeploys and the KB (web + Claude MCP) updates.
+  </Step>
+</Steps>
+
+<Warning>
+  A Slack **workspace admin** approves the agent's permissions at install. Review the requested scopes.
+</Warning>

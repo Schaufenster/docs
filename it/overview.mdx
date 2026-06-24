@@ -1,0 +1,49 @@
+---
+title: "IT / Internal overview"
+description: "Orientation for engineering and KAM: what lives here and how the internal knowledgebase is meant to work."
+icon: "compass"
+---
+
+This space is for **engineering** and **KAM (Key Account Managers)**. It collects the technical and
+operational knowledge that today is scattered across the codebase, gitignored `/plans/` notes, and
+people's heads.
+
+## What's in this tab
+
+<CardGroup cols={2}>
+  <Card title="MCP connector setup" icon="plug" href="/it/mcp-setup">
+    Connect Claude Desktop to the eGora data server so you can ask live questions about orders,
+    requests, companies and more.
+  </Card>
+  <Card title="KPI catalog" icon="chart-line" href="/it/kpi-catalog">
+    The canonical definitions behind the Catering KPI page, so MCP/Claude analytics match the dashboard
+    exactly.
+  </Card>
+  <Card title="Release communication" icon="megaphone" href="/it/feature-changelog">
+    The pattern for announcing shipped features to KAM, customers and caterers — the gap this pilot
+    targets.
+  </Card>
+</CardGroup>
+
+## The problem this addresses
+
+<Warning>
+  Features ship faster than they get documented. The result: KAM learns about a change from a customer
+  question, customers discover behaviour by trial and error, and caterers miss workflow updates.
+</Warning>
+
+The fix is not "write more docs once" — it's a **repeatable place and format** where a feature isn't
+considered done until its user-facing change is written down for the audiences it affects. The
+[release communication](/it/feature-changelog) page demonstrates that pattern.
+
+## How "internal" stays internal
+
+This pilot is published **publicly** on Mintlify's free tier, so everything here is deliberately
+**non-sensitive sample content**. A real internal rollout would gate this tab behind authentication
+(SSO / password), which is a paid Mintlify capability — captured as a cost line in the evaluation.
+
+<Info>
+  Source material that would feed a real version of this tab already exists: `docs/mcp/` in the app
+  repo, the `egora-kam-assistant/knowledge/` markdown, and ~110 working notes in the gitignored
+  `/plans/` directory.
+</Info>

@@ -1,59 +1,51 @@
 ---
-title: "Egora KAM Knowledge Base: Overview and Quick Start"
-sidebarTitle: "Introduction"
-description: "Learn what the Egora KAM Knowledge Base is, how it works, and how it helps you manage accounts, support customers, and use AI effectively."
+title: "eGora KAM Knowledge Base"
+description: "The internal source of truth for Key Account Managers — and the knowledge that grounds the eGora KAM Assistant."
+icon: "house"
 ---
 
-Egora is a food-tech platform that connects corporate clients with professional caterers, streamlining everything from order placement to fulfilment. The **KAM Knowledge Base** is the central hub where Key Account Managers find every process guide, playbook, customer resource, and caterer reference they need — all in one place, always up to date.
+<Note>
+  **Internal & access-controlled.** This knowledge base is for eGora KAMs. It is in an active
+  **real-testing** phase — some pages are still being grounded against real processes; treat anything not
+  yet reviewed as a draft.
+</Note>
 
-## What is the KAM Knowledge Base?
+This is one **git-backed source of truth** that serves two audiences at once:
 
-The KAM Knowledge Base consolidates information from across all Egora's operational sources into a single, searchable source of truth. Instead of hunting through scattered Notion pages, digging through Slack history, or waiting for a product update email, KAMs have everything surfaced and structured here automatically.
-
-Content is aggregated from four primary sources:
-
-- **Notion** — process documentation, SOPs, and team wikis
-- **Slack** — relevant threads, decisions, and announcements
-- **Git** — commit messages and change logs that affect workflows
-- **Gleap** — customer messages, feedback, and support tickets
-
-The result is that KAMs always have up-to-date context — whether they're onboarding a new account, troubleshooting a customer issue, or briefing a caterer on platform changes.
-
-## Who is this for?
-
-This knowledge base serves three distinct audiences across the Egora ecosystem:
-
-<CardGroup cols={3}>
-  <Card title="Key Account Managers" icon="briefcase">
-    KAMs use this KB as their operational backbone — finding process guides, escalation playbooks, account templates, and AI-assisted workflows all in one place.
+<CardGroup cols={2}>
+  <Card title="You, as a human" icon="user">
+    Read it here on the web — KAM processes, the IT/internal guides, and what shipped recently.
   </Card>
-  <Card title="Customers" icon="users">
-    Corporate customers using Egora to manage catering orders can access tailored guides covering ordering, account settings, billing, and getting support.
-  </Card>
-  <Card title="Caterers" icon="utensils">
-    Caterers fulfilling orders on the platform have dedicated resources covering onboarding, order management, fulfilment standards, and how to grow their presence on Egora.
+  <Card title="Claude, as your assistant" icon="robot">
+    The same content feeds the **eGora KAM Assistant** via MCP, so you can just *ask* instead of hunting.
   </Card>
 </CardGroup>
 
-## How it Powers Your Work
+## What's here
 
-The KB isn't just a static document library — it's a living system designed to make every part of your KAM workflow faster and more informed.
+<CardGroup cols={3}>
+  <Card title="KAM Handbook" icon="book" href="/kam-handbook/what-is-this-kb">
+    How we run accounts: onboarding, management, escalation, offboarding.
+  </Card>
+  <Card title="IT / Internal" icon="server" href="/it/overview">
+    Connecting Claude to eGora data, the KPI catalog, and release communication.
+  </Card>
+  <Card title="Integrations" icon="plug" href="/integrations/overview">
+    How this KB connects to Claude, egora-data, Notion, Slack, and the changelog.
+  </Card>
+</CardGroup>
+
+## How it stays current
 
 <Steps>
-  <Step title="Sources Sync Automatically">
-    Notion pages, Slack threads, Git commits, and Gleap messages are continuously ingested and indexed. There's no manual copy-paste; content arrives here as it's created or updated at the source.
+  <Step title="Versioned in git">
+    Every change is a reviewable pull request in `Schaufenster/docs` — nothing changes silently.
   </Step>
-  <Step title="Content is Searchable and Structured">
-    Every piece of content is organised into sections — KAM Handbook, Customer Guide, Caterer Guide, and Integrations — and is fully searchable so you can find exactly what you need in seconds.
+  <Step title="Shipped features auto-draft a changelog">
+    Mintlify's changelog automation drafts an entry when product code changes — see
+    [Release communication](/it/feature-changelog).
   </Step>
-  <Step title="Claude Teams Gets Full Context">
-    Because the KB is the underlying data source for Claude Teams, the AI assistant can answer account-specific questions, summarise customer history, and suggest next steps with full awareness of your latest processes and communications.
-  </Step>
-  <Step title="Help Desk Articles Are Kept Fresh">
-    Customer-facing and caterer-facing help articles are generated and refreshed directly from KB content, so your help desk always reflects the current state of the platform without manual updates.
+  <Step title="Claude reads the latest">
+    Because the same source feeds Claude via MCP, the assistant answers from current knowledge.
   </Step>
 </Steps>
-
-<Tip>
-  Bookmark the **Escalation Playbook** in the KAM Handbook for quick access during live customer calls. It covers decision trees, SLA commitments, and escalation contacts so you can respond confidently under pressure.
-</Tip>

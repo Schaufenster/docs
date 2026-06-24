@@ -1,56 +1,58 @@
 ---
-title: "Integrations Overview: How the KB Stays Up to Date"
-sidebarTitle: "Overview"
-description: "Learn how the Egora KAM Knowledge Base automatically pulls content from Notion, Slack, Git, and Gleap to stay accurate and current."
+title: "How this knowledge base connects"
+description: "The real wiring: one git-backed source, read by humans and by Claude, kept current by automations and reviewed authoring."
+icon: "diagram-project"
 ---
 
-The Egora KAM Knowledge Base doesn't require manual maintenance. It stays current by syncing with the tools your team already uses — Notion for processes, Slack for updates, Git for product changes, and Gleap for customer voice. Every time your source tools change, the KB reflects those changes automatically — so you always have accurate, up-to-date information at your fingertips.
+<Note>
+  This page describes the **actual** setup — not an aspirational one. Where something is still being
+  enabled during the test, it says so.
+</Note>
 
-## Connected sources
+The KB is **one git-backed source** (`Schaufenster/docs` → Mintlify). It is read by two kinds of consumer
+and fed by a few reviewed inflows.
+
+## Who reads it
 
 <CardGroup cols={2}>
-  <Card title="Notion Sync" icon="book" href="/integrations/notion-sync">
-    Process documentation and KAM playbooks sync automatically from your Notion workspace into the KB.
+  <Card title="Humans (this site)" icon="user">
+    KAMs read the web KB directly. Access is restricted to eGora org members.
   </Card>
-  <Card title="Slack Sync" icon="comments" href="/integrations/slack-sync">
-    Key decisions and team updates posted in designated Slack channels are captured and surfaced in the KB.
-  </Card>
-  <Card title="Git Commits" icon="code" href="/integrations/git-commits">
-    Tagged product commits flow into a changelog digest, keeping KAMs informed of every relevant release or fix.
-  </Card>
-  <Card title="Gleap Messages" icon="message" href="/integrations/gleap-messages">
-    Customer and caterer support messages from Gleap are aggregated into structured account insights and help desk content.
+  <Card title="Claude (via MCP)" icon="robot">
+    The eGora KAM Assistant reads the KB through Mintlify's MCP server — see
+    [Connecting Claude](/integrations/claude-setup).
   </Card>
 </CardGroup>
 
-## How sync works
+## What feeds Claude
 
-Each connected source feeds into a central sync pipeline that converts raw content into structured KB articles. Here's how the flow works end-to-end:
+Claude is grounded by **four** sources, each for a different job:
 
-<Steps>
-  <Step title="Content is created or updated in a source tool">
-    A KAM updates a process doc in Notion, a team lead posts a decision in Slack, an engineer pushes a tagged commit, or a customer submits a Gleap ticket.
-  </Step>
-  <Step title="The sync pipeline picks it up">
-    The KB monitors each source on its configured schedule or trigger. When new or changed content is detected, the pipeline fetches and converts it into a KB-ready format.
-  </Step>
-  <Step title="The KB article is created or updated">
-    Converted content lands in the appropriate section of the KB — categorized, tagged, and timestamped. Existing articles are updated in place; new content creates new articles.
-  </Step>
-  <Step title="Claude Teams and the Help Desk stay current">
-    Claude Teams AI draws on the latest KB content to answer KAM questions accurately. The customer and caterer help desk pulls from the same pipeline to keep FAQ pages relevant.
-  </Step>
-</Steps>
+| Source | What it's for |
+| --- | --- |
+| **Mintlify KB MCP** | Stable, official knowledge (this KB) |
+| **egora-data MCP** | Live business data (orders, requests, KPIs) — see [egora data](/integrations/egora-mcp) |
+| **Notion** | Working/in-flux docs, read live — see [Notion](/integrations/notion) |
+| **Skills** | Power-user behaviors in Claude Code / Cowork |
 
-## Sync frequency
+Rule of thumb: **KB MCP** for "how does X work", **egora-data** for "what are the current numbers",
+**Notion** for "what's the latest draft".
 
-| Source | Sync Frequency | Notes |
-|--------|---------------|-------|
-| Notion | Hourly | Full page sync for all tagged pages |
-| Slack | Real-time highlights | Only pinned messages or posts in designated channels |
-| Git | On commit | Commit messages and changelogs for tagged commits only |
-| Gleap | Daily digest | Categorized by account and issue type |
+## What keeps it current (authoring inflows)
 
-<Info>
-  Manual overrides are possible. Ask the KB owner if you need to force a sync or exclude specific content.
-</Info>
+Every change lands as a **reviewable pull request** — nothing is committed silently.
+
+<CardGroup cols={2}>
+  <Card title="Changelog automation" icon="code-branch" href="/integrations/changelog">
+    Shipped product code auto-drafts a changelog entry.
+  </Card>
+  <Card title="Slack agent" icon="slack" href="/integrations/slack-agent">
+    `@mention` the agent in a thread to draft a docs update.
+  </Card>
+  <Card title="Translate content" icon="language">
+    Mintlify's automation keeps German in sync with English (being enabled during the test).
+  </Card>
+  <Card title="Hand edits" icon="pen">
+    Direct edits via git / the web editor, reviewed like any PR.
+  </Card>
+</CardGroup>

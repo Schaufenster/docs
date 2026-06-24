@@ -1,0 +1,31 @@
+---
+title: "egora data (live business data)"
+description: "Connect Claude to the eGora data server to query orders, requests, companies and KPIs in chat."
+icon: "database"
+---
+
+The **egora-data MCP** connector gives Claude read-only, PII-redacted access to live eGora business data
+— orders, catering requests, companies, KPIs and more.
+
+<Note>
+  This is **different** from the KB MCP. The KB MCP serves *knowledge* (how things work); egora-data
+  serves *current data* (the actual numbers).
+</Note>
+
+## Setup
+
+The full step-by-step (Claude Desktop, token, staging vs production, troubleshooting) lives in the IT
+guide:
+
+<Card title="Connect Claude to eGora data (MCP)" icon="plug" href="/it/mcp-setup">
+  Get your personal access token from Steffen, add the `egora-data` server, restart Claude.
+</Card>
+
+## When to use it
+
+Use egora-data when the answer depends on **current numbers**, e.g.:
+
+- "How many B2B catering requests in the last 7 days, by city?"
+- "What's our conversion rate this month?" (see also the [KPI catalog](/it/kpi-catalog))
+
+For "how does X work" questions, use the KB instead.

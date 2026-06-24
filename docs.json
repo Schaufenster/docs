@@ -1,14 +1,14 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "name": "Egora KAM Knowledge Base",
-  "theme": "maple",
+  "theme": "mint",
+  "name": "eGora KAM Knowledge Base",
   "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
+    "primary": "#38808a",
+    "light": "#5BA3AD",
+    "dark": "#092440"
   },
   "favicon": "/favicon.svg",
-  "description": "Internal knowledge base for eGora KAMs — processes, customer guides, caterer resources, and connected tools.",
+  "description": "Internal knowledge base for eGora KAMs — auth-gated. Real-testing pilot.",
   "navigation": {
     "tabs": [
       {
@@ -30,74 +30,52 @@
               "kam-handbook/escalation-playbook",
               "kam-handbook/offboarding-accounts"
             ]
+          }
+        ]
+      },
+      {
+        "tab": "IT / Internal",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": ["it/overview"]
           },
           {
-            "group": "Product Updates",
-            "pages": [
-              "it/feature-changelog",
-              "it/kpi-catalog"
-            ]
+            "group": "Guides",
+            "pages": ["it/mcp-setup", "it/kpi-catalog"]
           },
           {
-            "group": "Customer Guide",
-            "pages": [
-              "customer-guide/overview",
-              "customer-guide/getting-started",
-              "customer-guide/placing-orders",
-              "customer-guide/managing-account",
-              "customer-guide/support-faqs"
-            ]
-          },
+            "group": "Release communication",
+            "pages": ["it/feature-changelog"]
+          }
+        ]
+      },
+      {
+        "tab": "Integrations",
+        "groups": [
           {
-            "group": "Caterer Guide",
+            "group": "How the KB connects",
             "pages": [
-              "caterer-guide/overview",
-              "caterer-guide/getting-started",
-              "caterer-guide/managing-menu",
-              "caterer-guide/fulfilling-orders",
-              "caterer-guide/support-faqs"
+              "integrations/overview",
+              "integrations/claude-setup",
+              "integrations/egora-mcp",
+              "integrations/notion",
+              "integrations/slack-agent",
+              "integrations/changelog"
             ]
           }
         ]
       },
       {
-        "tab": "Integrations & Tools",
-        "groups": [
-          {
-            "group": "Connected Sources",
-            "pages": [
-              "integrations/overview",
-              "integrations/notion-sync",
-              "integrations/slack-sync",
-              "integrations/git-commits",
-              "integrations/gleap-messages"
-            ]
-          },
-          {
-            "group": "AI & Help Desk",
-            "pages": [
-              "integrations/claude-teams-setup",
-              "it/mcp-setup",
-              "integrations/help-desk-feed",
-              "integrations/keeping-kb-updated"
-            ]
-          }
-        ]
+        "tab": "API reference",
+        "openapi": "/api-reference/openapi.json"
       }
     ]
   },
   "navbar": {
     "links": [
-      {
-        "label": "eGora",
-        "href": "https://egora-catering.de"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Catering-Anfrage",
-      "href": "https://egora-catering.de/iframe/catering-form"
-    }
+      { "label": "eGora", "href": "https://egora-catering.de" }
+    ]
   },
   "footer": {
     "socials": {
