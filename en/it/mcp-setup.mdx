@@ -1,0 +1,124 @@
+---
+title: "Connect Claude to eGora data (MCP)"
+description: "Connect Claude to the eGora data server via OAuth to query orders, requests, companies and KPIs in chat."
+icon: "plug"
+---
+
+This is how you connect **Claude** to the eGora data server so you can ask questions about orders,
+catering requests, companies, KPIs and more — right in chat, against live data (PII-redacted).
+
+<Note>
+  There are **two** ways to connect, depending on which Claude you use. **OAuth is the default** for
+  Claude on the web (Cowork / Teams) and the easiest. The **token** method is only for Claude Code
+  (CLI) and Claude Desktop power users.
+</Note>
+
+## Option A — OAuth (Claude Web / Cowork / Teams) — recommended
+
+No token to copy and no client to create — Claude registers itself, and all you have to do is
+authorize.
+
+### Prerequisites
+- You're an **eGora Nova user** with the **`admin`** role. If not, ask Steffen to create your user
+  and assign the role (Nova → Users).
+
+### Connect
+
+<Steps>
+  <Step title="Add a custom connector">
+    In Claude, go to **Settings → Connectors → Add custom connector**.
+  </Step>
+  <Step title="Paste the URL, leave the rest empty">
+    URL: `https://egora-catering.de/mcp` — **leave Client ID and Client Secret empty.**
+  </Step>
+  <Step title="Connect & authorize">
+    Click **Connect**. You'll be redirected to **log in as yourself in eGora's Nova**, and then
+    click **Authorize**. Done — the connector is live.
+  </Step>
+</Steps>
+
+### Test
+Open a chat and ask:
+
+> *How many B2B catering requests did we have in the last 7 days, grouped by city?*
+
+Claude should call `list-catering-requests` and reply with real numbers.
+
+## Option B — Token (Claude Code / Desktop power users)
+
+Claude Code (CLI) and older Claude Desktop versions use a **Personal Access Token (PAT)** instead
+of OAuth.
+
+### Prerequisites
+- A **Personal Access Token** for eGora — request it from Steffen. Format `4|XXXX…`. **Never share
+  it.**
+
+### Claude Code
+```bash
+claude mcp add --transport http egora-data https://egora-catering.de/mcp \
+  --header "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+
+### Claude Desktop (config file)
+**Settings → Developer → Local MCP servers → Edit config**, then add inside `mcpServers`:
+
+<CodeGroup>
+```json HTTP (recent versions)
+{
+  "mcpServers": {
+    "egora-data": {
+      "type": "http",
+      "url": "https://egora-catering.de/mcp",
+      "headers": { "Authorization": "Bearer YOUR_TOKEN_HERE" }
+    }
+  }
+}
+```
+
+```json mcp-remote (older versions, needs Node.js)
+{
+  "mcpServers": {
+    "egora-data": {
+      "command": "npx",
+      "args": [
+        "-y", "mcp-remote", "https://egora-catering.de/mcp",
+        "--header", "Authorization: Bearer YOUR_TOKEN_HERE"
+      ]
+    }
+  }
+}
+```
+</CodeGroup>
+
+Replace `YOUR_TOKEN_HERE` with your real token (including the `4|` prefix), save, and **quit Claude
+Desktop completely** (`⌘ Q`) before reopening it.
+
+<Warning>
+  The token is stored **in plain text** in `claude_desktop_config.json`. Never commit or sync it.
+  If it leaks, ask Steffen to revoke the token immediately.
+</Warning>
+
+## Staging vs production
+
+| Production | Staging |
+| --- | --- |
+| `https://egora-catering.de/mcp` | `https://staging.egora-catering.de/mcp` |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="OAuth: 'Authorize' page won't load or login fails">
+    You need an eGora Nova user with the `admin` role — ask Steffen to set this up.
+  </Accordion>
+  <Accordion title="Token: 'failed' immediately after connecting">
+    Token invalid or expired — request a new one from Steffen.
+  </Accordion>
+  <Accordion title="Token: 'unknown transport type'">
+    Claude Desktop is too old for `"type": "http"` — use the **mcp-remote** variant instead
+    (requires Node.js).
+  </Accordion>
+  <Accordion title="Connected, but Claude says it has no access">
+    No tool permission has been granted in the current chat yet — enable the connector's tools in
+    the chat.
+  </Accordion>
+</AccordionGroup>

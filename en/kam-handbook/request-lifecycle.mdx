@@ -1,0 +1,76 @@
+---
+title: "Request → Offer → Order lifecycle"
+description: "The actual CateringRequest statuses and a KAM's end-to-end flow, from incoming request to delivered order."
+icon: "timeline"
+---
+
+A KAM moves a request through the system using the **actual CateringRequest statuses** below. The happy
+path is derived from the system's status groups — it is **not** a hard-wired sequence, so real requests
+can skip or revisit steps.
+
+## CateringRequest statuses (system values)
+
+| ID | Status | Label (DE) |
+| -- | --- | --- |
+| 1 | OPEN | Offen |
+| 2 | REQUESTED_FROM_CATERERS | Angefragt bei Caterern |
+| 3 | CONFIRMED_BY_CATERER | Bestätigt durch Caterer |
+| 4 | REJECTED_BY_CATERER | Abgelehnt durch Caterer |
+| 5 | OFFER_SENT_TO_CUSTOMER | Angebot beim Kunden |
+| 6 | CATERING_CONFIRMED | Catering bestätigt |
+| 7 | REJECTED_BY_CUSTOMER | Abgelehnt durch Kunde |
+| 8 | CANCELLED_BY_CUSTOMER | Storniert durch Kunde |
+| 9 | LOST_NO_RESPONSE | Lost – Keine Antwort |
+| 10 | DENIED_BY_EGORA | Abgelehnt durch egora |
+| 11 | IN_EXCHANGE_WITH_CUSTOMER | Im Austausch mit Kunden |
+| 12 | LAST_QUESTIONS | Letzte Fragen |
+| 13 | CATERING_BOOKED | Catering gebucht |
+| 14 | CATERING_DELIVERED | Catering geliefert |
+| 15 | CATERING_DONE | Catering abgeschlossen |
+| 16 | LOST_REQUEST | Lost request |
+| 17 | DATE_CONFIRMED | Termin verbindlich reserviert |
+
+**Status groups:** *In progress* 1,2,3,5,11,12 · *Booked* 6,13,17 · *Completed* 14,15 ·
+*Rejected/lost* 4,7,8,9,10,16 · *"Needs attention" badge* 1,2,3,5,6,11,12.
+
+## The flow (what you do in each phase)
+
+<Steps>
+  <Step title="New request – OPEN (1)">
+    Every catering request **starts in OPEN (1)** — the initial status before caterers are searched.
+    Check and qualify: city (**Berlin / Munich only**), date, number of people, budget, B2B or not.
+  </Step>
+  <Step title="Find caterers – REQUESTED_FROM_CATERERS (2) → CONFIRMED_BY_CATERER (3)">
+    Match with caterer(s); a caterer confirms availability.
+  </Step>
+  <Step title="Create & send offer – OFFER_SENT_TO_CUSTOMER (5)">
+    Create the CateringOffer (it starts as **UNFINISHED** and becomes **FINISHED**), then send it. "Sent" is
+    the `sent_to_customer_at` timestamp on the offer, **not** a status. The Stornogarantie is added
+    automatically unless opted out (see [key concepts](/en/kam-handbook/key-concepts)).
+  </Step>
+  <Step title="Customer dialog – IN_EXCHANGE_WITH_CUSTOMER (11) / LAST_QUESTIONS (12)">
+    Answer questions, adjust the offer.
+  </Step>
+  <Step title="Confirmation – CATERING_CONFIRMED (6) → DATE_CONFIRMED (17)">
+    The customer commits; the date is reserved. **The Order and the 4-item checklist are created here.**
+  </Step>
+  <Step title="Booked & execution – CATERING_BOOKED (13)">
+    Work through the [post-booking checklist](/en/kam-handbook/post-booking-checklist).
+  </Step>
+  <Step title="Delivery & wrap-up – CATERING_DELIVERED (14) → CATERING_DONE (15)">
+    The catering takes place, and the request is then closed.
+  </Step>
+</Steps>
+
+<Note>
+  Guard: the customer-facing feedback statuses (OFFER_SENT_TO_CUSTOMER, REJECTED_BY_CUSTOMER,
+  IN_EXCHANGE_WITH_CUSTOMER …) are only valid **once an offer has actually been sent**
+  (`sent_to_customer_at` is set). For terminal/lost cases, see
+  [When it goes sideways](/en/kam-handbook/when-it-goes-sideways).
+</Note>
+
+<Info>
+  Status transitions are logged in `catering_request_logs` (e.g. *Received request → Creating menu
+  proposals → … → Offer sent to customer → … → Invoice paid*). Ask the assistant "what happened on this
+  request and when" to read this audit trail via the connector.
+</Info>
