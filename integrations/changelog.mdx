@@ -1,32 +1,32 @@
 ---
-title: "Changelog automation"
-description: "Shipped product code auto-drafts a changelog entry, so features stop shipping silently."
+title: "Changelog-Automatisierung"
+description: "Ausgelieferter Produktcode erzeugt automatisch einen Changelog-Eintrag, damit Features nicht länger unbemerkt ausgeliefert werden."
 icon: "code-branch"
 ---
 
-The original gap this KB targets: **features ship without being communicated** to KAM, customers and
-caterers. The changelog automation closes it.
+Die ursprüngliche Lücke, auf die diese KB abzielt: **Features werden ausgeliefert, ohne kommuniziert zu werden** — an KAM, Kunden und
+Caterer. Die Changelog-Automatisierung schließt sie.
 
-## How it works (current setup — Route 1)
+## Funktionsweise (aktuelles Setup — Route 1)
 
-We use Mintlify's **native automations** during the test:
+Während des Tests nutzen wir die **nativen Automatisierungen** von Mintlify:
 
 <CardGroup cols={2}>
-  <Card title="Update from code changes" icon="code">
-    Drafts content updates when product/feature/API source code changes.
+  <Card title="Aktualisierung aus Code-Änderungen" icon="code">
+    Erzeugt Entwürfe für Inhalts-Updates, wenn sich Produkt-/Feature-/API-Quellcode ändert.
   </Card>
-  <Card title="Draft changelog" icon="list">
-    Drafts a changelog entry from recent product updates on a recurring schedule.
+  <Card title="Changelog-Entwurf" icon="list">
+    Erzeugt regelmäßig Changelog-Entwürfe aus den jüngsten Produkt-Updates.
   </Card>
 </CardGroup>
 
-Each draft lands as a **pull request** to `Schaufenster/docs`, updating
-[Release communication](/it/feature-changelog). A human reviews and merges → the entry reaches both KAMs
-(web) and Claude (MCP).
+Jeder Entwurf landet als **Pull Request** in `Schaufenster/docs` und aktualisiert
+[Release-Kommunikation](/it/feature-changelog). Ein Mensch prüft und merged → der Eintrag erreicht sowohl die KAMs
+(Web) als auch Claude (MCP).
 
-## Help it along: the `Changelog:` trailer
+## Hilf nach: der `Changelog:`-Trailer
 
-When a commit is user-facing, add a one-line trailer so the automation has a clean signal:
+Wenn ein Commit für Nutzer relevant ist, füge eine einzeilige Trailer-Zeile hinzu, damit die Automatisierung ein sauberes Signal hat:
 
 ```
 feature for the salutation style
@@ -34,15 +34,15 @@ feature for the salutation style
 Changelog: Customers can now be addressed Du/Sie; KAM sets it per customer.
 ```
 
-This is optional, but it sharpens the draft — and keeps a clean record if we ever switch the engine.
+Das ist optional, schärft aber den Entwurf — und sorgt für eine saubere Historie, falls wir die Engine irgendwann wechseln.
 
-## The format we want
+## Das gewünschte Format
 
-Each entry says **what changed**, **who's affected** (KAM / Customers / Caterers), and **what to do** —
-see the examples on [Release communication](/it/feature-changelog).
+Jeder Eintrag sagt, **was sich geändert hat**, **wer betroffen ist** (KAM / Kunden / Caterer) und **was zu tun ist** —
+siehe die Beispiele unter [Release-Kommunikation](/it/feature-changelog).
 
 <Note>
-  Route 1 runs on Mintlify's metered Agent credits (a trial during the test). If that becomes limiting,
-  we switch to a credit-free custom pipeline (a GitHub Action + a Claude `changelog` skill) that writes
-  the **same** changelog file — so nothing downstream changes.
+  Route 1 läuft auf den kostenpflichtigen Agent-Credits von Mintlify (während des Tests im Trial). Falls das zu einer Einschränkung wird,
+  wechseln wir auf eine credit-freie Custom-Pipeline (eine GitHub Action + ein Claude-`changelog`-Skill), die **dieselbe**
+  Changelog-Datei schreibt — sodass nachgelagert nichts angepasst werden muss.
 </Note>

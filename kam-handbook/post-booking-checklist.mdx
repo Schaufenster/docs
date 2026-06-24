@@ -1,52 +1,52 @@
 ---
-title: "Post-booking checklist"
-description: "The real 4-item KAM checklist eGora tracks on each order once a request is booked."
+title: "Post-Booking-Checkliste"
+description: "Die tatsächliche 4-Punkte-KAM-Checkliste, die eGora pro Order ab Buchung verfolgt."
 icon: "list-check"
 ---
 
-Once a request reaches **DATE_CONFIRMED (17)** and an order exists, eGora tracks a **4-item KAM
-checklist per order** (in the OrderHub). Each item is an email that needs to go out.
+Sobald eine Anfrage **DATE_CONFIRMED (17)** erreicht und eine Order existiert, verfolgt eGora eine
+**4-Punkte-KAM-Checkliste pro Order** (im OrderHub). Jeder Punkt ist eine E-Mail, die rausgehen muss.
 
 <Steps>
-  <Step title="Order Confirmation → Customer">
-    Field: `order_confirmation_sent_customer`
+  <Step title="Auftragsbestätigung → Kunde">
+    Feld: `order_confirmation_sent_customer`
   </Step>
-  <Step title="Order Confirmation → Caterer">
-    Field: `order_confirmation_sent_caterer`
+  <Step title="Auftragsbestätigung → Caterer">
+    Feld: `order_confirmation_sent_caterer`
   </Step>
-  <Step title="Delivery Sheet → Caterer">
-    Field: `delivery_note_sent`
+  <Step title="Lieferschein → Caterer">
+    Feld: `delivery_note_sent`
   </Step>
-  <Step title="Invoice → Customer">
-    Field: `invoice_sent`
+  <Step title="Rechnung → Kunde">
+    Feld: `invoice_sent`
   </Step>
 </Steps>
 
-## How it behaves (system facts)
+## Wie sie sich verhält (Systemfakten)
 
 <CardGroup cols={2}>
-  <Card title="Auto-created" icon="wand-magic-sparkles">
-    Created automatically when the request transitions to **DATE_CONFIRMED** (with a fallback that
-    creates it when the offer→order link is established).
+  <Card title="Automatisch erstellt" icon="wand-magic-sparkles">
+    Wird automatisch erzeugt, wenn die Anfrage in **DATE_CONFIRMED** übergeht (mit einem Fallback, der
+    sie erstellt, sobald die Verknüpfung Angebot→Order hergestellt ist).
   </Card>
-  <Card title="Needs an order linked" icon="link">
-    It requires the order to be linked to a catering request.
+  <Card title="Benötigt eine verknüpfte Order" icon="link">
+    Die Order muss mit einer Catering-Anfrage verknüpft sein.
   </Card>
-  <Card title="Syncs to HubSpot" icon="rotate">
-    Checklist changes sync to HubSpot automatically.
+  <Card title="Synct nach HubSpot" icon="rotate">
+    Änderungen an der Checkliste werden automatisch nach HubSpot synchronisiert.
   </Card>
-  <Card title="Check, don't assume" icon="magnifying-glass">
-    Whether an item is done is only knowable by looking the order up via the connector.
+  <Card title="Nachprüfen, nicht annehmen" icon="magnifying-glass">
+    Ob ein Punkt erledigt ist, lässt sich nur durch Nachschlagen der Order via Connector feststellen.
   </Card>
 </CardGroup>
 
 <Warning>
-  The assistant can remind you which of the four are still open **only by looking the order up** — it
-  must never assume an item is done.
+  Der Assistent kann dich nur dann daran erinnern, welche der vier Punkte noch offen sind, **wenn er die Order
+  nachschlägt** – er darf nie annehmen, dass ein Punkt erledigt ist.
 </Warning>
 
 <Note>
-  This 4-item checklist and the [status names](/kam-handbook/request-lifecycle) are the parts that are
-  **system-enforced**. Anything beyond them in this handbook is a working description of how-we-work, to
-  be refined with the team's real SOPs.
+  Diese 4-Punkte-Checkliste und die [Status-Bezeichnungen](/kam-handbook/request-lifecycle) sind die Teile, die
+  **systemseitig erzwungen** sind. Alles darüber hinaus in diesem Handbuch ist eine Arbeitsbeschreibung, wie wir
+  arbeiten, und soll mit den realen SOPs des Teams verfeinert werden.
 </Note>

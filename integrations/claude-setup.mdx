@@ -1,38 +1,38 @@
 ---
-title: "Connecting Claude to the KB"
-description: "How a KAM wires Claude (Team Project, Code, Cowork) to the knowledge base, live data, and Notion."
+title: "Claude an die KB anbinden"
+description: "Wie ein KAM Claude (Team Project, Code, Cowork) mit der Wissensdatenbank, Live-Daten und Notion verdrahtet."
 icon: "robot"
 ---
 
-The eGora KAM Assistant becomes useful once Claude can read the three live sources. Setup is per-person.
+Der eGora KAM Assistant wird erst dann nützlich, wenn Claude die drei Live-Quellen lesen kann. Das Setup erfolgt pro Person.
 
 <Steps>
-  <Step title="Open the eGora KAM Assistant Project">
-    In claude.ai, open the shared Team Project. Power users can also use Claude Code / Cowork.
+  <Step title="Öffne das eGora KAM Assistant Project">
+    Öffne in claude.ai das geteilte Team Project. Power-User können auch Claude Code / Cowork verwenden.
   </Step>
-  <Step title="Connect the KB (Mintlify MCP)">
-    Add a **custom connector** pointing at the KB's authenticated MCP endpoint:
-    `https://<kb-domain>/authed/mcp`. Sign in as an eGora org member when prompted.
+  <Step title="Verbinde die KB (Mintlify MCP)">
+    Füge einen **Custom Connector** hinzu, der auf den authentifizierten MCP-Endpoint der KB zeigt:
+    `https://<kb-domain>/authed/mcp`. Melde dich bei Aufforderung als eGora-Org-Mitglied an.
 
-    In Claude Code instead:
+    In Claude Code stattdessen:
     ```bash
     claude mcp add --transport http egora-kb https://<kb-domain>/authed/mcp
     ```
   </Step>
-  <Step title="Connect live data (egora-data MCP)">
-    Enable the **egora-data** connector and authenticate. See [egora data](/integrations/egora-mcp).
+  <Step title="Verbinde Live-Daten (egora-data MCP)">
+    Aktiviere den **egora-data**-Connector und authentifiziere dich. Siehe [egora data](/integrations/egora-mcp).
   </Step>
-  <Step title="Connect Notion">
-    Enable the **Notion** connector so Claude can read working docs live — see [Notion](/integrations/notion).
+  <Step title="Verbinde Notion">
+    Aktiviere den **Notion**-Connector, damit Claude Arbeitsdokumente live lesen kann — siehe [Notion](/integrations/notion).
   </Step>
 </Steps>
 
 <Tip>
-  Once connected, ask things like *"How do we onboard a new account?"* (KB), *"How many B2B requests
-  last 7 days?"* (egora-data), or *"What's the latest draft of the escalation process?"* (Notion).
+  Sobald alles verbunden ist, frage zum Beispiel *"Wie onboarden wir einen neuen Account?"* (KB), *"Wie viele B2B-Anfragen
+  in den letzten 7 Tagen?"* (egora-data) oder *"Was ist der aktuellste Entwurf des Eskalationsprozesses?"* (Notion).
 </Tip>
 
 <Note>
-  Replace `<kb-domain>` with the live KB domain (the `*.mintlify.app` URL during the test, the custom
-  domain later).
+  Ersetze `<kb-domain>` durch die Live-KB-Domain (die `*.mintlify.app`-URL während des Tests, später die eigene
+  Domain).
 </Note>

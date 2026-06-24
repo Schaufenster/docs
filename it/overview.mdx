@@ -1,49 +1,52 @@
 ---
-title: "IT / Internal overview"
-description: "Orientation for engineering and KAM: what lives here and how the internal knowledgebase is meant to work."
+title: "IT / Interne Übersicht"
+description: "Orientierung für Engineering und KAM: Was hier zu finden ist und wie die interne Wissensdatenbank funktionieren soll."
 icon: "compass"
 ---
 
-This space is for **engineering** and **KAM (Key Account Managers)**. It collects the technical and
-operational knowledge that today is scattered across the codebase, gitignored `/plans/` notes, and
-people's heads.
+Dieser Bereich ist für **Engineering** und **KAM (Key Account Manager)** gedacht. Er sammelt das
+technische und operative Wissen, das heute über den Codebase, gitignored `/plans/`-Notizen und die
+Köpfe einzelner Personen verstreut ist.
 
-## What's in this tab
+## Was steckt in diesem Tab
 
 <CardGroup cols={2}>
-  <Card title="MCP connector setup" icon="plug" href="/it/mcp-setup">
-    Connect Claude Desktop to the eGora data server so you can ask live questions about orders,
-    requests, companies and more.
+  <Card title="MCP-Connector-Setup" icon="plug" href="/it/mcp-setup">
+    Verbinde Claude Desktop mit dem eGora-Datenserver, damit du Live-Fragen zu Aufträgen, Anfragen,
+    Firmen und mehr stellen kannst.
   </Card>
-  <Card title="KPI catalog" icon="chart-line" href="/it/kpi-catalog">
-    The canonical definitions behind the Catering KPI page, so MCP/Claude analytics match the dashboard
-    exactly.
+  <Card title="KPI-Katalog" icon="chart-line" href="/it/kpi-catalog">
+    Die kanonischen Definitionen hinter der Catering-KPI-Seite, damit MCP-/Claude-Analysen exakt mit
+    dem Dashboard übereinstimmen.
   </Card>
-  <Card title="Release communication" icon="megaphone" href="/it/feature-changelog">
-    The pattern for announcing shipped features to KAM, customers and caterers — the gap this pilot
-    targets.
+  <Card title="Release-Kommunikation" icon="megaphone" href="/it/feature-changelog">
+    Das Muster, um ausgelieferte Features an KAM, Kunden und Caterer zu kommunizieren — genau die
+    Lücke, die dieser Pilot adressiert.
   </Card>
 </CardGroup>
 
-## The problem this addresses
+## Das Problem, das wir damit angehen
 
 <Warning>
-  Features ship faster than they get documented. The result: KAM learns about a change from a customer
-  question, customers discover behaviour by trial and error, and caterers miss workflow updates.
+  Features werden schneller ausgeliefert, als sie dokumentiert werden. Das Ergebnis: KAM erfährt von
+  einer Änderung durch eine Kundenfrage, Kunden entdecken Verhalten per Trial and Error, und Caterer
+  verpassen Workflow-Updates.
 </Warning>
 
-The fix is not "write more docs once" — it's a **repeatable place and format** where a feature isn't
-considered done until its user-facing change is written down for the audiences it affects. The
-[release communication](/it/feature-changelog) page demonstrates that pattern.
+Die Lösung ist nicht „einmal mehr Doku schreiben" — sondern ein **wiederholbarer Ort und Format**, an
+dem ein Feature erst dann als erledigt gilt, wenn seine nutzerseitige Änderung für die betroffenen
+Zielgruppen schriftlich festgehalten ist. Die Seite [Release-Kommunikation](/it/feature-changelog)
+demonstriert dieses Muster.
 
-## How "internal" stays internal
+## Wie „intern" intern bleibt
 
-This pilot is published **publicly** on Mintlify's free tier, so everything here is deliberately
-**non-sensitive sample content**. A real internal rollout would gate this tab behind authentication
-(SSO / password), which is a paid Mintlify capability — captured as a cost line in the evaluation.
+Dieser Pilot wird **öffentlich** im kostenlosen Mintlify-Tarif veröffentlicht, daher sind alle Inhalte
+hier bewusst **nicht-sensible Beispielinhalte**. Ein echtes internes Rollout würde diesen Tab hinter
+Authentifizierung (SSO / Passwort) verstecken — das ist eine kostenpflichtige Mintlify-Funktion und
+als Kostenposten in der Evaluation erfasst.
 
 <Info>
-  Source material that would feed a real version of this tab already exists: `docs/mcp/` in the app
-  repo, the `egora-kam-assistant/knowledge/` markdown, and ~110 working notes in the gitignored
-  `/plans/` directory.
+  Quellenmaterial, das eine echte Version dieses Tabs füllen würde, existiert bereits: `docs/mcp/` im
+  App-Repo, das `egora-kam-assistant/knowledge/`-Markdown und ca. 110 Arbeitsnotizen im gitignored
+  `/plans/`-Verzeichnis.
 </Info>

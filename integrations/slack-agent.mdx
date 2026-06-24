@@ -1,44 +1,44 @@
 ---
-title: "Slack agent (authoring)"
-description: "Draft KB updates from Slack by @mentioning the agent — opt-in per thread, every change is a reviewable PR."
+title: "Slack-Agent (Authoring)"
+description: "Entwirf KB-Updates aus Slack, indem du den Agent @mentionst — Opt-in pro Thread, jede Änderung ist ein reviewbarer PR."
 icon: "slack"
 ---
 
-The Mintlify Slack agent lets anyone draft a KB update from Slack — without giving it broad access to your
-messages.
+Mit dem Mintlify Slack-Agent kann jede:r aus Slack heraus ein KB-Update entwerfen — ohne dem Agent breiten Zugriff
+auf deine Nachrichten zu geben.
 
-## How it's scoped (privacy-safe)
+## Wie er eingegrenzt ist (datenschutzfreundlich)
 
 <CardGroup cols={2}>
-  <Card title="@mention only" icon="at">
-    Nothing happens unless you **@mention** the agent in a thread. It acts only on that thread.
+  <Card title="Nur @mention" icon="at">
+    Nichts passiert, solange du den Agent nicht in einem Thread **@mentionst**. Er agiert nur in diesem Thread.
   </Card>
-  <Card title="No passive reading" icon="eye-slash">
-    Channel "knowledge ingestion" is **off** (or limited to one dedicated `#kb-updates` channel). It does
-    not read DMs or all channels.
+  <Card title="Kein passives Mitlesen" icon="eye-slash">
+    Channel-"Knowledge Ingestion" ist **aus** (oder auf einen dedizierten `#kb-updates`-Channel beschränkt). Er liest
+    weder DMs noch alle Channels mit.
   </Card>
-  <Card title="PR-gated" icon="code-pull-request">
-    It opens a **pull request** to `Schaufenster/docs` — it never commits to `main` directly.
+  <Card title="PR-gesichert" icon="code-pull-request">
+    Er öffnet einen **Pull Request** gegen `Schaufenster/docs` — er committet nie direkt auf `main`.
   </Card>
-  <Card title="Preview links" icon="eye">
-    Review the proposed change on a preview URL before merging.
+  <Card title="Preview-Links" icon="eye">
+    Prüfe die vorgeschlagene Änderung vor dem Merge auf einer Preview-URL.
   </Card>
 </CardGroup>
 
-## How to use it
+## So nutzt du ihn
 
 <Steps>
-  <Step title="Mention the agent">
-    In a thread, write e.g. *"@mintlify document: KAMs can now set Du/Sie per customer in the backend."*
+  <Step title="Mention den Agent">
+    Schreibe in einem Thread z. B. *"@mintlify document: KAMs können jetzt Du/Sie pro Kunde im Backend setzen."*
   </Step>
-  <Step title="Review the PR">
-    The agent drafts a docs change and opens a PR with a preview link.
+  <Step title="Prüfe den PR">
+    Der Agent entwirft eine Docs-Änderung und öffnet einen PR mit Preview-Link.
   </Step>
   <Step title="Merge">
-    Once it's right, merge — Mintlify redeploys and the KB (web + Claude MCP) updates.
+    Wenn alles passt, merge — Mintlify deployt neu und die KB (Web + Claude MCP) aktualisiert sich.
   </Step>
 </Steps>
 
 <Warning>
-  A Slack **workspace admin** approves the agent's permissions at install. Review the requested scopes.
+  Ein Slack-**Workspace-Admin** genehmigt die Berechtigungen des Agents bei der Installation. Prüfe die angefragten Scopes.
 </Warning>

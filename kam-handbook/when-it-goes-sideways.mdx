@@ -1,29 +1,29 @@
 ---
-title: "When a request goes sideways"
-description: "The correct terminal statuses to use so reporting stays clean when a request doesn't convert."
+title: "Wenn eine Anfrage schiefläuft"
+description: "Die richtigen terminalen Status, damit das Reporting sauber bleibt, wenn eine Anfrage nicht konvertiert."
 icon: "triangle-exclamation"
 ---
 
-When a request won't convert, set the **correct terminal status** so reporting and conversion metrics
-stay clean. Use the real status, not a catch-all.
+Wenn eine Anfrage nicht konvertieren wird, setze den **korrekten terminalen Status**, damit Reporting und
+Conversion-Metriken sauber bleiben. Nimm den echten Status, keine Sammelkategorie.
 
-| Situation | Status to set |
+| Situation | Zu setzender Status |
 | --- | --- |
-| Caterer can't do it | **REJECTED_BY_CATERER (4)** |
-| Customer says no | **REJECTED_BY_CUSTOMER (7)** |
-| Customer cancels later | **CANCELLED_BY_CUSTOMER (8)** |
-| Customer goes silent | **LOST_NO_RESPONSE (9)** |
-| Otherwise lost | **LOST_REQUEST (16)** |
-| eGora declines it | **DENIED_BY_EGORA (10)** |
+| Caterer kann es nicht umsetzen | **REJECTED_BY_CATERER (4)** |
+| Kunde sagt nein | **REJECTED_BY_CUSTOMER (7)** |
+| Kunde storniert später | **CANCELLED_BY_CUSTOMER (8)** |
+| Kunde meldet sich nicht mehr | **LOST_NO_RESPONSE (9)** |
+| Anderweitig verloren | **LOST_REQUEST (16)** |
+| eGora lehnt ab | **DENIED_BY_EGORA (10)** |
 
 <Note>
-  These map to the *Rejected / lost* status group (4, 7, 8, 9, 10, 16) in the
-  [lifecycle](/kam-handbook/request-lifecycle).
+  Diese gehören zur Status-Gruppe *Abgelehnt / verloren* (4, 7, 8, 9, 10, 16) im
+  [Lifecycle](/kam-handbook/request-lifecycle).
 </Note>
 
 <Warning>
-  This is about **request status hygiene**, not a formal escalation SOP. eGora does not currently have a
-  single system-defined "escalation process" — escalation handling lives in scattered working docs. If
-  you need the latest thinking, ask the assistant to check **Notion** (it will tell you honestly if no
-  consolidated draft exists, rather than invent one).
+  Hier geht es um **Status-Hygiene bei Anfragen**, nicht um eine formale Eskalations-SOP. eGora hat aktuell
+  keinen einzelnen, systemseitig definierten „Eskalationsprozess" – Eskalationen leben in verstreuten
+  Arbeitsdokumenten. Wenn du den aktuellen Stand brauchst, bitte den Assistenten, **Notion** zu prüfen
+  (er sagt dir ehrlich, wenn kein konsolidierter Entwurf existiert, statt einen zu erfinden).
 </Warning>

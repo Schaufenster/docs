@@ -1,32 +1,32 @@
 ---
-title: "egora data (live business data)"
-description: "Connect Claude to the eGora data server to query orders, requests, companies and KPIs in chat."
+title: "egora data (Live-Geschäftsdaten)"
+description: "Verbinde Claude mit dem eGora-Datenserver, um Bestellungen, Anfragen, Firmen und KPIs direkt im Chat abzufragen."
 icon: "database"
 ---
 
-The **egora-data MCP** connector gives Claude read-only, PII-redacted access to live eGora business data
-— orders, catering requests, companies, KPIs and more.
+Der **egora-data MCP**-Connector gibt Claude Lesezugriff auf Live-Geschäftsdaten von eGora — mit PII-Redaktion —
+also Bestellungen, Catering-Anfragen, Firmen, KPIs und mehr.
 
 <Note>
-  This is **different** from the KB MCP. The KB MCP serves *knowledge* (how things work); egora-data
-  serves *current data* (the actual numbers).
+  Das ist **etwas anderes** als die KB MCP. Die KB MCP liefert *Wissen* (wie Dinge funktionieren); egora-data
+  liefert *aktuelle Daten* (die tatsächlichen Zahlen).
 </Note>
 
 ## Setup
 
-The full step-by-step (Claude Desktop, token, staging vs production, troubleshooting) lives in the IT
-guide:
+Die vollständige Schritt-für-Schritt-Anleitung (Claude Desktop, Token, Staging vs. Produktion, Troubleshooting) findest du im
+IT-Guide:
 
-<Card title="Connect Claude to eGora data (MCP)" icon="plug" href="/it/mcp-setup">
-  On Claude web (Cowork / Teams): Add custom connector → `https://egora-catering.de/mcp` → leave Client
-  ID/Secret blank → Connect → authorize in Nova. (Token method available for Claude Code / Desktop.)
+<Card title="Claude mit eGora-Daten verbinden (MCP)" icon="plug" href="/it/mcp-setup">
+  Im Claude Web (Cowork / Teams): Custom Connector hinzufügen → `https://egora-catering.de/mcp` → Client
+  ID/Secret leer lassen → Connect → in Nova autorisieren. (Token-Methode für Claude Code / Desktop verfügbar.)
 </Card>
 
-## When to use it
+## Wann du ihn nutzt
 
-Use egora-data when the answer depends on **current numbers**, e.g.:
+Nutze egora-data, wenn die Antwort von **aktuellen Zahlen** abhängt, z. B.:
 
-- "How many B2B catering requests in the last 7 days, by city?"
-- "What's our conversion rate this month?" (see also the [KPI catalog](/it/kpi-catalog))
+- "Wie viele B2B-Catering-Anfragen in den letzten 7 Tagen, nach Stadt?"
+- "Wie ist unsere Conversion Rate diesen Monat?" (siehe auch den [KPI-Katalog](/it/kpi-catalog))
 
-For "how does X work" questions, use the KB instead.
+Für "Wie funktioniert X"-Fragen nutze stattdessen die KB.

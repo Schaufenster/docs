@@ -1,90 +1,93 @@
 ---
-title: "Release communication"
-description: "The pattern for announcing shipped features to KAM, customers and caterers — so nothing ships silently."
+title: "Release-Kommunikation"
+description: "Das Muster, um ausgelieferte Features an KAM, Kunden und Caterer zu kommunizieren — damit nichts still und leise live geht."
 icon: "megaphone"
 ---
 
-The core problem this knowledgebase targets: **features ship without being communicated** to the people
-they affect. This page demonstrates a repeatable pattern so a feature isn't "done" until its user-facing
-change is written down for each audience.
+Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, ohne kommuniziert zu
+werden** — an die Personen, die sie betrifft. Diese Seite zeigt ein wiederholbares Muster, sodass ein
+Feature nicht als „fertig" gilt, bevor seine nutzerseitige Änderung für jede Zielgruppe schriftlich
+festgehalten ist.
 
 <Note>
-  The entries below are **illustrative samples** to show the format, not real release notes.
+  Die folgenden Einträge sind **illustrative Beispiele**, um das Format zu zeigen — keine echten
+  Release Notes.
 </Note>
 
-## The pattern
+## Das Muster
 
-Every shipped feature gets one changelog entry that answers three questions:
+Jedes ausgelieferte Feature bekommt einen Changelog-Eintrag, der drei Fragen beantwortet:
 
 <Steps>
-  <Step title="What changed (one sentence)">
-    Plain language, no jargon — the behaviour a user would notice.
+  <Step title="Was hat sich geändert (ein Satz)">
+    Klartext, kein Fachjargon — das Verhalten, das ein Nutzer bemerken würde.
   </Step>
-  <Step title="Who is affected">
-    Tag the audiences: **KAM**, **Customers**, **Caterers**. If an audience is affected, the entry must
-    say what *they* should do differently.
+  <Step title="Wer ist betroffen">
+    Markiere die Zielgruppen: **KAM**, **Kunden**, **Caterer**. Wenn eine Zielgruppe betroffen ist,
+    muss der Eintrag sagen, was *sie* anders machen sollten.
   </Step>
-  <Step title="Where to learn more">
-    Link to the relevant page in the customer or caterer tab, so the announcement and the reference doc
-    stay in sync.
+  <Step title="Wo gibt es mehr Infos">
+    Verlinke auf die relevante Seite im Kunden- oder Caterer-Tab, damit Ankündigung und Referenz-Doku
+    synchron bleiben.
   </Step>
 </Steps>
 
 ## Changelog
 
-<Update label="2026-06 · Sample" description="Per-customer salutation (Du / Sie)">
-  Customers can now be addressed formally (**Sie**) or informally (**Du**) consistently across emails,
-  the customer backend, surveys and PDFs.
+<Update label="2026-06 · Beispiel" description="Anrede pro Kunde (Du / Sie)">
+  Kunden können jetzt konsistent über E-Mails, das Kunden-Backend, Umfragen und PDFs hinweg formell
+  (**Sie**) oder informell (**Du**) angesprochen werden.
 
   <CardGroup cols={3}>
     <Card title="KAM" icon="headset">
-      Set the salutation style on the customer record. Default is informal (**Du**).
+      Lege den Anredestil im Kundendatensatz fest. Standard ist informell (**Du**).
     </Card>
-    <Card title="Customers" icon="user">
-      Outgoing communication now matches the chosen tone — no action needed.
+    <Card title="Kunden" icon="user">
+      Ausgehende Kommunikation passt sich automatisch dem gewählten Ton an — keine Aktion nötig.
     </Card>
-    <Card title="Caterers" icon="utensils">
-      Not affected.
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
     </Card>
   </CardGroup>
 </Update>
 
-<Update label="2026-06 · Sample" description="Order-level cancellation guarantee (Stornogarantie)">
-  The cancellation-guarantee tier now follows the **order total** automatically, and KAM can opt a
-  single order out. Frozen once the order is invoiced or paid.
+<Update label="2026-06 · Beispiel" description="Stornogarantie auf Auftragsebene">
+  Die Stornogarantie-Stufe folgt jetzt automatisch der **Auftragssumme**, und KAM kann einen einzelnen
+  Auftrag davon ausnehmen. Eingefroren wird, sobald der Auftrag fakturiert oder bezahlt ist.
 
   <CardGroup cols={3}>
     <Card title="KAM" icon="headset">
-      New per-order opt-out toggle. The tier resizes on its own — no manual recalculation.
+      Neuer Opt-out-Schalter pro Auftrag. Die Stufe passt sich von selbst an — keine manuelle
+      Neuberechnung nötig.
     </Card>
-    <Card title="Customers" icon="user">
-      The guarantee line on the offer reflects the current order size.
+    <Card title="Kunden" icon="user">
+      Die Garantie-Zeile auf dem Angebot spiegelt die aktuelle Auftragsgröße wider.
     </Card>
-    <Card title="Caterers" icon="utensils">
-      The Stornogarantie line no longer appears on the delivery sheet (Lieferschein).
+    <Card title="Caterer" icon="utensils">
+      Die Stornogarantie-Zeile erscheint nicht mehr auf dem Lieferschein.
     </Card>
   </CardGroup>
 </Update>
 
-<Update label="2026-06 · Sample" description="Disable layered matching in caterer matching">
-  KAM can switch caterer matching to a flat, alphabetical list of all published caterers to pick
-  directly, bypassing the scoring layers.
+<Update label="2026-06 · Beispiel" description="Layer-Matching im Caterer-Matching deaktivieren">
+  KAM kann das Caterer-Matching auf eine flache, alphabetische Liste aller veröffentlichten Caterer
+  umstellen, um direkt auszuwählen und die Scoring-Layer zu umgehen.
 
   <CardGroup cols={3}>
     <Card title="KAM" icon="headset">
-      New "disable layer matching" toggle in the matching tool.
+      Neuer Schalter „Layer-Matching deaktivieren" im Matching-Tool.
     </Card>
-    <Card title="Customers" icon="user">
-      Not affected.
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
     </Card>
-    <Card title="Caterers" icon="utensils">
-      Not affected.
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
     </Card>
   </CardGroup>
 </Update>
 
 <Tip>
-  Because this lives in git, every entry is reviewable in a pull request — and because Mintlify exposes
-  `llms.txt`, the same notes can ground the Claude Team "eGora KAM Assistant" so KAM can simply *ask*
-  what changed.
+  Da das Ganze in Git lebt, ist jeder Eintrag in einem Pull Request reviewbar — und da Mintlify
+  `llms.txt` bereitstellt, können dieselben Notizen den Claude-Team-„eGora KAM Assistant" grounden,
+  sodass KAM einfach *fragen* kann, was sich geändert hat.
 </Tip>

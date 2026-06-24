@@ -1,14 +1,14 @@
 ---
-title: "Request → Offer → Order lifecycle"
-description: "The real CateringRequest statuses and the end-to-end flow a KAM works, from inbound request to delivered order."
+title: "Request → Offer → Order Lifecycle"
+description: "Die tatsächlichen CateringRequest-Status und der End-to-End-Flow eines KAM, von der eingehenden Anfrage bis zur gelieferten Order."
 icon: "timeline"
 ---
 
-A KAM moves a request through the system using the **real CateringRequest statuses** below. The happy
-path is inferred from the system's status groups — it is **not** a single hard-coded sequence, so real
-requests can skip or revisit steps.
+Ein KAM bewegt eine Anfrage durch das System anhand der **tatsächlichen CateringRequest-Status** unten. Der Happy
+Path ist aus den Status-Gruppen des Systems abgeleitet – es ist **keine** fest verdrahtete Sequenz, sodass echte
+Anfragen Schritte überspringen oder erneut durchlaufen können.
 
-## CateringRequest statuses (system values)
+## CateringRequest-Status (Systemwerte)
 
 | ID | Status | Label (DE) |
 | -- | --- | --- |
@@ -30,47 +30,47 @@ requests can skip or revisit steps.
 | 16 | LOST_REQUEST | Lost request |
 | 17 | DATE_CONFIRMED | Termin verbindlich reserviert |
 
-**Status groups:** *In progress* 1,2,3,5,11,12 · *Booked* 6,13,17 · *Completed* 14,15 ·
-*Rejected/lost* 4,7,8,9,10,16 · *"Needs attention" badge* 1,2,3,5,6,11,12.
+**Status-Gruppen:** *In Bearbeitung* 1,2,3,5,11,12 · *Gebucht* 6,13,17 · *Abgeschlossen* 14,15 ·
+*Abgelehnt/verloren* 4,7,8,9,10,16 · *„Benötigt Aufmerksamkeit"-Badge* 1,2,3,5,6,11,12.
 
-## The flow (what you do at each stage)
+## Der Flow (was du in welcher Phase tust)
 
 <Steps>
-  <Step title="New request — OPEN (1)">
-    Every catering request **starts in OPEN (1)** — the initial status before any caterers are
-    sourced. Review and qualify: city (**Berlin / München only**), date, headcount, budget, B2B or not.
+  <Step title="Neue Anfrage – OPEN (1)">
+    Jede Catering-Anfrage **startet in OPEN (1)** – der initiale Status, bevor Caterer gesucht werden.
+    Prüfe und qualifiziere: Stadt (**nur Berlin / München**), Datum, Personenzahl, Budget, B2B oder nicht.
   </Step>
-  <Step title="Source caterers — REQUESTED_FROM_CATERERS (2) → CONFIRMED_BY_CATERER (3)">
-    Match to caterer(s); a caterer confirms availability.
+  <Step title="Caterer suchen – REQUESTED_FROM_CATERERS (2) → CONFIRMED_BY_CATERER (3)">
+    Mit Caterer(n) matchen; ein Caterer bestätigt die Verfügbarkeit.
   </Step>
-  <Step title="Build & send the offer — OFFER_SENT_TO_CUSTOMER (5)">
-    Prepare the CateringOffer (it starts **UNFINISHED**, becomes **FINISHED**), then send it. "Sent" is
-    the `sent_to_customer_at` timestamp on the offer, **not** a status. Stornogarantie is auto-added
-    unless opted out (see [Key concepts](/kam-handbook/key-concepts)).
+  <Step title="Angebot erstellen & senden – OFFER_SENT_TO_CUSTOMER (5)">
+    Erstelle das CateringOffer (es startet als **UNFINISHED** und wird **FINISHED**), dann sende es. „Gesendet" ist
+    der Zeitstempel `sent_to_customer_at` auf dem Angebot, **kein** Status. Die Stornogarantie wird automatisch
+    hinzugefügt, sofern nicht abgewählt (siehe [Schlüsselbegriffe](/kam-handbook/key-concepts)).
   </Step>
-  <Step title="Customer dialogue — IN_EXCHANGE_WITH_CUSTOMER (11) / LAST_QUESTIONS (12)">
-    Answer questions, adjust the offer.
+  <Step title="Kundendialog – IN_EXCHANGE_WITH_CUSTOMER (11) / LAST_QUESTIONS (12)">
+    Beantworte Fragen, passe das Angebot an.
   </Step>
-  <Step title="Confirmation — CATERING_CONFIRMED (6) → DATE_CONFIRMED (17)">
-    Customer commits; date reserved. **The order and the 4-item checklist come into existence here.**
+  <Step title="Bestätigung – CATERING_CONFIRMED (6) → DATE_CONFIRMED (17)">
+    Kunde sagt verbindlich zu; Termin reserviert. **Die Order und die 4-Punkte-Checkliste entstehen hier.**
   </Step>
-  <Step title="Booked & fulfil — CATERING_BOOKED (13)">
-    Work the [post-booking checklist](/kam-handbook/post-booking-checklist).
+  <Step title="Gebucht & Umsetzung – CATERING_BOOKED (13)">
+    Arbeite die [Post-Booking-Checkliste](/kam-handbook/post-booking-checklist) ab.
   </Step>
-  <Step title="Delivery & close — CATERING_DELIVERED (14) → CATERING_DONE (15)">
-    Catering happens, then the request is closed out.
+  <Step title="Lieferung & Abschluss – CATERING_DELIVERED (14) → CATERING_DONE (15)">
+    Das Catering findet statt, anschließend wird die Anfrage abgeschlossen.
   </Step>
 </Steps>
 
 <Note>
-  Guard: the customer-feedback statuses (OFFER_SENT_TO_CUSTOMER, REJECTED_BY_CUSTOMER,
-  IN_EXCHANGE_WITH_CUSTOMER…) are only valid **once an offer has actually been sent**
-  (`sent_to_customer_at` is set). For terminal/lost cases, see
-  [When it goes sideways](/kam-handbook/when-it-goes-sideways).
+  Guard: Die kundenseitigen Feedback-Status (OFFER_SENT_TO_CUSTOMER, REJECTED_BY_CUSTOMER,
+  IN_EXCHANGE_WITH_CUSTOMER …) sind nur gültig, **sobald ein Angebot tatsächlich versendet wurde**
+  (`sent_to_customer_at` ist gesetzt). Für terminale/verlorene Fälle siehe
+  [Wenn es schiefläuft](/kam-handbook/when-it-goes-sideways).
 </Note>
 
 <Info>
-  Request transitions are logged in `catering_request_logs` (e.g. *Received request → Creating menu
-  proposals → … → Offer sent to customer → … → Invoice paid*). Ask the assistant "what happened on this
-  request and when" to read that audit trail via the connector.
+  Status-Übergänge werden in `catering_request_logs` protokolliert (z. B. *Received request → Creating menu
+  proposals → … → Offer sent to customer → … → Invoice paid*). Frag den Assistenten „was ist mit dieser
+  Anfrage wann passiert", um diesen Audit-Trail über den Connector zu lesen.
 </Info>

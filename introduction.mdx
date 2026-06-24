@@ -1,51 +1,51 @@
 ---
 title: "eGora KAM Knowledge Base"
-description: "The internal source of truth for Key Account Managers — and the knowledge that grounds the eGora KAM Assistant."
+description: "Die interne Quelle der Wahrheit für Key Account Manager – und das Wissen, das den eGora KAM Assistant trägt."
 icon: "house"
 ---
 
 <Note>
-  **Internal & access-controlled.** This knowledge base is for eGora KAMs. It is in an active
-  **real-testing** phase — some pages are still being grounded against real processes; treat anything not
-  yet reviewed as a draft.
+  **Intern & zugriffsbeschränkt.** Diese Knowledge Base ist für eGora KAMs. Sie befindet sich in einer aktiven
+  **Real-Testing-Phase** – einige Seiten werden noch gegen reale Prozesse abgeglichen; behandle alles, was
+  noch nicht geprüft ist, als Entwurf.
 </Note>
 
-This is one **git-backed source of truth** that serves two audiences at once:
+Dies ist eine **git-basierte Quelle der Wahrheit**, die zwei Zielgruppen gleichzeitig bedient:
 
 <CardGroup cols={2}>
-  <Card title="You, as a human" icon="user">
-    Read it here on the web — KAM processes, the IT/internal guides, and what shipped recently.
+  <Card title="Du als Mensch" icon="user">
+    Lies sie hier im Web – KAM-Prozesse, die IT/internen Guides und was zuletzt ausgerollt wurde.
   </Card>
-  <Card title="Claude, as your assistant" icon="robot">
-    The same content feeds the **eGora KAM Assistant** via MCP, so you can just *ask* instead of hunting.
+  <Card title="Claude als dein Assistent" icon="robot">
+    Dieselben Inhalte speisen den **eGora KAM Assistant** via MCP, sodass du einfach *fragen* kannst, statt zu suchen.
   </Card>
 </CardGroup>
 
-## What's here
+## Was hier zu finden ist
 
 <CardGroup cols={3}>
   <Card title="KAM Handbook" icon="book" href="/kam-handbook/what-is-this-kb">
-    How we run accounts: onboarding, management, escalation, offboarding.
+    Wie wir Accounts betreuen: Onboarding, Management, Eskalation, Offboarding.
   </Card>
-  <Card title="IT / Internal" icon="server" href="/it/overview">
-    Connecting Claude to eGora data, the KPI catalog, and release communication.
+  <Card title="IT / Intern" icon="server" href="/it/overview">
+    Claude mit eGora-Daten verbinden, der KPI-Katalog und Release-Kommunikation.
   </Card>
-  <Card title="Integrations" icon="plug" href="/integrations/overview">
-    How this KB connects to Claude, egora-data, Notion, Slack, and the changelog.
+  <Card title="Integrationen" icon="plug" href="/integrations/overview">
+    Wie diese KB mit Claude, egora-data, Notion, Slack und dem Changelog verbunden ist.
   </Card>
 </CardGroup>
 
-## How it stays current
+## Wie sie aktuell bleibt
 
 <Steps>
-  <Step title="Versioned in git">
-    Every change is a reviewable pull request in `Schaufenster/docs` — nothing changes silently.
+  <Step title="Versioniert in Git">
+    Jede Änderung ist ein prüfbarer Pull Request in `Schaufenster/docs` – nichts ändert sich stillschweigend.
   </Step>
-  <Step title="Shipped features auto-draft a changelog">
-    Mintlify's changelog automation drafts an entry when product code changes — see
-    [Release communication](/it/feature-changelog).
+  <Step title="Ausgelieferte Features erzeugen automatisch einen Changelog-Entwurf">
+    Mintlifys Changelog-Automatisierung entwirft einen Eintrag, wenn sich Produktcode ändert – siehe
+    [Release-Kommunikation](/it/feature-changelog).
   </Step>
-  <Step title="Claude reads the latest">
-    Because the same source feeds Claude via MCP, the assistant answers from current knowledge.
+  <Step title="Claude liest immer den aktuellen Stand">
+    Weil dieselbe Quelle Claude via MCP versorgt, antwortet der Assistent stets auf Basis des aktuellen Wissens.
   </Step>
 </Steps>

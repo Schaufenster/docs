@@ -1,33 +1,34 @@
 ---
-title: "KPI catalog (excerpt)"
-description: "Canonical KPI definitions so MCP/Claude analytics match the Catering KPI page exactly."
+title: "KPI-Katalog (Auszug)"
+description: "Kanonische KPI-Definitionen, damit MCP-/Claude-Analysen exakt zur Catering-KPI-Seite passen."
 icon: "chart-line"
 ---
 
-This is the canonical specification for the KPI cards on the Nova **Catering KPI page**. It exists so
-that **MCP-driven analytics** (Claude, scripts, dashboards) produces numbers **identical** to the in-app
-page.
+Dies ist die kanonische Spezifikation für die KPI-Kacheln auf der Nova-**Catering-KPI-Seite**. Sie
+existiert, damit **MCP-gestützte Analysen** (Claude, Skripte, Dashboards) Zahlen erzeugen, die
+**identisch** mit der In-App-Seite sind.
 
 <Note>
-  This page is a short **excerpt** of the full catalog (`docs/mcp/kpi-cards.md`, ~100 cards) — enough to
-  evaluate how reference-style tables and definitions render in Mintlify. When MCP computation diverges
-  from this spec, **the in-app page is authoritative**.
+  Diese Seite ist ein kurzer **Auszug** aus dem vollständigen Katalog (`docs/mcp/kpi-cards.md`,
+  ca. 100 Kacheln) — genug, um zu bewerten, wie referenzartige Tabellen und Definitionen in Mintlify
+  gerendert werden. Wenn die MCP-Berechnung von dieser Spezifikation abweicht, ist **die In-App-Seite
+  maßgeblich**.
 </Note>
 
-## Conventions
+## Konventionen
 
-These apply unless a card overrides them.
+Diese gelten, sofern eine Kachel sie nicht überschreibt.
 
-### Date fields
+### Datumsfelder
 
-| Pattern in the card description | Field used by `KpiResolver` |
+| Muster in der Kachelbeschreibung | Vom `KpiResolver` verwendetes Feld |
 | --- | --- |
 | "created_at date of the request" | `catering_requests.created_at` |
 | "completed_at date of the request" | `catering_requests.completed_at` |
 | "created_at date of the order" | `orders.created_at` |
 | "service_date of the order" | `orders.service_date` |
 
-### Status sets (from the `CateringRequest` model)
+### Status-Sets (aus dem `CateringRequest`-Modell)
 
 ```text
 acceptedOrWithOrder() = status_id IN (6, 13)  OR  has-undeleted-Order
@@ -35,60 +36,62 @@ completed()           = status_id IN (3,4,6,7,8,9,10,13,14,15,16,17)
 lost()                = status_id IN (7, 8, 9, 16)
 ```
 
-### B2B segmentation
+### B2B-Segmentierung
 
 | `b2b_flag` | SQL |
 | --- | --- |
 | `b2bOnly` | `catering_requests.company_id IS NOT NULL` |
 | `nonB2bOnly` | `catering_requests.company_id IS NULL` |
-| `allRequests` | no filter |
+| `allRequests` | kein Filter |
 
 <Warning>
-  All `*_eur` fields on MCP resources are **already euros** — do not divide by 100.
+  Alle `*_eur`-Felder auf MCP-Ressourcen sind **bereits in Euro** — nicht durch 100 teilen.
 </Warning>
 
-## Conversion Rate KPIs
+## Conversion-Rate-KPIs
 
-All cards here use a base set of `CateringRequest` filtered by a `created_at` window. The result is a
-percentage of a status-scoped numerator over the full denominator.
+Alle Kacheln hier verwenden eine Basismenge an `CateringRequest`, gefiltert nach einem
+`created_at`-Zeitfenster. Das Ergebnis ist ein Prozentsatz: ein statusbezogener Zähler über dem
+vollständigen Nenner.
 
 <AccordionGroup>
   <Accordion title="Converted — converted">
-    **Formula:** `count(acceptedOrWithOrder) / count(all) × 100`
-    · **Date field:** `catering_requests.created_at`
-    · **Canonical:** `CateringHelper::getConverted()`
+    **Formel:** `count(acceptedOrWithOrder) / count(all) × 100`
+    · **Datumsfeld:** `catering_requests.created_at`
+    · **Kanonisch:** `CateringHelper::getConverted()`
   </Accordion>
   <Accordion title="Completed — completed">
-    **Formula:** `count(completed status set) / count(all) × 100`
-    · **Canonical:** `CateringHelper::getCompleted()`
+    **Formel:** `count(completed status set) / count(all) × 100`
+    · **Kanonisch:** `CateringHelper::getCompleted()`
   </Accordion>
   <Accordion title="Lost — lost">
-    **Formula:** `count(lost status set) / count(all) × 100`
-    · **Canonical:** `CateringHelper::getLost()`
+    **Formel:** `count(lost status set) / count(all) × 100`
+    · **Kanonisch:** `CateringHelper::getLost()`
   </Accordion>
   <Accordion title="Lost vs Completed — lost-vs-completed">
-    **Formula:** `count(lost) / count(completed) × 100` (a ratio — denominator is `completed`, not
-    `all`) · **Canonical:** `CateringHelper::getLostVsCompleted()`
+    **Formel:** `count(lost) / count(completed) × 100` (ein Verhältnis — Nenner ist `completed`, nicht
+    `all`) · **Kanonisch:** `CateringHelper::getLostVsCompleted()`
   </Accordion>
 </AccordionGroup>
 
-### MCP recipe (applies to all rate cards above)
+### MCP-Rezept (gilt für alle Rate-Kacheln oben)
 
 <Steps>
-  <Step title="Count the denominator">
-    `list_catering_requests(date_from=…, date_to=…, b2b=…)` — paginate with `per_page=1` and read
+  <Step title="Zähle den Nenner">
+    `list_catering_requests(date_from=…, date_to=…, b2b=…)` — paginiere mit `per_page=1` und lies
     `total`.
   </Step>
-  <Step title="Count the numerator">
-    Same call with `catering_request_status_id ∈ {status set}`.
+  <Step title="Zähle den Zähler">
+    Gleicher Aufruf mit `catering_request_status_id ∈ {status set}`.
   </Step>
-  <Step title="Divide">
-    `result = numerator / denominator × 100`. Apply any extra filters (`lead_source_id`, `city`,
-    `kam_id`, `form_variant`) identically on both calls.
+  <Step title="Teile">
+    `result = numerator / denominator × 100`. Wende zusätzliche Filter (`lead_source_id`, `city`,
+    `kam_id`, `form_variant`) identisch auf beide Aufrufe an.
   </Step>
 </Steps>
 
 <Info>
-  Some cards can't be reproduced exactly with current MCP tools (e.g. the "qualified" flag isn't exposed
-  in `CateringRequestResource`). The full catalog flags every such gap inline.
+  Einige Kacheln lassen sich mit den aktuellen MCP-Tools nicht exakt reproduzieren (z. B. ist das
+  „qualified"-Flag in `CateringRequestResource` nicht exponiert). Der vollständige Katalog markiert
+  jede solche Lücke inline.
 </Info>

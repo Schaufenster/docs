@@ -1,142 +1,78 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "eGora KAM Knowledge Base",
+  "name": "eGora KAM-Wissensdatenbank",
   "colors": {
     "primary": "#38808a",
     "light": "#5BA3AD",
     "dark": "#092440"
   },
   "favicon": "/favicon.svg",
-  "description": "Internal knowledge base for eGora KAMs — auth-gated. Real-testing pilot.",
+  "description": "Interne Wissensdatenbank für eGora-KAMs — zugriffsbeschränkt. Real-Testing-Pilot.",
   "navigation": {
     "languages": [
       {
-        "language": "en",
+        "language": "de",
         "tabs": [
+      {
+        "tab": "KAM Handbuch",
+        "groups": [
           {
-            "tab": "KAM Handbook",
-            "groups": [
-              {
-                "group": "Overview",
-                "pages": [
-                  "introduction",
-                  "kam-handbook/what-is-this-kb",
-                  "kam-handbook/how-to-use"
-                ]
-              },
-              {
-                "group": "KAM Processes",
-                "pages": [
-                  "kam-handbook/request-lifecycle",
-                  "kam-handbook/post-booking-checklist",
-                  "kam-handbook/when-it-goes-sideways",
-                  "kam-handbook/key-concepts"
-                ]
-              }
+            "group": "Überblick",
+            "pages": [
+              "introduction",
+              "kam-handbook/what-is-this-kb",
+              "kam-handbook/how-to-use"
             ]
           },
           {
-            "tab": "IT / Internal",
-            "groups": [
-              {
-                "group": "Getting started",
-                "pages": ["it/overview"]
-              },
-              {
-                "group": "Guides",
-                "pages": ["it/mcp-setup", "it/kpi-catalog"]
-              },
-              {
-                "group": "Release communication",
-                "pages": ["it/feature-changelog"]
-              }
+            "group": "KAM-Prozesse",
+            "pages": [
+              "kam-handbook/request-lifecycle",
+              "kam-handbook/post-booking-checklist",
+              "kam-handbook/when-it-goes-sideways",
+              "kam-handbook/key-concepts"
             ]
-          },
-          {
-            "tab": "Integrations",
-            "groups": [
-              {
-                "group": "How the KB connects",
-                "pages": [
-                  "integrations/overview",
-                  "integrations/claude-setup",
-                  "integrations/egora-mcp",
-                  "integrations/notion",
-                  "integrations/slack-agent",
-                  "integrations/changelog"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "API reference",
-            "openapi": "/api-reference/openapi.json"
           }
         ]
       },
       {
-        "language": "de",
-        "tabs": [
+        "tab": "IT / Intern",
+        "groups": [
           {
-            "tab": "KAM Handbuch",
-            "groups": [
-              {
-                "group": "Überblick",
-                "pages": [
-                  "de/introduction",
-                  "de/kam-handbook/what-is-this-kb",
-                  "de/kam-handbook/how-to-use"
-                ]
-              },
-              {
-                "group": "KAM-Prozesse",
-                "pages": [
-                  "de/kam-handbook/request-lifecycle",
-                  "de/kam-handbook/post-booking-checklist",
-                  "de/kam-handbook/when-it-goes-sideways",
-                  "de/kam-handbook/key-concepts"
-                ]
-              }
-            ]
+            "group": "Erste Schritte",
+            "pages": ["it/overview"]
           },
           {
-            "tab": "IT / Intern",
-            "groups": [
-              {
-                "group": "Erste Schritte",
-                "pages": ["de/it/overview"]
-              },
-              {
-                "group": "Anleitungen",
-                "pages": ["de/it/mcp-setup", "de/it/kpi-catalog"]
-              },
-              {
-                "group": "Release-Kommunikation",
-                "pages": ["de/it/feature-changelog"]
-              }
-            ]
+            "group": "Anleitungen",
+            "pages": ["it/mcp-setup", "it/kpi-catalog"]
           },
           {
-            "tab": "Integrationen",
-            "groups": [
-              {
-                "group": "So ist die KB verbunden",
-                "pages": [
-                  "de/integrations/overview",
-                  "de/integrations/claude-setup",
-                  "de/integrations/egora-mcp",
-                  "de/integrations/notion",
-                  "de/integrations/slack-agent",
-                  "de/integrations/changelog"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "API-Referenz",
-            "openapi": "/api-reference/openapi.json"
+            "group": "Release-Kommunikation",
+            "pages": ["it/feature-changelog"]
           }
+        ]
+      },
+      {
+        "tab": "Integrationen",
+        "groups": [
+          {
+            "group": "So ist die KB verbunden",
+            "pages": [
+              "integrations/overview",
+              "integrations/claude-setup",
+              "integrations/egora-mcp",
+              "integrations/notion",
+              "integrations/slack-agent",
+              "integrations/changelog"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API-Referenz",
+        "openapi": "/api-reference/openapi.json"
+      }
         ]
       }
     ]

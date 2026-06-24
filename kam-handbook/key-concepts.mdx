@@ -1,55 +1,55 @@
 ---
-title: "Key concepts & vocabulary"
-description: "The eGora terms a KAM needs — caterer/branch, Stornogarantie, GMV — grounded in the system."
+title: "Schlüsselbegriffe & Vokabular"
+description: "Die eGora-Begriffe, die ein KAM kennen muss – Caterer/Filiale, Stornogarantie, GMV – verankert im System."
 icon: "book-bookmark"
 ---
 
-Core vocabulary, grounded in eGora's codebase. Where the business meaning beyond the code isn't defined,
-it's marked.
+Kernvokabular, verankert in der eGora-Codebasis. Wo die fachliche Bedeutung über den Code hinaus nicht
+definiert ist, wird das markiert.
 
-## Objects
+## Objekte
 
 <CardGroup cols={2}>
   <Card title="CateringRequest" icon="inbox">
-    The inbound request/lead: headcount, date/time, budget, B2B flag, lead source, assigned KAM. One
-    request can lead to one or more offers.
+    Die eingehende Anfrage/der Lead: Personenzahl, Datum/Uhrzeit, Budget, B2B-Flag, Lead-Quelle, zugewiesener KAM. Eine
+    Anfrage kann zu einem oder mehreren Angeboten führen.
   </Card>
   <Card title="CateringOffer" icon="file-invoice">
-    An offer/quote on a request. Marked *sent* via the `sent_to_customer_at` timestamp (not a status).
-    An accepted offer becomes an Order.
+    Ein Angebot zu einer Anfrage. Als *gesendet* markiert über den Zeitstempel `sent_to_customer_at` (kein Status).
+    Aus einem angenommenen Angebot wird eine Order.
   </Card>
   <Card title="Order" icon="receipt">
-    The booked/paid transaction from an accepted offer. Carries the order status, the Stornogarantie line
-    item, and the [post-booking checklist](/kam-handbook/post-booking-checklist).
+    Die gebuchte/bezahlte Transaktion aus einem angenommenen Angebot. Trägt den Order-Status, die Stornogarantie-Position
+    und die [Post-Booking-Checkliste](/kam-handbook/post-booking-checklist).
   </Card>
-  <Card title="Customer vs Company (B2B)" icon="building">
-    A request has a customer and an `is_b2b` flag; companies are a separate B2B entity (billing profiles,
-    company users, event formats). *The precise distinction beyond the B2B flag is not spelled out in
-    code — confirm with the team if it matters.*
+  <Card title="Customer vs. Company (B2B)" icon="building">
+    Eine Anfrage hat einen Customer und ein `is_b2b`-Flag; Companies sind eine eigene B2B-Entität (Abrechnungsprofile,
+    Company-User, Event-Formate). *Die genaue Abgrenzung über das B2B-Flag hinaus ist im Code nicht
+    ausformuliert – kläre das mit dem Team, falls es darauf ankommt.*
   </Card>
 </CardGroup>
 
-## Caterer side
+## Caterer-Seite
 
-- **Retailer = caterer** — a catering business on the marketplace.
-- **Branch = a caterer location** — a retailer can have several branches, each with its own opening
-  hours, minimum order value and delivery support.
+- **Retailer = Caterer** – ein Catering-Unternehmen auf dem Marktplatz.
+- **Branch = Caterer-Standort** – ein Retailer kann mehrere Branches haben, jede mit eigenen Öffnungszeiten,
+  Mindestbestellwert und Lieferunterstützung.
 
-## Key terms
+## Schlüsselbegriffe
 
-- **Stornogarantie (cancellation guarantee)** — a tiered line item auto-added to offers/orders (SKU
-  prefix `EGORA-STORNOGARANTIE`), in four tiers (T1–T4) that scale with order value. On an **offer** it's
-  added/updated automatically unless the KAM opts out (`exclude_stornogarantie`); on an **order** it only
-  **resizes**, never auto-adds. The opt-out carries from offer to order.
-- **KAM** — Key Account Manager: owns a request end-to-end.
-- **GMV** — gross merchandise value (booked order value). The internal KPI dashboards exclude Checkout,
-  Storno/Cancelled and Payment-failed orders from booked-GMV totals.
+- **Stornogarantie** – eine gestaffelte Position, die automatisch zu Angeboten/Orders hinzugefügt wird (SKU-Präfix
+  `EGORA-STORNOGARANTIE`), in vier Stufen (T1–T4), die mit dem Auftragswert skalieren. Auf einem **Angebot** wird
+  sie automatisch hinzugefügt/aktualisiert, sofern der KAM nicht abwählt (`exclude_stornogarantie`); auf einer **Order**
+  wird sie nur **angepasst**, nie automatisch hinzugefügt. Die Abwahl wird vom Angebot auf die Order übernommen.
+- **KAM** – Key Account Manager: verantwortet eine Anfrage Ende-zu-Ende.
+- **GMV** – Gross Merchandise Value (gebuchter Auftragswert). Die internen KPI-Dashboards schließen Checkout-,
+  Storno-/Cancelled- und Payment-failed-Orders aus den gebuchten GMV-Summen aus.
 
-## Where eGora operates
+## Wo eGora aktiv ist
 
-**Berlin and München only** — the only cities seeded in the system. Timezone: Europe/Berlin.
+**Nur Berlin und München** – die einzigen Städte, die im System angelegt sind. Zeitzone: Europe/Berlin.
 
 <Warning>
-  The assistant cannot see customer **personal data** (names, emails, phones, addresses, free-text
-  notes) — those are redacted in the data connector. It won't invent them.
+  Der Assistent kann **personenbezogene Daten** der Kunden (Namen, E-Mails, Telefonnummern, Adressen,
+  Freitextnotizen) nicht sehen – sie sind im Daten-Connector bereinigt. Er erfindet sie nicht.
 </Warning>
