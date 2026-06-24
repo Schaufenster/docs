@@ -1,0 +1,126 @@
+---
+title: "Claude mit eGora-Daten verbinden (MCP)"
+description: "Verbinde Claude per OAuth mit dem eGora-Datenserver, um Aufträge, Anfragen, Firmen und KPIs im Chat abzufragen."
+icon: "plug"
+---
+
+Hiermit verbindest du **Claude** mit dem eGora-Datenserver, sodass du Fragen zu Aufträgen,
+Catering-Anfragen, Firmen, KPIs und mehr stellen kannst — direkt im Chat, gegen Live-Daten
+(PII-redigiert).
+
+<Note>
+  Es gibt **zwei** Wege, eine Verbindung herzustellen, je nachdem, welches Claude du nutzt. **OAuth ist
+  Standard** für Claude im Web (Cowork / Teams) und am einfachsten. Die **Token**-Methode ist nur für
+  Claude Code (CLI) und Claude-Desktop-Power-User.
+</Note>
+
+## Option A — OAuth (Claude Web / Cowork / Teams) — empfohlen
+
+Kein Token zum Kopieren und kein Client zu erstellen — Claude registriert sich selbst, und du musst
+nur autorisieren.
+
+### Voraussetzungen
+- Du bist **eGora-Nova-Nutzer** mit der Rolle **`admin`**. Falls nicht, bitte Steffen, deinen Nutzer
+  anzulegen und die Rolle zuzuweisen (Nova → Users).
+
+### Verbinden
+
+<Steps>
+  <Step title="Custom Connector hinzufügen">
+    Gehe in Claude zu **Settings → Connectors → Add custom connector**.
+  </Step>
+  <Step title="URL einfügen, den Rest leer lassen">
+    URL: `https://egora-catering.de/mcp` — **Client ID und Client Secret leer lassen.**
+  </Step>
+  <Step title="Verbinden & autorisieren">
+    Klicke auf **Connect**. Du wirst weitergeleitet, um dich **als du selbst in eGoras Nova
+    einzuloggen**, und klickst dann auf **Authorize**. Fertig — der Connector ist aktiv.
+  </Step>
+</Steps>
+
+### Testen
+Öffne einen Chat und frage:
+
+> *Wie viele B2B-Catering-Anfragen hatten wir in den letzten 7 Tagen, gruppiert nach Stadt?*
+
+Claude sollte `list-catering-requests` aufrufen und mit echten Zahlen antworten.
+
+## Option B — Token (Claude Code / Desktop Power-User)
+
+Claude Code (CLI) und ältere Claude-Desktop-Versionen verwenden ein **Personal Access Token (PAT)**
+statt OAuth.
+
+### Voraussetzungen
+- Ein **Personal Access Token** für eGora — fordere es bei Steffen an. Format `4|XXXX…`. **Teile es
+  niemals.**
+
+### Claude Code
+```bash
+claude mcp add --transport http egora-data https://egora-catering.de/mcp \
+  --header "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+
+### Claude Desktop (Konfigurationsdatei)
+**Settings → Developer → Local MCP servers → Edit config**, dann innerhalb von `mcpServers`
+hinzufügen:
+
+<CodeGroup>
+```json HTTP (recent versions)
+{
+  "mcpServers": {
+    "egora-data": {
+      "type": "http",
+      "url": "https://egora-catering.de/mcp",
+      "headers": { "Authorization": "Bearer YOUR_TOKEN_HERE" }
+    }
+  }
+}
+```
+
+```json mcp-remote (older versions, needs Node.js)
+{
+  "mcpServers": {
+    "egora-data": {
+      "command": "npx",
+      "args": [
+        "-y", "mcp-remote", "https://egora-catering.de/mcp",
+        "--header", "Authorization: Bearer YOUR_TOKEN_HERE"
+      ]
+    }
+  }
+}
+```
+</CodeGroup>
+
+Ersetze `YOUR_TOKEN_HERE` durch dein echtes Token (inklusive `4|`-Präfix), speichere, und **beende
+Claude Desktop vollständig** (`⌘ Q`), bevor du es wieder öffnest.
+
+<Warning>
+  Das Token steht **im Klartext** in `claude_desktop_config.json`. Niemals committen oder
+  synchronisieren. Falls es leakt, lass Steffen das Token sofort widerrufen.
+</Warning>
+
+## Staging vs Produktion
+
+| Produktion | Staging |
+| --- | --- |
+| `https://egora-catering.de/mcp` | `https://staging.egora-catering.de/mcp` |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="OAuth: 'Authorize'-Seite lädt nicht oder Login klappt nicht">
+    Du brauchst einen eGora-Nova-Nutzer mit der Rolle `admin` — bitte Steffen, das einzurichten.
+  </Accordion>
+  <Accordion title="Token: 'failed' direkt nach dem Verbinden">
+    Token ungültig oder abgelaufen — fordere ein neues bei Steffen an.
+  </Accordion>
+  <Accordion title="Token: 'unknown transport type'">
+    Claude Desktop ist zu alt für `"type": "http"` — nutze die **mcp-remote**-Variante (benötigt
+    Node.js).
+  </Accordion>
+  <Accordion title="Verbunden, aber Claude sagt, es habe keinen Zugriff">
+    Im aktuellen Chat wurde noch keine Tool-Berechtigung erteilt — aktiviere die Tools des Connectors
+    im Chat.
+  </Accordion>
+</AccordionGroup>

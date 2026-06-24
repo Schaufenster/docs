@@ -1,0 +1,29 @@
+---
+title: "Wenn eine Anfrage schiefläuft"
+description: "Die richtigen terminalen Status, damit das Reporting sauber bleibt, wenn eine Anfrage nicht konvertiert."
+icon: "triangle-exclamation"
+---
+
+Wenn eine Anfrage nicht konvertieren wird, setze den **korrekten terminalen Status**, damit Reporting und
+Conversion-Metriken sauber bleiben. Nimm den echten Status, keine Sammelkategorie.
+
+| Situation | Zu setzender Status |
+| --- | --- |
+| Caterer kann es nicht umsetzen | **REJECTED_BY_CATERER (4)** |
+| Kunde sagt nein | **REJECTED_BY_CUSTOMER (7)** |
+| Kunde storniert später | **CANCELLED_BY_CUSTOMER (8)** |
+| Kunde meldet sich nicht mehr | **LOST_NO_RESPONSE (9)** |
+| Anderweitig verloren | **LOST_REQUEST (16)** |
+| eGora lehnt ab | **DENIED_BY_EGORA (10)** |
+
+<Note>
+  Diese gehören zur Status-Gruppe *Abgelehnt / verloren* (4, 7, 8, 9, 10, 16) im
+  [Lifecycle](/de/kam-handbook/request-lifecycle).
+</Note>
+
+<Warning>
+  Hier geht es um **Status-Hygiene bei Anfragen**, nicht um eine formale Eskalations-SOP. eGora hat aktuell
+  keinen einzelnen, systemseitig definierten „Eskalationsprozess" – Eskalationen leben in verstreuten
+  Arbeitsdokumenten. Wenn du den aktuellen Stand brauchst, bitte den Assistenten, **Notion** zu prüfen
+  (er sagt dir ehrlich, wenn kein konsolidierter Entwurf existiert, statt einen zu erfinden).
+</Warning>

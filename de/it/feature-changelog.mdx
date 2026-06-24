@@ -1,0 +1,93 @@
+---
+title: "Release-Kommunikation"
+description: "Das Muster, um ausgelieferte Features an KAM, Kunden und Caterer zu kommunizieren — damit nichts still und leise live geht."
+icon: "megaphone"
+---
+
+Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, ohne kommuniziert zu
+werden** — an die Personen, die sie betrifft. Diese Seite zeigt ein wiederholbares Muster, sodass ein
+Feature nicht als „fertig" gilt, bevor seine nutzerseitige Änderung für jede Zielgruppe schriftlich
+festgehalten ist.
+
+<Note>
+  Die folgenden Einträge sind **illustrative Beispiele**, um das Format zu zeigen — keine echten
+  Release Notes.
+</Note>
+
+## Das Muster
+
+Jedes ausgelieferte Feature bekommt einen Changelog-Eintrag, der drei Fragen beantwortet:
+
+<Steps>
+  <Step title="Was hat sich geändert (ein Satz)">
+    Klartext, kein Fachjargon — das Verhalten, das ein Nutzer bemerken würde.
+  </Step>
+  <Step title="Wer ist betroffen">
+    Markiere die Zielgruppen: **KAM**, **Kunden**, **Caterer**. Wenn eine Zielgruppe betroffen ist,
+    muss der Eintrag sagen, was *sie* anders machen sollten.
+  </Step>
+  <Step title="Wo gibt es mehr Infos">
+    Verlinke auf die relevante Seite im Kunden- oder Caterer-Tab, damit Ankündigung und Referenz-Doku
+    synchron bleiben.
+  </Step>
+</Steps>
+
+## Changelog
+
+<Update label="2026-06 · Beispiel" description="Anrede pro Kunde (Du / Sie)">
+  Kunden können jetzt konsistent über E-Mails, das Kunden-Backend, Umfragen und PDFs hinweg formell
+  (**Sie**) oder informell (**Du**) angesprochen werden.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Lege den Anredestil im Kundendatensatz fest. Standard ist informell (**Du**).
+    </Card>
+    <Card title="Kunden" icon="user">
+      Ausgehende Kommunikation passt sich automatisch dem gewählten Ton an — keine Aktion nötig.
+    </Card>
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-06 · Beispiel" description="Stornogarantie auf Auftragsebene">
+  Die Stornogarantie-Stufe folgt jetzt automatisch der **Auftragssumme**, und KAM kann einen einzelnen
+  Auftrag davon ausnehmen. Eingefroren wird, sobald der Auftrag fakturiert oder bezahlt ist.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Neuer Opt-out-Schalter pro Auftrag. Die Stufe passt sich von selbst an — keine manuelle
+      Neuberechnung nötig.
+    </Card>
+    <Card title="Kunden" icon="user">
+      Die Garantie-Zeile auf dem Angebot spiegelt die aktuelle Auftragsgröße wider.
+    </Card>
+    <Card title="Caterer" icon="utensils">
+      Die Stornogarantie-Zeile erscheint nicht mehr auf dem Lieferschein.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-06 · Beispiel" description="Layer-Matching im Caterer-Matching deaktivieren">
+  KAM kann das Caterer-Matching auf eine flache, alphabetische Liste aller veröffentlichten Caterer
+  umstellen, um direkt auszuwählen und die Scoring-Layer zu umgehen.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Neuer Schalter „Layer-Matching deaktivieren" im Matching-Tool.
+    </Card>
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Tip>
+  Da das Ganze in Git lebt, ist jeder Eintrag in einem Pull Request reviewbar — und da Mintlify
+  `llms.txt` bereitstellt, können dieselben Notizen den Claude-Team-„eGora KAM Assistant" grounden,
+  sodass KAM einfach *fragen* kann, was sich geändert hat.
+</Tip>

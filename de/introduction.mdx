@@ -1,0 +1,51 @@
+---
+title: "eGora KAM Knowledge Base"
+description: "Die interne Quelle der Wahrheit für Key Account Manager – und das Wissen, das den eGora KAM Assistant trägt."
+icon: "house"
+---
+
+<Note>
+  **Intern & zugriffsbeschränkt.** Diese Knowledge Base ist für eGora KAMs. Sie befindet sich in einer aktiven
+  **Real-Testing-Phase** – einige Seiten werden noch gegen reale Prozesse abgeglichen; behandle alles, was
+  noch nicht geprüft ist, als Entwurf.
+</Note>
+
+Dies ist eine **git-basierte Quelle der Wahrheit**, die zwei Zielgruppen gleichzeitig bedient:
+
+<CardGroup cols={2}>
+  <Card title="Du als Mensch" icon="user">
+    Lies sie hier im Web – KAM-Prozesse, die IT/internen Guides und was zuletzt ausgerollt wurde.
+  </Card>
+  <Card title="Claude als dein Assistent" icon="robot">
+    Dieselben Inhalte speisen den **eGora KAM Assistant** via MCP, sodass du einfach *fragen* kannst, statt zu suchen.
+  </Card>
+</CardGroup>
+
+## Was hier zu finden ist
+
+<CardGroup cols={3}>
+  <Card title="KAM Handbook" icon="book" href="/de/kam-handbook/what-is-this-kb">
+    Wie wir Accounts betreuen: Onboarding, Management, Eskalation, Offboarding.
+  </Card>
+  <Card title="IT / Intern" icon="server" href="/de/it/overview">
+    Claude mit eGora-Daten verbinden, der KPI-Katalog und Release-Kommunikation.
+  </Card>
+  <Card title="Integrationen" icon="plug" href="/de/integrations/overview">
+    Wie diese KB mit Claude, egora-data, Notion, Slack und dem Changelog verbunden ist.
+  </Card>
+</CardGroup>
+
+## Wie sie aktuell bleibt
+
+<Steps>
+  <Step title="Versioniert in Git">
+    Jede Änderung ist ein prüfbarer Pull Request in `Schaufenster/docs` – nichts ändert sich stillschweigend.
+  </Step>
+  <Step title="Ausgelieferte Features erzeugen automatisch einen Changelog-Entwurf">
+    Mintlifys Changelog-Automatisierung entwirft einen Eintrag, wenn sich Produktcode ändert – siehe
+    [Release-Kommunikation](/de/it/feature-changelog).
+  </Step>
+  <Step title="Claude liest immer den aktuellen Stand">
+    Weil dieselbe Quelle Claude via MCP versorgt, antwortet der Assistent stets auf Basis des aktuellen Wissens.
+  </Step>
+</Steps>
