@@ -1,0 +1,29 @@
+---
+title: "When a request goes sideways"
+description: "The correct terminal statuses to use so reporting stays clean when a request doesn't convert."
+icon: "triangle-exclamation"
+---
+
+When a request won't convert, set the **correct terminal status** so reporting and conversion metrics
+stay clean. Use the real status, not a catch-all.
+
+| Situation | Status to set |
+| --- | --- |
+| Caterer can't do it | **REJECTED_BY_CATERER (4)** |
+| Customer says no | **REJECTED_BY_CUSTOMER (7)** |
+| Customer cancels later | **CANCELLED_BY_CUSTOMER (8)** |
+| Customer goes silent | **LOST_NO_RESPONSE (9)** |
+| Otherwise lost | **LOST_REQUEST (16)** |
+| eGora declines it | **DENIED_BY_EGORA (10)** |
+
+<Note>
+  These map to the *Rejected / lost* status group (4, 7, 8, 9, 10, 16) in the
+  [lifecycle](/kam-handbook/request-lifecycle).
+</Note>
+
+<Warning>
+  This is about **request status hygiene**, not a formal escalation SOP. eGora does not currently have a
+  single system-defined "escalation process" — escalation handling lives in scattered working docs. If
+  you need the latest thinking, ask the assistant to check **Notion** (it will tell you honestly if no
+  consolidated draft exists, rather than invent one).
+</Warning>

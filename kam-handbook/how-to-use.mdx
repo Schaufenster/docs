@@ -1,76 +1,38 @@
 ---
-title: "How to Use the Egora KAM Knowledge Base Effectively"
-sidebarTitle: "How to Use"
-description: "A practical guide to navigating, searching, and getting the most out of the Egora KAM Knowledge Base, including AI queries and contributing updates."
+title: "How to use this KB"
+description: "Read it on the web, or ask the eGora KAM Assistant — and which source answers which question."
+icon: "compass"
 ---
 
-The KAM Knowledge Base is designed to be your first stop for any account management question — whether you're onboarding a new customer, handling an escalation, or looking up a caterer's SLA. The faster you can find what you need, the faster you can act. This guide shows you how to get the most out of it.
+You can use this knowledge two ways.
 
-## Navigating the docs
+<CardGroup cols={2}>
+  <Card title="Read it here" icon="book-open">
+    Browse the **KAM Handbook**, **IT / Internal**, and **Integrations** tabs.
+  </Card>
+  <Card title="Ask the assistant" icon="robot">
+    The **eGora KAM Assistant** (Claude) reads this KB live and can also pull live data and Notion.
+  </Card>
+</CardGroup>
 
-The KB is organised into two main tabs, visible in the top navigation:
+## Which source answers which question
 
-- **KAM Handbook** — Your operational home. This tab contains all process documentation: onboarding scripts, escalation playbooks, renewal workflows, customer guides, and caterer resources. If it's something you *do* as a KAM, it lives here.
-- **Integrations & Tools** — The technical backbone. This tab covers every connected source (Notion, Slack, Git, Gleap) and AI setup instructions, including how to connect and query Claude Teams. If it's something that *powers* the KB, it lives here.
+The assistant is wired to three sources. It picks based on what you ask:
 
-Use the left-hand sidebar within each tab to browse by section. The sidebar hierarchy mirrors your workflow — start with onboarding, move through account management, and reach escalation and offboarding as needed.
+| Your question | Source |
+| --- | --- |
+| "How does X work / what's the process?" | **This KB** (Mintlify) |
+| "What's the current status / count of record Y?" | **egora-data** (live, PII-redacted) |
+| "What's the latest draft / not-yet-official?" | **Notion** |
 
-## Searching effectively
+## What the assistant will and won't do
 
-The search bar at the top of every page searches across the entire KB — all tabs, all sections — in real time. To get the most relevant results:
-
-- **Use specific terms.** "Payment dispute escalation" returns sharper results than "payment problem."
-- **Search by company name or issue type.** If you're dealing with a specific customer or a recurring issue, search that term directly.
-- **Combine keywords.** Pairing a process with a context (e.g. "caterer offboarding SLA" or "new customer onboarding checklist") narrows results quickly.
-
-<CodeGroup>
-
-```text Example search queries
-same-day cancellation policy
-caterer SLA breach
-customer budget approval workflow
-escalation path payment dispute
-onboarding email template
-Gleap ticket routing
-caterer menu update request
-renewal negotiation playbook
-```
-
-</CodeGroup>
-
-## Using with Claude Teams
-
-Once Claude Teams is connected to this KB, you can ask account management questions in plain language and receive answers sourced directly from these docs — no browsing required.
-
-Instead of searching for the right article, open your Claude Teams interface and ask naturally:
-
-- *"What's the escalation path for a payment dispute?"*
-- *"What should I cover in a 90-day customer review?"*
-- *"What are the SLA thresholds for caterer performance reviews?"*
-
-Claude will pull the relevant information from the KB and present it in context. This is especially useful when you're mid-call and need a quick answer without switching tabs.
-
-For setup instructions and configuration steps, see [Claude Teams Setup](/integrations/claude-teams-setup).
-
-## Contributing updates
-
-The KB syncs automatically from its source systems — so the best way to keep it accurate is to update the right source, not the KB page itself.
-
-- **For process changes:** Update the relevant Notion page. The KB will sync the new content automatically, typically within a few hours.
-- **For quick updates or corrections:** Post a highlighted message in the designated Slack channel (`#knowledge-base`). The KB owner will review it and update the Notion source if needed.
-- **For customer-specific context:** Add a note in Gleap against the relevant customer record. Recurring themes from Gleap notes are periodically reviewed and folded into FAQ and troubleshooting articles.
+<Check>It drafts customer replies and offer text (German, informal "Du", with placeholders).</Check>
+<Check>It looks up live request/order status and counts via the connector.</Check>
+<Check>It walks you through the lifecycle and the post-booking checklist.</Check>
 
 <Warning>
-  Do not edit KB pages directly unless you are the KB owner. Changes made here may be overwritten by the next sync from Notion or another connected source, and your edits will be lost without warning.
+  It will **not** invent prices, dates, quantities, statuses or IDs, and it does **not** take binding
+  actions (sending offers, confirming bookings, invoicing, refunds) — those stay in the eGora backend,
+  with you.
 </Warning>
-
-<Accordion title="What if I find outdated information?">
-  If you spot something that's incorrect, incomplete, or no longer reflects how things work, here's how to report it:
-
-  1. **Note the page title and section** where you found the outdated content.
-  2. **Post a message in `#knowledge-base`** on Slack, including the page name, what's wrong, and (if you know it) what the correct information should be.
-  3. **The KB owner will triage the report** — either updating the Notion source doc directly or flagging it for the relevant team lead to review.
-  4. **Expect a sync within 24–48 hours** for routine corrections. Urgent updates (e.g. incorrect escalation paths or broken integrations) are prioritised and typically resolved the same day.
-
-  You can also tag the KB owner directly in Slack if the issue is time-sensitive.
-</Accordion>

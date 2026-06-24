@@ -1,61 +1,36 @@
 ---
-title: "What Is the Egora KAM Knowledge Base? Full Overview"
-sidebarTitle: "About This KB"
-description: "Understand the structure, purpose, and scope of the Egora KAM Knowledge Base — your single source of truth for account management."
+title: "What this KB is"
+description: "The internal source of truth for eGora KAMs — what's in it, how grounded it is, and how to read it."
+icon: "circle-info"
 ---
 
-This knowledge base is the central hub for everything KAMs at Egora need — from onboarding scripts to escalation playbooks, customer FAQs to caterer guides. Whether you're handling your first account or your fiftieth, everything you need to do your job confidently lives here.
+This is the internal knowledge base for eGora **Key Account Managers (KAMs)**. A KAM owns a catering
+request end-to-end: from an inbound request, through matching caterers and sending an offer, to a booked
+order delivered and invoiced.
 
-## Why this KB exists
+<Note>
+  **Real-testing phase.** Pages are grounded in eGora's actual system (real statuses, the real
+  post-booking checklist). Where something is a **working convention** rather than enforced by the
+  system, the page says so. If a process isn't formalized, this KB says that too — it does not invent
+  one.
+</Note>
 
-Before the KB, information was scattered across Notion pages, Slack DMs, and individual spreadsheets. Finding the right escalation path meant pinging three colleagues. Checking a caterer's SLA meant digging through a shared drive. Onboarding a new customer meant relying on whoever sat next to you.
+## How grounded each page is
 
-<Info>
-  The Egora KAM Knowledge Base was created to end that fragmentation. It consolidates all process documentation, customer guides, caterer resources, and integration references into one searchable, always-current source of truth — so you spend less time hunting for information and more time building relationships.
-</Info>
+| Page | Grounding |
+| --- | --- |
+| [Request lifecycle](/kam-handbook/request-lifecycle) | **System statuses** — the real CateringRequest status IDs/labels |
+| [Post-booking checklist](/kam-handbook/post-booking-checklist) | **System-tracked** — the real 4-item KAM checklist on the order |
+| [When it goes sideways](/kam-handbook/when-it-goes-sideways) | **System statuses** — the correct terminal statuses |
+| [Key concepts](/kam-handbook/key-concepts) | **Codebase facts** (Stornogarantie, GMV, retailer/branch) |
 
-## What's inside
+## Two surfaces, one source
 
-<CardGroup cols={2}>
-  <Card title="KAM Processes" icon="briefcase">
-    Step-by-step playbooks for onboarding, escalations, renewals, and day-to-day account management workflows.
-  </Card>
-  <Card title="Customer Guide" icon="building">
-    Everything your corporate customers need — from placing orders to managing budgets and resolving issues.
-  </Card>
-  <Card title="Caterer Guide" icon="utensils">
-    Resources for caterer onboarding, SLA expectations, menu management, and performance reviews.
-  </Card>
-  <Card title="Integrations" icon="plug">
-    Documentation for all connected tools — Notion sync, Slack capture, Git change tracking, Gleap, and Claude Teams.
-  </Card>
-</CardGroup>
+This KB is read both by **you on the web** and by the **eGora KAM Assistant** (Claude) via MCP — so you
+can either read it here or just ask the assistant. The assistant is told to treat this KB as the
+**authoritative** source for "how does X work" questions.
 
-## How content stays current
-
-You don't need to maintain this KB manually. Content flows in automatically from every source your team already uses.
-
-<Steps>
-  <Step title="Notion sync">
-    Process documentation and internal guides are authored in Notion. Any time a Notion page is updated, the corresponding KB section syncs automatically — so you're always reading the latest version.
-  </Step>
-  <Step title="Slack highlights">
-    Important updates, policy changes, and quick fixes posted in designated Slack channels are captured and surfaced in the relevant KB sections. Nothing important gets buried in a thread.
-  </Step>
-  <Step title="Git commit tracking">
-    When product changes are released, commit messages and release notes are pulled into the KB — so you always know what changed in the platform before your customers ask about it.
-  </Step>
-  <Step title="Gleap customer messages">
-    Real feedback and recurring questions from customers submitted via Gleap are reviewed and folded into FAQs and troubleshooting guides, adding authentic customer voice to the documentation.
-  </Step>
-</Steps>
-
-## Search and AI
-
-You can find any topic in this KB using the **search bar** at the top of the page. Search by process name, company name, issue type, or any keyword — results surface content from across all sections instantly.
-
-Once Claude Teams is configured for your workspace, you can go further: ask questions in natural language directly in your Claude Teams interface. Instead of browsing, just ask — *"What's the SLA for a same-day catering cancellation?"* or *"Walk me through the payment dispute escalation path"* — and get an answer drawn directly from this KB.
-
-<Tip>
-  If something is missing or outdated, flag it in the **#knowledge-base** Slack channel. The KB owner reviews submissions weekly and will update the source doc or prioritise a new article.
-</Tip>
+<Warning>
+  The assistant relays what's in this KB. If a page is wrong, the assistant will confidently repeat it —
+  so flag inaccuracies (a Slack `@mention` or a PR) rather than letting them stand.
+</Warning>

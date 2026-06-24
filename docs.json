@@ -25,10 +25,10 @@
           {
             "group": "KAM Processes",
             "pages": [
-              "kam-handbook/onboarding-accounts",
-              "kam-handbook/account-management",
-              "kam-handbook/escalation-playbook",
-              "kam-handbook/offboarding-accounts"
+              "kam-handbook/request-lifecycle",
+              "kam-handbook/post-booking-checklist",
+              "kam-handbook/when-it-goes-sideways",
+              "kam-handbook/key-concepts"
             ]
           }
         ]

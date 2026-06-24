@@ -1,0 +1,52 @@
+---
+title: "Post-booking checklist"
+description: "The real 4-item KAM checklist eGora tracks on each order once a request is booked."
+icon: "list-check"
+---
+
+Once a request reaches **DATE_CONFIRMED (17)** and an order exists, eGora tracks a **4-item KAM
+checklist per order** (in the OrderHub). Each item is an email that needs to go out.
+
+<Steps>
+  <Step title="Order Confirmation → Customer">
+    Field: `order_confirmation_sent_customer`
+  </Step>
+  <Step title="Order Confirmation → Caterer">
+    Field: `order_confirmation_sent_caterer`
+  </Step>
+  <Step title="Delivery Sheet → Caterer">
+    Field: `delivery_note_sent`
+  </Step>
+  <Step title="Invoice → Customer">
+    Field: `invoice_sent`
+  </Step>
+</Steps>
+
+## How it behaves (system facts)
+
+<CardGroup cols={2}>
+  <Card title="Auto-created" icon="wand-magic-sparkles">
+    Created automatically when the request transitions to **DATE_CONFIRMED** (with a fallback that
+    creates it when the offer→order link is established).
+  </Card>
+  <Card title="Needs an order linked" icon="link">
+    It requires the order to be linked to a catering request.
+  </Card>
+  <Card title="Syncs to HubSpot" icon="rotate">
+    Checklist changes sync to HubSpot automatically.
+  </Card>
+  <Card title="Check, don't assume" icon="magnifying-glass">
+    Whether an item is done is only knowable by looking the order up via the connector.
+  </Card>
+</CardGroup>
+
+<Warning>
+  The assistant can remind you which of the four are still open **only by looking the order up** — it
+  must never assume an item is done.
+</Warning>
+
+<Note>
+  This 4-item checklist and the [status names](/kam-handbook/request-lifecycle) are the parts that are
+  **system-enforced**. Anything beyond them in this handbook is a working description of how-we-work, to
+  be refined with the team's real SOPs.
+</Note>
