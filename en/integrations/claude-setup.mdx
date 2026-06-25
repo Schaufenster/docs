@@ -11,12 +11,12 @@ The eGora KAM Assistant only becomes useful once Claude can read the three live 
     In claude.ai, open the shared Team Project. Power users can also use Claude Code / Cowork.
   </Step>
   <Step title="Connect the KB (Mintlify MCP)">
-    Add a **custom connector** pointing at the KB's authenticated MCP endpoint:
-    `https://<kb-domain>/authed/mcp`. When prompted, sign in as an eGora org member.
+    Add a **custom connector** pointing to the KB's authenticated MCP endpoint:
+    `https://docs.egora-catering.de/authed/mcp`. When prompted, sign in as an eGora org member.
 
     In Claude Code, instead run:
     ```bash
-    claude mcp add --transport http egora-kb https://<kb-domain>/authed/mcp
+    claude mcp add --transport http egora-kb https://docs.egora-catering.de/authed/mcp
     ```
   </Step>
   <Step title="Connect live data (egora-data MCP)">
@@ -33,6 +33,5 @@ The eGora KAM Assistant only becomes useful once Claude can read the three live 
 </Tip>
 
 <Note>
-  Replace `<kb-domain>` with the live KB domain (the `*.mintlify.app` URL during the test, our own domain
-  later).
+  The live KB domain is `docs.egora-catering.de`.
 </Note>

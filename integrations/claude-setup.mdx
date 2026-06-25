@@ -12,11 +12,11 @@ Der eGora KAM Assistant wird erst dann nützlich, wenn Claude die drei Live-Quel
   </Step>
   <Step title="Verbinde die KB (Mintlify MCP)">
     Füge einen **Custom Connector** hinzu, der auf den authentifizierten MCP-Endpoint der KB zeigt:
-    `https://<kb-domain>/authed/mcp`. Melde dich bei Aufforderung als eGora-Org-Mitglied an.
+    `https://docs.egora-catering.de/authed/mcp`. Melde dich bei Aufforderung als eGora-Org-Mitglied an.
 
     In Claude Code stattdessen:
     ```bash
-    claude mcp add --transport http egora-kb https://<kb-domain>/authed/mcp
+    claude mcp add --transport http egora-kb https://docs.egora-catering.de/authed/mcp
     ```
   </Step>
   <Step title="Verbinde Live-Daten (egora-data MCP)">
@@ -33,6 +33,5 @@ Der eGora KAM Assistant wird erst dann nützlich, wenn Claude die drei Live-Quel
 </Tip>
 
 <Note>
-  Ersetze `<kb-domain>` durch die Live-KB-Domain (die `*.mintlify.app`-URL während des Tests, später die eigene
-  Domain).
+  Die Live-KB-Domain ist `docs.egora-catering.de`.
 </Note>
