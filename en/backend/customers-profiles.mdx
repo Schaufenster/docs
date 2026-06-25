@@ -1,0 +1,56 @@
+---
+title: "Customers, profiles & feedback"
+description: "The demand side: users and B2B companies, their billing and event profiles, and the surveys."
+icon: "users"
+---
+
+Three related KAM sections: **Users & Customers**, **Smart Profiles** and **Feedback & Surveys**.
+
+## Users & Customers
+
+<CardGroup cols={2}>
+  <Card title="User" icon="user">
+    A platform user account (backend / platform access).
+  </Card>
+  <Card title="Company" icon="building">
+    A **B2B account** that bundles users / customers. Has orders, requests, billing profiles and
+    email domains; carries an account owner (KAM).
+  </Card>
+</CardGroup>
+
+<Note>
+  The **Customer** (the individual orderer) is not exposed to KAMs as its own menu item – you reach
+  customer data via the request or order. A request carries an `is_b2b` flag; beyond that, the
+  Customer ↔ Company distinction is not spelled out in code.
+</Note>
+
+## Smart Profiles
+
+<CardGroup cols={2}>
+  <Card title="BillingProfile" icon="address-card">
+    A billing profile (invoice address / data) attached to a customer or a company.
+  </Card>
+  <Card title="EventFormat" icon="calendar-star">
+    Recurring event formats of a customer / company (e.g. typical occasions, budget range as min/max).
+    Maintained both in the KAM backend and in the customer Filament backend.
+  </Card>
+</CardGroup>
+
+## Feedback & Surveys
+
+<CardGroup cols={2}>
+  <Card title="SurveyInstance" icon="clipboard-question">
+    A concretely sent survey (to a customer, caterer or KAM) – including multi-order hub surveys.
+  </Card>
+  <Card title="SurveyAnswer" icon="comment-dots">
+    The individual answers belonging to a survey instance.
+  </Card>
+  <Card title="Survey insights" icon="chart-simple">
+    The dashboard with aggregated ratings – also breakable down per caterer.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Lost / completed requests automatically trigger a survey (see
+  [When it goes sideways](/en/kam-handbook/when-it-goes-sideways)).
+</Tip>

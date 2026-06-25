@@ -1,94 +1,207 @@
 ---
-title: "KPI catalog (excerpt)"
-description: "Canonical KPI definitions so MCP / Claude analyses match the Catering KPI page exactly."
-icon: "chart-line"
+title: "KPI catalog (full)"
+description: "All 109 canonical Catering KPI tiles, auto-generated from code."
+icon: "table-list"
 ---
 
-This is the canonical specification for the KPI tiles on the Nova **Catering KPI page**. It exists
-so that **MCP-driven analyses** (Claude, scripts, dashboards) produce numbers that are **identical**
-to the in-app page.
-
-<Note>
-  This page is a short **excerpt** of the full catalog (`docs/mcp/kpi-cards.md`, ~100 tiles) — just
-  enough to evaluate how reference-style tables and definitions render in Mintlify. If the MCP
-  calculation diverges from this spec, **the in-app page is authoritative**.
-</Note>
-
-## Conventions
-
-These apply unless a tile overrides them.
-
-### Date fields
-
-| Phrase in the tile description | Field used by `KpiResolver` |
-| --- | --- |
-| "created_at date of the request" | `catering_requests.created_at` |
-| "completed_at date of the request" | `catering_requests.completed_at` |
-| "created_at date of the order" | `orders.created_at` |
-| "service_date of the order" | `orders.service_date` |
-
-### Status sets (from the `CateringRequest` model)
-
-```text
-acceptedOrWithOrder() = status_id IN (6, 13)  OR  has-undeleted-Order
-completed()           = status_id IN (3,4,6,7,8,9,10,13,14,15,16,17)
-lost()                = status_id IN (7, 8, 9, 16)
-```
-
-### B2B segmentation
-
-| `b2b_flag` | SQL |
-| --- | --- |
-| `b2bOnly` | `catering_requests.company_id IS NOT NULL` |
-| `nonB2bOnly` | `catering_requests.company_id IS NULL` |
-| `allRequests` | no filter |
-
-<Warning>
-  All `*_eur` fields on MCP resources are **already in euros** — do not divide by 100.
-</Warning>
-
-## Conversion-rate KPIs
-
-All tiles here use a base set of `CateringRequest`, filtered by a `created_at` time window. The
-result is a percentage: a status-based numerator over the full denominator.
-
-<AccordionGroup>
-  <Accordion title="Converted — converted">
-    **Formula:** `count(acceptedOrWithOrder) / count(all) × 100`
-    · **Date field:** `catering_requests.created_at`
-    · **Canonical:** `CateringHelper::getConverted()`
-  </Accordion>
-  <Accordion title="Completed — completed">
-    **Formula:** `count(completed status set) / count(all) × 100`
-    · **Canonical:** `CateringHelper::getCompleted()`
-  </Accordion>
-  <Accordion title="Lost — lost">
-    **Formula:** `count(lost status set) / count(all) × 100`
-    · **Canonical:** `CateringHelper::getLost()`
-  </Accordion>
-  <Accordion title="Lost vs Completed — lost-vs-completed">
-    **Formula:** `count(lost) / count(completed) × 100` (a ratio — the denominator is `completed`,
-    not `all`) · **Canonical:** `CateringHelper::getLostVsCompleted()`
-  </Accordion>
-</AccordionGroup>
-
-### MCP recipe (applies to all rate tiles above)
-
-<Steps>
-  <Step title="Count the denominator">
-    `list_catering_requests(date_from=…, date_to=…, b2b=…)` — paginate with `per_page=1` and read
-    `total`.
-  </Step>
-  <Step title="Count the numerator">
-    Same call with `catering_request_status_id ∈ {status set}`.
-  </Step>
-  <Step title="Divide">
-    `result = numerator / denominator × 100`. Apply any extra filters (`lead_source_id`, `city`,
-    `kam_id`, `form_variant`) identically to both calls.
-  </Step>
-</Steps>
-
 <Info>
-  Some tiles can't be reproduced exactly with the current MCP tools (for example, the "qualified"
-  flag isn't exposed on `CateringRequestResource`). The full catalog flags every such gap inline.
+  **Auto-generated** from `app/Services/Kpi/KpiCatalog.php` (the source of truth for KPI metadata).
+  Don't edit by hand – regenerate with `php artisan docs:generate-kpi-catalog`.
+
+  109 tiles across 12 sections. The **values** are computed by `KpiResolver`; the assistant reads
+  them server-side via the `get_catering_kpi` MCP function.
 </Info>
+
+## Conversion Rate KPIs
+
+_10 metrics · section slug `conversion-rate-kpis`_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| Conversion Rate: (Sliding) All Time | `all-time-cvr` | % | This KPI shows the overall success rate of converting catering requests into actual bookings. Formula: (Accepted Requests ÷ Total Requests) × 100. Example: If you had 100 requests and 25 were accepted, your conversion rate is 25%. Special filter: For accepted requests, both "created_at" AND "completed_at" must be within the date range. |
+| % of Qualified Requests | `qualified-requests-percentage` | % | Percentage of incoming requests marked as qualified by KAM. Formula: (Qualified Requests ÷ Total Requests) × 100. Higher percentage indicates better lead quality. |
+| Converted | `converted` | % | Percentage of all requests that successfully resulted in accepted bookings. Formula: (Accepted Requests ÷ Total Requests) × 100. Example: Out of 200 total requests, 40 were accepted = 20% conversion rate. This is your main success metric for turning inquiries into business. Date filter based on "created_at" date of the request. |
+| Converted (automated offers) | `converted-automated-offers` | % | Conversion rate specifically for requests that received automated offers. Formula: (Accepted Automated Offers ÷ Requests with Automated Offers) × 100. Example: 100 requests got automated offers, 15 were accepted = 15% conversion rate. Shows effectiveness of your automated system. Date filter based on "created_at" date of the request. |
+| Converted (manual offers) | `converted-manual-offers` | % | Conversion rate for requests that received manually created offers. Formula: (Accepted Manual Offers ÷ Requests with Manual Offers) × 100. Example: 50 requests got manual offers, 20 were accepted = 40% conversion rate. Compare with automated offers to see which approach works better. Date filter based on "created_at" date of the request. |
+| Converted (requests with completed information) | `converted-completed-requests` | % | Conversion rate for requests that had all required information completed by customers. Formula: (Accepted Complete Requests ÷ Total Complete Requests) × 100. Example: 80 requests were fully completed, 24 were accepted = 30% conversion rate. Shows impact of complete information on success. Date filter based on "created_at" date of the request. |
+| Completed | `completed` | % | Percentage of requests that reached "completed" status (successfully processed through the system). Formula: (Completed Requests ÷ Total Requests) × 100. Example: 80 completed requests out of 200 total = 40% completion rate. Shows operational efficiency in processing requests. Date filter based on "created_at" date of the request. |
+| Lost | `lost` | % | Percentage of requests that were marked as lost (unsuccessful). Formula: (Lost Requests ÷ Total Requests) × 100. Example: 200 total requests, 60 were lost = 30% loss rate. Track this to identify areas for improvement in your sales process. Date filter based on "created_at" date of the request. |
+| Lost vs Completed | `lost-vs-completed` | % | Ratio comparing lost requests to completed ones. Formula: (Lost Requests ÷ Completed Requests) × 100. Example: 40 requests were lost, 80 were completed = 50% ratio. A lower percentage is better, indicating more completed requests relative to lost ones. Date filter based on "created_at" date of the request. |
+| Not Completed | `not-completed` | % | Percentage of requests that are not you in a completed state. Formula: (Not Completed Requests ÷ Total Requests) × 100. Example: 100 total requests, 25 are not completed yet = 25% incomplete rate. Date filter based on "created_at" date of the request. |
+
+## General KPIs
+
+_21 metrics · section slug `general-kpis`_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| Catering Request B2B Ratio | `b2b-ratio` | % | Shows what percentage of your requests come from business customers versus private customers. Formula: (B2B Requests ÷ Total Requests) × 100. Example: Out of 100 requests, 70 are from businesses = 70% B2B ratio. Helps understand your customer mix and market focus. Date filter based on "created_at" date of the request. |
+| Average Catering Request Value | `average-catering-request-value` | € | The average monetary value customers request when submitting catering inquiries. Formula: Sum of (Budget per Person × Number of Persons) ÷ Number of Requests. Example: 5 requests with €50/person for 20, 16, 6, 24, 14 people = €700 average. Indicates typical customer budget expectations. Date filter based on "created_at" date of the request. |
+| Total Request Volume | `total-request-volume` | € | The total monetary value of all catering requests submitted in the period. Formula: Sum of (Budget per Person × Number of Persons) for all requests. Example: 10 requests with €50/person for 20 people each = €10,000 total volume. Shows market demand and potential business pipeline value. Date filter based on "created_at" date of the request. |
+| Total GMV for request-based orders (by request date) | `total-gmv-for-request-based-order` | € | Total revenue from orders that originated from catering requests. Computation: 1) Find all executed orders linked to catering requests (via offers or direct), 2) Sum order value for all matching orders. Example: 100 request-based orders worth €500 each = €55,000 total GMV. Date filter based on "created_at" date of the request. |
+| Total GMV for request-based orders (by item add date) | `total-gmv-for-request-based-order-booking-date` | € | Total GMV from items added in the selected date range, based on the item-level "date_added" field. Scope: executed orders on Catering or Location branches that are linked to a CateringRequest (directly or via a CateringOffer) — non-catering and non-request-based orders are excluded. Only counts the value of items actually booked in the period, not the full order value. If items are added to an older order in a later month, they count for the later month. "Records" refers to matched orders, not items. |
+| Total GMV (transaction-based) | `total-gmv-transaction-based` | € | GMV attributed to the month each change happened. Every cart change (addition, price/count edit, deletion), cancellation reversal, re-instatement and refund is recorded as a signed delta dated to the month of the change, so an order's value is spread across the months it was actually booked or modified. The running sum of an order's transactions equals its current effective GMV (item sum, vouchers ignored, minus per-item refunds; zeroed while in checkout/cancelled/payment-failed status). Cancellation handling differs from the other GMV KPIs: instead of retroactively removing a cancelled order from the month it was booked, the original booking month is left unchanged and a negative reversal delta is recorded in the month the cancellation happened (a later re-instatement records the positive again). Net over the order's lifetime is therefore zero, with the loss attributed to the actual cancellation month rather than silently erasing past GMV. Catering orders only. Data starts at go-live — no backfill, so months before go-live show nothing. |
+| Total internal revenue for request-based orders | `total-internal-revenue-for-request-based-order` | € | Total internal revenue (commission) from orders that originated from catering requests. Computation: 1) Find all executed orders linked to catering requests, 2) Sum commission + claimed amounts + fixed fees + delivery fees for all matching orders. Example: 100 request-based orders generating €50 commission each + €20 fees = €7,000 internal revenue. Date filter based on "created_at" date of the request. |
+| Average Catering Booking Value (by order date) | `average-catering-booking-value` | € | Average Order Value (AOV) - the average monetary value of successfully executed catering orders. Formula: Sum of All Order Values ÷ Number of Executed Orders. Example: 5 executed orders worth €600, €900, €400, €1100, €800 = €760 AOV. Key revenue metric showing actual transaction values. Date filter based on "created_at" date of the order. |
+| Average time between request and suggestion | `average-time-between-request-and-suggestion` | hours | Measures response speed - how quickly you provide menu suggestions after receiving requests. Formula: Sum of (Suggestion Sent Time - Request Created Time) ÷ Number of Suggestions. Example: 3 suggestions sent after 2h, 4h, 6h = 4h average. Faster response typically improves conversion rates. Date filter based on "time_between_request_and_suggestion_updated_at" date. |
+| Average time between request and suggestion (by request date) | `average-time-between-request-and-suggestion-by-request-date` | hours | Same as regular version but filters by request creation date instead of offer sent date. This provides different insights when analyzing response times based on when customers submitted requests vs when offers were actually sent. Date filter based on "created_at" date of the catering request. |
+| Average time between request and suggestion (working hours) | `average-time-between-request-and-suggestion-working-hours` | hours | Measures response speed during working hours only (8:00-20:00, weekdays). Excludes non-business hours to show actual work efficiency. Formula: Sum of working hours between request and suggestion ÷ Number of suggestions. More accurate for measuring team performance. Date filter based on "created_at" date of the catering request. |
+| Average time between request and menu confirmation | `average-time-between-request-and-menu-confirmation` | hours | Measures sales cycle length - time from initial request until customer confirms a menu choice. Formula: Sum of (Menu Confirmation Time - Request Created Time) ÷ Number of Confirmations. Example: 5 confirmations after 24h, 48h, 36h, 12h, 72h = 38.4h average. Shorter cycles indicate efficient processes. Date filter based on "time_between_request_and_menu_confirmation_updated_at" date. |
+| Average time between request and completion | `average-time-between-request-and-completion` | hours | Total time to close deals - from initial request until the request reaches a completed state. Formula: Sum of (Completion Time - Request Created Time) ÷ Number of Completed Requests. Example: 4 completions after 48h, 72h, 24h, 96h = 60h average. Date filter based on "completed_at" date of the request. |
+| Avg difference between request and booking | `average-difference-between-request-and-booking` | € | Shows how much final bookings differ from initial request values (upselling/downselling). Formula: Sum of (Final Order Value - Initial Request Value) ÷ Number of Bookings. Example: Request €500, final order €600 = +€100 difference. Positive values indicate successful upselling, negative values show downselling. Date filter based on "diff_between_request_and_booking_updated_at" date. |
+| Avg comission per order (gross) | `average-take-rate-per-order` | € | Average gross commission earned per catering order. Formula: Sum of All Commissions ÷ Number of Orders. Example: 10 orders with commissions of €50, €75, €60, etc. = €65 average. Shows your revenue per successful transaction. Date filter based on "created_at" date of the order. Orders are not required to have an associated request. |
+| Avg revenue per order | `average-revenue-per-order` | € | Average gross revenue generated per catering order. Formula: Sum of All Order Revenues ÷ Number of Orders. Example: 8 orders generating €400, €600, €800, etc. = €650 average revenue. Key profitability indicator showing total revenue per transaction. Date filter based on "created_at" date of the order. Orders are not required to have an associated request. |
+| Repeat purchase rate (initial lead source) | `repeat-purchase-rate` | % | Percentage of repeat customers among all customers with orders in the selected date range. A customer is "repeat" if they had previous orders before at least one of their orders in the period. Only includes customers whose initial lead source (from Company or Customer record) matches the filter. Customers are identified by company_id (priority 1), customer_id (priority 2), or email (fallback). Formula: (Repeat Customers ÷ Total Unique Customers in period) × 100. Example: In Jan 2025, 100 Google Ads customers placed orders, 25 were existing = 25% repeat rate. Date filter based on order "created_at". |
+| Total repeat customers (initial lead source) | `total-repeat-customers` | — | Count of repeat customers with orders in the selected date range. A customer is "repeat" if they had previous orders before at least one of their orders in the period. Only includes customers whose initial lead source (from Company or Customer record) matches the filter. Customers are identified by company_id (priority 1), customer_id (priority 2), or email (fallback). Formula: Count of unique customers with orders in date range who had orders before. Example: In Jan 2025, 45 customers from Google Ads placed orders and were already existing = 45 repeat customers. Date filter based on order "created_at". |
+| Total orders by repeat customers (initial lead source) | `total-orders-by-repeat-customers` | — | Count of all orders in the selected date range that were placed by repeat customers (customers who had previous orders). Only includes customers whose initial lead source (from Company or Customer record) matches the filter. Customers are identified by company_id (priority 1), customer_id (priority 2), or email (fallback). Each order from a repeat customer is counted. Formula: Sum of all orders in date range from customers who had orders before. Example: In Jan 2025, 30 Google Ads repeat customers placed 85 orders = 85 orders from repeats. Shows loyalty contribution to volume. Date filter based on order "created_at". |
+| New customers count (initial lead source) | `new-customers-count` | — | Count of new customers with orders in the selected date range. A customer is "new" ONLY if they had NO previous orders before the period AND did NOT become a repeat customer within the period (i.e., placed only 1 order in the period). Customers who place 2+ orders in the period are counted as REPEAT, not NEW. Only includes customers whose initial lead source (from Company or Customer record) matches the filter. Customers are identified by company_id (priority 1), customer_id (priority 2), or email (fallback). Formula: Count of unique customers with exactly 1 order in date range and NO orders before. Example: In Jan 2025, 150 Google Ads customers placed their first and ONLY order = 150 new customers. Measures true new customer acquisition. Date filter based on order "created_at". |
+| Ratio of sub-500 EUR orders made via marketplace | `order-ratio-marketplace-sub-500` | — | Percentage of smaller orders (under €500) that come through the marketplace vs other channels. Formula: (Marketplace Orders &lt;€500 ÷ Total Orders &lt;€500) × 100. Example: 40 marketplace orders under €500, 100 total under €500 = 40% ratio. Date filter based on "created_at" date of the order. |
+
+## Google Ads KPIs (Created Requests)
+
+_17 metrics · section slug `google-ads-kpis`_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| Google Ads B2B Ratio | `google-ads-b2b-ratio` | % | Percentage of B2B requests among Google Ads traffic (requests with UTM parameters). Formula: (B2B Requests from Google Ads ÷ Total Requests from Google Ads) × 100. Example: 60 B2B requests out of 200 total Google Ads requests = 30% B2B ratio. Shows ad targeting effectiveness for business customers. Date filter based on "created_at" date of the request. |
+| GA conversion rate | `google-ads-conversion-rate` | % | Conversion rate from Google Ads clicks to catering requests. Computed as: (Number of catering requests from Google Ads ÷ Number of Google Ads clicks) × 100. Example: 50 requests from 1,000 Google Ads clicks = 5% conversion rate. Measures how effectively Google Ads generate catering requests. Date filter is based on the "created_at" date of the ad click AND the request. |
+| Lead Form Conversion Rate | `lead-form-conversion-rate` | % | Conversion rate from lead form step 2 (Catering Types) to step 9 (Successful Submit). Formula: (Users who reached step 9 ÷ Users who reached step 2) × 100. Example: 100 users reached step 2, 25 completed step 9 = 25% conversion rate. Shows effectiveness of the lead form funnel. Date filter based on "created_at" date of the progress entries. |
+| GA Conversion Rate: Request to Booking | `google-ads-request-to-booking-conversion-rate` | % | Measures the percentage of Google Ads catering requests that are converted into bookings (i.e., accepted by either the customer or caterer) within a selected date range. Computation: 1. Count all Google Ads catering requests created in the selected date range. 2. Count how many of these requests were accepted by either the customer or caterer in the same date range and with the same filters. 3. Calculate: (Accepted Requests ÷ Total Created Requests) × 100. Example: If 100 Google Ads catering requests were created and 25 of them were accepted, the conversion rate is 25%. Date filter: Based on the "created_at" date of the request. |
+| GA Average Catering Request Value | `google-ads-average-catering-request-value` | € | Average monetary value of catering requests from Google Ads traffic. Formula: Sum of (Budget per Person × Number of Persons) ÷ Number of Google Ads Requests. Example: 10 Google Ads requests with €50/person for 20 people each = €500 average. Shows typical budget expectations from paid traffic. Date filter based on "created_at" date of the request. |
+| GA Customer Engagement Rate | `google-ads-customer-engagement-rate` | % | Percentage of Google Ads customers who actively engage with their requests (respond to offers, edit requests, etc.). Formula: (Google Ads Requests with Customer Interactions ÷ Completed Google Ads Requests) × 100. Example: 80 interactive requests out of 100 completed = 80% engagement rate. Shows customer involvement level from paid traffic. Date filter based on "created_at" date of the request. |
+| GA Average Catering Booking Value | `google-ads-average-catering-booking-value` | € | Measures the average monetary value of executed catering bookings (orders), that are based on Google Ads requests, within the selected date range. Computation: 1. Filter all executed catering orders in the selected date range. 2. Sum the total value (total_sum) of all filtered orders. 3. Divide the total value by the number of orders to get the average. Formula: Average Booking Value = Sum of Order Values ÷ Number of Orders. Example: If there are 5 executed orders with values €600, €900, €400, €1100, and €800, the average booking value is (€600 + €900 + €400 + €1100 + €800) ÷ 5 = €760. |
+| GA Average revenue per order | `google-ads-average-revenue-per-order` | € | Measures the average gross revenue generated per executed catering order that originated from Google Ads requests within the selected date range. Computation: 1. Filter all executed catering orders that were created from Google Ads requests in the selected date range. 2. For each order, calculate revenue for egora. 3. Sum the revenue for all filtered orders. 4. Divide the total revenue by the number of orders to get the average. Formula: Average Revenue per Order = (Sum of calculated revenues for all Google Ads orders) ÷ (Number of Google Ads orders) Example: If 3 Google Ads orders generate €400, €600, and €800 in revenue, the average revenue per order is (€400 + €600 + €800) ÷ 3 = €600. |
+| GA Not Completed | `google-ads-not-completed` | % | Percentage of Google Ads requests that remain in an not completed status. Formula: (Not completed Google Ads Requests ÷ Total Google Ads Requests) × 100. Example: 30 not completed out of 100 total Google Ads requests = 30% not completed rate. Date filter based on "created_at" date of the request. |
+| GA Bookings per customer | `google-ads-bookings-per-customer` | — | Measures the average number of bookings per unique customer who submitted accepted catering requests via Google Ads within the selected date range. Computation: 1. Identify all unique customers (by email) who submitted accepted catering requests from Google Ads in the selected date range. 2. For each unique customer, count the number of bookings (orders) they have made (this is based on email, customer_id, or company name from the original request). 3. Sum the total number of bookings for all unique customers. 4. Divide the total bookings by the number of unique customers to get the average. Formula: Average Bookings per Customer = Total Bookings ÷ Number of Unique Customers. Example: If 100 unique Google Ads customers made a total of 150 bookings, the average bookings per customer is 150 ÷ 100 = 1.5. Date filter: Based on the "created_at" date of the request. |
+| GA CLV per customer (GMV) | `google-ads-clv-gmv` | € | Customer Lifetime Value showing average total revenue per Google Ads customer. Computation: 1) Find unique Google Ads customers who made successful bookings in the date range, 2) Calculate total GMV from ALL their orders (including future orders; matching by email, customer_id, or company name), 3) Divide by number of unique customers. Example: 10 Google Ads customers generated €50,000 total GMV = €5,000 CLV per customer. Date filter based on "created_at" date of the request. |
+| GA CLV per customer (internal revenue) | `google-ads-clv-internal` | € | Customer Lifetime Value showing average internal revenue (commission) per Google Ads customer. Computation: 1) Find unique Google Ads customers who made successful bookings in the date range, 2) Calculate total internal revenue from ALL their orders (including future orders; matching by email, customer_id, or company name), 3) Divide by number of unique customers. Example: 10 Google Ads customers generated €5,000 internal revenue = €500 CLV per customer. Date filter based on "created_at" date of the request. |
+| GA Request Based Total GMV | `ga-total-gmv-for-request-based-order` | € | Total revenue from orders that originated from Google Ads requests. Computation: 1) Find all executed orders linked to Google Ads requests (via one of their offers or directly), 2) Sum order value + delivery fees for all matching orders. Example: 20 Google Ads orders worth €500 each + €50 delivery = €11,000 total GMV. Date filter based on "created_at" date of the request. |
+| GA Request Based Total Internal Revenue | `ga-total-internal-revenue-for-request-based-order` | € | Total internal revenue (commission) from orders that originated from Google Ads requests. Computation: 1) Find all executed orders linked to Google Ads requests, 2) Sum commission + claimed amounts + fixed fees + delivery fees for all matching orders. Example: 20 Google Ads orders generating €50 commission each + €20 fees = €1,400 internal revenue. Date filter based on "created_at" date of the request. |
+| GA Total GMV for cohort customers | `ga-cohort-total-gmv` | € | Total revenue from ALL orders made by Google Ads customers (cohort analysis). Computation: 1) Find unique Google Ads customers who made bookings in the date range, 2) Calculate total GMV from ALL their orders (including future orders after the date range; matching by email, customer_id, or company name). Example: 10 Google Ads customers from January made €50,000 in total orders throughout the year = €50,000 cohort GMV. Date filter based on "created_at" date of the request. |
+| GA Total Internal Revenue for cohort customers | `ga-cohort-total-internal-revenue` | € | Total internal revenue from ALL orders made by Google Ads customers (cohort analysis). Computation: 1) Find unique Google Ads customers who made bookings in the date range, 2) Calculate total internal revenue from ALL their orders (including future orders after the date range; matching by email, customer_id, or company name). Example: 10 Google Ads customers from January generated €5,000 in total internal revenue throughout the year = €5,000 cohort internal revenue. Date filter based on "created_at" date of the request. |
+| GA Total Request Volume | `ga-total-request-volume` | € | Total monetary value of all Google Ads catering requests. Computation: Sum of (Budget per Person × Number of Persons) for all Google Ads requests. Example: 50 Google Ads requests with €40/person for 15 people each = €30,000 total request volume. Shows market demand from paid traffic. Date filter based on "created_at" date of the request. |
+
+## Google Ads KPIs (Booking date)
+
+_2 metrics · section slug `google-ads-kpis-booking-date`_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| GA Average Catering Booking Value | `google-ads-average-catering-booking-value-booking-date` | € | Measures the average monetary value of executed catering bookings (orders), that are based on Google Ads requests, within the selected date range. Computation: 1. Filter all executed catering orders in the selected date range. 2. Sum the total value (total_sum) of all filtered orders. 3. Divide the total value by the number of orders to get the average. Formula: Average Booking Value = Sum of Order Values ÷ Number of Orders. Example: If there are 5 executed orders with values €600, €900, €400, €1100, and €800, the average booking value is (€600 + €900 + €400 + €1100 + €800) ÷ 5 = €760. Date filter based on "created_at" date of the associated booking/order. |
+| GA Request Based Total GMV | `ga-total-gmv-for-request-based-order-booking-date` | € | Total revenue from orders that originated from Google Ads requests. Computation: 1) Find all executed orders linked to Google Ads requests (via one of their offers or directly), 2) Sum order value + delivery fees for all matching orders. Example: 20 Google Ads orders worth €500 each + €50 delivery = €11,000 total GMV. Date filter based on "created_at" date of the associated booking/order. |
+
+## Cohort compare KPIs
+
+_3 metrics · section slug `cohort-compare-kpis`_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| Repeat purchase rate (initial lead source) | `cohort-compare-repeat-purchase-rate` | % | Percentage of customers from the first period who made repeat purchases in the second period. Lead source filtering: Uses the initial lead source from the Company (priority) or Customer (fallback) associated with each order, NOT the lead source from individual CateringRequests. Customer identification: Prioritizes company_id (B2B), then customer_id (registered users), then email. Computation: 1) Find unique customers who ordered in the first period (FROM, TO) with the selected initial lead source, 2) Check how many of these customers also ordered in the second period (COMPARE FROM, COMPARE TO), 3) Calculate percentage. Example: 100 customers with initial lead source "Organic" ordered in January, 25 of them ordered again in February = 25% repeat purchase rate. Date filter based on "created_at" date of the order. |
+| Total GMV (initial lead source) | `cohort-compare-total-gmv` | € | Total revenue generated by first-period customers during the second period. Lead source filtering: Uses the initial lead source from the Company (priority) or Customer (fallback) associated with each order, NOT the lead source from individual CateringRequests. Customer identification: Prioritizes company_id (B2B), then customer_id (registered users), then email. Computation: 1) Find unique customers who ordered in the first period (FROM, TO) with the selected initial lead source, 2) Calculate total GMV from orders these customers made in the second period (COMPARE FROM, COMPARE TO). Example: 100 customers with initial lead source "Organic" from January generated €25,000 in orders during February = €25,000 cohort GMV. Date filter based on "created_at" date of the order. |
+| Total request volume (without Google Ads) (initial lead source) | `cohort-compare-total-request-volume-without-ads` | € | Total request volume from first-period customers during the second period, excluding Google Ads traffic. Lead source filtering: Uses the initial lead source from the Company (priority) or Customer (fallback) associated with each order, NOT the lead source from individual CateringRequests. Customer identification: Prioritizes company_id (B2B), then customer_id (registered users), then email. Computation: 1) Find unique customers who ordered in the first period (FROM, TO) with the selected initial lead source, 2) Calculate total request volume from these customers in the second period (COMPARE FROM, COMPARE TO), excluding Google Ads requests. Example: 100 customers with initial lead source "Organic" from January made €15,000 in non-Google Ads requests during February = €15,000 organic cohort volume. Date filter based on "created_at" date of the request. |
+
+## Retention KPIs
+
+_5 metrics · section slug `retention-kpis`_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| Bookings per customer (initial lead source) | `bookings-per-customer` | — | Average number of orders per customer over their lifetime. Lead source filtering: Uses the initial lead source from the Company (priority) or Customer (fallback) associated with each request, NOT the lead source from individual CateringRequests. Customer identification: Prioritizes company_id (B2B), then customer_id (registered users), then email. Computation: 1) Find unique customers who made successful bookings in the date range with the selected initial lead source, 2) Calculate total number of orders from ALL their bookings (including future orders), 3) Divide by number of unique customers. Example: 50 customers with initial lead source "Organic" made 150 total orders = 3.0 bookings per customer. Date filter based on "created_at" date of the request. |
+| CLV per customer (GMV) (initial lead source) | `clv-gmv` | € | Customer Lifetime Value showing average total revenue per customer. Lead source filtering: Uses the initial lead source from the Company (priority) or Customer (fallback) associated with each request, NOT the lead source from individual CateringRequests. Customer identification: Prioritizes company_id (B2B), then customer_id (registered users), then email. Computation: 1) Find unique customers with the selected initial lead source who made successful bookings in the date range, 2) Calculate total GMV from ALL their orders (including future orders), 3) Divide by number of unique customers. Example: 50 customers with initial lead source "Organic" generated €150,000 total GMV = €3,000 CLV per customer. Date filter based on "created_at" date of the request. |
+| CLV per customer (internal revenue) (initial lead source) | `clv-internal` | € | Customer Lifetime Value showing average internal revenue (commission) per customer. Lead source filtering: Uses the initial lead source from the Company (priority) or Customer (fallback) associated with each request, NOT the lead source from individual CateringRequests. Customer identification: Prioritizes company_id (B2B), then customer_id (registered users), then email. Computation: 1) Find unique customers who made successful bookings in the date range with the selected initial lead source, 2) Calculate total internal revenue from ALL their orders (including future orders), 3) Divide by number of unique customers. Example: 50 customers with initial lead source "Organic" generated €15,000 internal revenue = €300 CLV per customer. Date filter based on "created_at" date of the request. |
+| Total GMV for cohort customers (initial lead source) | `cohort-total-gmv` | € | Total revenue from ALL orders made by customers who requested in the date range (cohort analysis). Lead source filtering: Uses the initial lead source from the Company (priority) or Customer (fallback) associated with each request, NOT the lead source from individual CateringRequests. Customer identification: Prioritizes company_id (B2B), then customer_id (registered users), then email. Computation: 1) Find unique customers with the selected initial lead source who made requests in the date range, 2) Calculate total GMV from ALL their orders (including future orders after the date range). Example: 100 customers with initial lead source "Organic" from January made €200,000 in total orders throughout the year = €200,000 cohort GMV. Date filter based on "created_at" date of the request. |
+| Total internal revenue for cohort customers (initial lead source) | `cohort-total-internal-revenue` | € | Total internal revenue from ALL orders made by customers who requested in the date range (cohort analysis). Lead source filtering: Uses the initial lead source from the Company (priority) or Customer (fallback) associated with each request, NOT the lead source from individual CateringRequests. Customer identification: Prioritizes company_id (B2B), then customer_id (registered users), then email. Computation: 1) Find unique customers with the selected initial lead source who made requests in the date range, 2) Calculate total internal revenue from ALL their orders (including future orders after the date range). Example: 100 customers with initial lead source "Organic" from January generated €20,000 in total internal revenue throughout the year = €20,000 cohort internal revenue. Date filter based on "created_at" date of the request. |
+
+## Finance KPIs
+
+_18 metrics · section slug `finance-kpis`_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| Total net revenue | `revenue-net` | € | Total net revenue for the selected date range. Based on the "created_at" date of the order. |
+| Revenue from Stornogarantie (cancellation guarantee) | `revenue-stornogarantie` | € | Net revenue from Stornogarantie line items (EGORA-STORNOGARANTIE-T1…T4) on executed orders. Date filter on Order.created_at. |
+| % orders with Stornogarantie (cancellation guarantee) | `stornogarantie-orders-percentage` | % | Share of executed orders with ≥1 Stornogarantie line item, out of all executed orders. Date filter on Order.created_at. |
+| Total net revenue (marketplace) | `revenue-net-marketplace` | € | Total marketplace net revenue for the selected date range. Based on the "created_at" date of the order. |
+| Total realized net revenue | `revenue-realized-net` | € | Total realized net revenue for the selected date range. Based on the "service_date" of the order. |
+| Total realized gross revenue | `revenue-realized-gross` | € | Total realized gross revenue for the selected date range. Based on the "service_date" of the order. |
+| Total issued gross revenue (in invoices) | `issued-gross-revenue` | € | Total issued gross revenue for the selected date range (based on invoices). Based on the "service_date" of the order. |
+| Total internal net revenue (booked) | `revenue-internal-net` | € | Total internal net revenue for the selected date range. Includes delivery fee and claimed products. Based on the "created_at" date of the order. |
+| Total Partner Commission (Booked) | `partner-commission-total` | € | Total commission amount passed through to partners for booked orders. Based on the "created_at" date of the order. |
+| Total realized internal net revenue | `revenue-realized-internal-net` | € | Total realized internal net revenue for the selected date range. Includes delivery fee and claimed products. Based on the "service_date" of the order. |
+| Total Partner Commission (Realized) | `partner-commission-realized` | € | Total commission amount passed through to partners for realized orders. Based on the "service_date" of the order. |
+| Total paid out volume (to caterer) (€) | `paid-out-total` | € | Total volume of paid_out orders (to caterer). Partial payouts are also respected. Date range is based on the service_date of the order. |
+| Total paid volume (by customer) (€) | `paid-total` | € | Total volume of paid orders (by customer). Paid orders can have the status ids 2 (Paid), 4 (Return), 5 (Return finished), and 6 (Refund processed). Partial payments are also respected. Date range is based on the service_date of the order. |
+| Tax on realized net revenue | `tax-on-realized-revenue` | € | Total tax on realized net revenue for the selected date range. Based on the "created_at" date of the order. |
+| Tax on realized internal net revenue | `tax-on-realized-internal-revenue` | € | Total tax on realized internal net revenue for the selected date range. Based on the "service_date" of the order. |
+| Average take rate (booked) | `average-take-rate-booked` | % | Average take rate calculated as (Total Internal Booked Net Revenue ÷ Total Net Revenue) × 100. Shows the percentage of total revenue that goes to internal revenue for booked orders. Based on the "created_at" date of the order. |
+| Average take rate (realized) | `average-take-rate-realized` | % | Average take rate calculated as (Total Internal Realized Net Revenue ÷ Total Realized Net Revenue) × 100. Shows the percentage of total revenue that goes to internal revenue for realized orders. Based on the "service_date" of the order. |
+| Overdue Receivables (>2 months) | `overdue-receivables` | € | Total value of unpaid orders where the service date is more than 2 months ago. Includes all executed orders (excludes checkout, cancelled, payment failed) that are not paid (orderstatus_id ≠ 2) and have service_date + 2 months < current date. Based on the "service_date" of the order. |
+
+## Request (backend) Visit Rate KPIs
+
+_2 metrics · section slug `backend-visit-rate-kpis`_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| Customer request (backend) visit rate | `customer-backend-visit-rate` | % | Percentage of requests, where (potential) customers visited their backend (via magic link or direct login). Date filter based on the "created_at" date of the request. |
+| Caterer request (backend) visit rate | `caterer-backend-visit-rate` | % | Percentage of requests, where caterers visited their backend (via magic link or direct login) and also actually had to perform an action (e.g. create a menu proposal or confirm a request). Date filter based on the "created_at" date of the request. |
+
+## Customer (including leads) Backend usage KPIs
+
+_9 metrics · section slug `customer-backend-usage-kpis`_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| Customer-Request interaction rate (based on requests and offers) | `customer-request-interaction-rate-combined` | % | Percentage of requests edited or rejected by customer ( + acted on offers). Date filter based on the "created_at" date of the request. |
+| Customer-Request interaction rate (based on requests) | `customer-request-interaction-rate` | % | Percentage of requests edited or rejected by customer (in the backend). Date filter based on the "created_at" date of the request. |
+| Requests edited by customer | `requests-edited-by-customer` | % | Percentage of requests edited by customers (in the backend). Date filter based on the "created_at" date of the request. |
+| Requests rejected by customers | `requests-rejected-by-customer` | % | Percentage of requests rejected by customer (in the backend). Date filter based on the "created_at" date of the request. |
+| Customer-Offer interaction rate | `customer-offer-interaction-rate` | % | Percentage of offers accepted, rejected or edited by customer (in the backend). Date filter based on the "created_at" date of the offer. |
+| Offers accepted by customer | `offers-accepted-by-customer` | % | Percentage of offers accepted by customer (in the backend). Date filter based on the "created_at" date of the offer. |
+| Offers rejected by customer | `offers-rejected-by-customer` | % | Percentage of offers rejected by customer (in the backend). Date filter based on the "created_at" date of the offer. |
+| Offers edited by customer | `offers-edited-by-customer` | % | Percentage of offers edited by customer (in the backend). Date filter based on the "created_at" date of the offer. |
+| Ratio of completed requests (from customer backend) | `ratio-of-completed-requests` | % | Percentage of completed requests (based on information entered by the customer in the customer backend). Date filter based on the "created_at" date of the requests. |
+
+## Caterer Backend usage KPIs
+
+_8 metrics · section slug `caterer-backend-usage-kpis`_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| Caterer interaction rate with accepted requests | `caterer-accepted-requests-interaction-rate` | % | Percentage of accepted requests, that caterers interacted with via their backend. Date filter based on the "created_at" date of the request. |
+| Caterer-Offer interaction rate | `caterer-offer-interaction-rate` | % | Percentage of offers accepted, rejected, created or edited by caterer. Date filter based on the "created_at" date of the offer. |
+| Offers created by caterer | `offers-created-by-caterer` | % | Percentage of offers created by caterer. Date filter based on the "created_at" date of the offer. |
+| Offers accepted by caterer | `offers-accepted-by-caterer` | % | Percentage of offers accepted by (potential) customer from backend. Date filter based on the "created_at" date of the offer. |
+| Offers rejected by caterer | `offers-rejected-by-caterer` | % | Percentage of offers rejected by caterer from backend. Date filter based on the "created_at" date of the offer. |
+| Offers edited by caterer | `offers-edited-by-caterer` | % | Percentage of offers edited by caterer from backend. Date filter based on the "created_at" date of the offer. |
+| Caterer login frequency rate | `caterer-login-frequency-rate` | % | Percentage of caterers where at least one of their contact persons logged in at least half of the days within the date range given by "from" and "to". |
+| Average caterer logins per day | `average-caterer-logins` | logins | Average number of logins for caterers per day for given date range. |
+
+## Catering offers KPIs
+
+_3 metrics · section slug `catering-offers-kpis`_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| Automated offers | `automated-offers` | % | Percentage of automatically generated and sent out offers. Date filter based on the "created_at" date of the offer. |
+| Manual offers | `manual-offers` | % | Percentage of manually generated and sent out offers. Date filter based on the "created_at" date of the offer. |
+| Average internal edits per offer | `average-internal-edits-per-offer` | edits | Average number of internal edits (by KAM/Admin users) per catering offer. Date filter based on the "created_at" date of the offer. |
+
+## Email opening rates
+
+_11 metrics · section slug ``_
+
+| Metric | Key | Unit | Description |
+| --- | --- | --- | --- |
+| Request confirmation email | `request-confirmation-open-rate` | % | Opening rate of the request confirmation email (is sent after a customer submits the lead form). Date filter based on the "created_at" date of the email. |
+| KAM intro email | `kam-intro-open-rate` | % | Opening rate of the KAM intro email. Date filter based on the "created_at" date of the email. |
+| Special KAM intro email | `special-kam-intro-open-rate` | % | Opening rate of the special KAM intro email (>2k EUR). Date filter based on the "created_at" date of the email. |
+| Menu proposal email based on single offer | `mp-offer-open-rate` | % | Opening rate of the menu proposal email that is based on a single offer (Action 3 on an offer). Date filter based on the "created_at" date of the email. |
+| Menu proposal (for a single offer) followup email | `mp-followup-offer-open_rate` | % | Opening rate of the followup email for the single offer menu proposal (Action 4 on an offer). Date filter based on the "created_at" date of the email. |
+| Menu proposal mail based on a catering request | `mp-request-open-rate` | % | Opening rate of the menu proposal mail (based on a single catering request). Date filter based on the "created_at" date of the email. |
+| Followup mail for the menu proposal based on a catering request | `mp-follow-up-open-rate` | % | Opening rate of the follow up email for the menu proposal based on a catering request (Action 3 on a request + automatic reminder). Date filter based on the "created_at" date of the email. |
+| 2nd followup mail for the menu proposal based on a catering request | `mp-followup-2nd-open-rate` | % | Opening rate of the 2nd follow up email for the menu proposal based on a catering request (Action 3a on a request + automatic reminder). Date filter based on the "created_at" date of the email. |
+| Last followup mail for the menu proposal based on a catering request | `mp-followup-last-open-rate` | % | Opening rate of the last follow up email for the menu proposal based on a catering request (Action 3b on a request + automatic reminder). Date filter based on the "created_at" date of the email. |
+| Marketplace order confirmation email | `order-confirm-open-rate` | % | Opening rate of the marketplace order confirmation email. Date filter based on the "created_at" date of the email. |
+| Offer confirmation email | `offer-confirm-open-rate` | % | Opening rate of the offer confirmation email (sent after customer has accepted an offer). Date filter based on the "created_at" date of the email. |
+
