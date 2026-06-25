@@ -1,42 +1,42 @@
 ---
 title: "Performance & Insights"
-description: "The KPI pages and marketing / funnel resources a KAM uses to measure the pipeline."
+description: "The KPI pages and marketing/funnel resources a KAM uses to measure the pipeline."
 icon: "gauge"
 ---
 
-The analytics area. All four KPI menu entries link to the **same** Catering KPI page
+The analytics area. The four KPI menu items all link to the **same** catering KPI page
 (`/catering-kpi-page`), just anchored to different sections.
 
 ## KPI page
 
-| Menu entry | Jump anchor | Content |
+| Menu item | Jump anchor | Content |
 | --- | --- | --- |
 | **Request KPIs** | `#conversion-rate-kpis` | Conversion funnel (converted, completed, lost …) |
 | **Marketing KPIs** | `#google-ads-kpis` | Google Ads funnel & cohorts |
 | **Finance KPIs** | `#finance-kpis` | Revenue, commission, payouts, taxes |
-| **Diverse KPIs** | `#backend-visit-rate-kpis` | Backend usage, caterer / customer interaction |
+| **Diverse KPIs** | `#backend-visit-rate-kpis` | Backend usage, caterer/customer interaction |
 
 <Note>
-  The KPI page defines **~109 canonical metric tiles** across 12 sections. It's the source of truth for
-  "how high is our X?". The full list is in the [KPI catalog](/en/it/kpi-catalog); the Claude assistant
-  reads the same values server-side via the `get_catering_kpi` MCP function.
+  The KPI page defines **~109 canonical metric tiles** in 12 sections. It is the source of truth for
+  "what is our X?". The full list is in the [KPI catalog](/it/kpi-catalog); the Claude assistant reads
+  the same values server-side via the `get_catering_kpi` MCP function.
 </Note>
 
 ## Funnel & attribution resources
 
 <CardGroup cols={2}>
   <Card title="LeadFormProgress" icon="filter">
-    Funnel sessions from the lead form – how far a prospect made it through the form.
+    Funnel sessions of the lead form – how far a prospect got through the form.
   </Card>
   <Card title="GoogleAd" icon="bullhorn">
-    Google Ads click / view rows for attribution (campaign + ad group).
+    Google Ads click/view rows for attribution (campaign + ad group).
   </Card>
   <Card title="LeadSource" icon="signs-post">
-    The lead source lookup – where a request originated (ads vs. organic etc.).
+    The lead-source lookup – where a request originated (ads vs. organic, etc.).
   </Card>
 </CardGroup>
 
 <Warning>
-  There are two GMV views (by **request date** vs. by **booking / item date**) plus a transaction-based
-  variant. Always compare the same definition – the KPI page names it on each tile.
+  There are two GMV perspectives (by **request date** vs. by **booking/item date**), plus a
+  transaction-based variant. Always compare the same definition – the KPI page labels it per tile.
 </Warning>

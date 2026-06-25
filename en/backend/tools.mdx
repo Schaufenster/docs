@@ -1,34 +1,33 @@
 ---
 title: "KAM tools"
-description: "The custom Nova tools beyond the standard resources – OrderHub, matching, menu creation, email parser, KAM Inbox."
+description: "The dedicated Nova tools beyond the standard resources – OrderHub, matching, menu creation, email parser, KAM Inbox."
 icon: "screwdriver-wrench"
 ---
 
-Alongside the standard resources, there are **custom Nova tools** that bundle key KAM workflows. Some
-are menu entries, others you open from a detail page.
+Alongside the standard resources, there are **dedicated Nova tools** (custom tools) that bundle core KAM
+workflows. Some are menu items; others you open from a detail page.
 
 ## OrderHub
 
 <Card title="OrderHub" icon="grip">
   The **order workspace**. You open it from the order detail page – not from the main menu. It bundles
-  all actions around an order in one place: status, line items, categories / tax, the
-  [post-booking checklist](/en/kam-handbook/post-booking-checklist), documents, dispatch and the action
-  log.
+  every action around an order in one place: status, line items, categories/tax, the
+  [post-booking checklist](/kam-handbook/post-booking-checklist), documents, dispatch and the action log.
 </Card>
 
 ## Catering creation
 
 <CardGroup cols={2}>
   <Card title="Caterer Matching Tool" icon="people-arrows">
-    `/caterer-matching-tool` – suggests matching caterers for a request via several weighted layers and
-    builds the menu. Includes a "Match all" mode that lists all published caterers flat (alphabetically)
-    so you can pick directly.
+    `/caterer-matching-tool` – proposes suitable caterers for a request across several weighted layers
+    and builds the menu. Includes a "Match all" mode that lists every published caterer flatly
+    (alphabetically) so you can pick directly.
   </Card>
   <Card title="Catering offer tool (manual)" icon="pen-ruler">
-    `/catering-menu` – the manual tool for building / editing an offer menu.
+    `/catering-menu` – the manual tool to build/edit an offer menu.
   </Card>
   <Card title="AI Menu Creator" icon="wand-magic-sparkles">
-    AI-assisted generation of menu proposals (draws on pre-computed proposals).
+    AI-assisted generation of menu proposals (draws on precomputed proposals).
   </Card>
   <Card title="Request Email Parser" icon="envelope-open-text">
     `/catering-email-parser` – uses AI to turn an incoming request email into a structured
@@ -39,17 +38,17 @@ are menu entries, others you open from a detail page.
 ## KAM Inbox
 
 <Card title="KAM Inbox" icon="inbox-full">
-  A unified per-KAM activity feed (email, chat, system events, HubSpot tasks). Enabled via feature flag;
-  only available to the `kam` / `admin` roles. Every KAM-relevant event (status change, customer edit,
-  assignment) is logged here.
+  A unified per-KAM activity feed (email, chat, system events, HubSpot tasks). Enabled via a feature
+  flag; only available to the `kam`/`admin` roles. Every KAM-relevant event (status change, customer
+  edit, assignment) is logged here.
 </Card>
 
 ## KPI pages
 
-The Catering KPI page (`/catering-kpi-page`) and its B2B variant are also custom tools; they are
-described under [Performance & Insights](/en/backend/performance-insights).
+The catering KPI page (`/catering-kpi-page`) and its B2B variant are also dedicated tools; they are
+described in the [Performance & Insights](/backend/performance-insights) area.
 
 <Tip>
-  Hub actions (e.g. in OrderHub) log to the persistent Spatie activity log – the "Action Log" tab in the
-  hub is the complete view. The old Nova "Action Events" panel only shows the last 25 entries.
+  Hub actions (e.g. in the OrderHub) log to the persistent Spatie activity log – the "Action Log" tab in
+  the hub is the full view. The old Nova "Action Events" panel only shows the last 25 entries.
 </Tip>

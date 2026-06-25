@@ -1,12 +1,12 @@
 ---
 title: "Release communication"
-description: "The pattern for communicating shipped features to KAM, customers and caterers — so nothing quietly goes live."
+description: "The pattern for communicating shipped features to KAM, customers, and caterers — so nothing quietly goes live."
 icon: "megaphone"
 ---
 
-The core problem this knowledge base addresses: **features go live without being communicated** —
-to the people they affect. This page shows a repeatable pattern, so a feature isn't considered
-"done" until its user-facing change is written down for every audience.
+The core problem this knowledge base addresses: **features go live without being communicated** — to
+the people they affect. This page shows a repeatable pattern, so a feature isn't considered "done"
+until its user-facing change is written down for every audience.
 
 <Note>
   The entries below are **illustrative examples** to show the format — not real release notes.
@@ -20,7 +20,7 @@ Every shipped feature gets a changelog entry that answers three questions:
   <Step title="What changed (one sentence)">
     Plain language, no jargon — the behavior a user would notice.
   </Step>
-  <Step title="Who is affected">
+  <Step title="Who's affected">
     Tag the audiences: **KAM**, **customers**, **caterers**. If an audience is affected, the entry
     has to say what *they* should do differently.
   </Step>
@@ -32,16 +32,16 @@ Every shipped feature gets a changelog entry that answers three questions:
 
 ## Changelog
 
-<Update label="2026-06 · Example" description="Form of address per customer (Du / Sie)">
-  Customers can now be addressed consistently in a formal (**Sie**) or informal (**Du**) tone
-  across emails, the customer backend, surveys and PDFs.
+<Update label="2026-06 · Example" description="Per-customer salutation (Du / Sie)">
+  Customers can now be addressed consistently formally (**Sie**) or informally (**Du**) across
+  emails, the customer backend, surveys, and PDFs.
 
   <CardGroup cols={3}>
     <Card title="KAM" icon="headset">
-      Set the address style on the customer record. Default is informal (**Du**).
+      Set the salutation style on the customer record. Default is informal (**Du**).
     </Card>
     <Card title="Customers" icon="user">
-      Outgoing communication automatically adapts to the chosen tone — no action required.
+      Outgoing communication automatically matches the chosen tone — no action needed.
     </Card>
     <Card title="Caterers" icon="utensils">
       Not affected.
@@ -49,9 +49,9 @@ Every shipped feature gets a changelog entry that answers three questions:
   </CardGroup>
 </Update>
 
-<Update label="2026-06 · Example" description="Stornogarantie (cancellation guarantee) at order level">
+<Update label="2026-06 · Example" description="Stornogarantie at order level">
   The Stornogarantie tier now automatically follows the **order total**, and KAM can opt a single
-  order out. It freezes as soon as the order is invoiced or paid.
+  order out. It's frozen once the order is invoiced or paid.
 
   <CardGroup cols={3}>
     <Card title="KAM" icon="headset">
@@ -61,14 +61,14 @@ Every shipped feature gets a changelog entry that answers three questions:
       The guarantee line on the quote reflects the current order size.
     </Card>
     <Card title="Caterers" icon="utensils">
-      The Stornogarantie line no longer appears on the Lieferschein (delivery note).
+      The Stornogarantie line no longer appears on the Lieferschein.
     </Card>
   </CardGroup>
 </Update>
 
 <Update label="2026-06 · Example" description="Disable layer matching in caterer matching">
-  KAM can switch caterer matching to a flat, alphabetical list of all published caterers, so they
-  can pick directly and bypass the scoring layers.
+  KAM can switch caterer matching to a flat, alphabetical list of all published caterers to pick
+  from directly, bypassing the scoring layers.
 
   <CardGroup cols={3}>
     <Card title="KAM" icon="headset">
