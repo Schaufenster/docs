@@ -1,0 +1,56 @@
+---
+title: "Kunden, Profile & Feedback"
+description: "Die Nachfrageseite: Nutzer und B2B-Companies, deren Abrechnungs- und Event-Profile sowie die Umfragen."
+icon: "users"
+---
+
+Drei zusammengehörige KAM-Bereiche: **Users & Customers**, **Smart Profiles** und **Feedback & Surveys**.
+
+## Users & Customers
+
+<CardGroup cols={2}>
+  <Card title="User" icon="user">
+    Ein Plattform-Nutzerkonto (Backend-/Plattform-Zugang).
+  </Card>
+  <Card title="Company" icon="building">
+    Ein **B2B-Account**, der Nutzer/Kunden bündelt. Hat Orders, Anfragen, Abrechnungsprofile und
+    E-Mail-Domains; trägt einen Account-Owner (KAM).
+  </Card>
+</CardGroup>
+
+<Note>
+  Der **Customer** (der einzelne Besteller) ist für KAMs nicht als eigener Menüpunkt geführt – du erreichst
+  Kundendaten über die Anfrage/Order. Eine Anfrage trägt ein `is_b2b`-Flag; die Abgrenzung Customer ↔ Company
+  ist über dieses Flag hinaus im Code nicht ausformuliert.
+</Note>
+
+## Smart Profiles
+
+<CardGroup cols={2}>
+  <Card title="BillingProfile" icon="address-card">
+    Abrechnungsprofil (Rechnungsanschrift/-daten), das einem Kunden oder einer Company hängt.
+  </Card>
+  <Card title="EventFormat" icon="calendar-star">
+    Wiederkehrende Event-Formate eines Kunden/einer Company (z. B. typische Anlässe, Budget-Spanne als
+    Min/Max). Wird sowohl im KAM-Backend als auch im Kunden-Filament-Backend gepflegt.
+  </Card>
+</CardGroup>
+
+## Feedback & Surveys
+
+<CardGroup cols={2}>
+  <Card title="SurveyInstance" icon="clipboard-question">
+    Eine konkret versendete Umfrage (an Kunde, Caterer oder KAM) – inkl. Multi-Order-Hub-Umfragen.
+  </Card>
+  <Card title="SurveyAnswer" icon="comment-dots">
+    Die einzelnen Antworten zu einer Survey-Instanz.
+  </Card>
+  <Card title="Survey-Insights" icon="chart-simple">
+    Das Dashboard mit aggregierten Bewertungen – auch pro Caterer auswertbar.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Verlorene/abgeschlossene Anfragen lösen automatisch eine Umfrage aus (siehe
+  [Wenn es schiefgeht](/kam-handbook/when-it-goes-sideways)).
+</Tip>

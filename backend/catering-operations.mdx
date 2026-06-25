@@ -1,0 +1,53 @@
+---
+title: "Catering Operations"
+description: "Der Bereich, in dem ein KAM den Großteil des Tages verbringt – Anfragen, Angebote, Orders und die zugehörigen Werkzeuge."
+icon: "utensils"
+---
+
+Der zentrale Arbeitsbereich. Hier bewegst du eine Anfrage vom Eingang bis zur gebuchten Order. Der
+genaue Statusfluss steht im [Request-Lifecycle](/kam-handbook/request-lifecycle).
+
+## Ressourcen
+
+<CardGroup cols={2}>
+  <Card title="CateringRequest" icon="inbox">
+    Die eingehende Kundenanfrage (Lead): Datum, Personenzahl, Budget, B2B-Flag, Lead-Quelle, zugewiesener KAM.
+    Der Einstieg in den Funnel; trägt den [Status 1–17](/kam-handbook/request-lifecycle).
+  </Card>
+  <Card title="CateringOffer" icon="file-invoice">
+    Das Angebot eines Caterers zu einer Anfrage (Positionen, Pakete, Service-Gebühren). Startet **UNFINISHED**,
+    wird **FINISHED**. „Gesendet" = Zeitstempel `sent_to_customer_at` (kein Status). Aus einem angenommenen
+    Angebot wird eine Order.
+  </Card>
+  <Card title="Order" icon="receipt">
+    Die gebuchte Transaktion. Eine Anfrage kann über **zwei Wege** zu Orders führen (direkt oder je Angebot/Branch);
+    Details unter [Anfrage → Angebot → Order](/kam-handbook/request-lifecycle). Trägt die
+    [Post-Booking-Checkliste](/kam-handbook/post-booking-checklist).
+  </Card>
+  <Card title="InvoiceDunningReminder" icon="bell">
+    Mahnungen zu offenen Rechnungen einer Order.
+  </Card>
+  <Card title="PrecomputedMenuProposal" icon="wand-magic-sparkles">
+    Vorab berechnete Menü-Vorschläge, auf die der Angebots-/Matching-Flow zurückgreift.
+  </Card>
+  <Card title="TextSnippet" icon="quote-left">
+    Wiederverwendbare Textbausteine für die Kunden-/Caterer-Kommunikation.
+  </Card>
+</CardGroup>
+
+## Werkzeuge in diesem Bereich
+
+Drei der Menüpunkte sind keine Ressourcen, sondern **eigene Nova-Werkzeuge** (Detail unter
+[Werkzeuge](/backend/tools)):
+
+- **Request Email Parser** (`/catering-email-parser`) – wandelt eingehende Anfrage-E-Mails per KI in
+  strukturierte Anfragen um.
+- **Caterer Matching Tool** (`/caterer-matching-tool`) – schlägt passende Caterer für eine Anfrage vor und
+  baut das Menü; mit „Match all"-Modus für die manuelle Caterer-Auswahl.
+- **Catering offer tool (manuell)** (`/catering-menu`) – das manuelle Werkzeug zum Erstellen/Bearbeiten
+  eines Angebots-Menüs.
+
+<Tip>
+  Die meiste Detailarbeit an einer **Order** läuft nicht in der Standard-Nova-Ansicht, sondern im
+  **OrderHub** – dem Order-Arbeitsplatz, den du aus der Order-Detailseite öffnest. Siehe [Werkzeuge](/backend/tools).
+</Tip>

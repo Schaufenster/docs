@@ -40,6 +40,28 @@
             ]
           },
           {
+            "tab": "Backend-Referenz",
+            "groups": [
+              {
+                "group": "Überblick",
+                "pages": ["backend/overview"]
+              },
+              {
+                "group": "Menü-Bereiche",
+                "pages": [
+                  "backend/catering-operations",
+                  "backend/catalog-suppliers",
+                  "backend/customers-profiles",
+                  "backend/performance-insights"
+                ]
+              },
+              {
+                "group": "Werkzeuge",
+                "pages": ["backend/tools"]
+              }
+            ]
+          },
+          {
             "tab": "IT / Intern",
             "groups": [
               {
@@ -71,10 +93,6 @@
                 ]
               }
             ]
-          },
-          {
-            "tab": "API-Referenz",
-            "openapi": "/api-reference/openapi.json"
           }
         ]
       },
@@ -135,10 +153,6 @@
                 ]
               }
             ]
-          },
-          {
-            "tab": "API reference",
-            "openapi": "/api-reference/openapi.json"
           }
         ]
       }

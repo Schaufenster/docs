@@ -1,0 +1,54 @@
+---
+title: "KAM-Werkzeuge"
+description: "Die eigenen Nova-Werkzeuge jenseits der Standard-Ressourcen – OrderHub, Matching, Menü-Erstellung, Email-Parser, KAM Inbox."
+icon: "screwdriver-wrench"
+---
+
+Neben den Standard-Ressourcen gibt es **eigene Nova-Werkzeuge** (Custom Tools), die zentrale KAM-Abläufe
+bündeln. Einige sind Menüpunkte, andere öffnest du aus einer Detailseite.
+
+## OrderHub
+
+<Card title="OrderHub" icon="grip">
+  Der **Order-Arbeitsplatz**. Du öffnest ihn aus der Order-Detailseite – nicht über das Hauptmenü. Bündelt
+  alle Aktionen rund um eine Order an einem Ort: Status, Positionen, Kategorien/Steuer, die
+  [Post-Booking-Checkliste](/kam-handbook/post-booking-checklist), Dokumente, Versand und das Action-Log.
+</Card>
+
+## Catering-Erstellung
+
+<CardGroup cols={2}>
+  <Card title="Caterer Matching Tool" icon="people-arrows">
+    `/caterer-matching-tool` – schlägt über mehrere gewichtete Layer passende Caterer für eine Anfrage vor
+    und baut das Menü. Mit „Match all"-Modus, der alle veröffentlichten Caterer flach (alphabetisch)
+    auflistet, sodass du direkt auswählen kannst.
+  </Card>
+  <Card title="Catering offer tool (manuell)" icon="pen-ruler">
+    `/catering-menu` – das manuelle Werkzeug zum Aufbauen/Bearbeiten eines Angebots-Menüs.
+  </Card>
+  <Card title="AI Menu Creator" icon="wand-magic-sparkles">
+    KI-gestützte Generierung von Menü-Vorschlägen (greift auf vorab berechnete Vorschläge zurück).
+  </Card>
+  <Card title="Request Email Parser" icon="envelope-open-text">
+    `/catering-email-parser` – wandelt eine eingehende Anfrage-E-Mail per KI in eine strukturierte
+    CateringRequest um.
+  </Card>
+</CardGroup>
+
+## KAM Inbox
+
+<Card title="KAM Inbox" icon="inbox-full">
+  Ein vereinheitlichter Aktivitäts-Feed pro KAM (E-Mail, Chat, System-Events, HubSpot-Aufgaben). Per
+  Feature-Flag freigeschaltet; nur für die Rollen `kam`/`admin`. Jedes KAM-relevante Ereignis (Statuswechsel,
+  Kundenbearbeitung, Zuweisung) wird hier protokolliert.
+</Card>
+
+## KPI-Seiten
+
+Die Catering-KPI-Seite (`/catering-kpi-page`) und ihre B2B-Variante sind ebenfalls eigene Werkzeuge; sie
+sind im Bereich [Performance & Insights](/backend/performance-insights) beschrieben.
+
+<Tip>
+  Hub-Aktionen (z. B. im OrderHub) protokollieren ins dauerhafte Spatie-Activity-Log – der „Action Log"-Tab
+  im Hub ist die vollständige Sicht. Das alte Nova-Panel „Action Events" zeigt nur die letzten 25 Einträge.
+</Tip>
