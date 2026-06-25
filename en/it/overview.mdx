@@ -1,44 +1,44 @@
 ---
-title: "IT / internal overview"
-description: "Orientation for engineering and KAM: what's here and how the internal knowledge base is meant to work."
+title: "IT / Internal overview"
+description: "Orientation for engineering and KAM: what lives here and how the internal knowledge base is supposed to work."
 icon: "compass"
 ---
 
-This section is for **engineering** and **KAM (Key Account Managers)**. It collects the technical and operational knowledge that today is scattered across the codebase, gitignored `/plans/` notes and individual people's heads.
+This section is for **engineering** and **KAM (Key Account Managers)**. It collects the technical and operational knowledge that today is scattered across the codebase, gitignored `/plans/` notes, and individual people's heads.
 
 ## Team & responsibilities
 
-- **Johannes Manske** — CEO, responsible for the product
-- **Steffen Claus** — CTO, technical implementation of tickets.
+- **Johannes Manske** — CEO, owns the product.
+- **Steffen Claus** — CTO, technical delivery of tickets.
 
 ## What's in this tab
 
 <CardGroup cols={2}>
-  <Card title="MCP connector setup" icon="plug" href="/en/it/mcp-setup">
-    Connect Claude Desktop to the eGora data server so you can ask live questions about orders, requests, companies and more.
+  <Card title="MCP connector setup" icon="plug" href="/it/mcp-setup">
+    Connect Claude Desktop to the eGora data server so you can ask live questions about orders, requests, companies, and more.
   </Card>
 
-  <Card title="KPI catalog" icon="chart-line" href="/en/it/kpi-catalog">
-    The canonical definitions behind the Catering KPI page, so MCP / Claude analyses line up exactly with the dashboard.
+  <Card title="KPI catalog" icon="chart-line" href="/it/kpi-catalog">
+    The canonical definitions behind the catering KPI page, so MCP/Claude analyses line up exactly with the dashboard.
   </Card>
 
-  <Card title="Release communication" icon="megaphone" href="/en/it/feature-changelog">
-    The pattern for communicating shipped features to KAM, customers and caterers — the exact gap this pilot addresses.
+  <Card title="Release communication" icon="megaphone" href="/it/feature-changelog">
+    The pattern for communicating shipped features to KAM, customers, and caterers — exactly the gap this pilot addresses.
   </Card>
 </CardGroup>
 
-## The problem this is solving
+## The problem we're tackling
 
 <Warning>
-  Features ship faster than they're documented. The result: KAM hears about a change through a customer question, customers discover behavior by trial and error, and caterers miss workflow updates.
+  Features ship faster than they get documented. The result: KAM learns about a change from a customer question, customers discover behavior by trial and error, and caterers miss workflow updates.
 </Warning>
 
-The fix isn't "write more docs, one more time" — it's a **repeatable place and format** in which a feature is only considered done once its user-facing change is written down for the affected audiences. The [Release communication](/en/it/feature-changelog) page demonstrates this pattern.
+The fix isn't "write more docs once" — it's a **repeatable place and format** where a feature is only considered done once its user-facing change is written down for the affected audiences. The [Release communication](/it/feature-changelog) page demonstrates this pattern.
 
 ## How "internal" stays internal
 
-This pilot is published **publicly** on the free Mintlify plan, so all content here is deliberately **non-sensitive sample content**. A real internal rollout would hide this tab behind authentication (SSO / password) — a paid Mintlify feature, captured as a cost item in the evaluation.
+This pilot is published **publicly** on Mintlify's free tier, so everything here is deliberately **non-sensitive example content**. A real internal rollout would put this tab behind authentication (SSO / password) — that's a paid Mintlify feature and is captured as a cost line item in the evaluation.
 
 <Info>
-  Source material that would fill a real version of this tab already exists: `docs/mcp/` in the app repo, the `egora-kam-assistant/knowledge/` markdown, and around 110 working notes in the gitignored `/plans/` directory.
+  Source material that would populate a real version of this tab already exists: `docs/mcp/` in the app repo, the `egora-kam-assistant/knowledge/` markdown, and roughly 110 working notes in the gitignored `/plans/` directory.
 </Info>

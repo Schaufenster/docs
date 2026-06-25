@@ -4,50 +4,50 @@ description: "The area where a KAM spends most of the day – requests, offers, 
 icon: "utensils"
 ---
 
-The central workspace. This is where you move a request from intake to a booked order. The exact status
-flow is documented in [Request lifecycle](/en/kam-handbook/request-lifecycle).
+The central workspace. This is where you move a request from inbox to booked order. The exact status flow
+is documented in the [request lifecycle](/kam-handbook/request-lifecycle).
 
 ## Resources
 
 <CardGroup cols={2}>
   <Card title="CateringRequest" icon="inbox">
-    The incoming customer request (lead): date, headcount, budget, B2B flag, lead source, assigned KAM.
-    The entry point into the funnel; carries [status 1–17](/en/kam-handbook/request-lifecycle).
+    The incoming customer request (lead): date, number of people, budget, B2B flag, lead source, assigned
+    KAM. The entry into the funnel; carries [status 1–17](/kam-handbook/request-lifecycle).
   </Card>
   <Card title="CateringOffer" icon="file-invoice">
-    A caterer's offer on a request (line items, packages, service fees). Starts as **UNFINISHED**, becomes
-    **FINISHED**. "Sent" = the `sent_to_customer_at` timestamp (not a status). An accepted offer turns into
+    A caterer's offer on a request (line items, packages, service fees). Starts **UNFINISHED**, becomes
+    **FINISHED**. "Sent" = the `sent_to_customer_at` timestamp (not a status). An accepted offer becomes
     an order.
   </Card>
   <Card title="Order" icon="receipt">
-    The booked transaction. A request can lead to orders via **two paths** (direct or per offer / branch);
-    details under [Request → Offer → Order](/en/kam-handbook/request-lifecycle). Carries the
-    [post-booking checklist](/en/kam-handbook/post-booking-checklist).
+    The booked transaction. A request can lead to orders in **two ways** (directly, or per offer/branch);
+    details under [request → offer → order](/kam-handbook/request-lifecycle). Carries the
+    [post-booking checklist](/kam-handbook/post-booking-checklist).
   </Card>
   <Card title="InvoiceDunningReminder" icon="bell">
-    Dunning reminders for open invoices on an order.
+    Dunning reminders on open invoices of an order.
   </Card>
   <Card title="PrecomputedMenuProposal" icon="wand-magic-sparkles">
-    Pre-computed menu proposals that the offer / matching flow draws on.
+    Precomputed menu proposals that the offer/matching flow draws on.
   </Card>
   <Card title="TextSnippet" icon="quote-left">
-    Reusable text snippets for customer / caterer communication.
+    Reusable text snippets for customer/caterer communication.
   </Card>
 </CardGroup>
 
 ## Tools in this area
 
-Three of the menu entries are not resources but **dedicated Nova tools** (details under
-[Tools](/en/backend/tools)):
+Three of the menu items aren't resources but **dedicated Nova tools** (detail in
+[Tools](/backend/tools)):
 
 - **Request Email Parser** (`/catering-email-parser`) – uses AI to turn incoming request emails into
   structured requests.
-- **Caterer Matching Tool** (`/caterer-matching-tool`) – suggests matching caterers for a request and
+- **Caterer Matching Tool** (`/caterer-matching-tool`) – proposes matching caterers for a request and
   builds the menu; includes a "Match all" mode for manual caterer selection.
-- **Catering offer tool (manual)** (`/catering-menu`) – the manual tool for creating / editing an offer
+- **Catering offer tool (manual)** (`/catering-menu`) – the manual tool for creating/editing an offer
   menu.
 
 <Tip>
-  Most of the detail work on an **Order** doesn't happen in the standard Nova view but in the
-  **OrderHub** – the order workspace you open from the order detail page. See [Tools](/en/backend/tools).
+  Most of the detail work on an **order** doesn't happen in the standard Nova view but in the
+  **OrderHub** – the order workspace you open from the order detail page. See [Tools](/backend/tools).
 </Tip>

@@ -4,14 +4,14 @@ description: "The eGora terms a KAM needs to know — caterer/branch, Stornogara
 icon: "book-bookmark"
 ---
 
-Core vocabulary, anchored in the eGora codebase. Where the business meaning beyond the code isn't
-defined, that's called out.
+Core vocabulary, anchored in the eGora codebase. Where the business meaning beyond the code is not
+defined, that's flagged.
 
 ## Objects
 
 <CardGroup cols={2}>
   <Card title="CateringRequest" icon="inbox">
-    The incoming request/lead: number of people, date/time, budget, B2B flag, lead source, assigned KAM. One
+    The incoming request/lead: headcount, date/time, budget, B2B flag, lead source, assigned KAM. A
     request can lead to one or more offers.
   </Card>
   <Card title="CateringOffer" icon="file-invoice">
@@ -19,38 +19,37 @@ defined, that's called out.
     An accepted offer becomes an Order.
   </Card>
   <Card title="Order" icon="receipt">
-    The booked/paid transaction created from an accepted offer. Carries the order status, the Stornogarantie
-    (cancellation guarantee) line item, and the [post-booking checklist](/en/kam-handbook/post-booking-checklist).
+    The booked/paid transaction from an accepted offer. Carries the order status, the Stornogarantie line item,
+    and the [post-booking checklist](/en/kam-handbook/post-booking-checklist).
   </Card>
   <Card title="Customer vs. Company (B2B)" icon="building">
     A request has a Customer and an `is_b2b` flag; Companies are a separate B2B entity (billing profiles,
-    Company users, event formats). *The exact distinction beyond the B2B flag isn't spelled out in the
-    code — clarify with the team if it matters.*
+    Company users, event formats). *The exact distinction beyond the B2B flag is not spelled out in the code —
+    clarify with the team if it matters.*
   </Card>
 </CardGroup>
 
 ## Caterer side
 
-- **Retailer = caterer** — a catering company on the marketplace.
-- **Branch = caterer location** — a Retailer can have multiple Branches, each with its own opening hours,
-  minimum order value and delivery support.
+- **Retailer = Caterer** — a catering business on the marketplace.
+- **Branch = caterer location** — a retailer can have multiple branches, each with its own opening hours,
+  minimum order value, and delivery support.
 
 ## Key terms
 
-- **Stornogarantie** (cancellation guarantee) — a tiered line item that is automatically added to
-  offers/orders (SKU prefix `EGORA-STORNOGARANTIE`), in four tiers (T1–T4), scaling with the order value.
-  On an **offer** it is automatically added/updated unless the KAM opts out (`exclude_stornogarantie`); on an
-  **order** it is only **adjusted**, never automatically added. The opt-out is carried over from the offer to
-  the order.
+- **Stornogarantie** (cancellation guarantee) — a tiered line item added automatically to offers/orders (SKU prefix
+  `EGORA-STORNOGARANTIE`), in four tiers (T1–T4) that scale with order value. On an **offer** it's
+  added/updated automatically unless the KAM opts out (`exclude_stornogarantie`); on an **order** it's
+  only **adjusted**, never added automatically. The opt-out carries over from the offer to the order.
 - **KAM** — Key Account Manager: owns a request end-to-end.
 - **GMV** — Gross Merchandise Value (booked order value). The internal KPI dashboards exclude checkout,
-  cancellation/cancelled and payment-failed orders from the booked GMV totals.
+  cancelled/storno, and payment-failed orders from booked GMV totals.
 
-## Where eGora is active
+## Where eGora operates
 
-**Only Berlin and Munich** — the only cities set up in the system. Timezone: Europe/Berlin.
+**Berlin and Munich only** — the only cities configured in the system. Timezone: Europe/Berlin.
 
 <Warning>
-  The assistant cannot see **personally identifiable** customer data (names, emails, phone numbers, addresses,
-  free-text notes) — they are stripped in the data connector. It does not invent them.
+  The assistant cannot see customers' **personal data** (names, emails, phone numbers, addresses,
+  free-text notes) — they are scrubbed in the data connector. It does not invent them.
 </Warning>
