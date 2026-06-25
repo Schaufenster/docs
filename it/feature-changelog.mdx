@@ -34,6 +34,28 @@ Jedes ausgelieferte Feature bekommt einen Changelog-Eintrag, der drei Fragen bea
 
 ## Changelog
 
+<Update label="2026-06-25" description="OrderHub: Rechnungs-Action prüft Steuersätze">
+  Die vier KAM-Checklisten-Actions im OrderHub (**Bestellbestätigung → Kunde**, **Bestellbestätigung
+  → Caterer**, **Lieferschein → Caterer**, **Rechnung → Kunde**) verhalten sich jetzt identisch zum
+  Actions-Dropdown. Insbesondere zeigt **Rechnung → Kunde** bei abweichenden Steuersätzen im Warenkorb
+  keine grüne Erfolgsmeldung mehr ohne dass die Stripe-Rechnung erzeugt wurde — stattdessen erscheint
+  eine Bestätigung mit den betroffenen Positionen, und erst nach „OK" wird die Rechnung erstellt.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Wenn Du in der Checklist auf **Rechnung → Kunde** klickst und ein Tax-Hinweis erscheint, prüfe
+      die aufgelisteten Positionen. Mit „Abbrechen" wird nichts gesendet, mit „OK" wird die Rechnung
+      trotzdem erstellt. Vorher gemeldete „falsche" grüne Toasts gibt es nicht mehr.
+    </Card>
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06 · Beispiel" description="Anrede pro Kunde (Du / Sie)">
   Kunden können jetzt konsistent über E-Mails, das Kunden-Backend, Umfragen und PDFs hinweg formell
   (**Sie**) oder informell (**Du**) angesprochen werden.
