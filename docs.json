@@ -155,7 +155,7 @@
     }
   },
   "logo": {
-    "light": "/images/logo_white.png",
-    "dark": "/images/logo_purple.png"
+    "light": "/images/logo_invoice.png",
+    "dark": "/images/logo_white.png"
   }
 }
