@@ -32,6 +32,29 @@ Every shipped feature gets a changelog entry that answers three questions:
 
 ## Changelog
 
+<Update label="2026-06-25" description="OrderHub: invoice action verifies tax rates">
+  The four KAM checklist actions in OrderHub (**Order Confirmation → Customer**, **Order Confirmation
+  → Caterer**, **Delivery Sheet → Caterer**, **Invoice → Customer**) now behave identically to the
+  Actions dropdown. In particular, **Invoice → Customer** no longer shows a green success toast when
+  the cart has unconfirmed tax-rate issues without the Stripe invoice actually being created —
+  instead, a confirmation lists the affected line items, and the invoice is only created after you
+  confirm.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      When you click **Invoice → Customer** in the checklist and a tax notice appears, review the
+      listed line items. Cancel sends nothing; OK creates the invoice anyway. The previously
+      misleading green success toasts are gone.
+    </Card>
+    <Card title="Customers" icon="user">
+      Not affected.
+    </Card>
+    <Card title="Caterers" icon="utensils">
+      Not affected.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06 · Example" description="Per-customer salutation (Du / Sie)">
   Customers can now be addressed consistently formally (**Sie**) or informally (**Du**) across
   emails, the customer backend, surveys, and PDFs.
