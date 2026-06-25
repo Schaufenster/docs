@@ -1,0 +1,63 @@
+---
+title: "Catalog & Suppliers"
+description: "Die Angebotsseite: Caterer und ihre Filialen, deren Abrechnung sowie der Produkt- und Paketkatalog."
+icon: "store"
+---
+
+Hier verwaltest du die **Caterer-Seite** des Marktplatzes – wer liefert, von welchem Standort, zu welchen
+Konditionen, und was im Katalog steht.
+
+## Caterer & Standorte
+
+<CardGroup cols={2}>
+  <Card title="Retailer" icon="building-user">
+    Ein **Caterer** (Marktplatz-Partner). Hat Filialen, Produkte, Pakete und Kontaktpersonen; trägt Scores
+    und Capability-Taxonomien, die das Matching nutzt.
+  </Card>
+  <Card title="Branch" icon="location-dot">
+    Ein **Caterer-Standort** (Küche). Ein Retailer kann mehrere Branches haben – je mit Öffnungszeiten,
+    Mindestbestellwert, Take-Rate und Liefergebiet. Orders und Angebote hängen an einer Branch.
+  </Card>
+</CardGroup>
+
+## Abrechnung & Auszahlung
+
+<CardGroup cols={2}>
+  <Card title="MonthlyRetailerBill" icon="file-invoice-dollar">
+    Die monatliche **Gutschrift** pro Branch/Monat (mit PDF). Fasst Auszahlungen, Gebühren und manuelle
+    Anpassungen zusammen.
+  </Card>
+  <Card title="PayoutAdjustment" icon="sliders">
+    Manuelle Korrekturposten auf einer Monatsabrechnung. Brutto und Steuer werden aus dem Netto-Betrag ×
+    Steuersatz automatisch berechnet.
+  </Card>
+</CardGroup>
+
+<Note>
+  Die monatliche Gutschrift kennt mehrere Auszahlungs-Bestandteile (u. a. Pfand und egora-Gutschein-Anteil).
+  Bei Unstimmigkeiten zwischen den Einzelposten und der Gesamtsumme gibt es ein Reconcile-Kommando
+  (`audit:monthly-payout-reconcile`).
+</Note>
+
+## Katalog
+
+<CardGroup cols={2}>
+  <Card title="Product" icon="box">
+    Ein Katalogprodukt eines Caterers. Trägt Varianten, Optionen, Kategorien und Allergene.
+  </Card>
+  <Card title="Productvariant" icon="boxes-stacked">
+    Die tatsächlich verkaufbare Einheit eines Produkts – diese landet in Angeboten und Orders.
+  </Card>
+  <Card title="Package" icon="box-open">
+    Ein gebündeltes, bepreistes Catering-Paket eines Caterers (Menü inkl. Aufschlägen für Getränke,
+    Equipment, Service, Personenzahl).
+  </Card>
+  <Card title="Voucher" icon="ticket">
+    Gutscheine; die Erstattung kann zwischen egora und Caterer aufgeteilt sein.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Produktkategorien steuern den **Steuersatz** (über die Kategorie-Default-Rate). Wenn du eine Kategorie
+  inline anlegst oder änderst, achte auf die richtige Blatt-Kategorie statt der Menü-Gruppe.
+</Tip>

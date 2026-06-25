@@ -1,0 +1,69 @@
+---
+title: "Das KAM-Backend im Überblick"
+description: "Was ein KAM im Nova-Backend sieht – die acht Menü-Bereiche, was sie enthalten und was bewusst ausgeblendet ist."
+icon: "table-columns"
+---
+
+Das KAM-Backend ist die **Laravel-Nova-Administration** (unter `/nova`). Caterer und Kunden nutzen ein
+separates Filament-Backend – ein KAM arbeitet **ausschließlich in Nova**.
+
+Was du siehst, hängt an deiner Rolle. Mit der Rolle **`kam`** sind **acht Menü-Bereiche** sichtbar (die
+Admin-/Konfigurations-Bereiche bleiben ausgeblendet, siehe unten). Diese Referenz beschreibt genau diese
+acht Bereiche – verankert in der tatsächlichen Menü-Definition im Code.
+
+## Die acht KAM-Bereiche
+
+<CardGroup cols={2}>
+  <Card title="Dashboard" icon="chart-bar">
+    Die Startseite mit den aggregierten Order-/Cart-/Delivery-Kennzahlen.
+  </Card>
+  <Card title="KAM Inbox" icon="inbox-full" href="/backend/tools">
+    Dein vereinheitlichter Aktivitäts-Feed (E-Mail, Chat, System-Events). Per Feature-Flag freigeschaltet.
+  </Card>
+  <Card title="Catering Operations" icon="utensils" href="/backend/catering-operations">
+    Dein Tagesgeschäft: Anfragen, Angebote, Orders, Matching- und Menü-Werkzeuge.
+  </Card>
+  <Card title="Feedback & Surveys" icon="star" href="/backend/customers-profiles">
+    Kunden-/Caterer-Umfragen und die Survey-Insights.
+  </Card>
+  <Card title="Catalog & Suppliers" icon="store" href="/backend/catalog-suppliers">
+    Caterer (Retailer), Filialen (Branches), Abrechnung, Produkte, Pakete, Gutscheine.
+  </Card>
+  <Card title="Users & Customers" icon="users" href="/backend/customers-profiles">
+    Plattform-Nutzer und B2B-Companies.
+  </Card>
+  <Card title="Smart Profiles" icon="id-card" href="/backend/customers-profiles">
+    Abrechnungsprofile und Event-Formate.
+  </Card>
+  <Card title="Performance & Insights" icon="gauge" href="/backend/performance-insights">
+    KPI-Seiten, Lead-Funnel, Google-Ads, Lead-Quellen.
+  </Card>
+</CardGroup>
+
+## Menü-Landkarte
+
+| Bereich | Enthält (Ressourcen & Werkzeuge) |
+| --- | --- |
+| **Dashboard** | Haupt-Dashboard (Order-KPIs, Cart, Delivery, Voucher) |
+| **KAM Inbox** | Aktivitäts-Feed pro KAM *(Feature-Flag)* |
+| **Catering Operations** | CateringRequest · Request Email Parser · Caterer Matching Tool · Catering offer tool (manuell) · CateringOffer · Order · InvoiceDunningReminder · PrecomputedMenuProposal · TextSnippet |
+| **Feedback & Surveys** | SurveyInstance · SurveyAnswer · Survey-Insights-Dashboard |
+| **Catalog & Suppliers** | Retailer · Branch · MonthlyRetailerBill · PayoutAdjustment · Product · Package · Productvariant · Voucher |
+| **Users & Customers** | User · Company |
+| **Smart Profiles** | BillingProfile · EventFormat |
+| **Performance & Insights** | Request-/Marketing-/Finance-/Diverse-KPIs · LeadFormProgress · GoogleAd · LeadSource |
+
+## Was ein KAM bewusst **nicht** sieht
+
+Diese Bereiche sind nur für Admins sichtbar – wende dich ans Team, wenn du hier etwas brauchst:
+
+<Note>
+  **Catering Config**, **Delivery Config**, **Content Management**, **Reference Data** (Stammdaten/Taxonomien),
+  **System Admin** (Rollen, Rechte, Importe), **Email & Communication** (E-Mail-Templates/A-B-Tests) und
+  **Accounting & Finance** (Mahn-Ausnahmen).
+</Note>
+
+<Tip>
+  Den End-to-End-Ablauf einer Anfrage findest du im [Request-Lifecycle](/kam-handbook/request-lifecycle); die
+  Begriffe (Retailer, Branch, Stornogarantie, GMV) im [Glossar](/kam-handbook/key-concepts).
+</Tip>

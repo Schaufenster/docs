@@ -1,0 +1,43 @@
+---
+title: "Performance & Insights"
+description: "Die KPI-Seiten und Marketing-/Funnel-Ressourcen, mit denen ein KAM die Pipeline misst."
+icon: "gauge"
+---
+
+Der Analytics-Bereich. Die vier KPI-Menüpunkte verlinken alle auf **dieselbe** Catering-KPI-Seite
+(`/catering-kpi-page`), nur an unterschiedliche Abschnitte verankert.
+
+## KPI-Seite
+
+| Menüpunkt | Sprung-Anker | Inhalt |
+| --- | --- | --- |
+| **Request KPIs** | `#conversion-rate-kpis` | Conversion-Funnel (converted, completed, lost …) |
+| **Marketing KPIs** | `#google-ads-kpis` | Google-Ads-Funnel & Cohorts |
+| **Finance KPIs** | `#finance-kpis` | Umsatz, Provision, Auszahlungen, Steuern |
+| **Diverse KPIs** | `#backend-visit-rate-kpis` | Backend-Nutzung, Caterer-/Kunden-Interaktion |
+
+<Note>
+  Die KPI-Seite definiert **~109 kanonische Kennzahl-Kacheln** in 12 Abschnitten. Sie ist die Quelle der
+  Wahrheit für „Wie hoch ist unser X?". Die vollständige Liste steht im
+  [KPI-Katalog](/it/kpi-catalog); der Claude-Assistent liest dieselben Werte serverseitig über die
+  `get_catering_kpi`-MCP-Funktion.
+</Note>
+
+## Funnel- & Attributions-Ressourcen
+
+<CardGroup cols={2}>
+  <Card title="LeadFormProgress" icon="filter">
+    Funnel-Sessions des Lead-Formulars – wie weit ein Interessent im Formular gekommen ist.
+  </Card>
+  <Card title="GoogleAd" icon="bullhorn">
+    Google-Ads-Klick-/View-Zeilen zur Attribution (Kampagne + Anzeigengruppe).
+  </Card>
+  <Card title="LeadSource" icon="signs-post">
+    Die Lead-Quellen-Lookup – woher eine Anfrage stammt (Ads vs. organisch etc.).
+  </Card>
+</CardGroup>
+
+<Warning>
+  Es gibt zwei GMV-Sichtweisen (nach **Anfragedatum** vs. nach **Buchungs-/Item-Datum**) sowie eine
+  transaktionsbasierte Variante. Vergleiche immer dieselbe Definition – die KPI-Seite benennt sie je Kachel.
+</Warning>
