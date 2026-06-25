@@ -1,0 +1,75 @@
+---
+title: "Revenue Conversion"
+description: "Wie aus bestehendem Lead-Volumen mehr Buchungen werden — CVR steigern = Revenue ohne zusätzliche Leads."
+icon: "chart-line"
+---
+
+> Wie aus bestehendem Lead-Volumen mehr Buchungen werden — CVR steigern = Revenue ohne zusätzliche Leads. Diese Datei hält die durable Mechanik. **Aktuelle Zahlen** (CVR, Quali-Rate, Kohorten) liegen live im Growth Cockpit / HubSpot, nicht hier.
+
+## Grundregel: B2B/B2C ist der größte Confounder
+
+B2B konvertiert deutlich höher als B2C — der mit Abstand stärkste Einzelfaktor. Konsequenz: Jede CVR-Aussage **B2B-kontrolliert** lesen. Wo B2B- und B2C-CVR innerhalb eines Segments ähnlich sind, ist der Faktor echt; laufen sie auseinander, steckt der Effekt im B2B-Mix, nicht im Faktor.
+
+## Conversion-Prinzipien
+
+- **B2B vor B2C.** B2B-Leads zuerst bearbeiten — höhere Wiederkehr- und Buchungswahrscheinlichkeit.
+- **Kurze Leadtime zuerst.** Je näher das Event, desto höher die Conversion pro investierter KAM-Minute.
+
+## KAM-Prozess — Flow
+
+```
+Anfrage (Request Form / Marketplace)
+  → Deal "Offen" (HubSpot Request Funnel)
+  → KAM qualifiziert (B2B/B2C, Budget, Machbarkeit)
+  → Menü-/Angebotserstellung
+  → "Angebot beim Kunden" → Follow-Up → "Im Austausch" → "Catering confirmed"
+  → "Catering booked" → "Catering done"
+```
+
+Zwei Eingangskanäle mit unterschiedlichen Funnels: **Request Form** (KAM-begleitet) vs. **Marketplace** (Self-Service). Nicht verwechseln.
+
+## Quali-Call — der stärkste operative Hebel
+
+Ein qualifizierter Call (Anlass, Budget, Anforderungen klären — **vor** dem Menüversand) hebt die Conversion deutlich. Wichtig: Mit steigender Call-Rate sinkt der marginale Effekt (Diminishing Returns). Quali-Call ist der stärkste, aber nicht der einzige Hebel — Follow-Up und SLA sind ebenso kritischer Pfad, nicht nur Verstärker.
+
+→ Skript & Ablauf: [Calling Guide – Qualification Call (Notion)](https://app.notion.com/p/28a0e460164b803b9cfada46117d8d70)
+
+## Deal-Lifecycle — drei Phasen
+
+| Phase | Zeitraum | Was zählt |
+|-------|----------|-----------|
+| Entscheidungsphase | Woche 1–2 | Großteil aller Buchungen — max. Energie & Follow-Ups |
+| Letzte Chance | Woche 3 | „Last Call"-Anstoß |
+| Auslauf | ab Woche 4 | Abschluss wird unwahrscheinlich — Energie eher in frische Anfragen |
+
+*(Ein harter „Auto-Lost ab Tag X"-Prozess ist noch nicht entschieden.)*
+
+**Neukunden reifen langsamer:** Ihr Entscheidungsfenster läuft Woche 1–3 statt 1–2. Wer Follow-Ups nur bis Woche 2 zieht, lässt bei Neukunden Conversion liegen — NC-Follow-Up bis ~Tag 21 ziehen.
+
+## Was die Conversion sonst treibt (durable Muster)
+
+- **Reaktionszeit (SLA):** Schnelle Angebotszeit hebt die CVR, am stärksten bei Anfragen ab ~1.000 €. Die 6–12h-„tote Zone" ist über alle Segmente der schlechteste Bereich.
+- **Anfragewert:** Sweet-Spot bei mittleren Anfragen (~2–5k €); sehr kleine Anfragen (unter ~500 €) ziehen den Schnitt runter.
+- **Lead-Time:** ~60–89 Tage vor dem Event ist eine Dead-Zone (schwächste Conversion) — solche Deals brauchen einen gezielten Reminder näher am Event statt Dauer-Flow.
+- **Engagement:** Mehr Proposals/Touchpoints bei komplexen Deals zahlen sich aus — dort nicht reduzieren.
+- **Stärkster Treiber insgesamt:** der B2B-Anteil im Lead-Mix (kommt aus Growth & Marketing).
+
+→ Konkrete Werte je Segment: Growth Cockpit / HubSpot. **Methodik-Disziplin:** Einen Befund nur als Hebel framen, wenn er über mehrere Messzeitpunkte robust ist — kleine Stichproben sind Hypothese, kein Versprechen.
+
+## Follow-Up-Flow
+
+Sechs Varianten je Situation: Post-Offer, Stalled Deal, Re-Engagement, Feedback, Upsell, Win-Back. Enabler für systematisches Nachfassen.
+
+→ Detail & Cadence: [KAM Request Follow Ups Guide (Notion)](https://app.notion.com/p/11e0e460164b8059aa0be457bcfe37ec)
+
+## Methodische Lessons (für CVR-Audits)
+
+- **Backend vs. HubSpot:** Initial-Proposals und automatische Reminder laufen über das egora-Backend und erscheinen in HubSpot nur als Stamping-Note, nicht als E-Mail-Objekt. Bei jedem CVR-/Touch-Audit mitzählen, sonst werden echte Outbound-Aktivitäten als „Phantom" übersehen.
+- **Lost-Reasons sauber taggen:** Sammelkategorien verzerren die Auswertung. Genauer differenzieren (z.B. outside_service_area, lead_time_too_short, on_hold, no_caterer_in_network).
+- **Daten-Disziplin:** Calls mit Body + Direction loggen, keine Aktivitäten nach Closedate, Doppel-Versand vermeiden.
+
+## Verwandt
+
+- Roter Faden der Anfrage-Betreuung: [anfrage-betreuung.md](/rev-ops/anfrage-betreuung)
+- Datenmodell hinter Matching/Qualifizierung: [attribute-master-schema.md](/rev-ops/attribute-master-schema)
+- SLA, Telefonie, Übergabe: [operations-support.md](/rev-ops/operations-support)

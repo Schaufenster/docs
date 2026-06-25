@@ -1,0 +1,90 @@
+---
+title: "Asana-Struktur"
+description: "Wie unsere Asana-Boards strukturiert sind und wo welche Task hingehört — Board-Landschaft und Filing-Logik."
+icon: "list-check"
+---
+
+> Wie unsere Asana-Boards strukturiert sind und wo welche Task hingehört. Referenz zum Einsortieren neuer und bestehender Tasks — damit nicht jedes Mal neu geraten wird. Ändert sich die Struktur, wird zuerst dieser Doc aktualisiert.
+
+## Grundprinzipien (gelten für alle Boards)
+
+| Prinzip | Regel |
+|---------|-------|
+| **Naming** | Klar statt abstrakt. Test: *Braucht der Name eine Klammer zum Erklären, ist er falsch.* Echtes egora-Vokabular (CRO, Google Ads, Bestandskunden), kein Lehrbuch-Sprech. |
+| **Ein Begriff pro Section** | Kein „X & Y & Z"-Stapeln. |
+| **KRs sind keine Section-Namen** | OKRs/KRs leben in Tability. Sections = Arbeitsbereiche. |
+| **Keine „Erledigt"-Section** | Asana kann „completed" nativ. Default-View = Incomplete (sauberes Board), Protokoll-View = Completed/All. |
+| **Zwei Dimensionen** | Section = *wo gehört's hin*. Completed-Status = *ist's durch*. Beide bleiben erhalten — keine Auto-Move-Rule, die erledigte Tasks aus ihrer Section reißt (zerstört Kanal-Historie). |
+
+---
+
+## Board-Landschaft nach Team
+
+### 🗣️ Marketing & Growth — *Leads/Anfragen generieren*
+
+| Board | Wofür | Sections |
+|-------|-------|----------|
+| **Marketing – CRO (to Request)** | Conversion vom Besuch zur Anfrage | Anfrageformular · Landing Pages · Backlog |
+| **Marketing – New Customer Channels** | Neukunden-Kanäle (Demand Gen) | Google Ads · SEO · Neue Kanäle · Backlog |
+| **Marketing – Repeat Customers** | Bestandskunden *automatisiert* (Lifecycle) | Onboarding · Nurtures & Use-Cases · Reaktivierung · Feedback & APF · Backlog |
+
+### 🔥 Sales — *Kunden & Caterer gewinnen, Bestandskunden manuell*
+
+| Board | Wofür | Sections |
+|-------|-------|----------|
+| **Sales – New Business** | Neukunden gewinnen | Neue ICPs & Locations · Sales-Led Nurturing · München · Backlog |
+| **Account Management** | Bestandskunden *manuell* | Fokus/Jetzt · Account-Sprints · Top-Accounts · Plays & Playbooks · Setup & Workflows · Backlog |
+| **Sales – CRM Infrastructure** | HubSpot-Fundament (generisch) | Pipelines & Setup · Workflows & Health · Reporting · Templates & Docs · Backlog |
+| **Sales – Caterer Acquisition** | Neue Caterer akquirieren (Supply-Seite) | (Supply-Seite) |
+
+### 💰 Revenue Ops — *Anfrage → Buchung + Kundenerlebnis*
+
+| Board | Wofür | Sections |
+|-------|-------|----------|
+| **Revenue Ops – Revenue Conversion** | Der Anfrage→Buchung-Motor (CVR, KAM) | Menu Creation & Playbooks · Follow Ups & Sales Prozess · KAM Enablement · Caterer Matching · Lead Quali · Backlog |
+| **Revenue Ops – Customer Experience** | Kunden-Touchpoints & Erlebnis | Angebot & Entscheidung · Bestellung & Convenience · Lieferung & Feedback |
+| **Revenue Ops – Marketplace** | Self-Service-Marketplace-Launch | Backend & QA · Produkte & Katalog · Caterer-Onboarding · Customer-Outreach · Go-Live |
+
+### 🪄 Commercial Ops — *Caterer-Seite & Support*
+
+| Board | Wofür | Sections |
+|-------|-------|----------|
+| **Commercial Ops – Caterer Experience** | Wie der Caterer egora erlebt (UX, Tools, Zufriedenheit) | Response & Request Handling · Menü- & Angebots-Erstellung · Friktionen & Zuverlässigkeit · Backlog |
+| **Commercial Ops – Supply** | Supply-Basis aufbauen & transformieren | Onboarding · Produktkatalog & Menüs · Aktivierung · Supply-Qualität & Coverage · Backlog |
+| **Commercial Ops – Support Tickets** | Operatives Ticket-Handling | Kunden-Kommunikation · Kunden-Beschwerden · Buchungen & Aufträge · Abrechnung · Technik & Plattform |
+
+---
+
+## Filing-Logik — wo gehört eine Task hin?
+
+| Wenn die Task… | → Board |
+|----------------|---------|
+| Leads/Anfragen generiert (SEA, SEO, neue Kanäle) | Marketing – New Customer Channels |
+| Besuch→Anfrage-Conversion verbessert (Form, LP) | Marketing – CRO |
+| automatisierte Bestandskunden-Flows (Nurture, Reaktivierung, APF) | Marketing – Repeat Customers |
+| Neukunden manuell gewinnt (Outbound, Locations) | Sales – New Business |
+| Bestandskunden manuell betreut (Account-Plays, Top-Accounts) | Account Management |
+| generisches HubSpot-Plumbing (Pipelines, Segmentierung, Reporting) | Sales – CRM Infrastructure |
+| neue Caterer akquiriert | Sales – Caterer Acquisition |
+| Anfrage→Buchung-Conversion / KAM-Arbeit | Revenue Ops – Revenue Conversion |
+| Kunden-Erlebnis/Touchpoints (Angebot, Bestellung, Lieferung) | Revenue Ops – Customer Experience |
+| Marketplace-Launch | Revenue Ops – Marketplace |
+| Caterer-UX/Zufriedenheit | Commercial Ops – Caterer Experience |
+| Caterer onboarden/Katalog/Aktivierung/Qualität | Commercial Ops – Supply |
+| operatives Support-Ticket | Commercial Ops – Support Tickets |
+
+**Faustregel manuell vs. automatisiert:** Mensch führt aus → Account Management. Flow/Automation führt aus → Marketing – Repeat Customers. „Manuell vs. automatisiert" ist kein eigenes Board, nur *wer ausführt*.
+
+**Faustregel System vs. Execution:** Generisches Werkzeug bauen → CRM Infrastructure. Am Kunden arbeiten → das Owner-Board. (Builder sieht seine Arbeit über einen Cross-Board-Assignee-View, nicht über ein eigenes Board.)
+
+---
+
+## Chat-Ende-Routine (Asana-Reconciliation)
+
+Am Ende von Arbeits-Sessions wird aktiv geprüft:
+
+1. **MD/Datenbank-Update:** Sind neue Fakten/Entscheidungen entstanden, die in MDs gehören?
+2. **Asana-Reconciliation:**
+   - **Abgearbeitet?** Wurde in dieser Session eine bestehende Asana-Task erledigt → auf completed setzen?
+   - **Neu?** Sind neue To-dos entstanden → als Task anlegen?
+   - **Einsortieren?** Ins richtige Board/Section gemäß der Filing-Logik oben.

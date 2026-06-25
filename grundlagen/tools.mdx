@@ -1,0 +1,104 @@
+---
+title: "Tool-Stack"
+description: "Welches Tool wofür da ist und wie die Systeme zusammenspielen — die durable Mechanik des Stacks."
+icon: "screwdriver-wrench"
+---
+
+> Welches Tool wofür da ist und wie die Systeme zusammenspielen. Die durable Mechanik des Stacks. **Tool-Status, aktuelle Nutzer und Anbindungs-Stände** ändern sich laufend — diese Datei beschreibt den Zweck, nicht den Tagesstand.
+
+## Tool-Übersicht
+
+### CRM & Sales
+
+| Tool | Funktion |
+|------|----------|
+| **HubSpot** | CRM: Deal-Pipeline (Neukunden) + Ticket-Pipeline (Nurturing/AM) + Marketing Automation. Kern-System. |
+| **Growth Cockpit (Excel)** | KPI-Tracking: monatlich + wöchentlich, nach Stadt, nach Kanal, Lead Sources. Manuell gepflegt. |
+| **Apollo** | Net-New Lead-Search/Prospecting (Funding-, Growth-, Headcount-Filter) + Cold-Outreach-Sequenzen. Ergänzt HubSpot: HubSpot = Warm/Bestand, Apollo = Cold/Net-New, Responder zurück in HubSpot. |
+
+### Marketing & Analytics
+
+| Tool | Funktion |
+|------|----------|
+| **Google Ads** | Haupt-Akquisekanal (SEA) |
+| **PostHog** | Session Recordings, Product Analytics |
+| **Toffu AI** | Marketing Insights |
+| **reviews.io** | Kundenbewertungen sammeln und anzeigen |
+
+### Produkt & Entwicklung
+
+| Tool | Funktion |
+|------|----------|
+| **Lovable** | Prototyping/Draft der Customer- & Caterer-Backends (produktiv in Laravel nachgebaut). |
+| **Webflow** | Website / Frontend, Landing Pages, Store/Collection Pages. Kern-Plattform. |
+| **Gleap** | Product Feedback & Bug Reporting |
+
+### Billing & Finanzen
+
+| Tool | Funktion |
+|------|----------|
+| **Stripe** | Payment Processing & Billing, connected mit Admin Backend |
+| **Admin Backend → Stripe** | Rechnungserstellung direkt aus dem Admin Backend, Stripe-connected, automatisiert |
+
+### Projektmanagement & Wissen
+
+| Tool | Funktion |
+|------|----------|
+| **Asana** | Task- & Projektmanagement |
+| **Notion** | Wissensbasis, Prozessdokumentation, OKR-Dokumente, Caterer-DBs |
+| **Tability** | OKR-Tracking & -Management |
+| **OneDrive** | Dateiablage |
+
+### Kommunikation
+
+| Tool | Funktion |
+|------|----------|
+| **Slack** | Interne Team-Kommunikation |
+
+### AI
+
+| Tool | Funktion |
+|------|----------|
+| **AI-Features im Admin Backend** | Allergen Tagging, Menu Creation, PDF-to-Offer, Feedback Tracker — live im Produkt |
+
+## Architektur-Überblick
+
+```
+Kunde → Webflow (Website/Form) → Admin Backend (ERP) → HubSpot (CRM)
+                                       ↕                    ↕
+                                    Stripe (Billing)    Marketing Automation
+                                       ↕
+                              Customer Backend (Lovable)
+                              Caterer Backend (Lovable)
+```
+
+**Datenfluss:**
+1. Kunde füllt Request Form auf Webflow aus
+2. Anfrage landet im Admin Backend + HubSpot (Deal Pipeline)
+3. KAM bearbeitet im Admin Backend (Menü, Caterer-Matching)
+4. Angebot wird aus Admin Backend generiert → an Kunden
+5. Bei Buchung: Rechnung über Admin Backend → Stripe
+6. Kunde sieht alles im Customer Backend (Lovable)
+7. Caterer sieht Aufträge im Caterer Backend (Lovable)
+
+## Integrationen
+
+| Von | Zu | Was |
+|-----|----|-----|
+| Admin Backend | HubSpot | Anfragedaten, Order-Daten, Lead Status Sync |
+| Admin Backend | Stripe | Rechnungserstellung & Payment |
+| HubSpot | Marketing Automation | Nurturing-Flows, E-Mail-Sequenzen |
+| Webflow | Admin Backend | Request Form Submissions |
+| Google Ads | HubSpot | Lead Source Tracking |
+| PostHog | — | Session Recordings auf Website/Backends |
+
+## Stärken des Stacks
+
+- **HubSpot-Integration:** Detailliert aufgebaut, Lifecycle Stages automatisch, Potenzialschätzung
+- **Admin Backend als ERP:** Zentrales Werkzeug für den operativen Kern (KAM-Arbeit)
+- **AI im Produkt:** Allergen Tagging, Menu Creation, PDF-to-Offer live
+- **Stripe-Anbindung:** Billing automatisiert über Admin Backend
+
+## Grundsatz
+
+Team ist agil beim Tool-Stack — offen für Optimierung und Konsolidierung, keine emotionale Bindung an Tools. Wechsel wenn es Sinn macht.

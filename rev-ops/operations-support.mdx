@@ -1,0 +1,72 @@
+---
+title: "Operations & Support"
+description: "Operative Prozesse rund um Buchung und Durchführung — Support, Stornos, SLA-Enforcement, Telefonie, Post-Catering."
+icon: "gears"
+---
+
+> Operative Prozesse rund um Buchung und Durchführung — alles, was nicht direkt Revenue Conversion oder Customer Experience ist: Support-Handling, Stornos, SLA-Enforcement, Telefonie, Weekend-Gap und Post-Catering-Abwicklung. Diese Datei hält die durable Mechanik. **Aktueller Status & Live-Zahlen** (Incidents, Pilot-Stände, Erreichbarkeit): Growth Cockpit / HubSpot / RevOps-Hub (Notion).
+
+## Support-Handling
+
+Kunden melden sich nach der Buchung per Mail und Telefon bei den KAMs — Änderungen, Rückfragen, Stornos, Beschwerden. Es gibt kein dediziertes Support-System oder Ticketing; alles läuft über dieselben KAMs, die auch neue Anfragen bearbeiten. Bei wachsendem Volumen wird das zum Engpass — Formalisierung des Support-Prozesses ist eine offene Baustelle.
+
+## Telefonie — Zwei-Schichten-Modell
+
+Zielbild für Erreichbarkeit ist ein Zwei-Schichten-Modell. Es löst die Schwächen des reinen Gruppenklingelns ab (Verantwortungsdiffusion, undurchsichtiger Routing-Mix, Off-Hours-Last auf wenigen Personen).
+
+| Schicht | Design |
+|---------|--------|
+| 1 — Persönlicher Draht | Jeder KAM hat eine sipgate-Durchwahl nach außen (in PDF & Signatur — nie die rohe Handynummer), die auf dem Handy klingelt. Nicht angenommen → direkt Schicht 2, keine Zwischen-Gruppe |
+| 2 — Zentrale Nummer + KI | 030-Nummer + alle Fallbacks landen bei einem KI-Agent. Erfolgskriterium: Anliegen → Transkript → Rückruf-Task beim richtigen KAM in HubSpot. Läuft 24/7 und ersetzt die zentrale „Kundenservice"-Gruppe komplett |
+
+Off-Hours-Anrufe sind in der Regel kein Spam, sondern zeitkritische Bestandskunden-Anliegen und warme Leads — entsprechend werden sie behandelt, nicht weggefiltert.
+
+Offene Designfrage (noch nicht entschieden): ob Erstkontakt-Anrufer zu Bürozeiten zunächst kurz beim CS-Owner klingeln, bevor der KI-Agent übernimmt — Leitgedanke „KI als Netz, nicht als Empfangsdame", da der Quali-Call der stärkste CVR-Hebel ist.
+
+→ Vollständiges Konzept inkl. Roadmap: [Telefonie-Setup 2.0 (Notion)](https://app.notion.com/p/37b0e460164b81c49342cecc48fd09f3)
+
+## Storno & Änderungen
+
+Storno-Policies existieren (Fristen + Gebühren). Änderungswünsche nach Buchung werden case-by-case durch die KAMs mit dem Caterer abgestimmt. Es gibt keinen Self-Service für Änderungen im Customer Backend.
+
+## Post-Catering-Flow
+
+```
+Catering done
+  → Lieferschein wurde vorab automatisch erzeugt + versendet
+  → Caterer Survey an Kunden (Qualitätsbewertung) → siehe customer-experience.md
+  → Bei Problemen: "Catering done - open questions" in HubSpot
+  → Übergabe an Account Management / Nurturing für Wiederbestellung
+```
+
+Pre- und Post-Catering-Flow sind grundsätzlich aufgesetzt (automatischer Lieferschein, Mail-Flow mit Remindern, Caterer Survey). Die Übergabe an Account Management und systematisches Re-Engagement sind noch Baustellen.
+
+## SLA-Enforcement
+
+| SLA | Regel |
+|-----|-------|
+| TTO (Working Hours) | &lt;3h für 0–1k €, &lt;6h für 1–2k € |
+| Follow-Up Timing | Stage-spezifisch (Calling Guides) |
+| Deal-Finalisierung | Lost ab Woche 4+ (Empfehlung aus Analyse; harter Auto-Lost-Prozess noch nicht entschieden) |
+
+Ziel des SLA-Enforcements: klare Regeln + Eskalation + Tracking etablieren, damit die Reaktionszeit-SLAs verlässlich gehalten werden.
+
+## Weekend-Gap
+
+Off-Hours-Anfragen (abends, Wochenende) haben einen höheren TTO und damit eine niedrigere CVR. Quick Win: automatische Erst-Antwort bei Off-Hours („Wir haben Ihre Anfrage erhalten, das Angebot kommt am nächsten Werktag bis X Uhr"), um das Zeitfenster abzufedern, bis ein KAM übernimmt.
+
+## Offene Baustellen
+
+| Thema | Priorität |
+|-------|-----------|
+| SLA-Enforcement systematisieren | Hoch |
+| Telefonie-Setup 2.0 (Erreichbarkeit + KI-Anrufannahme) | Hoch |
+| Weekend-Gap schließen | Mittel |
+| Support-Prozess formalisieren | Mittel |
+| Übergabe an Account Management | Mittel |
+| Änderungs-Self-Service im Backend | Niedrig |
+
+## Verwandt
+
+- Vom Anfrage-Eingang zur Buchung: [revenue-conversion.md](/rev-ops/revenue-conversion)
+- Was der Kunde sieht & bewertet: [customer-experience.md](/rev-ops/customer-experience)

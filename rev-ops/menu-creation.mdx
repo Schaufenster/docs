@@ -1,0 +1,41 @@
+---
+title: "Menu Creation & Admin Backend"
+description: "Die durable Mechanik der Menü-Erstellung und des Admin-Backends — AI-Tools, Caterer-Kataloge, Magic Menu."
+icon: "utensils"
+---
+
+> Die durable Mechanik der Menü-Erstellung und des Admin-Backends. Tool-Status und Roadmap liegen im Notion-Master / im Backend, nicht hier.
+
+## Was ist Menu Creation?
+
+Die Menü-Erstellung ist ein zentraler Prozessschritt zwischen Kundenanfrage und Angebot. Im Regelfall (Großteil der Anfragen) erstellt der KAM das Angebot selbst aus Caterer-Katalogen und historischen Angeboten. Bei komplexen/großen Anfragen erstellt der Caterer ein individuelles Angebot. Geschwindigkeit hier = direkte TTO-Impact = direkte CVR-Impact.
+
+## AI-Tool-Stack (Custom, GPT-API-basiert)
+
+| Tool | Was es tut |
+|------|-----------|
+| **Historic Offer Tool** | Findet passende historische Angebote als Vorlage |
+| **Caterer Matching Tool** | Matcht Anfrage-Parameter mit passenden Caterern (separates Tool, nicht Notion Matching Base) |
+| **PDF-to-Offer Converter** | Konvertiert Caterer-PDFs ins egora-Angebotsformat |
+| **Allergen AI** | Erkennt und taggt Allergene automatisch |
+| **Description Optimizer AI** | Verbessert Menü-Beschreibungen automatisch |
+| **Magic Menu Creation** | Konzept: vollautomatische Menüerstellung aus Anfrage-Parametern |
+
+Alles custom-built, mit API-Anbindung an GPT. Läuft über das Admin Backend.
+
+## Admin Backend
+
+Laravel Nova — das zentrale Backend für KAMs und Operations. Hier werden Angebote erstellt, Deals gemanagt, PDFs generiert, Caterer-Kataloge gepflegt. Auch die AI-Tools laufen über dieses Backend.
+
+## Caterer-Kataloge — Bottleneck
+
+Unvollständige Kataloge zwingen KAMs zur manuellen Abstimmung mit Caterern → verlängert TTO → reduziert Skalierbarkeit. Je vollständiger der Katalog, desto mehr kann der KAM selbst abwickeln und desto schneller geht das Angebot raus. Direkte Verbindung zu → **Caterer/Supply** *(Department noch in Arbeit)*.
+
+## Magic Menu Creation — Konzept
+
+Ziel: Aus den Anfrage-Parametern (Budget, Personenzahl, Anlass, Präferenzen) automatisch ein vollständiges Menü mit Preisen generieren — ohne dass der KAM manuell zusammenstellen muss. Würde TTO für Standard-Anfragen drastisch drücken und KAM-Kapazität für komplexe Deals freisetzen.
+
+## Verwandt
+
+- Datenmodell hinter Matching/Qualifizierung: [attribute-master-schema.md](/rev-ops/attribute-master-schema)
+- Funnel vom Anfrage-Eingang zur Buchung: [revenue-conversion.md](/rev-ops/revenue-conversion)

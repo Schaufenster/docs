@@ -1,0 +1,108 @@
+---
+title: "Attribut-Master-Schema"
+description: "Die durable Logik des Anfrage-Attribut-Schemas — das Drei-Achsen-Modell hinter Matching und Qualifizierung."
+icon: "diagram-project"
+---
+
+> Die durable Logik des Anfrage-Attribut-Schemas. **Das vollständige Attribut-Inventar, Versionsstand und die offene Decision-Liste leben im Notion-Master** (verlinkt unten), nicht hier.
+
+→ Live-Quelle: [🗂️ Master-Schema (Notion)](https://www.notion.so/3510e460164b810e9a21f6e64a82bef0)
+
+---
+
+## Kerninsight
+
+Anfrage-Schemas können nicht flach gebaut werden — jedes Attribut hat **drei unabhängige Charakteristika**, die parallel modelliert werden müssen. Versuche, das in einer flachen Liste abzubilden, scheitern an Duplikaten, Synchronisations-Drift und kaputtem Matching.
+
+---
+
+## Achse 1 — Datenquelle (woher kommt die Info?)
+
+Daten cascaden aus **fünf Quellen** — nicht eine, fünf:
+
+| Quelle | Wer füllt | Inhalt |
+|---|---|---|
+| **Lead Form** | Customer beim ersten Anfragen | Minimum: Name, Datum, Pax, Budget, Catering-Typ |
+| **Detailed Form / Quali Call** | Customer oder KAM | Vertiefung: Küchenrichtung, Diät, Event-Ablauf, Prioritäten |
+| **Smart Profile / EventFormat** | Customer (wiederkehrende Templates) | Pre-Fill-Defaults für Stammkunden |
+| **Company Preferences** | Backend-Admin pro Firma | Policy-Defaults: Budget-Grenzen, bevorzugte Caterer, Diät-Toggles |
+| **Pivot-Tabellen** | Customer oder KAM | M2M-Strukturdaten (z.B. `equipmentDetails` mit Typ-Spalte) |
+
+---
+
+## Achse 2 — Stufe (wann brauchen wir die Info?)
+
+Drei Stufen, hierarchisch:
+
+| Stufe | Farbe | Zweck |
+|---|---|---|
+| **STEP 1** | 🟡 Gelb | **80%-gute Menu Proposals** — Lead Form Minimum, reicht für automatisiertes Menü auch ohne Kundenkontakt |
+| **STEP 2** | 🟠 Orange | **100%-perfekte Proposals** — Detailed Form + Quali Call + Smart Profile + Company Pref |
+| **STEP 3** | 🔴 Rot | **Anlieferung & Event-Tag** — Lieferschein, Auftragsbestätigung, Aufbau |
+
+*(Aktuelle Attribut-Zuordnung pro Stufe und noch offene Decision-Items: siehe Notion-Master.)*
+
+---
+
+## Achse 3 — Matching-Layer (wofür im Matching?)
+
+Fünf Layer + zwei Meta-Kategorien:
+
+| Layer | Funktion | Beispiel-Felder |
+|---|---|---|
+| **L0 Hard Override** | Schlägt ALLES, vor jedem Filter | `blockedCaterers`, `preferredCaterers`, `pref_exclusion_criteria` |
+| **L1 Gatekeeper** | Hard-Filter — Caterer fällt raus wenn nicht passend | `city`, `lead_time`, `num_persons`, `budget_total` |
+| **L2 Struktur-Fit** | Score — wie gut passt die Struktur | `format_type`, `catering_occasion`, `cuisine_focus` |
+| **L3 Dietary / Price-Fit** | Score — Diät + Preis-Range | `dietary_requirements`, `budget_person`, `price_level` |
+| **L4 Vibe-Match** | Score — passt das Gefühl | `food_satiety`, `event_type`, `priorities` |
+| **Cascade** | Vorausfüllen — kein Matching | `event_format_id`, alle `pref_*` |
+| **Meta** | Tracking — kein Matching | Customer-Daten, Quali-Call-Status, `lead_source_id` |
+
+---
+
+## Warum die drei Achsen zusammenhängen
+
+Jedes Attribut **gehört zu allen drei Achsen gleichzeitig**.
+
+| Beispiel | Quelle | Stufe | Layer |
+|---|---|---|---|
+| `budget_person` | Lead Form | STEP 1 | L1 Gatekeeper + L3 Price-Fit |
+| `priorities` | Quali Call | STEP 2 | L4 Vibe-Match |
+| `pref_dietary_focus` | Company Pref | STEP 2 | Cascade (füllt `dietary_requirements` vor) |
+| `delivery_time` | Smart Profile / Lead Form | STEP 3 | Meta (Lieferschein) |
+
+---
+
+## Was sich praktisch ableitet
+
+| Frage | Antwort |
+|---|---|
+| Was muss im **Lead Form** sein? | STEP-1-Attribute × Quelle Lead Form |
+| Was muss in der **Detailed Form**? | STEP-2-Attribute × Quelle Detailed Form |
+| Was fragt der **KAM im Quali Call**? | STEP-2-Attribute × Quelle Quali Call + Lücken aus dem Form |
+| Was steuert **Company Pref**? | Policy-Defaults die alle Anfragen einer Firma beeinflussen |
+| Was nutzt die **Matching-Engine**? | L0-L4 nach Priorität |
+| Was steht auf dem **Lieferschein**? | STEP-3-Attribute |
+
+---
+
+## Owner-Logik
+
+Setup und Synchronisation sind pro Stufe getrennt verantwortet (Leadform/Backend, HubSpot-Mapping, Caterer-Tagging). Sub-Datenmodelle pro Quelle werden bewusst akzeptiert, solange sie sauber gemerged sind. Aktuelle Owner-Zuordnung: siehe Notion-Master.
+
+---
+
+## Anti-Pattern (NIE mehr machen)
+
+- Schema flach modellieren — vergisst Cascade-Quellen
+- Notes in Catch-All-Felder (`kam_qualification_call_summary` etc.) statt strukturiert
+- L0 Hard Overrides als „Edge Case" behandeln — sind in der Praxis Standard bei Stammkunden
+- Auto-Derived-Felder (`pax_bucket`, `price_range`, `lead_time_days`, `b2b_b2c_flag`) rauswerfen — sie sind die Brücke zwischen Anfrage-Werten und Caterer-Tag-Werten
+
+---
+
+## Verwandt
+
+- [🗂️ Master-Schema (Notion)](https://www.notion.so/3510e460164b810e9a21f6e64a82bef0) — Detailliertes Attribut-Inventar mit Decision-Liste
+- [revenue-conversion.md](/rev-ops/revenue-conversion) — Funnel-Architektur (B2B-Fastlane, Klassen-Logik), nutzt L1-Gatekeeper-Felder
+- [menu-creation.md](/rev-ops/menu-creation) — Menü-Erstellung, die auf diesem Schema aufsetzt

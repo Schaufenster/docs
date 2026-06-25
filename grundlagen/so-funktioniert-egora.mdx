@@ -1,0 +1,81 @@
+---
+title: "So funktioniert egora"
+description: "Das große Bild: wie egora als Marktplatz end-to-end arbeitet, vom Erstkontakt bis zur Wiederbestellung."
+icon: "diagram-project"
+---
+
+> Das große Bild: wie egora als Marktplatz arbeitet, vom Erstkontakt bis zur Wiederbestellung. Wer neu ist, liest das nach dem [Glossar](/grundlagen/glossar) zuerst. Die KAM-Detailsicht steht in [rev-ops/anfrage-betreuung.md](/rev-ops/anfrage-betreuung).
+
+## Die Kern-Idee
+
+egora ist ein B2B-Catering-Marktplatz, der den **kompletten Koordinationsaufwand übernimmt**. Der Kunde stellt eine Anfrage; egora matcht passende Caterer, baut das Angebot, wickelt Buchung, Rechnung und Durchführung ab. Der Wert: Der Kunde muss nicht selbst Caterer suchen, vergleichen und koordinieren — egora macht das. Verdient wird über **Kommission** (~20 % netto, beim Caterer).
+
+Wichtig: egora ist **End-to-end-Orchestrierung, nicht nur Vermittlung**. Genau das ist der Unterschied zu einem reinen Matching-Verzeichnis.
+
+## Zwei Seiten (Marktplatz)
+
+- **Demand:** Unternehmen mit (idealerweise wiederkehrendem) Catering-Bedarf — Team Lunches, Meetings, Events. Nebensegment: B2C One-Off Events.
+- **Supply:** geprüfte Caterer mit Produktkatalogen.
+
+Marktplatz-Logik: bessere Caterer-Abdeckung = mehr Auswahl = höhere Conversion. Mehr Caterer mit gepflegten Katalogen schlagen wenige mit vollem Sortiment.
+
+## Der Weg einer Anfrage (end-to-end)
+
+```
+1. Erstkontakt (Google Ads, SEO, Referral)
+2. Website: Caterer & Menüs browsen (Store/Collection Pages)
+3. Anfrage rein — über Request Form (KAM-begleitet) ODER Marketplace (Self-Service)
+4. Qualifizieren (Quali-Call: Anlass, Budget, Anforderungen)
+5. Angebot bauen + Caterer wählen (aus den Katalogen)
+6. Angebots-PDF an den Kunden  ← Differenzierungsfaktor
+7. Austausch / Anpassung / Last Questions
+8. Buchung + Rechnung (über Admin Backend → Stripe)
+9. Catering-Durchführung
+10. Feedback
+11. Wiederbestellung (Self-Service im Backend oder neue Anfrage)
+```
+
+Beim **Marketplace-Weg** (Self-Service) entfallen die Schritte 4–7 — der Kunde wählt und bucht direkt, ohne KAM-begleitetes Angebot.
+
+→ Die KAM-Schritte 4–7 im Detail: [rev-ops/anfrage-betreuung.md](/rev-ops/anfrage-betreuung)
+
+## Die drei Buchungswege
+
+| Weg | Wie | Für wen |
+|-----|-----|---------|
+| **Request Form** | 6-Step-Anfrage auf der Website → KAM baut das Angebot | Kern-Flow, v.a. Neukunden & größere Anfragen |
+| **Self-Service Checkout** | Bestandskunden buchen/wiederbestellen direkt im Customer Backend | Repeat-Kunden |
+| **Marketplace** | Kunde browst Caterer/Menüs und bucht direkt | Self-Service, v.a. kleinere Events |
+
+Strategische Richtung: mehr Buchungen **ohne** KAM-Eingriff (Self-Service & Marketplace) → skaliert, ohne proportional mehr Personal.
+
+## Die Systeme dahinter (kurz)
+
+- **Admin Backend** (Laravel Nova) — das ERP, in dem KAMs arbeiten: Angebote, Caterer-Matching, Rechnung, AI-Features.
+- **Customer / Caterer Backend** — Login-Bereiche (in Lovable prototypisiert, produktiv in Laravel).
+- **Website** (Webflow) + **Request Form** (self-hosted).
+- **HubSpot** (CRM) · **Stripe** (Billing).
+
+→ Voller Stack & Architektur: [tools.md](/grundlagen/tools)
+
+## Produktkatalog — die Logik in Kürze
+
+Preise kommen aus den **Caterer-Katalogen** — der KAM setzt selbst keine Preise. Jedes Produkt hat einen von vier Status: **Live** (auf Marktplatz & im Angebot nutzbar) · **Verfügbar** (nur im Angebot) · **individuell** (einmalig für ein Angebot) · **archiviert**. Produkte werden **nie gelöscht, nur archiviert** — sonst verschwänden sie aus historischen Rechnungen und Lieferscheinen.
+
+## Was egora besonders macht
+
+- **Angebots-PDF** — professionell und visuell, macht Kunden die Entscheidung leicht. Echtes Alleinstellungsmerkmal.
+- **Einfacher Prozess + persönlicher KAM-Service** — der #1 Weiterempfehlungsgrund.
+- **End-to-end** — Suche, Vergleich, Koordination, Abwicklung laufen über egora, nicht über den Kunden.
+
+## Wo der strukturelle Hebel liegt
+
+- **Caterer-Qualität ist der #1 Grund für (Nicht-)Wiederbestellung.** Eine schlechte Lieferung ist ein Supply-Problem, das der Kunde aber egora zuschreibt → Caterer-Qualitätssicherung ist direkt umsatzrelevant.
+- **Self-Service & Marketplace** sind der Skalierungs-Hebel (Wachstum ohne proportional mehr KAMs).
+- **Caterer-Backend-Adoption** senkt den manuellen KAM-Aufwand — je mehr Caterer im Backend arbeiten, desto weniger Mail/Telefon-Koordination.
+
+## Verwandt
+
+- KAM-Sicht auf die Anfrage: [rev-ops/anfrage-betreuung.md](/rev-ops/anfrage-betreuung)
+- Kundenerlebnis im Detail: [rev-ops/customer-experience.md](/rev-ops/customer-experience)
+- Begriffe & KPIs: [glossar.md](/grundlagen/glossar)

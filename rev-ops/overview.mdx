@@ -1,0 +1,116 @@
+---
+title: "Rev Ops – Department Briefing"
+description: "Der operative Motor zwischen Lead-Eingang und abgeschlossenem Catering — durabler Scope, Funnel und Arbeitsregeln."
+icon: "gauge-high"
+---
+
+> Der operative Motor zwischen Lead-Eingang und abgeschlossenem Catering. Diese Datei hält den durablen Scope, Funnel und die Arbeitsregeln. **Aktuelle Werte/Status** (CVR, Quali-Rate, OKR-Fortschritt, offene Baustellen) liegen live im Growth Cockpit / HubSpot bzw. im OKR-System — nicht hier.
+
+## Scope
+
+**In Scope:** Revenue Conversion (KAM-Prozess, Follow-Ups, CVR, Quali-Calls), Customer Experience (Backend, Angebots-PDFs, Bewertungen, Qualitätssicherung), Menu Creation & Admin Backend (AI-Tools, Caterer-Kataloge), Operations & Support (SLAs, Weekend-Gap, Post-Catering). Alles zwischen Anfrage und abgeschlossenem Catering.
+
+**Nicht in Scope:** Lead-Generierung (→ Growth & Marketing), Bestandskunden nach Erstbuchung (→ Account Management), HubSpot-Pipeline-Setup auf Tech-Ebene (→ Sales & CRM).
+
+## Was macht Rev Ops?
+
+Rev Ops ist der operative Motor zwischen Lead-Eingang und Buchung. Alles, was nach der Anfrage passiert und vor Account Management liegt, gehört hierher. Der KAM-Prozess läuft über die HubSpot Request Funnel Pipeline (12 Stages). Zentraler Hebel für Revenue: Conversion Rate steigern bei bestehendem Lead-Volumen — "kostenloser" Revenue-Uplift ohne zusätzliche Leads.
+
+## HubSpot Request Funnel — Pipeline Stages
+
+```
+Offen → Angefragt bei Caterern → Angebot beim Kunden → Im Austausch mit Kunden
+→ Last questions → Catering confirmed → Bestätigt durch Caterer → Early Booking
+→ Termin verbindlich reserviert → Catering booked → Catering done
+→ Catering done - open questions → Lost request
+```
+
+**Deal Lifecycle (Zeitfenster):** W1–2 = Entscheidungsphase (Großteil aller Buchungen), W3 = Letzte Chance, W4+ = Auslauf. Cutoff-Logik: Ab ~75% Completed Rate (≈ W4 / Tag 28) fällt der marginale CVR-Zuwachs unter ~1pp/Woche — ab hier wird ein Abschluss unwahrscheinlich. *(Ein harter „Auto-Lost"-Prozess ist noch nicht entschieden.)*
+
+**Achtung — Neukunden (NC) haben eine eigene Reifekurve:** NC reifen ~1 Woche länger als sub2k/Bestand. Für NC gilt **W1–W3 statt W1–W2** — Follow-Ups bis ~Tag 21, nicht nur Tag 14. Details: → [revenue-conversion.md](/rev-ops/revenue-conversion)
+
+## Team & Ownership
+
+| Person | Rolle | Scope |
+|--------|-------|-------|
+| **Paul Manske** | RevOps Owner | KPI-Tracking, Prozesssteuerung, Hiring IRM |
+| **Tuzo Nguyen** | KAM Lead | Operatives Tagesgeschäft, Anfragen-Bearbeitung, Team-Lead |
+| **KAM-Team** | Key Account Manager | Anfragen qualifizieren, Angebote erstellen, Follow-Ups |
+| **Steffen** | CTO / Tech | Admin Backend, AI-Features, Systemarchitektur |
+| **Paul Wegener** | Co-Founder | Follow-Up Flow Implementierung |
+
+## Quartals-OKRs
+
+Rev Ops arbeitet je Quartal auf einen OKR-Satz rund um die "Conversion-Maschine": NC-CVR steigern (Haupthebel: Quali-Call-Rate; Follow-Up Flow und SLA-Enforcement als kritischer Parallel-Pfad, nicht nur Verstärker), Follow-Up Email Flow als Enabler, und Entlastung des operativen Gründer-Involvements via Inside Revenue Manager (IRM).
+
+→ Konkrete Ziele, Baselines, Trajektorie und Fortschritt: OKR-System / Growth Cockpit.
+
+## Unterbereiche — Kurzbeschreibung
+
+### Revenue Conversion
+Der Prozess zwischen Anfrage und Buchung. KAM-Prozess, Quali-Calls, Follow-Up-Sequenzen, Pipeline-Management, CVR-Analyse (Wochen-Kohorten, NC-Kohorten, TTO-Buckets). Hier liegt der größte Hebel: Quali-Call-Rate systematisch hochbringen. → [revenue-conversion.md](/rev-ops/revenue-conversion)
+
+### Customer Experience
+Alles, was der Kunde sieht und erlebt. Customer Backend, Angebots-PDFs (Generierung + Design), Offer Flow (wie das Angebot zum Kunden kommt), Kundenkommunikation (Ton, Timing, Kanäle). Bisher wenig systematische Arbeit — Potenzial für Differenzierung. → [customer-experience.md](/rev-ops/customer-experience)
+
+### Menu Creation & Admin Backend
+Menü-Erstellung (überwiegend intern durch KAMs, ein kleiner Teil durch Caterer), AI-Features (Menu Creation AI, PDF-to-Offer, Magic Menu), Admin Backend (Laravel Nova), Caterer-Katalog-Vollständigkeit als Bottleneck. Magic Menu Creation = nächster großer Effizienzsprung. → [menu-creation.md](/rev-ops/menu-creation)
+
+### Operations & Support
+Support-Prozesse, Post-Catering-Flow, SLA-Enforcement (Antwortzeiten, Eskalation), Weekend-Gap (Off-Hours-Anfragen), operative Hygiene. → [operations-support.md](/rev-ops/operations-support)
+
+## Kern-KPIs — Definitionen
+
+| KPI | Definition |
+|-----|-----------|
+| **NC-CVR** | Conversion Rate der Neukunden-Anfragen (Anfrage → Buchung), kohortenbasiert. |
+| **Quali-Call-Rate** | Anteil der Anfragen, bei denen vor Menüversand ein qualifizierter Call (Anlass, Budget, Anforderungen) stattfindet. Stärkster operativer CVR-Hebel — mit Diminishing Returns bei steigender Rate. |
+| **Time-to-Offer (TTO)** | Reaktionszeit von Anfrage bis Angebot, in Working Hours gemessen. |
+| **Lost/Completed Ratio (NC)** | Verhältnis verlorener zu abgeschlossenen NC-Deals. |
+| **Not Completed Rate** | Anteil der Deals, die weder gebucht noch sauber als Lost abgeschlossen sind (Pipeline-Hygiene-Indikator). |
+| **GMV/Request** | Durchschnittliches Gross Merchandise Volume pro Anfrage; primär über B2B-Shift steuerbar. |
+
+→ Aktuelle Werte & Ziele je KPI: Growth Cockpit / HubSpot / KPI Master Sheet.
+
+## Umsatz-Reporting — Vier Sichten (Growth Cockpit)
+
+Umsatz wird im Growth Cockpit in **vier parallelen Sichten** geführt. Zweck: Schutz vor Doppel-Reporting und vor Verschieben von Umsatz aus alten Orders in neue Monate. Welche Schicht was bedeutet:
+
+| Sicht | Was sie misst |
+|-------|---------------|
+| **(1) Creation Date** | Umsatz wird dem Datum zugeordnet, an dem der Order angelegt wurde (Akquise-/Vertriebsperspektive). |
+| **(2) Service Date** | Umsatz wird dem Datum der tatsächlichen Leistungserbringung zugeordnet (Catering-Event/Liefertag). |
+| **(3) Bereinigter Umsatz** | Rechnet nachträgliche Verschiebungen heraus — verhindert, dass Umsatz aus alten Orders in neue Monate „wandert" und doppelt gezählt wird. Basis für Performance-/Kanalauswertung. |
+| **(4) Invoice Date** | Umsatz wird dem Rechnungsdatum zugeordnet (Buchhaltungs-/Finanzperspektive). |
+
+Ergänzt durch ein fortlaufendes, **unveränderliches Transaktions-Log** (jede Änderung auf Order-/Item-Ebene mit Datum + Betrag) statt rückwirkend veränderbarer Monats-Snapshots → auditierbar.
+
+## Cross-Department-Abhängigkeiten
+
+| Von | Zu | Was |
+|-----|-----|-----|
+| Growth & Marketing → Rev Ops | Lead-Qualität | B2B-Ratio beeinflusst AOV + CVR direkt |
+| Rev Ops → Growth & Marketing | Feedback Loop | Welche Leads konvertieren? Revenue pro Kanal |
+| Rev Ops → Produkt/Tech | Tool-Support | Follow-Up Flow, Magic Menu, Admin Backend |
+| Rev Ops → Account Management | Übergabe | Post-Buchung → Nurturing (separates Department) |
+| Rev Ops → Caterer/Supply | Kataloge | Vollständige Kataloge = schnellere TTO |
+
+→ **Einstieg/roter Faden:** [Anfrage-Betreuung](/rev-ops/anfrage-betreuung) — wie ein KAM eine Anfrage von Eingang bis Buchung führt (Prinzipien + Wegweiser in die Notion-SOPs)
+
+→ **Sub-Topics:** [Revenue Conversion](/rev-ops/revenue-conversion) | [Customer Experience](/rev-ops/customer-experience) | [Menu Creation](/rev-ops/menu-creation) | [Operations & Support](/rev-ops/operations-support)
+
+## Arbeitsregeln & Externe Quellen
+
+**Vor CVR-Aussagen:** `revenue-conversion.md` lesen (SLA-Matrix, Deal Lifecycle, Korrelationen). Zahlen aus HubSpot Request Funnel oder KPI Master Sheet — nicht aus dem Kopf.
+
+**Quali-Call-Rate bleibt stärkster operativer Hebel** — aber mit Diminishing Returns bei steigender Rate. Follow-Up Flow und SLA-Enforcement sind kritischer Pfad, nicht nur Verstärker.
+
+**Stichproben-Disziplin bei Analytics:** Jeder Befund wird klassifiziert. **Robust** (große n oder über mehrere Messzeitpunkte gehärtet) — als Hebel-Framing OK. **Grenzwertig** (mittleres n oder Selection-Bias-Risiko) — Direction belegen, Magnitude vorsichtig formulieren. **Zu klein** (kleines n oder Subgruppen) — nur als Hypothese, kein hartes pp-Versprechen.
+
+**Zwei Funnels beachten:** Request Form (KAM-assisted) vs. Marketplace (Self-Service, eigenes ERP) — sind NICHT dasselbe, nicht verwechseln.
+
+**Externe Datenquellen:**
+- **HubSpot:** Request Funnel Pipeline (12 Stages) für aktuelle CVR-Daten
+- **Slack:** `#kpi-updates` (Wochen-KPIs), `#urgent-kam-actions`
+- **KPI Master Sheet (Excel):** Kohorten-Analysen, Wochen-Kohorten, TTO-Buckets
+- **Reviews.io:** Kundenbewertungen (aktuell kein aktives Review-Management)

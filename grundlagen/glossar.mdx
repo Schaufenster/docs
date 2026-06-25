@@ -1,0 +1,106 @@
+---
+title: "Glossar & KPI-Definitionen"
+description: "Der Decoder fürs egora-Vokabular: Abkürzungen, interne Begriffe und die KPI-Definitionen mit Formeln."
+icon: "book-bookmark"
+---
+
+> Der Decoder fürs egora-Vokabular: Abkürzungen, interne Begriffe und die KPI-Definitionen (was misst was, mit Formel). **Aktuelle Werte** liegen live im Growth Cockpit / Backend — hier stehen nur die Definitionen. Tools → [tools.md](/grundlagen/tools), Team/Rollen → [team.md](/grundlagen/team).
+
+## Abkürzungen & Begriffe
+
+| Term | Bedeutung |
+|------|-----------|
+| **KAM** | Key Account Manager — bearbeitet Anfragen, erstellt Angebote, führt sie zur Buchung |
+| **AM / CAM** | Account Manager — Bestandskunden-Pflege nach der Erstbuchung |
+| **NC** | New Customer / Neukunde — bucht erstmals über egora |
+| **BK** | Bestandskunde — hat schon mind. einmal gebucht |
+| **B2B / B2C** | Business- vs. Privatkunde. B2B = Kernzielgruppe, B2C = Nebensegment (One-Off Events) |
+| **ICP** | Ideal Customer Profile — große Unternehmen mit wiederkehrendem Catering-Bedarf |
+| **CVR / CR** | Conversion Rate — Anfrage → Buchung (siehe KPI unten) |
+| **Quali-Call** | Qualifizierungs-Call vor Menüversand (Anlass, Budget, Anforderungen klären) |
+| **Quali-Rate** | Anteil Anfragen, die als qualifiziert markiert wurden |
+| **TTO / Time-to-Offer** | Zeit von Anfrage-Eingang bis Angebots-Versand |
+| **AOV** | Average Order Value — Ø-Wert einer ausgeführten Buchung |
+| **GMV** | Gross Merchandise Volume — Gesamt-Order-Umsatz (Warenkorbwert) |
+| **Take Rate** | egoras Kommissions-Anteil am Umsatz |
+| **CLV** | Customer Lifetime Value — Gesamtwert eines Kunden über alle Buchungen |
+| **CAC / CPO / CPL** | Cost per Acquisition / Order / Lead — Akquisekosten je Kunde / Bestellung / Lead |
+| **NPS** | Net Promoter Score — Zufriedenheits-/Empfehlungsmaß (v.a. Caterer) |
+| **OKR / KR** | Objectives & Key Results / Key Result — Quartalsziele (leben in Tability) |
+| **Request Funnel** | HubSpot-Pipeline für Neukunden-Anfragen (Anfrage → Buchung) |
+| **Deal Pipeline / Ticket Pipeline** | HubSpot: Neukunden-Deals / Bestandskunden-Pflege (AM) |
+| **Request Form** | Das mehrstufige Anfrageformular auf der Website |
+| **Self-Service / Marketplace** | Buchung ohne KAM-Eingriff (Self-Service-Channel) |
+| **Nurturing / Reaktivierung** | Automatisierte Follow-Up-Sequenzen / Wiederansprache inaktiver Kunden |
+| **Follow-Up Flow** | Standardisierter KAM-Nachfass-Prozess nach Angebot |
+| **Calling Guide** | Anruf-Leitfaden je nach Deal-Stage (in Notion) |
+| **Basis-Katalog** | Vollständiger Produktkatalog eines Caterers |
+| **Vier Umsatz-Sichten** | Creation Date · Service Date · Bereinigter Umsatz · Invoice Date (Reporting-Architektur) |
+
+## Systeme — Kurz-Decoder
+
+| Begriff | Was es ist |
+|---------|-----------|
+| **Admin Backend** | Internes ERP (Laravel Nova) — hier arbeiten KAMs: Angebote, Caterer-Matching, Rechnungen |
+| **Customer Backend** | Kunden-Login-Bereich — Status, Angebote, Wiederbestellung. (In Lovable prototypisiert, produktiv in Laravel nachgebaut.) |
+| **Caterer Backend** | Caterer-Login-Bereich — Aufträge, Angebote. (In Lovable prototypisiert, produktiv in Laravel nachgebaut.) |
+| **Growth Cockpit** | Excel-KPI-Tracking (monatlich/wöchentlich, nach Stadt/Kanal) |
+| **Partnerportal** | Spezieller Bereich für VIP-Kunden |
+
+## KPI-Definitionen
+
+*Quelle: Backend-KPI-Katalog (autoritativ, identisch zum Dashboard). Hier die Kern-Metriken; den vollen Katalog (109 Cards) hält das Dashboard.*
+
+### Conversion
+
+| KPI | Was es misst |
+|-----|--------------|
+| **Conversion Rate / Converted** | Anteil aller Anfragen, die zu einer Buchung werden. *Accepted ÷ Total Requests × 100.* Die Haupt-Erfolgsmetrik. **NC-CVR** = dasselbe, nur für Neukunden. |
+| **% Qualified Requests (Quali-Rate)** | Anteil der Anfragen, die ein KAM als qualifiziert markiert. *Qualified ÷ Total.* Indikator für Lead-Qualität. |
+| **Completed / Not Completed** | Anteil der Anfragen, die den Status „completed" (nicht) erreicht haben — operative Verarbeitungs-Effizienz. |
+| **Lost** | Anteil als verloren markierter Anfragen. |
+| **Converted (automated / manual offers)** | CVR getrennt nach automatisch vs. manuell erstelltem Angebot — zeigt, welcher Weg besser konvertiert. |
+
+### Volumen & Wert
+
+| KPI | Was es misst |
+|-----|--------------|
+| **B2B Ratio** | Anteil Business- vs. Privatkunden-Anfragen. *B2B ÷ Total.* Stärkster CVR-Treiber. |
+| **Average Catering Request Value** | Ø angefragter Wert. *Σ(Budget/Person × Personen) ÷ Anfragen.* |
+| **Total Request Volume** | Gesamtwert aller Anfragen — Markt-Nachfrage / Pipeline-Potenzial. |
+| **AOV (Average Catering Booking Value)** | Ø-Wert ausgeführter Orders. *Σ Order-Werte ÷ Orders.* |
+| **Avg difference request ↔ booking** | Up-/Downselling: *Final Order − Initial Request.* Positiv = erfolgreich hochverkauft. |
+
+### Umsatz & Finanzen
+
+| KPI | Was es misst |
+|-----|--------------|
+| **GMV (request-based)** | Gesamt-Order-Umsatz aus Anfragen. Variante *transaction-based*: jede Änderung als signierter Δ im Monat der Änderung → auditierbar, kein rückwirkendes Verschieben. |
+| **Internal Revenue (Commission)** | egoras Anteil: Kommission + Fees (Delivery, Fixed). |
+| **Take Rate (booked / realized)** | *Internal Net ÷ Total Net Revenue × 100* — wie viel % des Umsatzes bei egora hängenbleibt. „booked" = nach Order-Datum, „realized" = nach Service-Datum. |
+| **Net / Realized / Issued Revenue** | Umsatz nach Order-Datum (net) / Leistungsdatum (realized) / Rechnung (issued) — die „vier Sichten". |
+| **Stornogarantie-Umsatz** | Netto-Umsatz aus Stornogarantie-Positionen; plus „% Orders mit Stornogarantie". |
+| **Overdue Receivables** | Offene Forderungen, deren Leistungsdatum >2 Monate zurückliegt. |
+
+### Geschwindigkeit
+
+| KPI | Was es misst |
+|-----|--------------|
+| **Time-to-Offer (working hours)** | Reaktionszeit Anfrage → Angebot, nur Arbeitszeit (Mo–Fr 8–20 Uhr). Schneller = höhere CVR. |
+| **Time request → menu confirmation / → completion** | Sales-Cycle-Länge bis Menü-Bestätigung bzw. Abschluss. |
+
+### Retention
+
+| KPI | Was es misst |
+|-----|--------------|
+| **Repeat Purchase Rate** | Anteil Wiederbesteller unter allen Kunden mit Order im Zeitraum. |
+| **CLV per customer (GMV / internal)** | Ø Gesamt-Umsatz bzw. -Kommission pro Kunde über alle (auch zukünftigen) Orders. |
+| **Bookings per customer** | Ø Anzahl Orders pro Kunde über die Lebenszeit. |
+
+### Backend-Nutzung & Angebote
+
+| KPI | Was es misst |
+|-----|--------------|
+| **Customer / Caterer Backend Visit Rate** | Anteil Anfragen, bei denen Kunde bzw. Caterer das Backend besucht (und beim Caterer: eine Aktion ausgeführt) hat. |
+| **Automated vs. Manual Offers** | Anteil automatisch vs. manuell erstellter Angebote. |
+| **Avg internal edits per offer** | Ø interne Bearbeitungen (KAM/Admin) pro Angebot. |

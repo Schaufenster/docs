@@ -1,0 +1,54 @@
+---
+title: "Customer Experience"
+description: "Alles, was der Kunde sieht, erlebt und bewertet — von der digitalen Experience bis zur Qualität beim Event."
+icon: "face-smile"
+---
+
+> Alles, was der Kunde sieht, erlebt und bewertet — vom Buchungsprozess bis nach dem Catering. Umfasst die digitale Experience (Backend, PDFs, Mails) ebenso wie die physische Qualität beim Event selbst. Besonders relevant für wiederkehrende Bucher. Diese Datei hält die durable Mechanik. **Aktuelle Werte** (Ratings, Anzahl, Empfehlungsrate): Reviews.io / RevOps-Hub (Notion).
+
+## Kundenbewertungen
+
+Bewertungen sind solide; aktuelle Werte: Reviews.io.
+
+**Top-Lob:** Pünktliche Lieferung, leckeres Essen, freundlicher Service, unkomplizierte Koordination.
+**Wiederkehrende Kritik:** Portionsgrößen, Menü-Abweichungen (Substitutionen), vereinzelt Sauberkeit/Präsentation.
+
+Zusätzlich die **Caterer Survey** — Kunden bewerten den Caterer nach dem Event in verschiedenen Kriterien. Die Daten fließen in das Caterer Quality Scoring.
+
+## Customer Backend
+
+Das Kunden-Backend ist der Self-Service-Bereich für Kunden nach der Anfrage. Hier können Kunden den Buchungsstatus einsehen, Angebote reviewen und Informationen aktualisieren — außerdem wiederkehrende Event-Formate anlegen, Team-Mitglieder einladen, Rechnungen downloaden, Präferenzen verwalten u.v.m. Teil des Laravel-Nova-Stacks.
+
+## Angebots-PDFs & Offer Flow
+
+Angebots-PDFs werden im Admin Backend generiert und per Mail an den Kunden geschickt. Der Offer Flow umfasst: PDF-Generierung → Versand → Kunde reviewed → Rückfragen → Anpassung → Bestätigung. Qualität und Design der PDFs sind ein direkter Touchpoint — sie beeinflussen die First Impression bei Neukunden.
+
+## Lieferschein & Pre-Catering-Flow
+
+Der Lieferschein wird automatisch aus Anfrage- und Buchungsdaten erzeugt und dem Kunden zugeschickt. Dazu gibt es einen automatisierten Mail-Flow inkl. Reminder, der relevante Infos zum Double Check an Kunden und Caterer sendet (Zeitfenster, Anlieferungsdetails, Menü-Bestätigung).
+
+## Qualitätssicherung beim Catering
+
+| Element | Funktion |
+|---------|----------|
+| Caterer Survey (Kundenbewertung) | Kriterienbasierte Bewertung des Caterers nach dem Event |
+| Reviews.io | Externe Plattform-Bewertungen |
+| Internes Caterer Quality Scoring | Caterer-Qualität messbar machen — gespeist aus Surveys + Feedback |
+| Reklamationsprozess | Bearbeitung von Beschwerden (noch ad hoc, nicht strukturiert) |
+
+Ziel: Caterer-Qualität messbar und steuerbar machen. Schlechte Bewertungen → Feedback an Caterer → bei Wiederholung Konsequenzen.
+
+## Offene Baustellen
+
+| Thema | Priorität |
+|-------|-----------|
+| Caterer Quality Scoring systematisieren | Hoch |
+| Reklamationsprozess formalisieren | Mittel |
+| Angebots-PDF Design optimieren (direkter NC-Touchpoint) | Mittel |
+| Customer Backend UX verbessern | Mittel |
+| Portionsgrößen-Feedback an Caterer | Mittel |
+
+## Verwandt
+
+- Vom Anfrage-Eingang zur Buchung: [revenue-conversion.md](/rev-ops/revenue-conversion)
+- SLA, Telefonie, Post-Catering, Support: [operations-support.md](/rev-ops/operations-support)

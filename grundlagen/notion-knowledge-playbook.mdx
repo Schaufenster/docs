@@ -1,0 +1,92 @@
+---
+title: "Notion Knowledge Playbook"
+description: "Wie wir egoras Notion aufräumen, strukturieren und Wissen extrahieren, ohne dass etwas verloren geht."
+icon: "book-open"
+---
+
+> Wie wir egoras Notion aufräumen, strukturieren und — am wichtigsten — Wissen extrahieren, ohne dass etwas verloren geht.
+
+---
+
+## ⭐ Kern-Prinzip: Wissen extrahieren > Aufräumen
+
+Aufräumen ist nur die Hülle. Der eigentliche Wert ist, dass aus verstreuten Docs **gebündeltes, nutzbares Wissen** wird und **nichts verloren geht**. Das ist bei jedem Department der wichtigste Schritt — nie abkürzen.
+
+**Vier Regeln, nicht verhandelbar:**
+
+1. **Konsolidieren statt eindampfen.** Inhaltsreiche Docs werden NICHT auf 3 Bullets reduziert. Der volle substanzielle Inhalt (alle Zahlen, Schwellen, Entscheidungen) wandert in ein lebendes Master-Doc. „Summarize" heißt *bündeln*, nicht *verkürzen*.
+2. **Volle Originale erhalten.** Quell-Dokumente werden nie gelöscht. Sie bleiben als Backup im Archiv und werden im Master-Doc verlinkt.
+3. **Cross-cutting Patterns benennen.** Wenn dasselbe Thema über mehrere Docs/Zeiträume wiederkehrt, ist das selbst die wichtigste Erkenntnis (= Prio-Signal). Explizit machen.
+4. **Hire-Test.** Bekommt ein neuer Mitarbeiter das volle Bild allein aus dem konsolidierten Doc? Wenn nein, ist die Extraktion zu kurz.
+
+---
+
+## Die Extraktions-Methode (pro thematischem Cluster)
+
+1. **Cluster bilden** — welche Docs gehören thematisch zusammen (z.B. alle CVR-Analysen)?
+2. **Volltext lesen** — am Inhalt entscheiden, nicht am Titel raten. „Sieht-aus-wie-Prozess" ≠ Prozess.
+3. **Durable Insights destillieren** — vollständig: alle Zahlen, Faktoren, Schwellenwerte, Maßnahmen. Keine Verkürzung.
+4. **Supersession klären** — was ist veraltet, was die belastbare Version? Ältere Hypothese als „Origin" folden, neuere Daten führen.
+5. **In EIN lebendes Master-Doc konsolidieren** — TL;DR oben (5 Kernbefunde) + volle Tiefe in Sektionen + Quellen unten verlinkt.
+6. **Cross-cutting Pattern bündeln** — wiederkehrende Themen herausziehen und als Prioritäten markieren.
+7. **Originale sichern** — Roh-Backup ins Archiv, im Master verlinkt. Nie löschen.
+8. **Hire-Test anlegen** — final gegenchecken.
+
+> **Anti-Pattern:** 3-Bullet-Summaries pro Doc. Das verliert Inhalt und ist wertlos. Wenn ein Doc Substanz hat, kriegt es volle Tiefe oder bleibt ganz erhalten.
+
+---
+
+## Der Department-Loop
+
+Jedes Department durchläuft denselben Ablauf:
+
+| # | Schritt | Was passiert |
+|---|---|---|
+| 0 | **Scan** | Hub-Seite read-only ziehen, echten Baum sehen (nicht Suche) |
+| 1 | **Audit & Triage** | Pro Seite Signale prüfen (last-edited, Orphan, Dublette, Typ, Owner). Tag: Keep / Rewrite / Merge / Archive / Summarize-then-archive / Move |
+| 2 | **Knowledge-Extraktion** | ⭐ Der Kern. Cluster konsolidieren nach obiger Methode |
+| 3 | **Restrukturieren** | DB-Schema bauen, KEEP-Inhalte migrieren + taggen |
+| 4 | **Display** | Pro DB die passende Ansicht wählen (siehe unten) |
+| 5 | **Promote** | Neue v2-Seite an die finale Stelle, alte Shell archivieren |
+
+Gate-Regel: Destruktives (Archivieren/Verschieben) immer erst nach Freigabe. KEEP-Migration kann autonom laufen. Nichts wird je gelöscht — „Archiv" = verschieben, nicht löschen.
+
+---
+
+## Department-Template (DB-Schema)
+
+Drei Datenbanken pro Department, einheitlich:
+
+**🔧 Prozesse & SOPs** — `Status` (🟢 Live / 🟡 Draft / 🔴 Stale / 🔵 Capture-Rohling) · `Stage` (Request→Angebot / Angebot-Menü / Follow-up / Booking-Invoice / Calling / Backend-Ops / Onboarding) · `Typ` (SOP / Prozess / Guide / Checklist) · `Owner` · `Last reviewed` · `Quelle` (Manuell / Tango-Capture)
+
+**📚 Knowledge & Stammdaten** — `Kategorie` (Catering-Knowledge / Stammdaten / Templates / Policy / CRM-Config) · `Owner` · `Status` · `Last reviewed`
+
+**💡 Learnings & Backlog** — `Thema` (CVR / Product / CRM / Ops / Strategie) · `Quelle-Doc` · `Status` (Offen / Umgesetzt / Referenz) · `Datum`. Hier landen die konsolidierten Master-Docs + extrahierte Learnings.
+
+Stage/Kategorie/Thema sind pro Department anpassbar — „uniform" ist Hypothese, kein Zwang. Wenn ein Department anders tickt, anpassen statt reinpressen.
+
+---
+
+## Hub-Layout (Nav-Hub mit Section-Cards)
+
+Die Department-Startseite: **Hero-Callout** oben (Zweck + Owner + Status-Legende), dann **Section-Cards in 2-3 Spalten** — je Sektion eine Callout-Karte (Icon + Titel + 1-Zeiler) mit der echten DB/Seite dahinter. Plus „Entwürfe & Skizzen", „Ressourcen", „Archiv".
+
+Technik-Hinweis: Notion rendert Child-DBs immer auf der Parent-Seite. Für den Karten-Look die DBs/Seiten im `replace_content` per &lt;database&gt;/&lt;page&gt;-Tags in eine &lt;columns&gt;-Struktur einbetten (erhält sie, rahmt sie schön).
+
+**Display je DB:**
+
+| DB | Ansicht | Warum |
+|---|---|---|
+| Prozesse & SOPs | **Board nach Stage** (Pipeline) | Prozess-Flow sofort sichtbar, hire-intuitiv |
+| Knowledge & Stammdaten | **Galerie nach Kategorie** | Referenz scannt man visuell, wie eine Bibliothek |
+| Learnings & Backlog | **Board nach Status** | Offen → Umgesetzt → Referenz, Backlog-Gefühl |
+
+---
+
+## Capture-driven Doku
+
+Neue Hires dokumentieren ihre Prozesse, **während** sie sie lernen — statt 1.000 Prozesse vorab manuell zu schreiben.
+
+- **Tool: Tango** (Click-Capture, Browser-Extension) → polierte Text-SOP mit Screenshots → embedded in Notion. Günstiger als Scribe bei ~gleichem Value. (Tool-Wahl noch nicht final entschieden.)
+- **70/30-Prinzip:** Capture bringt ~70% (Skelett: Steps + Screenshots). Der Mensch macht die 30%, die erst die echte SOP draus machen: Step-Labels schärfen, Instanz-Daten generisieren, PII scrubben, „Warum / Wann / Eskalation" ergänzen.
+- **Kein Tool captured Judgment** — Entscheidungslogik/Eskalation bleibt geschriebener Text.
