@@ -9,6 +9,9 @@
   },
   "favicon": "/favicon.svg",
   "description": "Interne Wissensdatenbank für eGora-KAMs — zugriffsbeschränkt. Real-Testing-Pilot.",
+  "seo": {
+    "indexing": "all"
+  },
   "navigation": {
     "languages": [
       {
