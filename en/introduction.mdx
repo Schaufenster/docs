@@ -6,46 +6,46 @@ icon: "house"
 
 <Note>
   **Internal & access-restricted.** This knowledge base is for eGora KAMs. It is in an active
-  **real-testing phase** — some pages are still being reconciled against real processes; treat anything
-  that hasn't been verified yet as a draft.
+  **real-testing phase** — some pages are still being reconciled with real processes; treat anything
+  not yet reviewed as a draft.
 </Note>
 
-This is a **git-based source of truth** that serves two audiences at the same time:
+This is a **git-based source of truth** that serves two audiences at once:
 
 <CardGroup cols={2}>
   <Card title="You as a human" icon="user">
-    Read it here on the web — KAM processes, the IT/internal guides, and what was rolled out most recently.
+    Read it here on the web — KAM processes, the IT/internal guides, and what was most recently rolled out.
   </Card>
   <Card title="Claude as your assistant" icon="robot">
-    The same content feeds the **eGora KAM Assistant** via MCP, so you can simply *ask* instead of searching.
+    The same content feeds the **eGora KAM Assistant** via MCP, so you can just *ask* instead of searching.
   </Card>
 </CardGroup>
 
 ## What you'll find here
 
 <CardGroup cols={3}>
-  <Card title="KAM Handbook" icon="book" href="/en/kam-handbook/what-is-this-kb">
-    How we handle accounts: onboarding, management, escalation, offboarding.
+  <Card title="KAM Handbook" icon="book" href="/kam-handbook/what-is-this-kb">
+    How we look after accounts: onboarding, management, escalation, offboarding.
   </Card>
-  <Card title="IT / Internal" icon="server" href="/en/it/overview">
-    Connecting Claude to eGora data, the KPI catalog and release communication.
+  <Card title="IT / internal" icon="server" href="/it/overview">
+    Connect Claude to eGora data, the KPI catalog, and release communication.
   </Card>
-  <Card title="Integrations" icon="plug" href="/en/integrations/overview">
-    How this KB is connected to Claude, egora-data, Notion, Slack and the changelog.
+  <Card title="Integrations" icon="plug" href="/integrations/overview">
+    How this KB is wired to Claude, egora-data, Notion, Slack, and the changelog.
   </Card>
 </CardGroup>
 
 ## How it stays current
 
 <Steps>
-  <Step title="Versioned in Git">
+  <Step title="Versioned in git">
     Every change is a reviewable pull request in `Schaufenster/docs` — nothing changes silently.
   </Step>
-  <Step title="Shipped features automatically produce a changelog draft">
-    Mintlify's changelog automation drafts an entry when product code changes — see
-    [Release communication](/en/it/feature-changelog).
+  <Step title="Shipped features auto-generate a changelog draft">
+    Mintlify's changelog automation drafts an entry whenever product code changes — see
+    [release communication](/it/feature-changelog).
   </Step>
-  <Step title="Claude always reads the latest state">
-    Because the same source feeds Claude via MCP, the assistant always answers based on the current knowledge.
+  <Step title="Claude always reads the current state">
+    Because the same source feeds Claude via MCP, the assistant always answers based on current knowledge.
   </Step>
 </Steps>

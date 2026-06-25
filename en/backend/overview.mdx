@@ -1,48 +1,48 @@
 ---
 title: "The KAM backend at a glance"
-description: "What a KAM sees in the Nova backend – the eight menu sections, what they contain, and what is deliberately hidden."
+description: "What a KAM sees in the Nova backend – the eight menu areas, what they contain and what is intentionally hidden."
 icon: "table-columns"
 ---
 
 The KAM backend is the **Laravel Nova administration** (at `/nova`). Caterers and customers use a
 separate Filament backend – a KAM works **exclusively in Nova**.
 
-What you see depends on your role. With the **`kam`** role, **eight menu sections** are visible (the
-admin/configuration areas stay hidden, see below). This reference covers exactly those eight sections –
-anchored to the actual menu definition in code.
+What you see depends on your role. With the **`kam`** role, **eight menu areas** are visible (the
+admin/configuration areas stay hidden, see below). This reference describes exactly those eight areas –
+anchored in the actual menu definition in code.
 
-## The eight KAM sections
+## The eight KAM areas
 
 <CardGroup cols={2}>
   <Card title="Dashboard" icon="chart-bar">
-    The start page with the aggregated order / cart / delivery metrics.
+    The home page with aggregated order/cart/delivery metrics.
   </Card>
-  <Card title="KAM Inbox" icon="inbox-full" href="/en/backend/tools">
-    Your unified activity feed (email, chat, system events). Enabled via feature flag.
+  <Card title="KAM Inbox" icon="inbox-full" href="/backend/tools">
+    Your unified activity feed (email, chat, system events). Enabled via a feature flag.
   </Card>
-  <Card title="Catering Operations" icon="utensils" href="/en/backend/catering-operations">
-    Your day-to-day work: requests, offers, orders, matching and menu tools.
+  <Card title="Catering Operations" icon="utensils" href="/backend/catering-operations">
+    Your day-to-day: requests, offers, orders, matching and menu tools.
   </Card>
-  <Card title="Feedback & Surveys" icon="star" href="/en/backend/customers-profiles">
+  <Card title="Feedback & Surveys" icon="star" href="/backend/customers-profiles">
     Customer/caterer surveys and the survey insights.
   </Card>
-  <Card title="Catalog & Suppliers" icon="store" href="/en/backend/catalog-suppliers">
-    Caterers (retailers), branches, billing, products, packages, vouchers.
+  <Card title="Catalog & Suppliers" icon="store" href="/backend/catalog-suppliers">
+    Caterers (Retailers), locations (Branches), billing, products, packages, vouchers.
   </Card>
-  <Card title="Users & Customers" icon="users" href="/en/backend/customers-profiles">
+  <Card title="Users & Customers" icon="users" href="/backend/customers-profiles">
     Platform users and B2B companies.
   </Card>
-  <Card title="Smart Profiles" icon="id-card" href="/en/backend/customers-profiles">
+  <Card title="Smart Profiles" icon="id-card" href="/backend/customers-profiles">
     Billing profiles and event formats.
   </Card>
-  <Card title="Performance & Insights" icon="gauge" href="/en/backend/performance-insights">
+  <Card title="Performance & Insights" icon="gauge" href="/backend/performance-insights">
     KPI pages, lead funnel, Google Ads, lead sources.
   </Card>
 </CardGroup>
 
 ## Menu map
 
-| Section | Contains (resources & tools) |
+| Area | Contains (resources & tools) |
 | --- | --- |
 | **Dashboard** | Main dashboard (order KPIs, cart, delivery, voucher) |
 | **KAM Inbox** | Per-KAM activity feed *(feature flag)* |
@@ -51,19 +51,19 @@ anchored to the actual menu definition in code.
 | **Catalog & Suppliers** | Retailer · Branch · MonthlyRetailerBill · PayoutAdjustment · Product · Package · Productvariant · Voucher |
 | **Users & Customers** | User · Company |
 | **Smart Profiles** | BillingProfile · EventFormat |
-| **Performance & Insights** | Request / Marketing / Finance / Misc KPIs · LeadFormProgress · GoogleAd · LeadSource |
+| **Performance & Insights** | Request / Marketing / Finance / Diverse KPIs · LeadFormProgress · GoogleAd · LeadSource |
 
-## What a KAM deliberately does **not** see
+## What a KAM intentionally **doesn't** see
 
 These areas are only visible to admins – reach out to the team if you need something here:
 
 <Note>
-  **Catering Config**, **Delivery Config**, **Content Management**, **Reference Data** (master data / taxonomies),
-  **System Admin** (roles, permissions, imports), **Email & Communication** (email templates / A-B tests) and
-  **Accounting & Finance** (dunning exceptions).
+  **Catering Config**, **Delivery Config**, **Content Management**, **Reference Data** (master data /
+  taxonomies), **System Admin** (roles, permissions, imports), **Email & Communication** (email templates
+  / A-B tests) and **Accounting & Finance** (dunning exceptions).
 </Note>
 
 <Tip>
-  The end-to-end flow of a request lives in [Request lifecycle](/en/kam-handbook/request-lifecycle); the
-  terms (Retailer, Branch, Stornogarantie, GMV) are in the [glossary](/en/kam-handbook/key-concepts).
+  The end-to-end flow of a request is in the [request lifecycle](/kam-handbook/request-lifecycle); the
+  terminology (Retailer, Branch, Stornogarantie, GMV) is in the [glossary](/kam-handbook/key-concepts).
 </Tip>

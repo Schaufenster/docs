@@ -1,15 +1,15 @@
 ---
-title: "KPI catalog (full)"
-description: "All 109 canonical Catering KPI tiles, auto-generated from code."
+title: "KPI catalog (complete)"
+description: "All 109 canonical catering KPI tiles, auto-generated from the code."
 icon: "table-list"
 ---
 
 <Info>
-  **Auto-generated** from `app/Services/Kpi/KpiCatalog.php` (the source of truth for KPI metadata).
-  Don't edit by hand – regenerate with `php artisan docs:generate-kpi-catalog`.
+  **Auto-generated** from `app/Services/Kpi/KpiCatalog.php` (source of truth for KPI metadata).
+  Don't edit by hand — regenerate with `php artisan docs:generate-kpi-catalog`.
 
-  109 tiles across 12 sections. The **values** are computed by `KpiResolver`; the assistant reads
-  them server-side via the `get_catering_kpi` MCP function.
+  109 tiles in 12 sections. The **values** are computed by the `KpiResolver`; the assistant reads
+  them server-side via the MCP function `get_catering_kpi`.
 </Info>
 
 ## Conversion Rate KPIs
@@ -119,8 +119,8 @@ _18 metrics · section slug `finance-kpis`_
 | Metric | Key | Unit | Description |
 | --- | --- | --- | --- |
 | Total net revenue | `revenue-net` | € | Total net revenue for the selected date range. Based on the "created_at" date of the order. |
-| Revenue from Stornogarantie (cancellation guarantee) | `revenue-stornogarantie` | € | Net revenue from Stornogarantie line items (EGORA-STORNOGARANTIE-T1…T4) on executed orders. Date filter on Order.created_at. |
-| % orders with Stornogarantie (cancellation guarantee) | `stornogarantie-orders-percentage` | % | Share of executed orders with ≥1 Stornogarantie line item, out of all executed orders. Date filter on Order.created_at. |
+| Revenue from Stornogarantie | `revenue-stornogarantie` | € | Net revenue from Stornogarantie line items (EGORA-STORNOGARANTIE-T1…T4) on executed orders. Date filter on Order.created_at. |
+| % orders with Stornogarantie | `stornogarantie-orders-percentage` | % | Share of executed orders with ≥1 Stornogarantie line item, out of all executed orders. Date filter on Order.created_at. |
 | Total net revenue (marketplace) | `revenue-net-marketplace` | € | Total marketplace net revenue for the selected date range. Based on the "created_at" date of the order. |
 | Total realized net revenue | `revenue-realized-net` | € | Total realized net revenue for the selected date range. Based on the "service_date" of the order. |
 | Total realized gross revenue | `revenue-realized-gross` | € | Total realized gross revenue for the selected date range. Based on the "service_date" of the order. |
@@ -135,7 +135,7 @@ _18 metrics · section slug `finance-kpis`_
 | Tax on realized internal net revenue | `tax-on-realized-internal-revenue` | € | Total tax on realized internal net revenue for the selected date range. Based on the "service_date" of the order. |
 | Average take rate (booked) | `average-take-rate-booked` | % | Average take rate calculated as (Total Internal Booked Net Revenue ÷ Total Net Revenue) × 100. Shows the percentage of total revenue that goes to internal revenue for booked orders. Based on the "created_at" date of the order. |
 | Average take rate (realized) | `average-take-rate-realized` | % | Average take rate calculated as (Total Internal Realized Net Revenue ÷ Total Realized Net Revenue) × 100. Shows the percentage of total revenue that goes to internal revenue for realized orders. Based on the "service_date" of the order. |
-| Overdue Receivables (>2 months) | `overdue-receivables` | € | Total value of unpaid orders where the service date is more than 2 months ago. Includes all executed orders (excludes checkout, cancelled, payment failed) that are not paid (orderstatus_id ≠ 2) and have service_date + 2 months < current date. Based on the "service_date" of the order. |
+| Overdue Receivables (&gt;2 months) | `overdue-receivables` | € | Total value of unpaid orders where the service date is more than 2 months ago. Includes all executed orders (excludes checkout, cancelled, payment failed) that are not paid (orderstatus_id ≠ 2) and have service_date + 2 months &lt; current date. Based on the "service_date" of the order. |
 
 ## Request (backend) Visit Rate KPIs
 
@@ -195,7 +195,7 @@ _11 metrics · section slug ``_
 | --- | --- | --- | --- |
 | Request confirmation email | `request-confirmation-open-rate` | % | Opening rate of the request confirmation email (is sent after a customer submits the lead form). Date filter based on the "created_at" date of the email. |
 | KAM intro email | `kam-intro-open-rate` | % | Opening rate of the KAM intro email. Date filter based on the "created_at" date of the email. |
-| Special KAM intro email | `special-kam-intro-open-rate` | % | Opening rate of the special KAM intro email (>2k EUR). Date filter based on the "created_at" date of the email. |
+| Special KAM intro email | `special-kam-intro-open-rate` | % | Opening rate of the special KAM intro email (&gt;2k EUR). Date filter based on the "created_at" date of the email. |
 | Menu proposal email based on single offer | `mp-offer-open-rate` | % | Opening rate of the menu proposal email that is based on a single offer (Action 3 on an offer). Date filter based on the "created_at" date of the email. |
 | Menu proposal (for a single offer) followup email | `mp-followup-offer-open_rate` | % | Opening rate of the followup email for the single offer menu proposal (Action 4 on an offer). Date filter based on the "created_at" date of the email. |
 | Menu proposal mail based on a catering request | `mp-request-open-rate` | % | Opening rate of the menu proposal mail (based on a single catering request). Date filter based on the "created_at" date of the email. |
