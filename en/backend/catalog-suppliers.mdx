@@ -1,0 +1,63 @@
+---
+title: "Catalog & Suppliers"
+description: "The supply side: caterers and their branches, their billing, and the product and package catalog."
+icon: "store"
+---
+
+This is where you manage the **caterer side** of the marketplace – who delivers, from which location, on
+what terms, and what's in the catalog.
+
+## Caterers & locations
+
+<CardGroup cols={2}>
+  <Card title="Retailer" icon="building-user">
+    A **caterer** (marketplace partner). Has branches, products, packages and contact persons; carries
+    scores and capability taxonomies that matching uses.
+  </Card>
+  <Card title="Branch" icon="location-dot">
+    A **caterer location** (kitchen). A retailer can have multiple branches – each with opening hours,
+    minimum order value, take rate and delivery area. Orders and offers hang off a branch.
+  </Card>
+</CardGroup>
+
+## Billing & payout
+
+<CardGroup cols={2}>
+  <Card title="MonthlyRetailerBill" icon="file-invoice-dollar">
+    The monthly **credit note** per branch / month (with PDF). Bundles payouts, fees and manual
+    adjustments.
+  </Card>
+  <Card title="PayoutAdjustment" icon="sliders">
+    Manual correction line items on a monthly bill. Gross and tax are calculated automatically from the
+    net amount × tax rate.
+  </Card>
+</CardGroup>
+
+<Note>
+  The monthly credit note has several payout components (including deposit and the egora voucher share).
+  If individual line items and the total don't match, there's a reconcile command
+  (`audit:monthly-payout-reconcile`).
+</Note>
+
+## Catalog
+
+<CardGroup cols={2}>
+  <Card title="Product" icon="box">
+    A catalog product of a caterer. Carries variants, options, categories and allergens.
+  </Card>
+  <Card title="Productvariant" icon="boxes-stacked">
+    The actually sellable unit of a product – this is what ends up in offers and orders.
+  </Card>
+  <Card title="Package" icon="box-open">
+    A bundled, priced catering package from a caterer (menu including markups for drinks, equipment,
+    service, headcount).
+  </Card>
+  <Card title="Voucher" icon="ticket">
+    Vouchers; the refund can be split between egora and the caterer.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Product categories drive the **tax rate** (via the category default rate). If you create or edit a
+  category inline, make sure to pick the correct leaf category instead of the menu group.
+</Tip>

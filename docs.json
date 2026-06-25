@@ -122,6 +122,28 @@
             ]
           },
           {
+            "tab": "Backend reference",
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": ["en/backend/overview"]
+              },
+              {
+                "group": "Menu sections",
+                "pages": [
+                  "en/backend/catering-operations",
+                  "en/backend/catalog-suppliers",
+                  "en/backend/customers-profiles",
+                  "en/backend/performance-insights"
+                ]
+              },
+              {
+                "group": "Tools",
+                "pages": ["en/backend/tools"]
+              }
+            ]
+          },
+          {
             "tab": "IT / Internal",
             "groups": [
               {
