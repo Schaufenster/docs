@@ -34,6 +34,32 @@ Jedes ausgelieferte Feature bekommt einen Changelog-Eintrag, der drei Fragen bea
 
 ## Changelog
 
+<Update label="2026-06-26" description="Automatische Absage-Mail an unterlegene Caterer">
+  Sobald eine Catering-Anfrage einem Caterer fest zugeschlagen wird (Status **DATE_CONFIRMED**),
+  bekommen unterlegene Caterer automatisch eine Absage-E-Mail — sie müssen nicht länger auf eine
+  Rückmeldung warten. Pro Filiale steuert der Caterer im **Caterer-Account → Benachrichtigungen →
+  Absage-Benachrichtigungen**, ob und wann er diese Mails erhält: nur für Anfragen mit eigenem
+  Angebot (Standard), für jede Anfrage, für die er vorgeschlagen wurde, oder gar nicht. Caterer, die
+  bereits selbst abgesagt haben, werden ausgespart; der Versand erfolgt einmalig pro Anfrage und
+  wird im KAM-Inbox als ausgehende E-Mail dokumentiert.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Manuelles Hinterher-Absagen entfällt für die Standardfälle. Im KAM-Inbox erscheinen die
+      automatischen Absagen als ausgehende E-Mail-Einträge (Kategorie *Offer Rejected*) — prüfe dort,
+      bevor Du eine zusätzliche Absage rausschickst.
+    </Card>
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+    <Card title="Caterer" icon="utensils">
+      Öffne im Caterer-Account den Reiter **Benachrichtigungen** und wähle unter
+      **Absage-Benachrichtigungen** die passende Stufe. Standard ist **„Für Anfragen, für die ich ein
+      Angebot abgegeben habe"**. Ohne hinterlegte Filial-E-Mail wird nichts versandt.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06-25" description="OrderHub: Rechnungs-Action prüft Steuersätze">
   Die vier KAM-Checklisten-Actions im OrderHub (**Bestellbestätigung → Kunde**, **Bestellbestätigung
   → Caterer**, **Lieferschein → Caterer**, **Rechnung → Kunde**) verhalten sich jetzt identisch zum
