@@ -1,0 +1,496 @@
+---
+title: "Get Shit Done (GSD)"
+description: "egora Team-Skill für hochkomplexe Multi-Session-Builds mit fraktaler Tree-Architektur, Mini-Loop pro Knoten und persistierendem State zwischen Sessions."
+icon: "diagram-project"
+---
+
+<Info>
+  **Runtime:** Claude Code / Cowork  ·  **Status:** ❌ nicht im Teams-Chat (braucht Filesystem, Subagents, MCP)
+
+  **Trigger:** "Build starten", "GSD", "Build weiterbauen", "AM-Build"
+</Info>
+
+## Skill-Definition
+
+```yaml
+name: get-shit-done
+description: "egora Team-Skill für hochkomplexe Multi-Session-Builds (z.B. Account-Management-System, Conversion-Rate-Optimierung, Marktplatz-Spec, Department-Playbooks) mit 4-Ebenen-Hierarchie. Fraktale Tree-Architektur, Mini-Loop pro Knoten: Analyse → Frame → Iterate → Real-Case-Check → Prioritize → Drill/Draft → Verify → Ship. Subagents parallel bei Daten/Draft/Verify, conversational bei Frame/Iterate/Prioritize (Steering-Density-Prinzip). Pre-Brief vor Subagent-Spawns Pflicht. Real-Case-Check als Gate vor jedem Drill — Theorie gegen echte Cases (HubSpot, Slack, CSV) testen. State pro Build in `_builds/[build]/` mit BUILD/TREE/DECISIONS/NODE.md, Sandbox-Separation vom Wissens-Bereich. Step-Size: ein Mini-Step pro Turn, dann Stop. 100% conversational. Nutze IMMER wenn jemand nach Build weiterbauen, Build starten, neuer Build, AM-Build, CRO-Build, Marktplatz-Build, Playbook bauen, komplexes Projekt, Get Shit Done, GSD, Build-Status fragt."
+```
+
+# DESCRIPTION
+
+egora Team-Skill für hochkomplexe Multi-Session-Builds, Projekte die über Wochen laufen, Output-Systeme (nicht einzelne Docs) erzeugen, und tiefe Hierarchien (bis zu 4 Ebenen) durchlaufen. Typische Use Cases: Account-Management-System aufbauen, Conversion-Rate-Optimierung priorisieren, Marktplatz-Strategie spezifizieren, Department-Playbooks bauen.
+
+Der Skill ersetzt das "endlose Chat"-Pattern durch eine **fraktale Tree-Architektur** mit klarem Mini-Loop pro Knoten, persistierendem State zwischen Sessions, parallelisierten Subagents und **Real-Case-Validation als Gate** gegen Theorie-Gebäude, die an der Realität zerschellen.
+
+Inspiriert von TÂCHES' "Get Shit Done"-Framework für Claude Code CLI, Methodik geklaut, Interface conversational statt Slash-Commands.
+
+# INTERAKTIONS-MODUS — KERNREGEL
+
+**100% conversational, keine Slash-Commands.** Der User triggert per natürlicher Sprache, der Skill führt durch den Workflow. Step-Size-Constraint hart eingebaut: **Ein Mini-Step pro Turn**, dann Stop, dann "Reviewen oder weiter?", egal wie schnell der User will.
+
+**Steering-Density-Prinzip, wann Subagents, wann nicht:**
+
+- **Hohe Steering-Density** (Frame, Iterate, Prioritize) → pur conversational mit dem User, keine Subagents. Das Feedback ist mid-process kritisch, Vorarbeit durch Subagents wäre schädlich.
+- **Niedrige Steering-Density** (Analyse, Real-Case-Check, Draft, Verify) → Subagents für Speed. Direction ist klar, parallele Arbeit zahlt sich aus.
+
+**Pre-Brief vor parallelen Subagents:** Bevor 4-5 Subagents losrennen, kurzer Sync: "Ich will diese Sources mit diesen Filtern abfragen, OK?" → Bestätigung → dann parallel. Verhindert Müll-Aggregation durch falsche Annahmen (Lesson Learned: nicht alle Calls liegen in Granola, daher Pre-Brief Pflicht).
+
+**Smart-Snapshot:**
+- Bei neuem Chat / Skill-Erst-Trigger → kurzer Snapshot oben (aktiver Build, aktiver Knoten, Phase, was als nächstes)
+- Im laufenden Flow → kein Snapshot, direkt zum nächsten Step
+- Bei explizitem "Status?" → voller Snapshot mit TREE-View
+
+# PRE-CHECK — VOR JEDEM RUN
+
+1. **Folder-Mount-Check:** Zugang zum Team-Wissens-/Arbeits-Bereich. Bei fehlendem Mount → `mcp__cowork__request_cowork_directory`.
+2. **Build-Discovery (dynamisch):** Glob recursive nach `**/_builds/*/BUILD.md` im verbundenen Arbeits-Bereich, findet alle Builds egal in welchem Department-Ordner. Keine hard-coded Bereich-Liste. `_builds/` ist eine vom Skill eingeführte Konvention, bei leerem Bereich (kein vorheriger Build) ist das normal, nicht alarmieren. Aggregiere alle aktiven Builds (Status nicht "done").
+3. **Build-Selection:**
+   - Keine aktiven Builds → Frage: "Neuen Build starten?"
+   - Genau ein aktiver Build → impliziter Default (nenne ihn im Snapshot)
+   - Mehrere aktive Builds → Frage: "Welcher Build? [Liste mit Phase pro Build]"
+4. **Kontext-Bereich lesen (dynamisch, zweistufig):**
+
+   Der Build kennt seinen Parent-Folder aus dem Build-Pfad (z.B. Build in `account-management/_builds/am-system/` → Parent = `account-management/`). Pfad wird **nicht hard-coded**, sondern vom Build dynamisch abgeleitet.
+
+   **Stufe 1 — Inventory-Scan (immer beim Init oder neuer Chat-Trigger):**
+   - Glob alle .md Files im Parent-Folder inkl. Subfolders (max Tiefe 2).
+   - Lese nur Titel + erste 3-5 Zeilen pro File für Themen-Erkennung, NICHT vollständig.
+   - Bereichs-CLAUDE.md / Department-Doku falls vorhanden: vollständig lesen.
+   - Output im Chat: "Inventory: N Files im Bereich. Themen-Übersicht: [...]", kompakt.
+
+   **Stufe 2 — Dynamische Vertiefung (pro Knoten / pro Phase):**
+   - Pro aktivem Knoten entscheidet Claude welche Files aus dem Inventory **vollständig** gelesen werden (basierend auf Knoten-Thema, Phase, aktueller Frage).
+   - Nicht "alle .md lesen", sondern Subset basierend auf Relevanz.
+   - Bei Drill auf neuen Sub-Knoten: erneut entscheiden was relevant ist.
+   - Output: In NODE.md `Kontext-Refs` notieren welche Files dynamisch gewählt wurden + Begründung.
+
+   **NICHT lesen** ohne expliziten Grund: andere `_builds/` (zu viel Kontext), `_output/`-Subfolders, `_quellen/`-Subfolders (außer explizit relevant).
+5. **State-Read bei Continuation** (siehe Section KONTEXT-PERSISTENZ).
+6. **Snapshot-Entscheidung** (siehe Smart-Snapshot oben).
+
+# KERN-KONZEPTE
+
+## Build
+Ein hochkomplexes Projekt, das über mehrere Sessions läuft. Eigener Folder, eigene State-Files, eigene Hierarchie. Bsp.: AM-System, CRO-Priorisierung, Marktplatz-Spec.
+
+## Knoten
+Punkt in der Tree-Hierarchie eines Builds. Hat Status (`geplant` / `aktiv` / `done` / `not-needed`) und durchläuft den Mini-Loop.
+
+## Tree
+Hierarchie eines Builds, max 4 Ebenen tief: Build-Root (0) → Bereich (1, z.B. AM-Stages) → Sektion (2, z.B. Onboarding-Sub-Sektionen) → Sub-Prozess (3, Blatt-Output).
+
+## Blatt
+Terminaler Knoten, unterste Ebene, wo nicht mehr gedrillt wird, sondern der konkrete Final-Output entsteht (Playbook, SOP, Spec-Doc).
+
+## Mini-Loop
+Workflow pro Knoten: **Analyse → Frame → Iterate → Real-Case-Check → Prioritize → Drill (nicht-terminal) ODER Draft → Verify → Ship (Blatt)**. Falls Real-Case-Check fails → zurück zu Frame mit Learnings.
+
+## Partial-Completion
+Nicht jeder Knoten im Tree wird gefüllt. Bei Tree-Tiefe 4 und 5 Stages × 4 Sektionen × 3 Sub-Prozesse hätte ein AM-System 60+ potenzielle Blätter, unmöglich alle. Priorisierung entscheidet welche Pfade tief gehen, andere bleiben `geplant` oder `not-needed`. Das ist Feature, nicht Bug.
+
+# FOLDER-STRUKTUR
+
+Pro Build ein eigener Folder unter `_builds/` im jeweiligen Department-Bereich. Beispiel AM:
+
+```
+account-management/_builds/am-system/
+├── BUILD.md           ← Definition, Erfolgskriterien, Datenquellen, Stakeholder
+├── TREE.md            ← Master-Hierarchie + Status pro Knoten
+├── DECISIONS.md       ← Cross-Cutting Decisions mit Datum + Wer + Warum
+├── _data/             ← CSV-Uploads + Connector-Exports (datumsstempel)
+├── _research/         ← Aggregated Subagent-Outputs pro Knoten/Phase
+├── _ship/             ← Finale Artifacts vor Migration in den Wissens-Bereich
+└── nodes/
+    └── 01-stage-onboarding/
+        ├── NODE.md
+        └── 01-section-welcome-call/
+            ├── NODE.md
+            └── 01-sub-erste-24h/
+                └── NODE.md       ← Blatt-Knoten
+```
+
+**Sandbox-Separation:** Nichts wandert in den Wissens-Bereich (z.B. `account-management/playbooks/`) bevor `_ship/` durchgelaufen + explizites Approval.
+
+# STATE-FILES
+
+## BUILD.md
+```markdown
+# Build: [Name]
+
+## Was bauen wir?
+[1-3 Sätze]
+
+## Warum?
+[Motivation, Stakeholder-Bedarf, Trigger]
+
+## Erfolgskriterien
+- [Kriterium 1, messbar wenn möglich]
+- [Kriterium 2]
+
+## Modus
+fractal (default)
+
+## Tree-Tiefe
+4 (Build → Bereich → Sektion → Sub-Prozess)
+
+## Datenquellen (pro Build konfiguriert)
+- HubSpot: [welche Pipelines/Filter]
+- Slack: [welche Channels]
+- Notion: [welche Pages]
+- CSV-Uploads: [Backend-Exports, frequency]
+- Granola: [welche Calls, eigene oder geteilt klären]
+
+## Stakeholder
+- Owner: [Build-Owner]
+- Reviewer: [...]
+- Final-Approval: [...]
+
+## Erstellt: [Datum]
+## Last-Updated: [Datum]
+```
+
+## TREE.md
+```markdown
+# Tree — [Build-Name]
+
+Status-Marker: ✅ done | 🟡 aktiv | ⚪ geplant | ❌ not-needed
+Phase-Marker zeigt aktuelle Mini-Loop-Phase bei aktiven Knoten.
+
+- [Build-Root] 🟡 (drill)
+  - 01-stage-onboarding 🟡 (real-case)
+    - 01-section-welcome-call ⚪
+    - 02-section-setup-help ⚪
+  - 02-stage-activation ⚪
+  - 03-stage-retention ❌ (not-needed laut Prio v2)
+```
+
+Auto-aktualisiert nach jedem Knoten-State-Change.
+
+## NODE.md (pro Knoten)
+```markdown
+# Node: [Name]
+
+## Path
+[z.B. am-system / 01-stage-onboarding / 01-section-welcome-call]
+
+## Status
+geplant | aktiv | done | not-needed
+
+## Mini-Loop-Phase
+analyse | frame | iterate | real-case | prioritize | drill | draft | verify | ship
+
+## Next Step
+[konkret was beim nächsten Trigger ansteht, kritisch für Chat-Switch-Handover, immer aktuell halten]
+
+## Kontext-Refs
+- Inventory bekannt (Themen-Scan beim Init): [Liste der Files im Bereich mit 1-Zeilen-Thema]
+- Vollständig gelesen für diesen Knoten: [Subset, dynamisch ausgewählt, mit Begründung]
+- Wichtigste Punkte für diesen Knoten: [3-5 Bullets aus den vollgelesenen Files]
+
+## Analyse-Output
+[Synthese, Details in _research/[node]/analyse.md]
+
+## Frame
+[Strukturmodell auf dieser Ebene]
+
+## Iterate-History
+- [Datum]: [was verändert + warum, 1-Satz-Snippet bei wichtigen Pivots]
+
+## Real-Case-Check
+- Cases getestet: [Liste]
+- Ergebnis: pass | fail
+- Learnings: [...]
+- Re-Frame nötig: ja/nein
+
+## Sub-Knoten-Prio (wenn nicht-terminal)
+1. [Sub-Node-Name] — Begründung
+2. [Sub-Node-Name] — Begründung
+(weitere → not-needed oder geplant)
+
+## Decisions auf diesem Knoten
+- [Datum]: [Entscheidung] — Begründung
+
+## Artifact (wenn Blatt)
+- Draft: _ship/[artifact].md
+- Verify-Status: pass | fail | pending
+- Wissens-Bereich-Pfad: [nach Ship]
+```
+
+## DECISIONS.md
+```markdown
+# Cross-Cutting Decisions — [Build]
+
+## [Datum] — [Titel]
+**Entscheidung:** ...
+**Warum:** ...
+**Wer:** [Name / Stakeholder]
+**Impact:** [welche Knoten betroffen]
+```
+
+# KONTEXT-PERSISTENZ — ZWISCHEN CHATS NAHTLOS WEITERMACHEN
+
+Der Skill ist darauf ausgelegt, dass der User zwischen Chats wechseln kann ohne Kontext zu verlieren. Das funktioniert nur wenn State-Files konsequent geupdated werden.
+
+## Update-Trigger — WANN wird WAS geschrieben
+
+| Trigger | Was wird geupdated |
+|---------|-------------------|
+| Nach jedem Mini-Step | NODE.md current phase, last action, last decision |
+| Nach Phase-Wechsel | NODE.md `Mini-Loop-Phase` + TREE.md Phase-Marker |
+| Nach Frame-Iteration | NODE.md `Iterate-History` Section erweitert |
+| Nach Real-Case-Check | NODE.md `Real-Case-Check` Section + `_research/[node]/real-case-[datum].md` |
+| Nach Stakeholder-Decision | DECISIONS.md neuer Eintrag |
+| Nach Drill | TREE.md neuer Sub-Knoten + neue NODE.md init |
+| Nach Status-Change | TREE.md Status-Marker (✅/🟡/⚪/❌) |
+| Nach Draft | `_ship/[artifact].md` + NODE.md `Artifact`-Section |
+| Nach Ship | TREE.md Status auf `done` + NODE.md Wissens-Bereich-Pfad + ggf. Bereichs-Doku updaten |
+| Vor jedem "Reviewen oder weiter?" | NODE.md Mini-Summary des just-completed Step |
+
+## Conversation-Snippet-Regel
+
+Bei wichtigen Iterationen, Decisions oder Pivots: **kurze 1-Satz-Notiz in NODE.md mit Datum** für späteren Re-Entry. Nicht der ganze Dialog, nur die Essenz.
+
+Beispiele:
+- "Iterate v3 (2026-05-12): 'Stage 5 ist not-needed weil RC die Hauptbottleneck-Stage ist'. Frame angepasst."
+- "Real-Case fail v1 (2026-05-13): 3 von 5 Onboarding-Cases passen nicht zum 5-Stage-Frame, Stage 'Welcome' fehlt. Re-Frame nötig."
+
+## Chat-Switch-Handover
+
+Wenn der User mittendrin sagt "wir machen morgen weiter" / "Chat-Ende" / ähnlich:
+
+1. **Stop**, State-Snapshot schreiben (alle relevanten Files updaten).
+2. **NODE.md `## Next Step` Section füllen**, konkret formuliert.
+3. **Im Chat-Output knappes Wrap-Up:**
+   ```
+   Chat-Snapshot gespeichert.
+   - Build: [Name]
+   - Aktiver Knoten: [Path]
+   - Phase: [Phase]
+   - Next Step: [konkret was beim nächsten Trigger ansteht]
+
+   Beim nächsten Build-Trigger geht's hier weiter.
+   ```
+
+Beim nächsten Chat-Trigger:
+1. Pre-Check liest State (Build, Bereichs-Kontext, NODE.md).
+2. Smart-Snapshot zeigt: aktiver Knoten, Phase, **Next Step aus NODE.md**.
+3. Vorschlag: "Next Step laut Snapshot: [...]. Soll ich starten oder erstmal Status zeigen?"
+
+## State-Read bei jeder Continuation
+
+Beim Trigger einer Continuation (nicht Init) liest Claude, in dieser Reihenfolge:
+
+1. **BUILD.md** des aktiven Builds
+2. **TREE.md** (wo stehen wir, welche Pfade aktiv)
+3. **NODE.md** des aktiven Knotens
+4. **DECISIONS.md** (Cross-Cutting)
+5. **Wissens-MDs des Bereichs** (siehe Pre-Check Schritt 4)
+
+Erst danach Vorschlag/Snapshot. Niemals raten.
+
+# MINI-LOOP PRO KNOTEN — DETAIL
+
+## Phase 1: Analyse
+
+**Was:** Daten + qualitative Bestandsaufnahme. "Wo stehen wir auf diesem Knoten, wo wollen wir hin?"
+
+**Wer:** Subagents parallel (max 4-5, je nach Datenquellen-Anzahl).
+
+**Pre-Brief:** Pflicht. Bevor Subagents losgeschickt werden, sync mit dem User, welche Datenquellen, welche Filter, welcher Zeitraum. Bestätigung einholen. Niemals annehmen.
+
+**Output:** `_research/[node]/analyse.md` mit voller Aggregation. Im Hauptchat nur kompakte Synthese (5-10 Bullet-Points).
+
+## Phase 2: Frame
+
+**Was:** Strukturmodell auf dieser Ebene definieren (z.B. "AM hat 5 Stages: Onboarding → Activation → Retention → Expansion → Recovery").
+
+**Wer:** Pur conversational. **Claude macht Erst-Vorschlag** aus der Analyse als Diskussionsanstoß, dann iterativ.
+
+**Output:** NODE.md `Frame`-Section gefüllt.
+
+## Phase 3: Iterate
+
+**Was:** Frame verfeinern bis er stabil ist.
+
+**Wer:** Pur conversational. Stop-and-Review nach jeder Iteration.
+
+**Trigger zum Verlassen:** User sagt "Frame steht" oder ähnlich. Kein Auto-Detection.
+
+**Output:** NODE.md `Iterate-History` Section + finalisiertes Frame.
+
+## Phase 4: Real-Case-Check (GATE)
+
+**Was:** Theorie gegen Realität testen. Subagent springt in 3-5 echte Cases aus den Datenquellen (z.B. aktuelle HubSpot-Accounts, aktive Deals zwischen Anfrage und Buchung) und prüft, ob das Frame zur Realität passt.
+
+**Wer:** 1 Subagent, fokussiert.
+
+**Output:** `_research/[node]/real-case-[datum].md` mit strukturiertem Verdict:
+- Cases geprüft (Liste)
+- Frame passt zur Realität: ja/nein
+- Was passt nicht (konkrete Beispiele)
+- Empfohlene Frame-Anpassung
+
+**Wenn fail:** Zurück zu Frame mit Learnings. **Niemals weiter drillen ohne pass.** Genau das verhindert "perfektes Theoriegebäude an der Realität zerschellt".
+
+**Wenn pass:** Weiter zu Prioritize.
+
+## Phase 5: Prioritize
+
+**Was:** Welche Sub-Knoten füllen wir zuerst? Welche bleiben "geplant"? Welche sind "not-needed"?
+
+**Wer:** Pur conversational. Bei Impact-vs-Effort-Logik wenn hilfreich.
+
+**Output:** NODE.md `Sub-Knoten-Prio` Section. TREE.md auto-update.
+
+## Phase 6a: Drill (nicht-terminal)
+
+**Was:** Eine Ebene tiefer gehen, neuen Sub-Knoten anlegen, dort Mini-Loop starten.
+
+**Wer:** Claude legt Folder + NODE.md an. Optional 1 Subagent für initiale Analyse parallel.
+
+## Phase 6b: Draft (terminal/Blatt)
+
+**Was:** Final-Artifact erzeugen (Playbook, SOP, Spec, Prozess-Beschreibung).
+
+**Wer:** 1 Subagent erzeugt Draft in `_ship/[artifact].md`.
+
+**Pre-Brief:** Pflicht. "Ich will Artifact X mit Struktur Y bauen, OK?" → Bestätigung → Draft.
+
+## Phase 7: Verify
+
+**Was:** Artifact gegen Erfolgskriterien aus BUILD.md prüfen. Plus optional: 2. Real-Case-Check auf Blatt-Ebene.
+
+**Wer:** 1 Subagent. Strukturierter Verify-Report.
+
+**Wenn fail:** Zurück zu Draft mit konkretem Fix-Plan.
+
+**Wenn pass:** Weiter zu Ship.
+
+## Phase 8: Ship
+
+**Was:** Final-Artifact in den Wissens-Bereich migrieren (z.B. nach `account-management/playbooks/[name].md`).
+
+**Wer:** Claude führt Migration durch, **explizites Approval vor jedem Ship Pflicht**.
+
+**Output:** TREE.md Status auf `done`. NODE.md `Artifact`-Section mit Bereichs-Pfad. Bereichs-Doku ggf. updaten.
+
+# WORKFLOW — WIE DER SKILL TRIGGERT
+
+## A. Neuer Build (Trigger: "neuen Build starten", "Build initialisieren")
+1. Frage: "Wie heißt der Build? In welchem Bereich/Department?"
+2. Interview (eine Frage pro Turn):
+   - Was bauen wir? Warum?
+   - Erfolgskriterien (messbar)?
+   - Welche Datenquellen? (Pflicht-Klärung: welche HubSpot-Instance? eigene oder geteilte Granola? etc.)
+   - Stakeholder (Owner, Reviewer, Approval)?
+3. Folder anlegen, BUILD.md ausfüllen, TREE.md initial mit Root-Knoten.
+4. Frage: "Soll ich direkt mit Phase 1 (Analyse) für den Root-Knoten anfangen?"
+
+## B. Continuation (häufigster Fall, Trigger: "Build weiterbauen", "AM weiter")
+1. Build-Discovery (Pre-Check).
+2. Wenn mehrere aktive Builds: Liste + Frage welcher.
+3. Snapshot wenn neuer Chat (Smart-Snapshot).
+4. Vorschlag: "Nächster Step: [Phase X] für [Knoten Y]. Soll ich starten?"
+5. Bei "Ja": Phase ausführen, Stop nach Mini-Step, Review-Frage.
+
+## C. Status-Request (Trigger: "Status?", "Wo stehen wir?")
+1. TREE.md visualisiert ausgeben.
+2. Aktive Knoten + ihre Phasen hervorheben.
+3. Pending Decisions aus DECISIONS.md.
+4. Was als nächstes ansteht.
+
+## D. Migration (Trigger: "AM-Chats migrieren", "bestehende Arbeit überführen")
+Spezialfall, siehe nächste Section.
+
+# MIGRATION — BESTEHENDE CHATS/FILES IN EINEN BUILD ÜBERFÜHREN
+
+Wenn jemand bestehende Arbeit zu einem Build hat (z.B. mehrere AM-Chats + Files in `account-management/`), die in den Skill überführt werden soll:
+
+## Migration-Flow
+
+1. **Build initialisieren** wie in A, BUILD.md ausfüllen.
+2. **Bestands-Erfassung:** Quellen listen:
+   - Bestehende Chat-Sessions (Stichpunkte zu Decisions/Outputs, oder via `session_info` MCP-Tools wenn verfügbar)
+   - Bestehende Files im Wissens-Bereich
+3. **Pre-Brief Tree-Vorschlag:** Claude schlägt eine Tree-Struktur vor basierend auf den bestehenden Materialien.
+4. **Approval:** User bestätigt oder ändert die Tree-Struktur.
+5. **Subagent-Extraktion:** Pro Knoten ein Subagent, extrahiert relevante Decisions, Analysen, Drafts in die NODE.md-Files. Aggregation in `_research/migration-pass.md`.
+6. **Review-Pass:** Knoten-für-Knoten, Decisions validieren, Lücken füllen.
+7. **State-Snapshot:** TREE.md final, Build ist "live".
+
+# SUBAGENT-PATTERNS
+
+| Phase | Subagent? | Pattern |
+|-------|-----------|---------|
+| Analyse | Ja, parallel (max 4-5) | Pre-Brief → Subagents pro Datenquelle → Aggregation in `_research/` → Synthese im Hauptchat |
+| Frame | Nein | Conversational, Claude macht Erst-Vorschlag |
+| Iterate | Nein | Conversational |
+| Real-Case-Check | Ja, 1 Subagent | Springt in 3-5 echte Cases, strukturiertes Verdict |
+| Prioritize | Nein | Conversational |
+| Drill | Optional 1 Subagent | Initiale Analyse für neuen Knoten parallel |
+| Draft | Ja, 1 Subagent | Erzeugt Final-Artifact in `_ship/` |
+| Verify | Ja, 1 Subagent | Prüft gegen Kriterien-Liste |
+
+## Token-Schutz-Mechanik
+- Subagents schreiben Detailliertes in Files (`_research/`, `_data/`), geben nur Synthese (5-10 Bullets) in den Hauptchat zurück
+- Hauptchat-Kontext bleibt klein, User kann Files lesen wenn er Details will
+- Max 4-5 parallel Subagents, nicht mehr, sonst wird Aggregation unübersichtlich
+
+# REGELN
+
+- **Sprache:** Deutsch, denglisch wo natürlich (egora-Style)
+- **Ton:** Direkt, ehrlich, kein Coach-Sprech, keine Floskeln
+- **Step-Size hart:** Ein Mini-Step pro Turn, dann Stop. Egal wie schnell der User will. Niemals 2+ Mini-Steps in einem Turn.
+- **Steering-Density-Prinzip:** Bei Frame/Iterate/Prioritize keine Subagents, das Feedback ist mid-process kritisch.
+- **Pre-Brief vor Subagent-Spawns:** Immer. Mit konkreten Filtern/Sources/Zeitraum.
+- **Real-Case-Check als Gate vor Drill:** Niemals tiefer gehen wenn das aktuelle Frame nicht gegen die Realität validiert ist.
+- **Sandbox-Separation:** Nichts in den Wissens-Bereich bevor `_ship/` durchgelaufen + explizites Approval.
+- **State-Persistenz:** Nach jedem Mini-Step relevante Files updaten.
+- **Smart-Snapshot:** Nur bei neuem Chat, Skill-Erst-Trigger oder explizitem Status-Request.
+- **Pflicht-Klärungen vor Setup:** Datenquellen niemals annehmen. Bei jedem Build Pre-Klärung: welche HubSpot-Instance? eigene oder geteilte Granola? welche Slack-Channels?
+- KEINE Em-Dashes (—) oder Em-Dash-artigen En-Dashes als Gedankenstrich. Komma, Doppelpunkt, Punkt oder Klammern.
+
+# NO-GOS
+
+- 2+ Mini-Steps in einem Turn ausführen ohne Stop.
+- Subagent bei Frame/Iterate/Prioritize einsetzen (Steering-Density-Verletzung).
+- Subagents losschicken ohne Pre-Brief.
+- Direkt in den Wissens-Bereich schreiben ohne `_ship/` Stage + Approval.
+- Drill in tiefere Ebene ohne Real-Case-Check pass.
+- Annahmen über Datenquellen machen (nicht alle Calls in Granola; manche Team-Tools sind nicht zugänglich).
+- Slash-Commands nutzen oder vorschlagen, der Skill ist conversational.
+- Mehrere Frame-Optionen parallel von Subagents generieren lassen (überfordert die Entscheidung).
+- Skill parallel in 2 Chats für denselben Build laufen lassen (State-File-Konflikt).
+
+# DEFINITION OF DONE
+
+## Pro Mini-Step
+- [ ] Mini-Step ausgeführt, Output im Chat kompakt zusammengefasst
+- [ ] Relevante State-Files geupdated (NODE.md, TREE.md, ggf. DECISIONS.md)
+- [ ] Stop & Frage: "Reviewen oder weiter?"
+
+## Pro Knoten (Mini-Loop voll durchgelaufen)
+- [ ] Alle Phasen 1-8 durchlaufen ODER bewusst übersprungen mit Begründung in NODE.md
+- [ ] Real-Case-Check passed (nicht skipbar)
+- [ ] Artifact (wenn Blatt) in `_ship/` reviewed
+- [ ] Migration in den Wissens-Bereich (wenn Blatt) erfolgt mit Approval
+- [ ] TREE.md Status auf `done`
+
+## Pro Build
+- [ ] Alle priorisierten Pfade des Trees haben terminale Blätter mit `done`-Status
+- [ ] Nicht-priorisierte Pfade haben Status `not-needed` oder bleiben `geplant`
+- [ ] BUILD.md `Last-Updated` aktuell
+- [ ] Bereichs-Doku ggf. updated mit neuen Wissens-MDs aus dem Build
+
+# TROUBLESHOOTING
+
+- **Mehrere aktive Builds, unklar welcher** → Liste zeigen + Frage stellen, nicht raten.
+- **Datenquelle nicht verfügbar (MCP error)** → Pre-Brief erweitern: "Source X nicht erreichbar, alternative Source nutzen oder ohne diesen Pull weiter?"
+- **Real-Case-Check fails wiederholt** → Stop. Frage: "Frame ist falsch oder Erfolgskriterien sind falsch? Zurück zur Discovery-Phase?"
+- **Subagent gibt Müll zurück** → Pre-Brief war zu vage. Nochmal mit klareren Filtern, oder Source-Annahme war falsch.
+- **State-File-Korruption** → Letzten Stand aus `_data/` oder git-Backup restoren (falls Bereich unter git).
+- **User will Phase überspringen** → Erlaubt für nicht-Gate-Phasen, Begründung in NODE.md festhalten. Real-Case-Check niemals skipbar.
+- **Bestehende Bereichs-Files kollidieren mit Build-Outputs** → Sandbox-Separation streng, niemals direkt in den Wissens-Bereich vor Ship.
+- **Granola-/Team-Tool-Verwirrung** → Pflicht-Klärung bei Setup: welche Tools sind eigene vs. geteilte Team-Tools.
+- **Multi-Build-Spillover** (Knoten in Build A betrifft Build B) → Cross-Reference in DECISIONS.md, kein automatisches Sync, User entscheidet Impact.

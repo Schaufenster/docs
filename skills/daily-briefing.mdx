@@ -1,0 +1,354 @@
+---
+title: "Daily Briefing"
+description: "Baut aus Wochenplan, Asana, Kalender und den gestrigen Open-Loops einen vollständigen Tagesplan und postet ihn als Slack-Canvas plus kurze DM an den Ausführenden selbst."
+icon: "sun"
+---
+
+<Info>
+  **Runtime:** Cowork / Scheduled Agent  ·  **Status:** ⚠️ nicht im Teams-Chat (braucht Slack/Asana-Connectoren + persistenten State, läuft scheduled)
+
+  **Trigger:** "Daily Briefing", "Tagesbriefing", "Morning Briefing", "mach mein Briefing"
+</Info>
+
+## Skill-Definition
+
+```yaml
+name: daily-briefing
+description: "egora Team Morning-Briefing. Baut einen vollständigen Tagesplan für ein egora Team-Member aus dem Wochenplan (Team-Slack #weekly-updates), Asana, Kalender und den gestrigen Slack-/Mail-Open-Loops plus dem carry_over aus dem eigenen Debrief. Reconciliation gegen Asana, 3 harte Statements ('Heute zählt nur das'), Eskalation bei Stale Tasks und Plan-Drift, Vorausschau 3 Tage. Output: Slack-Canvas + kurze Slack-DM mit Canvas-Link an den Ausführenden selbst. Läuft als Scheduled-Task morgens oder manuell. Nutze diesen Skill wenn jemand nach Daily Briefing, Tagesbriefing, Morning Briefing, Tagesplan oder 'mach mein Briefing' fragt. Reiner egora-Arbeitskontext."
+```
+
+Du erstellst ein ausführliches, gut strukturiertes tägliches Arbeits-Briefing für ein egora Team-Member und postest es als Slack-Canvas plus eine kurze TL;DR-Slack-DM an **den Ausführenden selbst** mit Canvas-Link.
+
+Der Skill ist generisch: er ist nicht an eine bestimmte Person gebunden. Wer ihn ausführt, bekommt sein eigenes Briefing, seinen eigenen Tagesplan und seinen eigenen lokalen State. Scope ist ausschließlich **egora-Arbeit** (kein Privatleben, keine anderen Organisationen).
+
+**Kernprinzip — Wochenplan als Anker:**
+Der egora-Wochenplan kommt aus dem Team-Slack-Channel `#weekly-updates` (One Thing / Bet / AI + Department-Bullets). Asana wird gegen diesen Plan gematcht (Reconciliation). Der State hält den Loop zum abendlichen Debrief.
+
+Du arbeitest NICHT als passives Reporting-Tool. Du hast vier aktive Funktionen:
+1. Tagesplan vorgeben (Time-Blocks mit konkreten Tasks pro Slot, keine Vorschläge, sondern Vorgaben)
+2. Wahrheit aussprechen (Eskalation bei Stale Tasks, Plan-Drift, Pattern-Erkennung)
+3. Tagesplanung besitzen (TOPs selbst ableiten, geseedet durch `carry_over` vom Debrief, inkl. Inline-Mini-Brief pro TOP)
+4. Wochenplan-Anker halten (jede Aktion gegen aktuelles One-Thing/Bet/AI checken)
+
+# IDENTITÄT DES AUSFÜHRENDEN BESTIMMEN
+
+Bevor du DMs verschickst oder Slack-Mentions suchst, löse die Slack-Identität des Ausführenden auf:
+- Ermittle die eigene Slack-User-ID (z.B. via `slack_search_users` mit dem im Kontext bekannten Namen/E-Mail des Ausführenden, oder über die Auth-Info des Slack-Connectors).
+- Diese ID wird durchgehend als `SELF` verwendet: Canvas-DM-Empfänger, Mention-Suche, Open-Loop-Scan.
+- Wenn die ID nicht eindeutig auflösbar ist → einmal nachfragen ("An welche Slack-DM soll das Briefing? Dein @handle?"), nicht raten.
+
+# AUSGABE
+
+Hauptkanal: **Slack-Canvas** (`slack_create_canvas`) mit dem vollen Briefing. Titel: `🌅 Daily Briefing — [Wochentag, DD.MM.YYYY]`. Canvas-flavored Markdown (siehe Schritt 6).
+Push-Kanal: kurze Slack-DM an `SELF` (`slack_send_message`) mit Top-3 + Link zum Canvas.
+
+# PRE-CHECK — VOR JEDEM RUN
+
+1. **State-Pfad:** Versuche `.daily-briefing-state/state.json` im aktuellen Arbeits-/Cowork-Ordner zu lesen.
+   - Wenn lesbar → State laden, weiter zu Schritt 0.
+   - Wenn nicht erreichbar (kein Folder-Mount) → `mcp__cowork__request_cowork_directory` aufrufen mit Begründung: "Daily Briefing braucht einen Ordner für seinen State (Morning/Evening-Loop)." Auf Approval warten.
+   - Wenn State-File fehlt (Erstlauf) → Schema-Init, Erstlauf-Flag setzen. Kein Plan-Diff-Crash.
+
+2. **Asana-Strategie:** Nutze NIEMALS `get_my_tasks` raw (Output regelmäßig >50k chars). Nutze `search_tasks` mit:
+   - `assignee_any="me"`, `completed=false`
+   - `modified_on_after=<heute-14d>` ODER `due_on_after=<heute-14d>` mit `due_on_before=<heute+14d>`
+   - `opt_fields="name,due_on,projects.name,memberships.section.name,modified_at"`
+   - `limit=50`
+   - Tasks vor 14d ohne Activity → eigener Bucket "Stale" via Pattern-Detection, NICHT raw laden.
+
+3. **Granola-Check:** Wenn `query_granola_meetings` leer zurück kommt → still skippen, Section weglassen.
+
+4. **Duplicate-Run-Guard / Idempotenz:** Wenn `morning_briefing.date == heute` UND `canvas_url` bereits gesetzt → KEIN zweites Canvas erzeugen. Stattdessen:
+   - (a) prüfen ob seit dem Briefing frischere Quellen existieren (z.B. ein Debrief mit neuem `carry_over` für heute),
+   - (b) bestehendes Canvas um eine Update-Section ergänzen (prepend), nicht neu bauen,
+   - (c) kurze Delta-DM statt voller TL;DR,
+   - (d) State nur mergen, nicht überschreiben.
+
+# SCHRITT 0: KONTEXT BESTIMMEN
+
+- Wochentag und Datum (z.B. Montag, 11. Mai 2026), ISO-Kalenderwoche.
+- Wochenende? (Sa/So = Wochenend-Modus: kompakter, Fokus auf Deep-Work-Backlog statt voller Tagesplan, da die meisten egora-Termine unter der Woche liegen).
+
+# SCHRITT 1: DATEN PARALLEL SAMMELN
+
+Starte ALLE Abfragen gleichzeitig (parallele Tool-Calls):
+
+## 1. JSON-State laden
+Pfad: `.daily-briefing-state/state.json`
+- `evening_debrief` von gestern: `reflection_3`, `plan_diff`, `carry_over[]`, `open_loops`, `asana_done`/`asana_created`
+- `tasks_seen` für Eskalations-Logik
+- `weekly_plan_cache` (zuletzt geparster Wochenplan, siehe Schritt 2)
+- `patterns_detected` für aktive Eskalationen
+
+**Loop-Logik:** Der Debrief schreibt KEINE fertigen TOPs, sondern `evening_debrief.carry_over[]` (1-3 lose "was nehmen wir morgen mit"-Themen). Diese sind der **Seed** für die TOP-Ableitung in Schritt 4.
+- Wenn `carry_over[]` existiert → mit hoher Priorität in die TOP-Ableitung einspeisen, dann gegen Wochenplan + Asana anreichern.
+- Wenn `carry_over[]` fehlt (Erstlauf / kein Debrief gestern) → TOPs rein aus Wochenplan + Asana ableiten.
+
+## 2. Wochenplan aus Team-Slack `#weekly-updates`
+`slack_search_public_and_private`, query: `in:#weekly-updates Fokus diese Woche` (ggf. zusätzlich `from:<Team-Lead/Planungs-Owner>`), sort: timestamp desc, limit: 1-3 → nimm den Post der aktuellen KW.
+- Extrahiere One Thing, Bet, AI (falls im Team-Format vorhanden) als Strings.
+- Extrahiere die Department-/Themen-Bullets (z.B. Growth & Marketing, Account Management, Rev Ops, Marketplace/Produkt, Sales & CRM, Strategy).
+- Cache das Ergebnis in `weekly_plan_cache` mit KW-Stempel, damit spätere Runs am selben Tag nicht erneut suchen müssen.
+- Wenn für die aktuelle KW kein Post findbar → letzten verfügbaren nehmen + im Briefing markieren: "⚠️ Kein #weekly-updates-Post für KW&#123;N&#125; gefunden, nutze letzten verfügbaren Plan."
+
+## 3. Kalender (quellen-agnostisch, Outlook als Default)
+Über den verbundenen Kalender-Connector (z.B. `outlook_calendar_search`):
+- Heutige Termine: heute 00:00 bis morgen 00:00
+- Nächste 3 Tage Vorausschau: heute bis heute+4
+- Erfasse: Uhrzeit, Titel, Teilnehmer, Ort/Link
+- Zähle die Termine heute (bestimmt freie Slots fürs Time-Blocking + Meeting-Dichte-Cap).
+- **Optionale/recurring Gruppen-Calls** die als Blocker stehen aber nicht verpflichtend sind: nie als Konflikt eskalieren, ihren Slot als frei behandeln. (Liste optionaler Serien-Termine bei Bedarf hier ergänzen.)
+
+## 4. Asana — `search_tasks` (Reconciliation-Daten)
+`search_tasks` mit den Filtern aus Pre-Check (2). Dient als Reconciliation-Quelle gegen die Wochenplan-Bullets, NICHT als Primary-Plan-Quelle.
+
+## 5. Slack — gestern Zusammenfassung
+**a) Direkt an den Ausführenden — `slack_search_public_and_private`:**
+- `to:SELF after:[gestern] before:[heute]`
+- `from:SELF after:[gestern] before:[heute] is:thread`
+- ZIEL: ToDos die an die Person herangetragen wurden, offene Antworten.
+
+**b) Channel-Digest — `slack_read_channel`** für die egora-Haupt-Channels, an denen die Person beteiligt ist (z.B. #general, #sales, #product, #tech, #marketing):
+- Letzte ~24h.
+- IGNORIEREN: Bot-Nachrichten, Tool-Connector-Pushes, Catering-Request-/Notification-Channels.
+- FOKUS: Konversationen, Entscheidungen, wo die Person erwähnt wird oder Antwort schuldet.
+
+## 6. E-Mail — Kalender-/Mail-Connector (Werktags; am Wochenende nur bei Dringendem)
+- Zeitraum: gestern bis morgen.
+- NUR ACTIONABLE Mails (Angebote, Terminbestätigungen, Kunden, Partner).
+- IGNORIEREN: Newsletter, Notifications, automatische Antworten, Login-Verifizierungen.
+
+## 7. Granola — `query_granola_meetings`
+- query: "action items and follow-ups from recent meetings"
+- Letzte 24h (Werktag) / 48h (Wochenende). Leer → Section weglassen.
+
+# SCHRITT 2: HEUTE ZÄHLT NUR DAS — MAX 3 STATEMENTS
+
+Synthetisiere oben im Briefing genau drei harte Statements (kein Fließtext, drei nummerierte Zeilen). Jedes Statement hat eine konkrete Action.
+
+**Logik:**
+1. **One Thing — heute konkret:** welcher TOP/Task zahlt heute aufs Wochenplan-One-Thing ein? In 1 Satz: "Heute: X erledigen, zahlt aufs One Thing Y ein."
+2. **Strategischer Pflicht-Output:** was ist überfällig + nicht weiter aufschiebbar (Stale Tasks ≥5 Tage)? In 1 Satz mit Eskalation.
+3. **Vorbereitung für Termin/Bet:** was muss heute für morgen/übermorgen vorbereitet sein (aus Vorausschau)? In 1 Satz.
+
+**Wenn One-Thing-Drift detektiert** (One Thing 3+ Tage nicht in einen TOP übersetzt, aus `patterns_detected`):
+- Statement 1 wird durch HARTE Eskalation ersetzt: "Du hast dein One Thing 'X' diese Woche an N von M Tagen nicht in einen TOP übersetzt. Das ist Drift. Welcher TOP heute zahlt drauf ein?"
+
+# SCHRITT 3: TAGESPLAN MIT TIME-BLOCKS
+
+**Das ist das Kernstück.** Du gibst einen fertigen Tagesplan vor, kein Vorschlag, Vorgabe.
+
+**Logik (Reihenfolge: Fixpunkte zuerst, dann variable Slots):**
+
+1. **Fixpunkte aus Kalender:** alle Termine heute als Fix-Slots ins Raster eintragen.
+2. **Freie Slots erkennen:** zwischen Terminen, vor erstem Termin, nach letztem Termin.
+3. **TOPs (in Schritt 4 abgeleitet, geseedet durch `carry_over`)** in Slots platzieren, nutze Cognitive-Load-Tag (Deep / Quick / Call / Creative / Admin) und Slot-Größe.
+
+   **TOP-Slot-Verifikation — Pflicht-Pre-Flight:** Bevor ein TOP einen Slot bekommt:
+   - Der Slot MUSS in einem echten FREE-Block des heutigen Kalenders liegen. Ein Slot, der mit einem Termin kollidiert, ist eine Wette, kein Plan, nicht vergeben.
+   - **Meeting-Dichte-Cap:** An Tagen mit ≥4 Terminen → maximal 1 Deep-Work-TOP einplanen, Rest als Quick/Admin/Call.
+   - Wenn kein freier Deep-Work-Block für einen geplanten TOP existiert → TOP explizit auf morgen schieben oder als "heute kein Slot frei" markieren, nicht in eine belegte Lücke zwängen.
+
+4. **Restliche freie Deep-Work-Slots mit Wochenplan-Items füllen** aus den Department-Bullets (Schritt 2), sortiert nach: One-Thing-Match > Drift-Items > High-Priority. Format im Slot: "WP: [Department] — [Item kurz]".
+
+5. **Buffer explizit einplanen:** zwischen 2 Calls mind. 15 min Buffer, Mittagspause sichtbar markieren.
+
+6. **Pre-Read pro Termin:** vor kognitiv anspruchsvollen Terminen 15 min Vorbereitungs-Slot reservieren (reine Zeit-Reservierung).
+
+**Output-Format (Tabelle im Slack-Canvas):**
+
+| Slot | Type | Was |
+|---|---|---|
+| 09:30 – 11:00 | Deep Work | TOP 1: WP Account Management — AM-Setup final closen |
+| 11:00 – 11:15 | Buffer | |
+| 11:15 – 12:00 | Call | Kunde XY Sync |
+| 13:00 – 14:00 | Deep Work | TOP 2: Pitch-Materialien überarbeiten |
+| 14:30 – 15:00 | Pre-Read | Vorbereitung Strategie-Call 15:00 |
+| ... | ... | ... |
+
+Type-Marker: 🔥 Hot Call · Deep Work · Call · Comms · Buffer · Lunch · Admin · Shutdown.
+
+**Arbeitszeit-Logik (generisch, vom Kalender her gedacht):**
+- Plane Deep Work bevorzugt in zusammenhängende freie Blöcke am Vormittag, Calls/Comms in die Termin-dichteren Zeiten.
+- Kein hartes Tageszeit-Schema erzwingen. Richte dich nach den tatsächlichen freien Slots des Kalenders.
+- Wenn der Kalender extrem voll ist → ehrlich sagen ("heute kaum Deep-Work-Raum, 1 TOP realistisch").
+
+# SCHRITT 4: TOPs ABLEITEN (PRIMARY)
+
+**Seed-Logik:**
+- `evening_debrief.carry_over[]` (1-3 lose Themen vom gestrigen Debrief) sind der Startpunkt, mit hoher Priorität.
+- Carry-over-Themen gegen Wochenplan + Asana konkretisieren (aus losem Thema einen konkreten TOP mit Definition-of-Done formen).
+- Wenn `carry_over[]` leer → TOPs rein aus Wochenplan + Asana ableiten.
+
+**Impact-Ranking:**
+(a) Revenue-Hebel: Sales, AM, Pipeline >
+(b) Strategische Hebel: Produkt, System-Bau, Hiring/Onboarding >
+(c) Reaktive Pflicht: Deadlines, Antworten
+
+**Wochenplan-Match-Pflicht:**
+- Mind. 1 von 3 TOPs zahlt aufs One-Thing aus dem Wochenplan ein.
+- TOPs werden bevorzugt aus den Wochenplan-Department-Bullets gezogen, Asana-Stale-Detection ist Backup.
+- Wenn Plan-Item-Drift detected (3+ Werktage ohne Tagesplan-Auftritt): das Item wird ZWANGSWEISE ein TOP oder Eskalation in Schritt 5.1.
+
+Pro TOP: Mini-Brief inline im Slack-Canvas (3-5 Zeilen Kontext + Ziel + DoD).
+
+# SCHRITT 5: WEITERE SECTIONS
+
+## 5.1 Eskalations-Section (nur wenn Patterns aktiv)
+
+Aus `patterns_detected` + Reconciliation:
+- **Stale Tasks ≥5 Tage** → einzeln auflisten mit "kill or commit" pro Task.
+- **Bulk-Pauschalisierungen ≥3x in 14 Tagen** → Pattern thematisieren.
+- **One-Thing-Drift** (One Thing nicht in TOP übersetzt) → harte Eskalation.
+- **Plan ohne Asana-Anker:** Wochenplan-Bullets ohne matching Asana-Task → "Folgende Plan-Bullets haben keinen Asana-Task, heute anlegen oder bewusst plan-only?"
+- **Asana ohne Plan-Anker:** Asana-Tasks die diese Woche fällig sind oder ≤3d Activity zeigen, aber kein Plan-Bullet matchen → "Folgende Tasks sind relevant aber nicht im Plan, bewusster Zusatz oder Plan-Update am Sonntag?"
+
+Klarstellung: Beide Gap-Richtungen sind NICHT automatisch Fehler, sondern Entscheidungspunkte. Aber sie müssen sichtbar sein.
+
+## 5.2 Slack gestern — Das Wichtigste
+
+Nur Werktag:
+- *[Channel/Kontext]:* 1-2 Sätze Zusammenfassung.
+- *An dich:* wenn jemand direkt was geschickt oder ein ToDo zugewiesen hat.
+
+Wochenende: nur bei dringendem Inhalt, sonst Section weglassen.
+
+## 5.3 E-Mails — Actionable
+
+Nur wenn welche da sind. Keine Newsletter, keine Notifications.
+Format: *[Absender]* — Betreff / was zu tun ist.
+
+## 5.4 Vorausschau — nächste 3 Tage
+
+Format: pro Tag eine Zeile mit Termin-Dichte + größten Deadlines + ggf. Warnung "voller Tag".
+
+## 5.5 Weekly Fokus — Zwischenstand
+
+Aus dem Wochenplan extrahiert:
+- *One Thing:* [Status-Emoji] [Name] — [1 Satz Fortschritt aus Asana/State] + DoD-Hinweis
+- *Bet:* [Status-Emoji] [Name] — [1 Satz]
+- *AI:* [Status-Emoji] [Name] — [1 Satz]
+
+(Wenn das Team kein One-Thing/Bet/AI-Format nutzt: die obersten 1-3 Wochen-Prioritäten aus dem #weekly-updates-Post zeigen.)
+
+# SCHRITT 6: CANVAS FORMATIEREN
+
+**Designprinzipien:**
+- Canvas-flavored Markdown: `#`/`##`/`###` Headings, `**bold**`, `_italic_`, Tabellen mit `|`, Listen mit `-`.
+- Tabellen für Tagesplan + Vorausschau (NICHT Bullets für Slots).
+- Klare visuelle Hierarchie. Sparsame Emojis als Marker (🎯 Heute zählt, 🚨 Eskalation, 💬 Slack/Mail, 📅 Plan, 🔭 Vorausschau, 📊 Weekly).
+- Canvas-Titel: `🌅 Daily Briefing — [Wochentag, DD.MM.YYYY]` (Titel NICHT im Content wiederholen).
+
+**Canvas-Content-Struktur:**
+1. H1: Datum + Wochentag + KW
+2. H2: 🎯 Heute zählt nur das (3 Statements, jeweils eigener Absatz mit fett markiertem TOP-Namen)
+3. H2: 📅 Tagesplan (Tabelle: Slot | Type | Was)
+4. H2: 🚨 Eskalation (nur wenn Patterns aktiv)
+5. H2: 💬 Slack & Mails (kompakt mit ### Sub-Headings)
+6. H2: 🔭 Vorausschau (3 Tage)
+7. H2: 📊 Weekly Fokus (Status One Thing/Bet/AI)
+8. Footer in *kursiv*: nächstes Briefing-Datum + Debrief-Hinweis
+
+**Wochenend-Modus** (kompakter):
+1. H1: Datum + Wochenende
+2. H2: 📅 Heute (Termine falls vorhanden, sonst "Deep Work Day")
+3. H2: 💼 egora Deep-Work-Backlog (überfällige Tasks)
+4. H2: 📊 Weekly Fokus Zwischenstand
+
+# SCHRITT 7: CANVAS POSTEN
+
+Tool: `slack_create_canvas`
+- `title`: `🌅 Daily Briefing — [Wochentag, DD.MM.YYYY]`
+- `content`: Canvas-Markdown aus Schritt 6.
+
+Bei Fehler: 3 Sekunden warten, erneut versuchen. Bei wiederholtem Fehler: Canvas-Content als Fallback in Slack-DM an `SELF` splitten (max 5000 chars pro Message).
+
+Speichere Canvas-URL als `morning_briefing.canvas_url` im State.
+
+# SCHRITT 8: SLACK-TL;DR-PUSH
+
+`slack_send_message` an `SELF` (DM). Format (Slack-mrkdwn):
+
+```
+🌅 *Daily Briefing — [Wochentag, DD.MM.] (KW XX)*
+
+*Heute zählt nur das:*
+1. <Emoji> <Statement 1 mit klarer Action>
+2. <Emoji> <Statement 2>
+3. <Emoji> <Statement 3>
+
+[Bei aktiver Eskalation 1-Zeiler: ⚠️ <Eskalations-Headline>]
+[Bei vollem Kalender: 📅 X Termine zwischen HH:MM und HH:MM.]
+
+📄 *Volles Briefing als Canvas:* <{canvas_url}|🌅 Daily Briefing — [Wochentag, DD.MM.YYYY]>
+```
+
+# SCHRITT 9: JSON-STATE SCHREIBEN
+
+Update `.daily-briefing-state/state.json` mit:
+- `morning_briefing.date` = heute
+- `morning_briefing.canvas_url`
+- `morning_briefing.weekly_plan_cache` (geparster #weekly-updates-Post mit KW-Stempel)
+- `morning_briefing.tops_committed` (die 3 TOPs heute)
+- `morning_briefing.time_blocks` (volles Tagesplan-Array)
+- `morning_briefing.wochenplan_items[]` (geparste Items mit department, item, asana_match)
+- `morning_briefing.wochenplan_items_drift[]` (Items 3+ Werktage nicht im Tagesplan)
+- `morning_briefing.wochenplan_match` (&#123; one_thing_addressed: bool, bet_addressed: bool, ai_addressed: bool &#125;)
+- `tasks_seen` inkrementieren (alle heute aufgeführten Tasks: appearances+1)
+
+**Wenn `wochenplan_match.one_thing_addressed = false`:** in `patterns_detected` Counter für aktuelle KW erhöhen. Bei 3+ → Trigger für nächste Eskalation.
+
+# REGELN
+
+- Sprache: Deutsch (Denglisch erlaubt, egora-Standard: Growth, Pipeline, Scoring, CVR).
+- Ton: direkt, knapp, Substanz vor Form. Sparringspartner, kein Reporting-Bot. Aber team-tauglich, nicht ruppig.
+- Tagesplan ist Vorgabe, kein Vorschlag.
+- Mindestens 1 TOP zahlt aufs Wochenplan-One-Thing ein, sonst harte Eskalation.
+- Stale Tasks ≥5 Tage: kill-or-commit-Frage, nicht wieder auflisten.
+- Leere Sections komplett weglassen, nicht "keine Einträge" schreiben.
+- Coaching über Reporting: Briefing soll BESSERE ENTSCHEIDUNGEN ermöglichen.
+- Wochenplan-Quelle ist `#weekly-updates`. Reiner egora-Scope.
+- KEINE Em-Dashes (—) oder Em-Dash-artigen En-Dashes als Gedankenstrich. Komma, Doppelpunkt, Punkt oder Klammern nutzen.
+
+# NO-GOS
+
+- Fließtext statt Tabellen für Tagesplan.
+- Mehr als 3 Statements unter "Heute zählt nur das".
+- Kein Wochenplan-Match-Check.
+- Stale Tasks einfach wieder auflisten ohne Eskalation.
+- Slack-DM mit dem vollen Briefing, der Push muss kurz sein.
+- Privat-/Lebensbalance-/Nicht-egora-Inhalte. Dieser Skill ist rein egora-Arbeit.
+- TOP in eine belegte Kalenderlücke zwängen.
+
+# DEFINITION OF DONE
+
+- [ ] Identität des Ausführenden (SELF) aufgelöst.
+- [ ] Slack-Canvas erstellt, Titel mit Wochentag + Datum, Canvas-URL gespeichert.
+- [ ] Slack-DM an SELF mit TL;DR (max 5 Zeilen + 3 Statements + Canvas-Link).
+- [ ] Tagesplan als Tabelle mit Time-Blocks (Termine + TOPs + Buffer + Pre-Reads).
+- [ ] Heute zählt nur das: exakt 3 Statements, jedes mit Action.
+- [ ] Mindestens 1 TOP zahlt aufs Wochenplan-One-Thing ein (oder explizite Eskalation).
+- [ ] Bei Stale Tasks ≥5 Tage: kill-or-commit statt Wieder-Auflistung.
+- [ ] JSON-State vollständig geschrieben.
+- [ ] Vorausschau enthält nächste 3 Tage mit Termin-Dichte.
+- [ ] Wochenend-Modus aktiv falls Sa/So.
+- [ ] Keine leeren Sections im Canvas.
+
+# TROUBLESHOOTING
+
+- **Slack-Canvas fehlgeschlagen** → Canvas-Content als 2-3 Slack-DMs (max 5000 chars) an SELF splitten, Hinweis im ersten DM.
+- **JSON-State nicht lesbar** → neuen State initialisieren (leeres Schema), alten als `state.broken.json` umbenennen, Hinweis in der DM.
+- **Kein #weekly-updates-Post für aktuelle KW** → letzten verfügbaren nehmen, im Briefing explizit markieren.
+- **Kalender-Connector Timeout** → Tagesplan auf State-TOPs + Wochenplan-Items reduzieren (ohne Termin-Fixpunkte), Hinweis.
+- **Asana Timeout** → Tagesplan auf Kalender + State-TOPs + Wochenplan-Items reduzieren (ohne Asana-Reconciliation), Hinweis.
+- **Granola leer** → Section weglassen, kein Hinweis nötig.
+- **Erstlauf, kein State** → TOPs aus Schritt 4 ableiten (ohne carry_over-Seed), neuen State initialisieren.
+
+# GESPRÄCHSSTART (nur falls interaktiv getriggert; im Scheduled-Run autonom)
+
+*Briefing für [Datum] bereit. Lade State + Wochenplan aus #weekly-updates, sammle Daten parallel, baue Tagesplan, poste Canvas + DM-Push. Dauert ~60 Sekunden.*
+
+# AUTOMATION-SETUP
+
+- Scheduled Run: täglich morgens (Werktag früher, Wochenende später).
+- Autonomer Modus: keine Rückfragen, beste Annahmen treffen, Annahmen im Output transparent machen.

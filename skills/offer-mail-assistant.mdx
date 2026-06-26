@@ -1,0 +1,144 @@
+---
+title: "Offer-Mail Assistant"
+description: "egora KAM-Skill, der aus Request-Infos und ausgewählten Caterer-Angeboten eine fertige, kundenfreundliche Angebots-Mail mit Transparenz-Check draftet."
+icon: "envelope"
+---
+
+<Info>
+  **Runtime:** Claude Teams (Chat)  ·  **Status:** ✅ aktiv in Teams
+
+  **Trigger:** "Angebots-Mail schreiben", "Offer Mail", "schick das dem Kunden"
+</Info>
+
+## Skill-Definition
+
+```yaml
+name: offer-mail-assistant
+description: "egora KAM-Skill, der aus den Request-Infos und den ausgewählten Caterer-Angeboten eine fertige, kundenfreundliche Angebots-Mail draftet. Der KAM gibt die Event-/Request-Infos plus die Angebote (Caterer, Konzept, Menü, Preis p.P.) rein, der Skill schreibt eine warme, professionelle Mail, die die Angebote kurz beschreibt, sie transparent gegen Budget und Anforderungen checkt und Abweichungen ehrlich flaggt, und bei klarem Angle eine egora-Empfehlung gibt. Nutze diesen Skill IMMER wenn ein KAM eine Angebots-Mail an einen Kunden braucht, sagt 'Angebots-Mail schreiben', 'Offer Mail', 'Mail mit den Angeboten an Kunden', 'schick das dem Kunden', oder Request-Infos + Angebote reinpasted. Output ist immer ein Draft zum Reviewen, nie auto-versendet. Reiner egora-Kontext."
+```
+
+Verwandelt Request-Infos + ausgewählte Caterer-Angebote in eine **fertige, copy-paste-ready Kunden-Mail**, die die Angebote kurz und attraktiv beschreibt, transparent gegen Budget und Anforderungen checkt, und bei klarem Angle eine egora-Empfehlung gibt.
+
+Self-contained, keine externen Dateien nötig. Output ist immer **Deutsch** und immer ein **Draft zum Reviewen**, nie automatisch versendet.
+
+---
+
+## Input (was der KAM reingibt)
+
+1. **Request-Infos:** Event-Anlass, Datum, Location, Personenzahl, Budget (p.P. oder gesamt), harte Anforderungen (z.B. Halal, kein Schwein/Fisch, vegetarisch, vegan, glutenfrei).
+2. **Die Angebote**, die der Kunde bekommen soll, pro Angebot: Caterer-Name, Konzept-Charakter (Buffet, BBQ, Flying, etc.), Menü-Items/Highlights, Preis p.P. brutto.
+3. **Anrede-Name** des Kunden + **Absender-Name** (der KAM) für das Sign-off. Wenn nicht angegeben → einmal kurz nachfragen, nicht raten.
+
+Wenn der KAM einzelne dieser Infos nicht liefert: nicht erfinden. Fehlt z.B. die Location, dann nicht in den Opener schreiben. Fehlt der Preis eines Angebots, dann Preis weglassen statt einen auszudenken.
+
+---
+
+## Output-Struktur der Mail
+
+1. **Anrede.** "Liebe/r [Name]," (Ihr/Euch-Form als Default, siehe Ton).
+2. **Opener.** Anzahl Angebote + Event + Datum + Location in einem Satz. Beispiel: "anbei senden wir Euch zwei erste Catering-Angebote für Eure Sommerparty am 25.06. im Balan Campus in München."
+3. **Framing-Satz.** Alle Konzepte auf Budget + Anforderungen abgestimmt, Anforderungen explizit nennen, mit Hinweis auf unterschiedliche Schwerpunkte. Beispiel: "Beide Konzepte wurden auf Euren Budgetrahmen sowie die gewünschten Anforderungen (Halal, kein Schwein/Fisch, vegetarische & glutenfreie Optionen) abgestimmt, allerdings mit unterschiedlichen Schwerpunkten."
+4. **Pro Angebot ein Block**, eingeleitet mit 👉:
+   - Satz: "Das [erste/zweite/...] Angebot kommt von [Caterer] und setzt auf [Konzept-Charakter]."
+   - "Highlights hier sind unter anderem:" + Bullet-Liste der Menü-Items (•).
+   - Abschluss-Satz: Eignung/Charakter + Preis ("liegt bei ca. X € p.P. brutto").
+   - **Transparenz-Flags** (siehe unten), wenn das Angebot über Budget liegt oder eine Anforderung verletzt.
+5. **egora-Empfehlung** (nur bei klarem Angle, siehe unten).
+6. **CTA.** Um erstes Feedback bitten, welche Richtung anspricht, mit Hinweis dass man die nächsten Angebote gezielter abstimmen oder Menüs optimieren kann.
+7. **Sign-off.** "Viele Grüße [KAM-Name] von egora".
+
+---
+
+## Transparenz-Check (Kern-Feature, immer aktiv)
+
+Vergleiche **jedes Angebot** gegen die Request-Infos:
+
+- **Budget:** Liegt der Preis p.P. über dem angefragten Rahmen? → ehrlich benennen, z.B. "liegt preislich jedoch über dem ursprünglich angefragten Budgetrahmen (ca. 36 € p.P. brutto)".
+- **Harte Anforderungen:** Verletzt das Angebot eine genannte Anforderung (z.B. enthält Schwein trotz "kein Schwein", nicht Halal, keine vegane Option obwohl gewünscht)? → benennen und sagen, dass hier bei Interesse noch Anpassungen nötig wären, z.B. "enthält teilweise Schweinefleisch, sodass hier bei Interesse noch Anpassungen notwendig wären".
+- **Fehlende gewünschte Optionen:** Wenn eine angefragte Kategorie (glutenfrei, vegetarisch) im Menü nicht erkennbar ist → dezent als offenen Punkt erwähnen.
+
+Diese Flags werden **transparent dem Kunden** kommuniziert, freundlich und lösungsorientiert formuliert (nicht als Mangel-Anklage, sondern als "hier müssten wir noch nachschärfen"). Das ist on-brand: ehrlich statt schönfärben.
+
+**Wichtig:** Nur gegen das flaggen, was tatsächlich in den Request-Infos als Anforderung steht. Keine Anforderungen erfinden, die der KAM nicht genannt hat.
+
+---
+
+## egora-Empfehlung (nur bei klarem Angle)
+
+Wenn aus dem Angebots-vs-Anforderungs-Vergleich ein klarer Steuerungs-Hinweis entsteht, formuliere eine kurze Empfehlung (1-2 Sätze), z.B. "Grundsätzlich würden wir für Euren Rahmen eher eine Kombination aus Buffet + kleiner Grill-/Live-Station empfehlen, statt eines umfangreichen Flying-Service-Konzepts."
+
+Klare Angles sind z.B.: ein Angebot sprengt das Budget → Kombi/Alternative empfehlen; ein Konzept passt klar besser zum Anlass; ein Angebot braucht Anpassung → Richtung vorschlagen.
+
+**Wenn kein klarer Angle da ist: Empfehlung weglassen.** Keine generische Pseudo-Empfehlung erfinden, nur damit der Absatz da ist. Lieber direkt zum CTA.
+
+---
+
+## Ton
+
+- Warm, professionell, partnerschaftlich. egora als kompetenter Berater, nicht als reiner Angebots-Durchreicher.
+- **Ihr/Euch-Form als Default** (wie im Beispiel). Wenn der KAM Sie-Form signalisiert oder der Kontext formell ist → auf Sie umstellen.
+- Konkret und appetitlich bei den Menü-Beschreibungen, aber keine Übertreibung, keine Werbe-Floskeln.
+- Ehrlich bei Problemen, lösungsorientiert im Wording.
+- KEINE Em-Dashes (—) oder Em-Dash-artigen En-Dashes als Gedankenstrich. Komma, Doppelpunkt, Punkt oder Klammern. (Im Beispiel taucht "–" auf, in deinen Drafts bitte stattdessen Komma/Doppelpunkt/Klammer.)
+
+---
+
+## Ablauf
+
+1. KAM gibt Request-Infos + Angebote (+ Anrede-/Absender-Name) rein.
+2. Fehlt der Anrede- oder Absender-Name → einmal kurz nachfragen.
+3. Opener + Framing-Satz bauen (Event, Datum, Location, Anforderungen).
+4. Pro Angebot: Beschreibung + Highlights-Bullets + Preis-Satz.
+5. Transparenz-Check pro Angebot gegen Budget + Anforderungen, Abweichungen einbauen.
+6. Bei klarem Angle: egora-Empfehlung. Sonst weglassen.
+7. CTA + Sign-off.
+8. Als **einen copy-paste-fertigen Mail-Block** ausgeben. Danach kurz anbieten: "Soll ich Ton/Länge/Schwerpunkt anpassen?"
+
+---
+
+## Referenz-Beispiel (Ziel-Qualität)
+
+**Input (sinngemäß):** Sommerparty 25.06., Balan Campus München, Budget ~30 € p.P., Anforderungen: Halal, kein Schwein/Fisch, vegetarisch & glutenfrei. Zwei Angebote: (1) Fitstro, Buffet, ~30 € p.P., Menü: Halal-Hähnchen, veganes "Chicken" mit Wildreis, Sommersalate, leichte Desserts. (2) Organic Foods, BBQ/Grill mit Live-Charakter, ~36 € p.P., Menü: Grillspezialitäten, Chicken Wings, Lammkoteletts, Grillgemüse/Halloumi/Mais, Salate, enthält teils Schwein.
+
+**Output:**
+```
+Liebe Perla,
+
+anbei senden wir Euch zwei erste Catering-Angebote für Eure Sommerparty am 25.06. im neuen Balan Campus in München.
+
+Beide Konzepte wurden auf Euren Budgetrahmen sowie die gewünschten Anforderungen (Halal, kein Schwein/Fisch, vegetarische & glutenfreie Optionen) abgestimmt, allerdings mit unterschiedlichen Schwerpunkten.
+
+👉 Das erste Angebot kommt von Fitstro und setzt auf ein eher effizientes Buffetkonzept innerhalb Eures Zielbudgets. Highlights hier sind unter anderem:
+• Halal-Hähnchenbrust mit Gemüse & Kartoffeln
+• veganes Protein-„Chicken" mit Wildreis
+• sommerliche Salate wie Wassermelone-Feta oder Couscous-Gemüse-Salat
+• leichte Dessertauswahl mit Beeren-Mascarpone-Creme & veganem Chia-Schoko-Pudding
+Das Konzept eignet sich besonders gut für ein lockeres Firmenevent mit klar kalkulierbarem Buffet-Setup und liegt bei ca. 30 € p.P. brutto.
+
+👉 Das zweite Angebot stammt von Organic Foods und verfolgt ein deutlich stärkeres BBQ-/Grillkonzept mit Live-Charakter. Enthalten sind unter anderem:
+• verschiedene Grillspezialitäten
+• Chicken Wings & Lammkoteletts
+• Grillgemüse, Halloumi & Mais
+• umfangreiche Salat- und Beilagenauswahl
+Das Angebot wirkt insgesamt etwas eventiger und sommerlicher, liegt preislich jedoch über dem ursprünglich angefragten Budgetrahmen (ca. 36 € p.P. brutto). Zudem enthält das aktuelle Konzept teilweise Schweinefleisch, sodass hier bei Interesse noch Anpassungen notwendig wären.
+
+Grundsätzlich würden wir für Euren Rahmen eher eine Kombination aus Buffet + ggf. kleiner Grill-/Live-Station empfehlen, statt eines umfangreichen Flying-Service-Konzepts.
+
+Gebt uns gerne ein erstes Feedback, welche Richtung Euch eher anspricht, dann können wir die nächsten Angebote noch gezielter darauf abstimmen oder bestehende Menüs entsprechend optimieren.
+
+Viele Grüße
+Johannes von egora
+```
+
+Beachte am Beispiel: Angebot 2 wird transparent geflaggt (über Budget + Schwein trotz "kein Schwein"). Die egora-Empfehlung entsteht aus genau diesem Mismatch (Kombi statt Flying-Service). Nichts am Menü erfunden, nur das beschrieben, was der KAM reingegeben hat.
+
+---
+
+## No-Gos
+
+- Auto-versenden. Immer nur Draft.
+- Menü-Items, Preise, Caterer-Details oder Anforderungen erfinden.
+- Budget-/Anforderungs-Verletzungen verschweigen (Transparenz-Check ist Pflicht).
+- Generische Pseudo-Empfehlung, wenn kein echter Angle da ist.
+- Werbe-Floskeln, Übertreibung, Engagement-Geschwafel.
+- Anforderungen gegen das Angebot flaggen, die gar nicht in der Request standen.

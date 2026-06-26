@@ -1,0 +1,271 @@
+---
+title: "LinkedIn Post"
+description: "egora LinkedIn Einzel-Post-Drafting in der Company-Voice — erzwingt konkrete Substanz und filtert transparent gegen AI-Patterns."
+icon: "pen-nib"
+---
+
+<Info>
+  **Runtime:** Claude Teams (Chat)  ·  **Status:** ✅ aktiv in Teams (besser mit HubSpot/Notion/Asana-Connectoren)
+
+  **Trigger:** "linkedin post", "schreib mir den Post", "Post zu X"
+</Info>
+
+## Skill-Definition
+
+```yaml
+name: linkedin-post
+description: "egora LinkedIn Einzel-Post-Drafting für das Team. Nimmt eine Idee (spontan oder vorgegeben), interviewt kurz, draftet einen Post in der egora Company-Voice zu egora-Themen, filtert hart gegen AI-Patterns (selbst-enthaltene Checkliste in diesem Skill), zeigt transparent was umgeschrieben wurde, und iteriert bis es passt. Self-contained, keine externen Dateien nötig. Nutze diesen Skill IMMER wenn jemand einen egora-LinkedIn-Post drafteln will, 'schreib mir den Post', 'lass uns einen Post schreiben', 'linkedin post', 'Post zu X' sagt. Reiner egora-Kontext, kein Privat-/Personal-Brand-Content."
+```
+
+Self-contained Skill, um einen einzelnen LinkedIn-Post in der **egora Company-Voice** zu draften. Nimmt eine Idee von wo auch immer, draftet einen Post, der nach egora klingt und nicht nach AI. Zwei Hard-Filter: konkrete Substanz erzwingen, Anti-AI-Patterns transparent umschreiben. Iteriert bis der User "passt" sagt.
+
+Dieser Skill braucht **keine externen Dateien**. Alle Regeln (Voice, Hook, Format, Anti-AI) stehen unten im Skill. Wenn das Team später einen geteilten egora-Styleguide pflegt, kann der Skill darauf erweitert werden, nötig ist er nicht.
+
+Scope ist ausschließlich **egora** (B2B-Catering-Marktplatz, Berlin und München). Kein Privat-Content, keine anderen Organisationen, keine persönlichen Lebensthemen.
+
+---
+
+## Wann diesen Skill nutzen
+
+Trigger-Phrases:
+- "lass uns einen Post schreiben" / "lass uns Post drafteln"
+- "linkedin post" / "egora post"
+- "schreib mir den Post zu X"
+- "Post zu [egora-Thema]"
+- "+visual" als Suffix triggert zusätzlich ein Visual-Briefing
+
+Wenn jemand mehrere Posts / eine Content-Pipeline planen will → das ist nicht dieser Skill (Einzel-Post only).
+
+---
+
+## egora Company-Voice (selbst-enthalten)
+
+Der Post repräsentiert egora als Unternehmen. Stimme:
+
+- **Macher mit Substanz, nicht lauter Startup-Hype.** Energetisch, klar, selbstbewusst ohne Überheblichkeit.
+- **Denglisch wo natürlich** (Growth, Pipeline, Marketplace, Caterer, B2B, Take-Rate). Nicht erzwungen.
+- **Kurze, punchy Sätze, plus ein längerer mit Kontext.** Keine Schachtelsätze, keine Buzzword-Wände.
+- **Substanz vor Reichweite.** Der Leser soll etwas Echtes mitnehmen: ein Learning, eine Zahl, einen konkreten Einblick ins egora-Geschäft.
+- **Konkret, nicht abstrakt.** Echte Beispiele (Caterer, Kunden-Use-Case, Marktplatz-Mechanik) statt generischer Plattitüden.
+- Signature sparsam einsetzbar: 🚀 bei echten Wins. Keine Emoji-Wände, kein 1️⃣2️⃣3️⃣-Listen-Format.
+
+**Niemals:** Engagement-Bait, Fake-Vulnerability, Hustle-Culture, LinkedIn-Bro-Stil, leere Phrasen ("Excited to announce"), Content ohne Substanz.
+
+---
+
+## Workflow — 6 Pässe
+
+### Pass 1 — Input-Validation (~30 Sek)
+
+Klär, was gedraftet werden soll:
+- Vorgegebene Idee (Thema steht) → direkt rein.
+- Spontan ("lass uns was zu X posten") → Thema grob erfassen, dann Interview.
+
+**Status-Klassifikation (bestimmt Interview-Tiefe):**
+- 🟢 Ready: Thema, Angle und Substanz/Zahl sind da
+- 🟡 Needs Input: Thema steht, Substanz fehlt
+- 🔴 Spontan: nur Themen-Andeutung
+
+### Pass 2 — Interview mit Substanz-Erzwingung (~2-6 Min)
+
+Variable Tiefe je nach Status. **In jedem Interview Pflicht:** der Post braucht einen konkreten, nicht-generischen Kern. Das ist der wichtigste Filter gegen AI-Beliebigkeit.
+
+**Pflicht-Frage, egal welcher Status:**
+
+> "Was ist der konkrete, nicht-offensichtliche Punkt hier? Welche echte Zahl, welcher echte Case, welches echte Learning aus dem egora-Alltag steckt drin, das nicht jeder von außen wüsste?"
+
+Ohne belastbare Antwort: **kein Draft.** Wenn die Antwort dünn bleibt ("läuft halt gut") → Skill sagt: *"Dann ist der Post noch nicht reif. Lass uns ein konkretes Beispiel oder eine Zahl finden, sonst wird's generisch."*
+
+**Status-spezifische Tiefe:**
+
+**🟢 Ready (2-3 Fragen):**
+- Substanz-Pflichtfrage
+- 1-2 Schärfungsfragen (Spitze, Ton, welches Detail in den Vordergrund)
+
+**🟡 Needs Input (4-6 Fragen):**
+- Substanz-Pflichtfrage
+- "Was ist die konkrete Zahl?" / "Welcher Caterer oder Kunde?" / "Welcher Moment war ausschlaggebend?"
+- Kontext: "Was war davor, was kommt danach?"
+- Format: "Eher Story oder eher Thought-Leadership?"
+
+**🔴 Spontan (6-8 Fragen):**
+- Substanz-Pflichtfrage zuerst
+- Story-Aufbau: Hook, Setup, Pointe, Ausblick
+- Zielgruppe: "Für wen genau, Kunden, Caterer, Talente, Investoren?"
+- Format-Wahl
+
+Nutze AskUserQuestion für strukturierte Multi-Choice (Format, Hook-Typ, Visual). Für die Substanz-Pflichtfrage → offene Chat-Frage, Multi-Choice funktioniert da nicht.
+
+### Pass 3 — Smart Source-Refresh (nur bei Bedarf, ~1-3 Min)
+
+**Auslöser:** Wenn Hook oder Body eine konkrete Zahl, ein Datum, einen Status braucht.
+
+- Zahl/KPI → über die verbundenen egora-Quellen prüfen (z.B. HubSpot, Notion, egora-Backend/MCP, Asana).
+- Kunden-/Caterer-Story → relevanten Channel/Notion-Page checken.
+- Reine Reflexion ohne konkreten Bezug → kein Refresh, direkt zu Pass 4.
+
+Wenn Daten älter als 14 Tage: im Draft als Disclaimer erwähnen, fragen ob Aktualisierung nötig. Keine Zahl erfinden, lieber Lücke benennen.
+
+### Pass 4 — Draft v1 (~5-10 Min)
+
+Schreibe den Post nach der egora-Voice oben. Beachte:
+
+**Hook-Regeln:**
+- Konkreter Fakt / Statement / Story-Setting / Take. Keine Frage am Anfang.
+- Erste 1-2 Zeilen müssen scroll-stoppend sein.
+
+**Body-Aufbau:**
+- Setup → Diagnose → Insight → Ausblick
+- Absätze kurz (1-3 Sätze), aber nicht jeder Satz auf eigener Zeile.
+- Der konkrete Kern aus Pass 2 muss prominent vorkommen.
+
+**Ending:**
+- Ausblick oder Haltung. Nie eine Engagement-Frage ("Was denkt ihr?").
+
+**Länge:** 250-500 Wörter Default. Spotlight-mit-Foto kürzer (80-150 Wörter).
+
+### Pass 5 — Anti-AI-Filter mit Transparenz (~2 Min)
+
+**Kritischer Pass.** Lies Draft v1 Wort für Wort gegen die Anti-AI-Checkliste unten. Schreibe jedes gefundene Pattern um, bis nichts mehr drin ist. Dann Transparenz-Block:
+
+```
+🔍 Anti-AI-Check:
+- ❌ Hook: "Das ist nicht nur X, das ist Y" (pseudo-dialektisch)
+  → Umgeschrieben zu: "[konkrete Variante]"
+- ❌ Body: "Hier ist warum:" (Cliffhanger-Template)
+  → Umgeschrieben zu: "[konkrete Variante]"
+- ✅ Rest war clean
+```
+
+Falls nichts gefunden: kurzer Ack "Anti-AI-Check: clean".
+
+### Pass 6 — Iteration + Final Output (unbegrenzt, mit Sanity-Check)
+
+Vorlegen: Draft v1 (nach Filter) + Anti-AI-Report. Frage: "Was änderst du? Hook, Ton, Substanz, Länge, sag's konkret."
+
+Iterations-Befehle interpretieren:
+- "Hook stärker" → neue Hook-Variante mit anderer Spitze
+- "Zu lang" → kürzen, Substanz behalten
+- "Klingt nach AI bei X" → Stelle umschreiben
+- "Substanz fehlt" → zurück zu Pass 2, Pflichtfrage nochmal
+- "Passt" → Final Output
+
+**Sanity-Check ab Loop 5:**
+> "Wir sind im 5. Loop. Magst du den Post liegen lassen und frisch ranngehen? Polishing am späten Abend wird selten besser."
+
+**Final Output bei "passt":**
+1. Pre-Posting-Checklist (unten) durchlaufen.
+2. Finaler Post-Text als copy-paste-ready Block.
+3. Hashtag-Vorschlag (siehe unten).
+4. Visual-Briefing wenn Format es erfordert (siehe unten).
+
+```
+📋 READY TO POST
+
+[Final Post-Text]
+
+---
+
+#hashtags
+
+---
+
+🎨 Visual: [Briefing oder "kein Visual nötig"]
+🎯 Format: [Story/Numbers/Take/Spotlight/...]
+```
+
+---
+
+## Anti-AI-Checkliste (selbst-enthalten, Hard Stop)
+
+Vor Final Output zwingend durchgehen. Diese Patterns niemals durchlassen, immer umschreiben:
+
+1. "Das ist nicht X, das ist Y" / "It's not just A, it's B" (pseudo-dialektisch)
+2. "Hier ist warum:" / "Here's the thing:" / "Und das Beste:" (Cliffhanger-Template)
+3. Em-Dashes (—) und Em-Dash-artige En-Dashes als Gedankenstrich, komplett raus. Komma, Doppelpunkt, Punkt oder Klammern nutzen.
+4. "Spoiler:" als billiger Cliffhanger
+5. "Was denkt ihr?" / "Thoughts?" / jede Engagement-Frage am Ende
+6. Dreierfigur-Overuse ("schneller, klarer, besser") als rhetorisches Standardmuster
+7. "In einer Welt, in der..." / "Stell dir vor..." als generischer Opener
+8. Leere Superlative ohne Beleg ("game-changer", "absolut entscheidend", "revolutionär")
+9. "Demut"-Humblebrag ("dankbar und demütig, verkünden zu dürfen")
+10. Jeder-Satz-eine-Zeile-Stakkato nur für Drama
+11. Abschluss-Plattitüde ("Schritt für Schritt." als Lückenfüller ohne Bezug)
+12. Buzzword-Stacking ohne konkrete Bedeutung (Synergie, Disruption, Empowerment)
+13. "Ich" wo egora gemeint ist, oder Company-Voice die plötzlich ins Coaching kippt
+
+**Wenn ein Pattern wiederholt durchrutscht:** beim nächsten Draft proaktiv im Pre-Draft-Brief erwähnen.
+
+---
+
+## Pre-Posting-Checklist (vor Final Output)
+
+1. **Substanz:** Lernt der Leser etwas Echtes über egora? Wenn nein → zurück zu Pass 6.
+2. **Voice:** Klingt das nach egora (Macher mit Substanz), nicht nach generischem LinkedIn?
+3. **Redlichkeit:** Keine vereinfachten Wahrheiten, keine falschen Kausalitäten, keine erfundenen Zahlen.
+4. **Hook:** Würde man als Leser hängen bleiben?
+5. **Anti-AI:** 0 Patterns aus der Checkliste drin?
+6. **No-Bullshit:** Nicht halbherzig?
+
+Wenn ein Check fehlschlägt → kurze Notiz: "Pre-Posting-Check hat X gefunden, willst du das fixen?"
+
+---
+
+## Sub-Routine: Visual-Briefing-Decision
+
+Skill entscheidet selbst basierend auf Format:
+
+| Format | Visual? | Begründung |
+|--------|---------|------------|
+| Vision/Mission-Post | ✅ Ja | Quote-Card mit Zwei-Zeilen-Hook |
+| Metriken-Post mit klarer Zahl | ✅ Ja | Quote-Card mit großer Zahl + Subline |
+| Customer/Caterer-Spotlight | ✅ Ja | Foto wenn vorhanden, sonst Quote-Card mit Name |
+| Pure Story (ohne Pointe-Zahl) | ❌ Nein | Text trägt selbst |
+| Thought-Leadership / Take | ⚠️ Optional | Quote-Card mit Take-Statement optional |
+| Process Recap (3+ Schritte) | ⚠️ Optional | Carousel kann sinnvoll sein |
+
+Bei `+visual`-Suffix: immer Visual-Briefing erstellen.
+
+**Visual-Briefing-Format:**
+```
+🎨 Visual-Briefing
+- Format: [Quote-Card / Carousel-Cover / Hero-Bild / Foto + Overlay]
+- Headline Zeile 1: "[Text]"
+- Headline Zeile 2: "[Text]"
+- Subline: "[1 Satz Tagline-Stil]"
+- Bildquelle: [Foto-Pfad / Stock-Beschreibung / "nur Typo"]
+```
+
+egora-CI: schwarz + lila (#5E4FF0) als Leitfarben. (Falls ein geteilter Brand-Guide existiert, dort verifizieren.)
+
+---
+
+## Sub-Routine: Hashtag-Generierung
+
+5-7 Hashtags, Mix:
+- 2-3 breite (#founder, #startup, #b2b, #foodtech)
+- 2-3 nischige (#b2bcatering, #catering, #marketplace)
+- 1-2 lokale (#berlinstartups, #berlin, #münchen)
+
+Passend zum konkreten Post-Thema, keine generische Standardliste blind kopieren.
+
+---
+
+## Kommunikations-Stil mit dem User
+
+- Direkt, kein Smalltalk, kein Disclaimer.
+- Denglisch wo natürlich.
+- Bei der Substanz-Pflichtfrage: nachbohren wenn die Antwort dünn ist ("'läuft gut' ist kein Post-Kern, ich brauch was Konkretes").
+- Bei Loop 5+: ehrlich konfrontieren, nicht endlos servil iterieren.
+- Bei schwachem Hook: sag's ("Der Hook ist zu generisch").
+- Bei Anti-AI-Slip im eigenen Output: stoppe dich selbst, schreib um, bevor du den Draft zeigst.
+
+---
+
+## Nicht-Aufgaben (was dieser Skill NICHT macht)
+
+- ❌ Content-Pipeline für mehrere Posts planen (nur Einzel-Post)
+- ❌ Posts live auf LinkedIn publishen (manuell durch den User)
+- ❌ Kommentare beantworten
+- ❌ Visuals selbst erstellen (nur Briefing)
+- ❌ Privat-/Personal-Brand-Content (reiner egora-Scope)

@@ -1,0 +1,51 @@
+---
+title: "KI-Assistent & Skills"
+description: "Alle 11 egora-Skills im Überblick — was sie tun, wie sie triggern und wo sie laufen."
+icon: "robot"
+---
+
+Skills erweitern den eGora-KI-Assistenten um feste Fähigkeiten und Workflows. Sie sind **Capability-Config**,
+kein Wissens-Content: die **lauffähigen Kopien** leben im Claude-Teams-Projekt bzw. in Claude Code / Cowork.
+**Diese Seiten sind die Dokumentation der Wahrheit** (Versionsstand + voller Inhalt), damit nichts verloren geht.
+
+<Info>
+  **Quelle der Wahrheit:** diese Mintlify-Seiten. **Runtime-Kopien:** Claude-Teams-Projekt (Chat-Skills) bzw.
+  Claude Code / Cowork. Bei einer Änderung **beide** aktualisieren.
+</Info>
+
+## Runtime-Legende
+
+- **Claude Teams (Chat)** — reine Prompt-Skills, laufen direkt im Teams-Projekt-Chat.
+- **Cowork / Scheduled Agent** — brauchen Connectoren (Slack / Asana) + persistenten State, laufen scheduled.
+- **Claude Code / Cowork** — brauchen Filesystem, Subagents, MCP-Mounts.
+- **Code-Execution** — brauchen Python / Code-Sandbox.
+
+## Alle Skills
+
+| Skill | Zweck | Trigger (Auszug) | Runtime | Status |
+| --- | --- | --- | --- | --- |
+| [Challenge Me](/skills/challenge-me) | Kritischer Sparringspartner (Toggle) | „challenge me", „sei kritisch" | Claude Teams (Chat) | ✅ |
+| [Take a Step Back](/skills/take-a-step-back) | Einmaliges Zoom-out / Reassessment | „step back", „zoom out" | Claude Teams (Chat) | ✅ |
+| [Offer-Mail Assistant](/skills/offer-mail-assistant) | Angebots-Mail an Kunden draften | „Angebots-Mail schreiben" | Claude Teams (Chat) | ✅ |
+| [Request-Info Structurer](/skills/request-info-structurer) | Quali-Call-Notes → Caterer-Anfrage | „strukturier die Notes" | Claude Teams (Chat) | ✅ |
+| [Ops Lead](/skills/ops-lead) | Prozess auditieren → SOP | „SOP bauen", „Prozess auditieren" | Claude Teams (Chat) | ✅ |
+| [Project Manager](/skills/project-manager) | Ziel → Meilenstein-Plan | „Projektplan", „critical path" | Claude Teams (Chat) | ✅ |
+| [LinkedIn Post](/skills/linkedin-post) | egora LinkedIn-Post draften | „linkedin post", „schreib den Post" | Claude Teams (Chat) | ✅ (besser mit Connectoren) |
+| [Get Shit Done (GSD)](/skills/get-shit-done) | Multi-Session-Builds, fraktaler Tree | „Build starten", „GSD" | Claude Code / Cowork | ❌ Teams-Chat |
+| [Daily Briefing](/skills/daily-briefing) | Morgen-Tagesplan → Slack-Canvas | „Tagesbriefing", „mach mein Briefing" | Cowork / Scheduled | ⚠️ Teams-Chat |
+| [Daily Debrief](/skills/daily-debrief) | Abend-Shutdown → Asana-Reconcile | „Debrief", „Shutdown" | Cowork / Scheduled | ⚠️ Teams-Chat |
+| [egora Branding](/skills/egora-branding) | Gebrandete PDFs / Decks (Python) | „in egora style", „im egora-Look" | Code-Execution | ❌ Teams-Chat |
+
+## In Claude Teams aktiv (7)
+
+Die sieben reinen Chat-Skills sind im Teams-Projekt hinterlegt und triggern per natürlicher Sprache:
+**Challenge Me, Take a Step Back, Offer-Mail Assistant, Request-Info Structurer, Ops Lead, Project Manager,
+LinkedIn Post**. (LinkedIn Post zieht echte Zahlen besser, wenn die HubSpot- / Notion- / Asana-Connectoren
+am Projekt hängen.)
+
+## Separates Setup (4)
+
+Diese laufen **nicht** im Teams-Chat — sie brauchen Filesystem, Connectoren mit State oder Code-Execution
+und gehören nach **Claude Code bzw. Cowork**: **Get Shit Done, Daily Briefing, Daily Debrief, egora Branding**.
+Voll dokumentiert sind sie hier trotzdem (kein Informationsverlust), inkl. der gebündelten Referenzen und des
+Python-Helpers bei egora Branding.

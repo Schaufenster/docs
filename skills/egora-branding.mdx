@@ -1,0 +1,1386 @@
+---
+title: "egora Branding"
+description: "Visueller Brand-Guide für egora — gebrandete PDFs, Decks, Proposals (schwarz + #5E4FF0 + Anton + Inter)."
+icon: "palette"
+---
+
+<Info>
+  **Runtime:** Code-Execution (Claude.ai Code-Exec / Claude Code)  ·  **Status:** ❌ nicht im Teams-Chat (braucht Python / Code-Execution)
+
+  **Trigger:** "in egora style", "im egora-Look", "egora Investor PDF", "egora Customer Proposal"
+</Info>
+
+## Skill-Definition
+
+```yaml
+name: egora-branding
+description: Visual brand guide for egora — the B2B-Catering-Marketplace from Berlin. Use this skill whenever the user wants to create any visual deliverable for egora — PDFs, presentations, proposals, reports, brochures, knowledge docs, investor decks, customer-facing documents, internal cheatsheets, or any styled output. Trigger on phrases like "in egora style", "im egora-Look", "für egora bauen", "egora Investor PDF", "egora Customer Proposal", "egora All-Hands", "Cheatsheet für egora", "Sommerfest-Broschüre", "AM-Onboarding für egora", or any context where the output should follow egora's visual identity (black + #5E4FF0 + Anton + Inter). Also trigger when user mentions egora customers (G2 Esports, Audible, Databricks, etc.) and wants to build proposals for them, or when egora-internal docs are mentioned (CVR-Analysen, Q-Reportings, Recaps). The skill provides exact color codes, typography rules, five layout patterns, reusable Python helper code (reportlab + matplotlib), and a QA checklist — so every output looks like it came from the same brand without guessing.
+```
+
+Build any egora-styled document — PDFs, presentations, proposals, brochures, internal docs — that looks like it came from the same brand. The output should always feel like egora: confident, dense where useful, never marketing-fluffy.
+
+## Brand essence
+
+**Three things define every egora document:**
+
+1. **Black is the brand-anchor.** Most documents are black-background — that's the egora signature, inherited from the team-photo style. Light/cream backgrounds are reserved for content-dense knowledge docs or saisonale Broschüren where readability of long prose matters more.
+2. **`#5E4FF0` is the only accent color.** This purple does headlines, highlights, big numbers, accent strips, bullet points. Don't add a second accent — semantic colors (green/yellow/red for status) are separate from brand-color.
+3. **Anton for headlines, Inter for everything else.** Anton is condensed, brutalist, all-caps-feeling — it carries the energy. Inter does body text, labels, anything that needs to be readable at small sizes.
+
+If those three are in place and the layout doesn't overlap, it'll feel right.
+
+## When to use this skill
+
+Trigger this skill anytime the user wants to build a deliverable that should look like egora's brand. Specifically:
+
+- **Investor reportings, quarterly reports, KPI updates** — A4 landscape, 6-7 slides, profitable growth story
+- **All-hands recaps, internal team docs** — A4 landscape, 7 slides, hype tone but grounded
+- **Customer proposals** (G2 Esports, new accounts, etc.) — A4 landscape, 8-10 slides, "We listened" framing
+- **Sommerfest brochures, seasonal customer-facing brochures** — A4 portrait, cream background with sommerakzenten
+- **Knowledge docs, CVR-analyses, rev-ops findings** — A4 portrait, white background, dense tables
+- **Cheatsheets for new hires, onboarding docs** — A4 portrait, black background, cards
+
+When the user mentions any of: G2 Esports, Audible, Databricks, GetYourGuide, Picnic, Zalando, HelloFresh as customers — proposal context applies. When they mention Hanna Simon, AM-onboarding, KAM-process — cheatsheet/internal context.
+
+## What's in this skill
+
+The reference files contain everything you need. Read them when you need the specifics — don't try to memorize them upfront.
+
+| File | What's in it | When to read |
+| --- | --- | --- |
+| `references/colors-and-typography.md` | Exact hex codes, font names, font sizes for every use case, sprachregel | Always read first before any build |
+| `references/layout-patterns.md` | Five standard slide architectures (investor, all-hands, customer-proposal, knowledge-doc, brochure) with section-by-section composition | Read the matching pattern based on what user asked for |
+| `references/helper-code.md` | Python helper functions: fill_rect, text, wrap_text, draw_image_fit (with path-hash temp fix), section_header, page_header — copy these into your build script | Always — these are the building blocks |
+| `references/qa-checklist.md` | Final-QA-Checkliste for every build before sharing | Read before shipping any output |
+
+The `scripts/egora_style.py` is a complete drop-in Python module that imports all colors, registers fonts, and provides the helpers. Use this as the base for any reportlab-based build:
+
+```python
+from egora_style import (
+    BLACK, WHITE, PURPLE, LIGHT_BG, BORDER, GRAY, DARK_GRAY,
+    GREEN, YELLOW, RED, CREAM, SAND, CORAL, SAGE,
+    register_fonts, fill_rect, text, wrap_text,
+    draw_image_fit, page_header, page_footer, section_header,
+)
+```
+
+## The five layout patterns
+
+Pick the matching pattern based on what the user wants. Each is detailed in `references/layout-patterns.md`.
+
+| Pattern | Format | Use case |
+| --- | --- | --- |
+| **A — Investor / Quartals-Reporting** | A4 landscape, 6-7 slides | Investor updates, board materials, fundraising prep |
+| **B — Customer-Proposal** | A4 landscape, 8-10 slides | G2-style proposals, daily lunch setups, customer pitches |
+| **C — All-Hands / Internal Recap** | A4 landscape, 6-7 slides | Monthly recaps, team updates with hype tone |
+| **D — Customer-Broschüre (saisonal)** | A4 portrait, cream BG | Sommerfest, Weihnachten, themed inspiration material |
+| **E — Knowledge-Doc / Internal** | A4 portrait, white or black BG | CVR-analyses, rev-ops findings, AM-cheatsheets, onboarding |
+
+## Sprachregel — wichtig
+
+This is the rule that tripped up earlier builds:
+
+- **Headlines (Anton):** English short and punchy. "RECURRING IS WINNING.", "PROFITABLE GROWTH.", "WIR BAUEN ANDERS." — German is fine if it's a single short statement.
+- **Body and sublines:** German throughout. Denglisch words are OK (GMV, Recurring, Pipeline, AI, Hires, Backend, Forecast) — but never mix German and English **inside one sentence**.
+- **Customer proposals** in customer's language. G2 Esports asked for English → entire document in English. Audible French team → French throughout.
+
+When in doubt: ask which language. Default to German for internal docs, English for customer-facing.
+
+## Brand tone per use case
+
+| Use case | Tone |
+| --- | --- |
+| **Investor reporting** | Bullish but not loud. Show asymmetry (3× growth + profitable). Misses go in briefly and honestly, never hidden |
+| **All-hands recap** | Pride + hype. Celebrate wins loud. Misses framed as next-quarter lessons. Personal shoutouts only where organic |
+| **Customer proposal** | "We listened" — quote original requirements as proof. Performance-focused, precise, low marketing-speak |
+| **Knowledge doc** | Factual, dense. Statistically-grounded findings only. Caveats explicit. TL;DR up front |
+| **Customer brochure** | Inviting but not overdone. Concrete items as reply-triggers. Saisonale Akzente (sand/coral) over pure brand-black |
+| **Internal cheatsheet** | Clear, actionable. Visualize stages and processes. Few foreign words for new hires |
+
+## What must always be in investor docs
+
+When building investor reports, these are non-negotiable:
+
+- **YoY comparison** — investors think in cohorts
+- **Recurring share** — marketplace-health indicator
+- **Profitability metric** — EBIT %, not burn (egora is profitable since Feb 2026)
+- **Team size** — capital efficiency signal (6 internal at time of writing)
+
+## What never goes in
+
+Across all docs:
+
+- Engagement bait, hustle-culture phrasing, fake vulnerability
+- Big misses without context or framing
+- Operational micro-detail (KW-milestones, B2B-ratio mechanics) in investor decks
+- Named competitor comparisons
+- Stock photos
+- Marketing-bro language
+
+## Tech stack to use
+
+| Component | Tool |
+| --- | --- |
+| **PDF generation** | Python reportlab (`reportlab.pdfgen.canvas`) |
+| **Charts** | matplotlib at 200 dpi, save as PNG, embed in PDF |
+| **Images** | PIL for resize + crop |
+| **Fonts** | Anton-Regular.ttf + Inter-Regular/Medium/SemiBold/Bold.ttf — download from Google Fonts if not present (URLs in `references/helper-code.md`) |
+| **Output location** | Save to outputs folder, surface with computer:// link |
+
+Always render the result at 200+ dpi per page and visually check each page before shipping. Most layout bugs (text truncation, cell overflow, overlapping headlines) only show up there.
+
+## Working method
+
+1. **Read** `references/colors-and-typography.md` first
+2. **Pick** the matching layout pattern in `references/layout-patterns.md` and read just that section
+3. **Copy** the helper code from `references/helper-code.md` (or import `scripts/egora_style.py` directly)
+4. **Build** the document — slide by slide if it's a deck, page by page if it's a doc
+5. **Render** each page to PNG and visually QA — check the QA checklist in `references/qa-checklist.md`
+6. **Fix** any text overlap, footer collision, or truncation before sharing
+7. **Save** the final PDF to the outputs folder with a clear name
+
+The QA step is where most builds fail. Don't skip it. Use the checklist.
+
+## What's NOT in this skill (and why)
+
+- **Brand assets** like logo files, team photos, customer logos — those live in the user's workspace folder, not in this skill. The skill tells you what they are and where they should be — you fetch them from the user's actual paths.
+- **Font files (Anton, Inter TTFs)** — not bundled because they're standard Google Fonts. Download URLs are in `references/helper-code.md`. If the user already has them in a previous workspace, reuse those.
+- **Past content** — this skill carries no historical numbers, no past quotes, no customer-specific copy. Those come from the current conversation.
+
+This skill is about the *form*, not the *content*. Content always comes from the user.
+
+## Gebündelte Referenzen
+
+### references/colors-and-typography.md
+
+# Colors & Typography
+
+All exact values. Use these — don't approximate.
+
+## Core brand colors
+
+These three are non-negotiable. They appear in every egora document.
+
+| Name | Hex | Reportlab | Used for |
+| --- | --- | --- | --- |
+| **Black** | `#000000` | `HexColor('#000000')` | Dominant background for most documents (brand-anchor) |
+| **White** | `#FFFFFF` | `HexColor('#FFFFFF')` | Text on black, card backgrounds for charts and logos |
+| **egora Purple** | `#5E4FF0` | `HexColor('#5E4FF0')` | The only accent color — headlines, big numbers, bullet points, accent strips |
+
+## Card and divider colors
+
+For structure on dark backgrounds.
+
+| Name | Hex | Used for |
+| --- | --- | --- |
+| **Light BG** | `#0F0F12` | Card background on top of black BG (subtle, near-black with slight purple tint) |
+| **Border** (on dark) | `#1F1F25` | Card outlines, dividers on dark BG, 0.5pt stroke |
+| **Border** (on light) | `#E5E7EB` | Card outlines, dividers on white/cream BG, 0.5pt stroke |
+
+## Text hierarchy
+
+| Name | Hex | Used for |
+| --- | --- | --- |
+| **Primary on dark** | `#FFFFFF` | Main text on black BG |
+| **Secondary on dark** | `#9CA3AF` (Gray) | Sublines, labels, disclaimers on dark BG |
+| **Mid Gray** | `#6B7280` | Footer text on dark BG |
+| **Primary on light** | `#000000` or `#0F0F12` | Headlines on light BG |
+| **Secondary on light** | `#4B5563` (Dark Gray) | Sub-headers on light BG |
+| **Dust gray** (on cream) | `#7A6E5C` | Warm sub-text on cream BG (sommerfest brochures) |
+| **Dark ink** (on cream) | `#1A1410` | Body text on cream BG (warm version of black) |
+
+## Status / semantic colors
+
+For OKR-status, KPI-traffic-lights, etc. Separate from brand-color.
+
+| Name | Hex | Used for |
+| --- | --- | --- |
+| **Green** | `#10B981` | Positive status, on-track, live |
+| **Yellow** | `#F59E0B` | At-risk, in progress, warning |
+| **Red** | `#EF4444` or `#DC2626` | Off-track, miss, end-state |
+
+## Saisonal accents — Sommerfest brochures only
+
+Reserved for seasonal customer-facing brochures (Sommerfest, summer). Don't use for internal docs or investor decks.
+
+| Name | Hex | Used for |
+| --- | --- | --- |
+| **Cream BG** | `#FAF4E8` | Warm light background for menu pages |
+| **Sand** | `#EAD9BD` | Soft accent dividers, subtle structure |
+| **Coral** | `#E87B5E` | Warm highlight in place of purple for sommerakzente |
+| **Sage / Pastel green** | `#A8C09A` | Subtle leaf elements, organic decorative shapes |
+| **Warm BG block** | `#F2E8D5` | Sand-colored block on cream BG for sections |
+
+## Typography — fonts
+
+| Font | Use case | Notes |
+| --- | --- | --- |
+| **Anton Regular** | All headlines, big numbers, titles, mega-statements | Condensed, brutalist, all-caps feel |
+| **Inter Regular** | Body text, descriptions | Standard readability |
+| **Inter Medium** | Subtitles, navigation, KPI labels | Slightly more weight than regular |
+| **Inter SemiBold** | Sub-headers, emphasized body | |
+| **Inter Bold** | Section labels, card titles, table headers | |
+
+Download URLs (only fetch if not already present):
+
+```
+Anton-Regular.ttf:
+https://fonts.gstatic.com/s/anton/v25/1Ptgg87LROyAm0K08i4gS7lu.ttf
+
+Inter-Regular.ttf:
+https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuLyfMZhrib2Bg-4.ttf
+
+Inter-Medium.ttf:
+https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuGKYMZhrib2Bg-4.ttf
+
+Inter-SemiBold.ttf:
+https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuI6fMZhrib2Bg-4.ttf
+
+Inter-Bold.ttf:
+https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuFuYMZhrib2Bg-4.ttf
+```
+
+The font-weight URL mapping for Inter can be confusing — Inter-Bold gets registered as weight 700, Inter-SemiBold as weight 500, Inter-Medium as weight 600 in the matplotlib font_manager. It still works because reportlab uses explicit font names.
+
+## Typography — sizes
+
+| Use case | Font | Size (pt) | Notes |
+| --- | --- | --- | --- |
+| **Mega hero number** (cover slide) | Anton | 82–104 | "3,06×" type display |
+| **Cover title** | Anton | 60–84 | "G2 ESPORTS × egora" |
+| **Page headline (H1)** | Anton | 42–52 | "RECURRING IS WINNING." |
+| **Section heading (H2)** | Anton | 26–38 | "Q1 NUMBERS DEEP DIVE" |
+| **Sub-section / card title** | Anton | 16–22 | "CUSTOMER BACKEND" |
+| **Small caps label / badge** | Inter Bold | 8–10 | Section nav, small labels |
+| **KPI big number** | Anton | 28–44 | Inside KPI tiles |
+| **Body text** | Inter Regular | 9–11 | Main reading text |
+| **Body small / footnote** | Inter Regular | 8–9 | Disclaimers, footer text |
+| **Subtitle / sub-header** | Inter Medium | 10–14 | Below headlines |
+| **Bold body / emphasis** | Inter SemiBold | 10–12 | Highlighted body |
+| **Footer text** | Inter Regular | 7.5–8 | Page footer |
+| **Table header** | Inter Bold | 8–10 | Column labels |
+| **Table body** | Inter Regular | 8–10 | Cell content |
+
+## Sprachregel — language rule
+
+This is what tripped earlier builds. Read carefully.
+
+### The rule
+
+- **Headlines (Anton):** English, short, punchy. Examples: "RECURRING IS WINNING.", "PROFITABLE GROWTH.", "WIR BAUEN ANDERS." — German is fine if it's a single short statement.
+- **Body and sublines:** German throughout. Denglisch words are OK (GMV, Recurring, Pipeline, AI, Hires, Backend, Forecast, Customer-Backend, Account Manager, etc.) but never mix German and English **inside one sentence**.
+- **Customer proposals:** Use customer's language end-to-end. G2 Esports asked for English → entire document in English. If unsure, ask.
+
+### How to test it
+
+For every body sentence ask: is this whole sentence German, or whole English? If it's mixed, rewrite.
+
+**Bad (mixed in one sentence):**
+> "AI-First is our Operating Mode — kein Buzzword, sondern unsere täglich angewandte Velocity."
+
+**Good (consistent German with denglisch terms):**
+> "AI-First ist Operating Mode — kein Buzzword. Claude Code, Lovable und eigene Agents im Daily Workflow."
+
+**Also good (consistent English):**
+> "AI-First is our operating mode — not a buzzword. Claude Code, Lovable, and custom agents in daily workflow."
+
+### Customer-specific overrides
+
+| Customer | Language |
+| --- | --- |
+| G2 Esports (Berlin office, English-speaking team) | English |
+| Audible (Berlin office, German-speaking ops) | German |
+| Most Berlin customers | German |
+| International customers | English |
+
+When unsure, ask: "Welche Sprache für das Doc — Deutsch, Englisch, oder Kundenspezifisch?"
+
+### references/layout-patterns.md
+
+# Layout Patterns
+
+Five standard patterns. Pick the one matching the user's ask. Read just that section.
+
+## Page formats
+
+| Pattern | Format | Page size (pt) | Margin |
+| --- | --- | --- | --- |
+| A — Investor / Quartals-Reporting | A4 landscape | 841.89 × 595.27 | 32pt |
+| B — Customer-Proposal | A4 landscape | 841.89 × 595.27 | 32pt |
+| C — All-Hands / Internal Recap | A4 landscape | 841.89 × 595.27 | 32pt |
+| D — Customer-Broschüre (saisonal) | A4 portrait | 595 × 842 | 40pt |
+| E — Knowledge-Doc / Internal | A4 portrait | 595 × 842 | 36pt |
+
+## Common header and footer (all patterns)
+
+### Page header (every slide except the cover)
+
+Top of every page. Position: 26pt from page top for wordmark, 44pt for divider.
+
+```
+[egora wordmark Anton 18-20pt white]  [/  SECTION TITLE Inter-Medium 9-10pt gray]    [page X / Y right-aligned]
+─── divider 0.5pt #1F1F25 (dark) or #E5E7EB (light) ───
+```
+
+For customer-proposals: `[egora] × [CUSTOMER NAME Anton 13-15pt white]` instead of just `egora`.
+
+### Page footer
+
+```
+─── divider 0.5pt ───
+[Doc-Name · Confidential]                              [Date · Domain]
+```
+
+Footer divider at `M + 12pt`. Footer text at `M`.
+
+---
+
+## Pattern A — Investor / Quartals-Reporting
+
+**Use for:** Quarterly investor updates, board materials, fundraising-prep PDFs.
+
+**Format:** A4 landscape, 6-7 slides, black background dominant.
+
+**Tone:** Bullish but not loud. Show asymmetry (3× growth + profitable). Misses brief and honest, never hidden.
+
+### Slide architecture
+
+1. **Hero (Cover)** — Mega "Big Number" + headline, 4 KPI tiles, main chart in white card
+2. **Q-Numbers Deep Dive** — Stacked chart NC vs BK (recurring story), mini-stats on the side
+3. **Building Different** — Backends/AI/velocity, 3 cards with backend screenshots
+4. **Event / Community** (optional) — Taste & Connect-style photo grid + impact stats
+5. **Outlook** — Plan-chart + 4 strategic pillars
+6. **Profitable Growth** — EBIT YoY chart prominent + story bullets + "The Ask" sidebar
+7. **Team + Logo Wall** — Team photos (1:1 square) + customer logos in white card
+
+### Required content for investor docs
+
+Always include:
+- **YoY comparison** (cohort thinking)
+- **Recurring share** (marketplace-health indicator)
+- **Profitability metric** (EBIT %, not burn — egora is profitable since Feb 2026)
+- **Team size** (capital efficiency signal — currently 6 internal)
+
+### Hero-slide composition (Slide 1)
+
+- Mega Big Number (Anton 80-92pt purple) at left-top, e.g. "3,06×"
+- Sub-line right of or below (Anton 18-30pt white): "YOY GROWTH IN Q1. APRIL PLAN GETROFFEN."
+- 4 KPI tiles in a row below: each `LIGHT_BG` rounded card, 70pt tall, with Anton 28-32pt purple number + label + sub
+- Main chart in full-width white card at bottom, ~200pt tall
+
+### Charts on dark background
+
+White card with rounded corners (`WHITE_CARD` fill, 6-8pt radius), Anton 11-12pt black for chart label, Inter 9pt dark-gray for sub-label, chart embedded with ~12pt padding to edges.
+
+---
+
+## Pattern B — Customer-Proposal
+
+**Use for:** Customer-specific proposals (G2 Esports, new accounts, daily-lunch setups, RFPs).
+
+**Format:** A4 landscape, 8-10 slides, black background.
+
+**Tone:** "We listened" — quote original requirements as proof. Performance-focused, precise, low marketing-speak. Use customer's language end-to-end.
+
+### Slide architecture
+
+1. **Cover** — `[CUSTOMER] × egora` typography. Customer name in Anton 80pt white, "× egora" in purple. Subtitle. "Prepared for / Prepared by" sections at bottom with names and contacts. Date in footer.
+2. **What We Heard** — "We listened carefully" headline + setup at a glance (3 KPI tiles) + 4 tags + original email quote as proof
+3. **How It Works** — 4 steps cards (One Briefing · We Curate · Single Touchpoint · It Gets Better)
+4. **Menus / Details** — 1-N slides with full content. **Never summarize when user asks for complete listings** — show every dish, every component, every option.
+5. **Pricing & Add-Ons** — 4 price tiles + add-ons section in white card
+6. **150+ Caterers · One Network** — cuisine variety + theme weeks
+7. **Why It Works** — 4 reasons (less vendor mgmt, one touchpoint, minimal team effort, fast adjustments) + 1-2 testimonials
+8. **Next Steps + Contact** — trial week + contact details
+
+### Cover-slide composition
+
+- Top bar: small `egora` wordmark + uppercase "DAILY LUNCH & DINNER PROPOSAL" (or similar)
+- Title block at vertical center: customer name and "× egora" stacked
+- Subtitle below in Inter SemiBold gray
+- Bottom strip: 2-column "Prepared for" / "Prepared by" with names + contact info
+- Footer center: "MAY 2026" (or month) in Anton 14pt gray
+
+### What We Heard slide (Slide 2)
+
+This is the "we listened" proof. Include the original email quote from the customer (or their requirements quoted verbatim) in a purple box at the bottom. This is what makes the proposal feel personal rather than templated.
+
+### Menu slides
+
+When showing menus or component lists, **show everything**. If customer asked for a 7-day weekly menu with 4 categories per day, show all 28 cells with real dishes. Never show "Highlights" instead of the full list.
+
+For data tables (menus, packages, items), use a structured table with alternating row backgrounds (`#F9FAFB`) and clear category labels.
+
+---
+
+## Pattern C — All-Hands / Internal Recap
+
+**Use for:** Monthly recaps, team updates, internal celebrations.
+
+**Format:** A4 landscape, 6-7 slides, black background.
+
+**Tone:** Pride + hype. Celebrate wins loud. Misses framed as next-month lessons. Personal shoutouts only where organic.
+
+### Slide architecture
+
+1. **Hero** — "APRIL CRUSHED IT" / "MAY DELIVERED" headline + 4 KPI tiles + hero chart
+2. **Progression** — Multi-period bar chart (e.g., 16 months Jan 2025 → April 2026) showing growth-over-time. Gray bars for past year, purple for current year. + 3 killer-stat tiles below.
+3. **Sources Deep Dive** — Donut chart (NC vs BK) + top-source highlights + insight banner
+4. **KR Status Tracker** — 4-5 KR cards with 🟢🟡🔴 status strips
+5. **Wins** — 6 cards in 3×2 grid: product wins, personal shoutouts, partnership wins
+6. **Outlook / Hebel** — 3-4 strategic levers (not task-level) + bottom banner with hype message
+7. **WIR** (closing) — "BUILT BY 6 / TRUSTED BY THE BEST" + team photo strip (square 1:1 cells) + closing statement ("LET'S GO MAI.")
+
+### Progression chart
+
+When showing growth-over-time:
+- Multi-period bar chart with year boundary marked
+- Past year in `DARK_GRAY`, current year in `PURPLE`
+- YoY multipliers (`2.8×`, `3.1×` etc) in Anton above the current-year bars
+- Vertical divider at year boundary with year label
+
+### Wins cards (3×2 grid)
+
+6 cards. Each has:
+- Top: small uppercase badge (e.g., "PRODUCT WIN", "PERSONAL WIN", "PIPELINE WIN")
+- Title in Anton 18pt
+- Body in Inter 9pt, 3 short lines
+
+Personal shoutouts are fine if organic. Don't force every win to have a name.
+
+---
+
+## Pattern D — Customer-Broschüre (saisonal)
+
+**Use for:** Sommerfest brochures, Weihnachten material, themed customer-facing inspiration material.
+
+**Format:** A4 portrait, 1 cover + N item pages. Cream BG on item pages (`#FAF4E8`), black cover for brand-anchor.
+
+**Tone:** Inviting but not overdone. Concrete items as reply-triggers. Saisonale Akzente (sand/coral) over pure brand-black.
+
+### Slide architecture
+
+1. **Cover** (black BG) — Mega title like "SOMMERFEST 2026." in Anton 78pt with purple period. Subtitle. Decorative sun (coral) + leaves (sage). "INHALT" with 2-column item list. Price-range and "Stand" at bottom.
+2. **Item pages** (cream BG) — One menu/item per page. Each with:
+   - Small coral number tag (e.g. "NR. 01")
+   - Big Anton 38pt title in dark ink
+   - Format hint in purple Inter-Medium 11pt
+   - Coral decorative line (3pt wide)
+   - Mood text in dust-gray italic (1-2 sentences)
+   - Sections (Vorspeisen, Hauptgänge, etc.) with bold dark ink labels and bullet items
+   - Coral accent under each section title (24pt × 1.5pt line)
+   - Bottom black price block with coral left-edge, white text on dark ink
+
+### Price block (item pages)
+
+Solid dark-ink rectangle at bottom of page, 90pt tall:
+- 6pt coral left-edge
+- "PREIS" label in coral Inter-Bold 9pt
+- Big "ab €38" in Anton 36pt white
+- "pro Person · je nach Gästezahl und Setup" sub in Inter Regular 10pt gray
+- Right side: "INTERESSE?" + CTA ("Antworte mit der Menü-Nummer und wir schicken Details.") + "egora.online" in coral
+
+### Decorative elements
+
+- Coral sun (12-section radial) for cover and item-page corners
+- Sage leaves (custom bezier path, 14-20pt size) as scattered organic elements
+- Sand-colored dividers (1-2pt rectangles)
+
+Use sparingly — Don't decorate every page heavily, just enough to set the saisonal tone.
+
+---
+
+## Pattern E — Knowledge-Doc / Internal
+
+**Use for:** CVR-analyses, rev-ops findings, AM-cheatsheets, onboarding materials, internal knowledge transfer.
+
+**Format:** A4 portrait, 2-6 pages depending on density. **Use white BG for dense data tables** (CVR analyses), **use black BG for energetic onboarding cheatsheets** (Hanna-style).
+
+**Tone:** Factual, dense. For data: statistically-grounded findings only. Caveats explicit. TL;DR up front. For onboarding: clear, actionable, visualize stages.
+
+### Knowledge-doc on white BG (data-heavy)
+
+For CVR-style analyses with lots of tables:
+
+1. **TL;DR** — 5 punchy statements at the top, one screen height max
+2. **Datenbasis** — sample sizes, methodology in a clean box
+3-N. **Findings by topic** — H2 sections with structured data tables. Use alternating row colors. Highlight key cells in purple + bold.
+Final. **Methodische Caveats** — explicit list of what's NOT statistically robust
+
+White background, purple H2 section headers with small underline accent, data tables with purple headers.
+
+### Onboarding cheatsheet on black BG (energy)
+
+For new-hire onboarding (Hanna-style AM-cheatsheet):
+
+- Cover page with mega Anton headline + mission box (purple)
+- KPI tiles for context numbers
+- Numbered section badges (01, 02, 03...) in purple Anton
+- OKR/Status cards with 🟢🟡🔴 left-edge or top-strip
+- 2-pipeline diagrams or process flows using rectangles + custom arrows
+- Tier × Type matrix with 4 + 5 cards
+- Welcome strip in purple at bottom with 3 explicit expectations
+
+### Custom stage-flow diagrams
+
+For visualizing processes (pipelines, funnels, stages):
+- Use `LIGHT_PURPLE` (`#2A2455`) fill for stage boxes
+- `PURPLE` border 0.5pt
+- White text in stage boxes
+- Status-color top strip (green for live, yellow for in-progress, gray for planned)
+- Draw arrows with `draw_arrow()` helper between stages
+- Dashed arrows for optional/recovery paths
+- Use `GRAY` for dashed/optional connections, `WHITE` for default arrows, `GREEN` for positive transitions
+
+### When to use black vs white
+
+| Context | BG | Why |
+| --- | --- | --- |
+| Onboarding for new hire, energetic | Black | Energy, brand-anchor |
+| CVR/data analysis with 10+ tables | White | Readability of dense data |
+| AM-cheatsheet with diagrams | Black | Visual punch of diagrams pops on dark |
+| Quick 2-pager TL;DR | White | Scanability |
+
+---
+
+## Reusable modules across all patterns
+
+These appear in multiple patterns — build them once, reuse.
+
+### KPI tile (on dark BG)
+
+- `LIGHT_BG` fill, `BORDER` 0.5pt stroke, rounded 6-8pt
+- 14-18pt inner padding
+- Big number Anton 28-44pt purple
+- Label Inter-Bold 10pt white
+- Sub Inter Regular 8.5pt gray
+- Width: divide available width into equal columns with 8-12pt gaps
+
+### White chart card
+
+- Full `WHITE` fill, rounded if you want (0-8pt)
+- 18-24pt inner padding
+- Label Inter-Bold 11pt black
+- Sub Inter Regular 9pt dark-gray
+- Chart embedded with ~12pt padding
+
+### Purple banner strip
+
+- Full-width PURPLE fill (no rounded)
+- Anton 16-22pt white for headline
+- Inter-SemiBold 10-11pt white for body
+- Inter Regular 9-10pt white for sub
+- Use sparingly — it's a strong visual moment
+
+### Status card (pillars, OKRs, principles)
+
+- `LIGHT_BG` fill, `BORDER` 0.5pt
+- Purple top accent strip (3-5pt tall)
+- Badge label Inter-Bold 7-9pt purple
+- Title Anton 14-24pt white
+- Body Inter Regular 8-9pt gray with purple `·` bullets
+
+### Quote box
+
+- `PURPLE` fill background
+- "FROM YOUR EMAIL · DATE" label in Inter-Bold 9.5pt white
+- Quote text Inter-SemiBold 11pt white
+- Attribution with "—" prefix in Inter Regular 9.5pt white
+
+### Data table
+
+- Header row: `PURPLE` fill, white Inter-Bold 8-9pt
+- Alternating rows: `#F5F5F7` (light docs) or transparent (dark docs)
+- Body: Inter Regular 8-9pt
+- Borders: `#E5E7EB` 0.5pt
+- Highlight key cells with `Inter-Bold` + `PURPLE` color
+
+### references/qa-checklist.md
+
+# QA Checklist
+
+Run this checklist on every PDF before sharing. Render each page at 200+ dpi and visually check.
+
+## Mandatory checks
+
+These break the document if missed. Do every time.
+
+- [ ] **Language consistency** — every body sentence is either complete German or complete English, never mixed. (Denglisch single words like "GMV", "Pipeline" are fine.)
+- [ ] **Cache-bug fix in image handling** — temp filenames are path-hashed (`/tmp/crop_{md5(path)[:12]}.jpg`), not based on basename. Test: if any document has multiple images with the same basename across folders, they should render distinctly.
+- [ ] **Footer clearance** — no chart, card, or content bleeds into the footer area. Footer divider sits at `M + 12pt`. Any content stops at `M + 28pt` minimum to leave breathing room.
+- [ ] **Headline glyph spacing** — when using Anton at 80pt+, leave ≥75pt line spacing between consecutive headline lines. Glyphs collide otherwise.
+- [ ] **Page header consistency** — every page except the cover has the standard `egora / SECTION / page X/Y` header with divider line.
+- [ ] **Per-page HD QA** — render every page at 200+ dpi to PNG, then look at each. Most layout bugs (text truncation, cell overflow, overlapping) only show up there, not in the build code.
+
+## Content checks
+
+- [ ] **Vollständigkeit** — when the user asked for full listings (menus, components, line items), every item is there. Never show "Highlights" when "complete" was requested. Lesson from Sommerfest-Broschüre: full menu per page, not summary.
+- [ ] **Pricing always with format context** — never just "€48". Always "ab €48 p.P. · je nach Gästezahl und Setup" or similar context line.
+- [ ] **Customer proposals include email-quote** — Slide 2 ("What We Heard") should quote the customer's original requirements verbatim as proof.
+- [ ] **Investor docs include the four mandatory metrics** — YoY comparison, Recurring share, EBIT %, Team size.
+- [ ] **All-Hands include period-over-period progression** — Don't just show current period; show the trajectory.
+
+## Layout checks
+
+- [ ] **KPI tiles aligned and equal width** — when there are 4 in a row, gaps are equal and widths are equal. No "almost equal" — calculate exactly with `(PAGE_W - 2*M - (n-1)*gap) / n`.
+- [ ] **Card rounded corners consistent** — pick 4, 5, 6, or 8pt and use the same across one slide. Don't mix.
+- [ ] **Table cells fit the text** — render and check. If cells are truncated, increase column width, decrease font size, or wrap to multiple lines.
+- [ ] **Status colors used semantically** — Green = positive/live, Yellow = at-risk/in-progress, Red = miss/off-track/end-state. Don't use status colors as decoration.
+- [ ] **Purple used as accent, not as fill-everywhere** — purple is the only accent. Don't fill 4 things purple in a row. The eye needs rest.
+
+## Typography checks
+
+- [ ] **Anton only for headlines and big numbers** — never as body text (it's hard to read at small sizes)
+- [ ] **Inter at 8pt minimum** — anything smaller is unreadable when printed
+- [ ] **Body text at 9-11pt** — too small fatigues the reader, too big looks juvenile
+- [ ] **Section headings clearly bigger than body** — visual hierarchy needs to be obvious at a glance
+
+## Brand-feel checks
+
+- [ ] **The document feels like egora at first glance** — black BG, purple accents, Anton headlines. If a stranger looked at it for 1 second, would they recognize it as egora?
+- [ ] **Tone matches use case** — investor doc isn't hype-bro, all-hands isn't cold-corporate
+- [ ] **No marketing fluff** — "innovative cutting-edge solutions" / "leveraging synergies" / "best-in-class platform" — none of that
+- [ ] **No engagement bait** — "Want to know more?" / "Tag a colleague who..." / "🚀🚀🚀"
+- [ ] **No false vulnerability** — "We almost gave up..." / "It was hard, but..."
+
+## Customer-proposal extra checks
+
+- [ ] **Customer name appears prominently** — in the cover and page headers (e.g., `egora × G2 ESPORTS / SECTION`)
+- [ ] **Language matches customer's preference** — German for German customers, English for English-speaking
+- [ ] **"We listened" proof present** — email quote, original requirements, named contact
+- [ ] **Contact details correct** — sender name, email, phone
+
+## Investor doc extra checks
+
+- [ ] **The Ask is explicit but not pushy** — clear contact path, no hard close
+- [ ] **Misses are framed, not buried** — if you have them, explain in 1-2 lines
+- [ ] **Charts are honest** — no clipped y-axes that exaggerate moves
+
+## Sommerfest brochure extra checks
+
+- [ ] **Every menu page has the same structure** — title, format, mood, sections, price block. Consistency is the brand here.
+- [ ] **Saisonale accents are subtle** — coral and sage are seasoning, not main colors. Don't decorate every corner.
+- [ ] **Reply-trigger on every menu page** — CTA "Antworte mit der Menü-Nummer" present.
+
+## Knowledge-doc extra checks
+
+- [ ] **TL;DR fits on one screen** — if not, it's not a TL;DR
+- [ ] **Sample sizes shown for every statistic** — `n=1612`, `n=8`, etc.
+- [ ] **Caveats explicit** — what's NOT robust must be stated
+- [ ] **Tables have clear headers** — column meaning obvious from header alone
+
+## Final check before sharing
+
+- [ ] **Save to user's egora workspace** (`egora Strategy & Goalsetting/`), not just temp folder
+- [ ] **Provide `computer://` link** for the user to open the file directly
+- [ ] **Write a brief summary** of what was built, with section headers
+- [ ] **Offer iteration** — "If something needs adjusting (X, Y), tell me. Otherwise: done."
+
+If anything in this list isn't right, fix it before sharing. Especially the mandatory checks. A document that fails on language consistency or has chart-footer collisions makes egora look amateur.
+
+### references/helper-code.md
+
+# Helper Code
+
+Drop-in Python code. Copy what you need or import from `scripts/egora_style.py`.
+
+## Stack
+
+- `reportlab.pdfgen.canvas` for PDF generation
+- `matplotlib` for charts (200 dpi, save as PNG, embed in PDF)
+- `PIL` for image resize and crop
+- Fonts: Anton + Inter Regular/Medium/SemiBold/Bold as TTF files
+
+## Initial setup
+
+```python
+import os, hashlib, math
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import landscape, A4
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.colors import HexColor
+from PIL import Image as PILImage
+
+# Where the font TTFs live — adjust path
+FONT_DIR = "/path/to/fonts"
+
+def register_fonts(font_dir=FONT_DIR):
+    pdfmetrics.registerFont(TTFont('Anton', os.path.join(font_dir, 'Anton-Regular.ttf')))
+    pdfmetrics.registerFont(TTFont('Inter', os.path.join(font_dir, 'Inter-Regular.ttf')))
+    pdfmetrics.registerFont(TTFont('Inter-Medium', os.path.join(font_dir, 'Inter-Medium.ttf')))
+    pdfmetrics.registerFont(TTFont('Inter-SemiBold', os.path.join(font_dir, 'Inter-SemiBold.ttf')))
+    pdfmetrics.registerFont(TTFont('Inter-Bold', os.path.join(font_dir, 'Inter-Bold.ttf')))
+```
+
+## Color constants
+
+```python
+# Brand
+BLACK = HexColor('#000000')
+WHITE = HexColor('#FFFFFF')
+PURPLE = HexColor('#5E4FF0')
+LIGHT_BG = HexColor('#0F0F12')
+BORDER = HexColor('#1F1F25')
+
+# Text on dark
+GRAY = HexColor('#9CA3AF')
+MID_GRAY = HexColor('#6B7280')
+
+# Text on light
+DARK_GRAY = HexColor('#4B5563')
+LIGHT_GRAY = HexColor('#E5E7EB')
+
+# Status
+GREEN = HexColor('#10B981')
+YELLOW = HexColor('#F59E0B')
+RED = HexColor('#EF4444')
+
+# Saisonal (Sommerfest only)
+CREAM = HexColor('#FAF4E8')
+SAND = HexColor('#EAD9BD')
+CORAL = HexColor('#E87B5E')
+SAGE = HexColor('#A8C09A')
+DARK_INK = HexColor('#1A1410')
+DUST_GRAY = HexColor('#7A6E5C')
+```
+
+## Page setup
+
+```python
+# Landscape (Investor / All-Hands / Customer-Proposal)
+PAGE_W, PAGE_H = landscape(A4)  # 841.89 × 595.27 pt
+M = 32  # margin
+
+# Portrait (Knowledge-doc / Brochure)
+# PAGE_W, PAGE_H = A4  # 595 × 842 pt
+# M = 36  # or 40 for brochures
+```
+
+## Core drawing helpers
+
+```python
+def fill_rect(c, x, y, w, h, color):
+    """Fill a rectangle without stroke."""
+    c.setFillColor(color)
+    c.rect(x, y, w, h, fill=1, stroke=0)
+
+
+def text(c, x, y, s, font='Inter', size=10, color=WHITE, anchor='left'):
+    """Draw text with anchor (left, right, center)."""
+    c.setFont(font, size)
+    c.setFillColor(color)
+    if anchor == 'left':
+        c.drawString(x, y, s)
+    elif anchor == 'right':
+        c.drawRightString(x, y, s)
+    elif anchor == 'center':
+        c.drawCentredString(x, y, s)
+
+
+def wrap_text(s, max_chars):
+    """Word-wrap helper for body text. Returns list of lines."""
+    words = s.split(' ')
+    lines = []
+    line = ''
+    for w in words:
+        test = (line + ' ' + w).strip()
+        if len(test) <= max_chars:
+            line = test
+        else:
+            if line:
+                lines.append(line)
+            line = w
+    if line:
+        lines.append(line)
+    return lines
+```
+
+## Image embedding — with path-hash temp fix
+
+This is critical. If you don't path-hash the temp filenames, images with the same basename across different folders (e.g., `customer-backend/1.jpg` + `caterer-backend/1.jpg`) will overwrite each other and you'll get the same screenshot three times.
+
+```python
+def draw_image_fit(c, path, x, y, w, h, mode='cover'):
+    """Draw image fitted into box. mode='cover' fills box (crops),
+    'contain' fits inside (letterboxes)."""
+    img = PILImage.open(path)
+    iw, ih = img.size
+    iar = iw / ih
+    bar = w / h
+    if mode == 'cover':
+        if iar > bar:
+            new_w = ih * bar
+            crop = (int((iw - new_w) / 2), 0, int((iw + new_w) / 2), ih)
+        else:
+            new_h = iw / bar
+            crop = (0, int((ih - new_h) / 2), iw, int((ih + new_h) / 2))
+        img = img.crop(crop)
+        # CRITICAL: path-hash temp filename to avoid collisions
+        path_hash = hashlib.md5(path.encode()).hexdigest()[:12]
+        tmp = f'/tmp/crop_{path_hash}.jpg'
+        if img.mode != 'RGB':
+            img = img.convert('RGB')
+        img.save(tmp, 'JPEG', quality=88)
+        c.drawImage(tmp, x, y, w, h, mask='auto')
+    else:
+        # contain mode — no crop
+        if iar > bar:
+            dw = w
+            dh = w / iar
+            dx = x
+            dy = y + (h - dh) / 2
+        else:
+            dh = h
+            dw = h * iar
+            dx = x + (w - dw) / 2
+            dy = y
+        c.drawImage(path, dx, dy, dw, dh, mask='auto', preserveAspectRatio=True)
+```
+
+## Page header and footer
+
+```python
+HEADER_Y_OFFSET = 26  # from top of page
+DIVIDER_Y_OFFSET = 44
+
+def page_header(c, section_title, page_num, total_pages, page_w, page_h, m=32):
+    """Standard egora page header — wordmark left, section center, page right."""
+    text(c, m, page_h - HEADER_Y_OFFSET, "egora", font='Anton', size=20, color=WHITE)
+    text(c, m + 95, page_h - HEADER_Y_OFFSET + 1, f"/  {section_title}",
+         font='Inter-Medium', size=10, color=GRAY)
+    text(c, page_w - m, page_h - HEADER_Y_OFFSET, f"{page_num:02d} / {total_pages:02d}",
+         font='Inter-Medium', size=10, color=GRAY, anchor='right')
+    c.setStrokeColor(BORDER)
+    c.setLineWidth(0.5)
+    c.line(m, page_h - DIVIDER_Y_OFFSET, page_w - m, page_h - DIVIDER_Y_OFFSET)
+
+
+def page_footer(c, label, date_str, page_w, m=32):
+    """Standard footer with divider above."""
+    c.setStrokeColor(BORDER)
+    c.setLineWidth(0.5)
+    c.line(m, m + 12, page_w - m, m + 12)
+    text(c, m, m, label, font='Inter', size=8, color=MID_GRAY)
+    text(c, page_w - m, m, date_str, font='Inter', size=8, color=MID_GRAY, anchor='right')
+
+
+def section_header(c, x, y, num, title):
+    """Number + UPPERCASE title with purple accent line below."""
+    text(c, x, y, num, font='Anton', size=18, color=PURPLE)
+    text(c, x + 30, y, title.upper(), font='Anton', size=16, color=WHITE)
+    fill_rect(c, x, y - 6, 50, 1.5, PURPLE)
+    return y - 18  # return y position for next content
+```
+
+## Arrow drawing for diagrams
+
+```python
+def draw_arrow(c, x1, y1, x2, y2, color, width=1.2, head_size=5, style='solid'):
+    """Draw a directional arrow with optional dashed style."""
+    c.setStrokeColor(color)
+    c.setLineWidth(width)
+    if style == 'dashed':
+        c.setDash(3, 2)
+    else:
+        c.setDash()
+    c.line(x1, y1, x2, y2)
+    c.setDash()
+    # Arrow head
+    angle = math.atan2(y2 - y1, x2 - x1)
+    ax1 = x2 - head_size * math.cos(angle - math.pi / 6)
+    ay1 = y2 - head_size * math.sin(angle - math.pi / 6)
+    ax2 = x2 - head_size * math.cos(angle + math.pi / 6)
+    ay2 = y2 - head_size * math.sin(angle + math.pi / 6)
+    c.setFillColor(color)
+    p = c.beginPath()
+    p.moveTo(x2, y2)
+    p.lineTo(ax1, ay1)
+    p.lineTo(ax2, ay2)
+    p.close()
+    c.drawPath(p, fill=1, stroke=0)
+```
+
+## Charts — matplotlib conventions
+
+```python
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+from matplotlib.font_manager import FontProperties
+
+# Register fonts so matplotlib finds them — use FontProperties with fname
+def chart_fonts(font_dir):
+    """Register Anton + Inter for matplotlib. Returns FontProperties objects."""
+    for f in ['Anton-Regular.ttf', 'Inter-Regular.ttf', 'Inter-Medium.ttf',
+              'Inter-Bold.ttf', 'Inter-SemiBold.ttf']:
+        fm.fontManager.addfont(os.path.join(font_dir, f))
+    return {
+        'anton': FontProperties(fname=os.path.join(font_dir, 'Anton-Regular.ttf')),
+        'inter_r': FontProperties(fname=os.path.join(font_dir, 'Inter-Regular.ttf')),
+        'inter_m': FontProperties(fname=os.path.join(font_dir, 'Inter-Medium.ttf')),
+        'inter_b': FontProperties(fname=os.path.join(font_dir, 'Inter-Bold.ttf')),
+    }
+
+# Chart style standards
+CHART_PURPLE = '#5E4FF0'
+CHART_DARK_GRAY = '#4B5563'
+CHART_LIGHT_GRAY = '#E5E7EB'
+CHART_GRAY = '#9CA3AF'
+CHART_BLACK = '#000000'
+CHART_RED = '#EF4444'
+```
+
+### Chart conventions
+
+- **Background:** White always
+- **Spines:** Top/right/left hidden. Bottom only, `#E5E7EB` 0.5pt
+- **Y-axis grid:** Light gray, 0.5pt, alpha 0.4-0.6
+- **Bars:**
+  - Current year / actual / plan: `#5E4FF0` (purple)
+  - Previous year / comparison / floor: `#4B5563` (dark gray)
+- **YoY multiplier labels** above bars: Anton 14-18pt purple
+- **Value labels** on bars: Anton or Inter-Bold, white if inside bar, black if above
+- **Legend:** Top-left or lower-right, frameless, Inter-Medium
+
+```python
+# Example bar chart setup
+fig, ax = plt.subplots(figsize=(12, 5.5), dpi=200)
+fig.patch.set_facecolor('white')
+ax.set_facecolor('white')
+
+# ... bars ...
+
+# Remove spines except bottom
+for spine in ['top', 'right', 'left']:
+    ax.spines[spine].set_visible(False)
+ax.spines['bottom'].set_color('#E5E7EB')
+
+# Grid
+ax.tick_params(axis='y', length=0)
+ax.tick_params(axis='x', length=0, pad=10)
+ax.grid(axis='y', linestyle='-', linewidth=0.5,
+        color='#E5E7EB', alpha=0.6, zorder=0)
+ax.set_axisbelow(True)
+
+plt.tight_layout(pad=2)
+plt.savefig('chart.png', dpi=200, bbox_inches='tight',
+            facecolor='white', edgecolor='none')
+plt.close()
+```
+
+## PDF render & QA loop
+
+```python
+# After saving the PDF, render each page to PNG and visually check
+from pdf2image import convert_from_path
+
+images = convert_from_path('output.pdf', dpi=200)
+for i, im in enumerate(images, 1):
+    im.save(f'qa_page_{i:02d}.png', 'PNG')
+
+# Read each PNG with the Read tool and check for:
+# - Text overlap
+# - Truncated text in cells
+# - Footer collisions
+# - Headline-glyph collisions (Anton 80pt+ needs ≥75pt line spacing)
+```
+
+## Font fetch — only if not present
+
+```python
+import urllib.request
+
+FONT_URLS = {
+    'Anton-Regular.ttf':
+        'https://fonts.gstatic.com/s/anton/v25/1Ptgg87LROyAm0K08i4gS7lu.ttf',
+    'Inter-Regular.ttf':
+        'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuLyfMZhrib2Bg-4.ttf',
+    'Inter-Medium.ttf':
+        'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuGKYMZhrib2Bg-4.ttf',
+    'Inter-SemiBold.ttf':
+        'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuI6fMZhrib2Bg-4.ttf',
+    'Inter-Bold.ttf':
+        'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuFuYMZhrib2Bg-4.ttf',
+}
+
+def ensure_fonts(font_dir):
+    os.makedirs(font_dir, exist_ok=True)
+    for fname, url in FONT_URLS.items():
+        path = os.path.join(font_dir, fname)
+        if not os.path.exists(path):
+            urllib.request.urlretrieve(url, path)
+```
+
+## Image-asset paths (egora workspace)
+
+These paths assume the user has the standard egora workspace at `egora Strategy & Goalsetting/`. Adjust if their folder is elsewhere.
+
+| Asset | Path (relative to workspace root) |
+| --- | --- |
+| Team portraits (6, 1:1 with EGORA wordmark) | `references-team-pics/*.png` (or *.jpg after resize) |
+| Customer logos (13 WebP) | `references-customer-logos/*.webp` |
+| Taste & Connect event photos (9 JPG) | `references-taste-and-connect/*.jpg` |
+| Backend screenshots | `references-backends/customer-backend/*.png`, `caterer-backend/*.png`, `admin-backend/*.png` |
+
+For team photos: use **square cells (1:1 aspect)** with `mode='cover'` — this preserves the EGORA wordmark across the top of each photo. Don't use other aspect ratios — wordmark gets cropped sideways.
+
+For backend screenshots: use `mode='cover'` with the path-hash fix. White 1pt border around each screenshot looks clean.
+
+## Script: egora_style.py
+
+```python
+"""egora visual brand — drop-in helper library.
+
+Import all colors, font registration, and helper functions for building
+egora-branded PDFs with reportlab + matplotlib.
+
+Usage:
+    from egora_style import (
+        BLACK, WHITE, PURPLE, LIGHT_BG, BORDER, GRAY,
+        DARK_GRAY, MID_GRAY, GREEN, YELLOW, RED,
+        CREAM, SAND, CORAL, SAGE, DARK_INK, DUST_GRAY,
+        register_fonts, ensure_fonts,
+        fill_rect, text, wrap_text, draw_image_fit,
+        page_header, page_footer, section_header, draw_arrow,
+    )
+
+    register_fonts('/path/to/fonts')  # or ensure_fonts() to download if missing
+    # Then build your PDF as usual
+"""
+import os
+import math
+import hashlib
+import urllib.request
+
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.colors import HexColor
+
+
+# =============================================================================
+# COLORS
+# =============================================================================
+
+# Brand core — non-negotiable
+BLACK = HexColor('#000000')
+WHITE = HexColor('#FFFFFF')
+PURPLE = HexColor('#5E4FF0')
+LIGHT_BG = HexColor('#0F0F12')
+BORDER = HexColor('#1F1F25')
+
+# Text hierarchy on dark
+GRAY = HexColor('#9CA3AF')
+MID_GRAY = HexColor('#6B7280')
+
+# Text hierarchy on light
+DARK_GRAY = HexColor('#4B5563')
+LIGHT_GRAY = HexColor('#E5E7EB')
+
+# Semantic status
+GREEN = HexColor('#10B981')
+YELLOW = HexColor('#F59E0B')
+RED = HexColor('#EF4444')
+
+# Saisonal palette — Sommerfest brochures only
+CREAM = HexColor('#FAF4E8')
+SAND = HexColor('#EAD9BD')
+CORAL = HexColor('#E87B5E')
+SAGE = HexColor('#A8C09A')
+DARK_INK = HexColor('#1A1410')
+DUST_GRAY = HexColor('#7A6E5C')
+WARM_BG_BLOCK = HexColor('#F2E8D5')
+
+# Diagram fills (Knowledge-doc state diagrams)
+LIGHT_PURPLE = HexColor('#2A2455')
+
+
+# =============================================================================
+# FONTS
+# =============================================================================
+
+FONT_URLS = {
+    'Anton-Regular.ttf':
+        'https://fonts.gstatic.com/s/anton/v25/1Ptgg87LROyAm0K08i4gS7lu.ttf',
+    'Inter-Regular.ttf':
+        'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuLyfMZhrib2Bg-4.ttf',
+    'Inter-Medium.ttf':
+        'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuGKYMZhrib2Bg-4.ttf',
+    'Inter-SemiBold.ttf':
+        'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuI6fMZhrib2Bg-4.ttf',
+    'Inter-Bold.ttf':
+        'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ojIw2boKoduKmMEVuFuYMZhrib2Bg-4.ttf',
+}
+
+
+def ensure_fonts(font_dir):
+    """Download all egora fonts if not present. Safe to call repeatedly."""
+    os.makedirs(font_dir, exist_ok=True)
+    for fname, url in FONT_URLS.items():
+        path = os.path.join(font_dir, fname)
+        if not os.path.exists(path):
+            urllib.request.urlretrieve(url, path)
+    return font_dir
+
+
+def register_fonts(font_dir):
+    """Register Anton + Inter weights with reportlab. Call once at startup."""
+    pdfmetrics.registerFont(TTFont('Anton',
+                                   os.path.join(font_dir, 'Anton-Regular.ttf')))
+    pdfmetrics.registerFont(TTFont('Inter',
+                                   os.path.join(font_dir, 'Inter-Regular.ttf')))
+    pdfmetrics.registerFont(TTFont('Inter-Medium',
+                                   os.path.join(font_dir, 'Inter-Medium.ttf')))
+    pdfmetrics.registerFont(TTFont('Inter-SemiBold',
+                                   os.path.join(font_dir, 'Inter-SemiBold.ttf')))
+    pdfmetrics.registerFont(TTFont('Inter-Bold',
+                                   os.path.join(font_dir, 'Inter-Bold.ttf')))
+
+
+def chart_font_properties(font_dir):
+    """Return matplotlib FontProperties for Anton + Inter weights.
+
+    Use these in plot calls like:
+        ax.set_title('LABEL', fontproperties=fp['anton'], fontsize=14)
+    """
+    from matplotlib.font_manager import FontProperties
+    import matplotlib.font_manager as fm
+    for f in ['Anton-Regular.ttf', 'Inter-Regular.ttf', 'Inter-Medium.ttf',
+              'Inter-Bold.ttf', 'Inter-SemiBold.ttf']:
+        fm.fontManager.addfont(os.path.join(font_dir, f))
+    return {
+        'anton': FontProperties(fname=os.path.join(font_dir, 'Anton-Regular.ttf')),
+        'inter_r': FontProperties(fname=os.path.join(font_dir, 'Inter-Regular.ttf')),
+        'inter_m': FontProperties(fname=os.path.join(font_dir, 'Inter-Medium.ttf')),
+        'inter_b': FontProperties(fname=os.path.join(font_dir, 'Inter-Bold.ttf')),
+        'inter_sb': FontProperties(fname=os.path.join(font_dir, 'Inter-SemiBold.ttf')),
+    }
+
+
+# =============================================================================
+# DRAWING HELPERS
+# =============================================================================
+
+def fill_rect(c, x, y, w, h, color):
+    """Fill a rectangle without stroke."""
+    c.setFillColor(color)
+    c.rect(x, y, w, h, fill=1, stroke=0)
+
+
+def text(c, x, y, s, font='Inter', size=10, color=WHITE, anchor='left'):
+    """Draw text. anchor = 'left' | 'right' | 'center'."""
+    c.setFont(font, size)
+    c.setFillColor(color)
+    if anchor == 'left':
+        c.drawString(x, y, s)
+    elif anchor == 'right':
+        c.drawRightString(x, y, s)
+    elif anchor == 'center':
+        c.drawCentredString(x, y, s)
+
+
+def wrap_text(s, max_chars):
+    """Word-wrap text to a list of lines, each at most max_chars long."""
+    words = s.split(' ')
+    lines = []
+    line = ''
+    for w in words:
+        test = (line + ' ' + w).strip()
+        if len(test) <= max_chars:
+            line = test
+        else:
+            if line:
+                lines.append(line)
+            line = w
+    if line:
+        lines.append(line)
+    return lines
+
+
+def draw_image_fit(c, path, x, y, w, h, mode='cover'):
+    """Draw image fitted into box.
+
+    mode='cover' fills box (crops if aspect differs)
+    mode='contain' fits inside box (letterboxes)
+
+    Uses path-hash temp filenames to avoid collisions when multiple
+    images share a basename across different folders.
+    """
+    from PIL import Image as PILImage
+    img = PILImage.open(path)
+    iw, ih = img.size
+    iar = iw / ih
+    bar = w / h
+    if mode == 'cover':
+        if iar > bar:
+            new_w = ih * bar
+            crop = (int((iw - new_w) / 2), 0, int((iw + new_w) / 2), ih)
+        else:
+            new_h = iw / bar
+            crop = (0, int((ih - new_h) / 2), iw, int((ih + new_h) / 2))
+        img = img.crop(crop)
+        path_hash = hashlib.md5(path.encode()).hexdigest()[:12]
+        tmp = f'/tmp/crop_{path_hash}.jpg'
+        if img.mode != 'RGB':
+            img = img.convert('RGB')
+        img.save(tmp, 'JPEG', quality=88)
+        c.drawImage(tmp, x, y, w, h, mask='auto')
+    else:
+        if iar > bar:
+            dw = w
+            dh = w / iar
+            dx = x
+            dy = y + (h - dh) / 2
+        else:
+            dh = h
+            dw = h * iar
+            dx = x + (w - dw) / 2
+            dy = y
+        c.drawImage(path, dx, dy, dw, dh, mask='auto',
+                    preserveAspectRatio=True)
+
+
+# =============================================================================
+# PAGE STRUCTURE HELPERS
+# =============================================================================
+
+HEADER_Y_OFFSET = 26
+DIVIDER_Y_OFFSET = 44
+
+
+def page_header(c, section_title, page_num, total_pages, page_w, page_h, m=32):
+    """Standard egora header: wordmark left, section in middle, page right."""
+    text(c, m, page_h - HEADER_Y_OFFSET, "egora", font='Anton', size=20, color=WHITE)
+    text(c, m + 95, page_h - HEADER_Y_OFFSET + 1, f"/  {section_title}",
+         font='Inter-Medium', size=10, color=GRAY)
+    text(c, page_w - m, page_h - HEADER_Y_OFFSET,
+         f"{page_num:02d} / {total_pages:02d}",
+         font='Inter-Medium', size=10, color=GRAY, anchor='right')
+    c.setStrokeColor(BORDER)
+    c.setLineWidth(0.5)
+    c.line(m, page_h - DIVIDER_Y_OFFSET, page_w - m, page_h - DIVIDER_Y_OFFSET)
+
+
+def page_footer(c, label, date_str, page_w, m=32):
+    """Standard footer: divider above, label left, date right."""
+    c.setStrokeColor(BORDER)
+    c.setLineWidth(0.5)
+    c.line(m, m + 12, page_w - m, m + 12)
+    text(c, m, m, label, font='Inter', size=8, color=MID_GRAY)
+    text(c, page_w - m, m, date_str, font='Inter', size=8,
+         color=MID_GRAY, anchor='right')
+
+
+def section_header(c, x, y, num, title):
+    """Section header: NUMBER · UPPERCASE TITLE with purple underline.
+
+    Returns the y position just below the header for continued content.
+    """
+    text(c, x, y, num, font='Anton', size=18, color=PURPLE)
+    text(c, x + 30, y, title.upper(), font='Anton', size=16, color=WHITE)
+    fill_rect(c, x, y - 6, 50, 1.5, PURPLE)
+    return y - 18
+
+
+def draw_arrow(c, x1, y1, x2, y2, color, width=1.2, head_size=5, style='solid'):
+    """Draw an arrow with directional head.
+
+    style='solid' or 'dashed'
+    """
+    c.setStrokeColor(color)
+    c.setLineWidth(width)
+    if style == 'dashed':
+        c.setDash(3, 2)
+    else:
+        c.setDash()
+    c.line(x1, y1, x2, y2)
+    c.setDash()
+    angle = math.atan2(y2 - y1, x2 - x1)
+    ax1 = x2 - head_size * math.cos(angle - math.pi / 6)
+    ay1 = y2 - head_size * math.sin(angle - math.pi / 6)
+    ax2 = x2 - head_size * math.cos(angle + math.pi / 6)
+    ay2 = y2 - head_size * math.sin(angle + math.pi / 6)
+    c.setFillColor(color)
+    p = c.beginPath()
+    p.moveTo(x2, y2)
+    p.lineTo(ax1, ay1)
+    p.lineTo(ax2, ay2)
+    p.close()
+    c.drawPath(p, fill=1, stroke=0)
+
+
+# =============================================================================
+# COMPOSITE COMPONENTS (KPI tile, status card, etc)
+# =============================================================================
+
+def kpi_tile(c, x, y_top, w, h, big_number, label, sub_text,
+             big_color=PURPLE, fill_color=LIGHT_BG):
+    """Standard KPI tile on dark BG.
+
+    big_number: Anton 28-32pt
+    label: Inter-Bold 10pt
+    sub_text: Inter 8.5pt
+    """
+    c.setStrokeColor(BORDER)
+    c.setFillColor(fill_color)
+    c.setLineWidth(0.5)
+    c.roundRect(x, y_top - h, w, h, 6, fill=1, stroke=1)
+    text(c, x + 14, y_top - 32, big_number, font='Anton', size=28, color=big_color)
+    text(c, x + 14, y_top - 50, label, font='Inter-Bold', size=10, color=WHITE)
+    text(c, x + 14, y_top - 62, sub_text, font='Inter', size=8.5, color=GRAY)
+
+
+def status_card(c, x, y_top, w, h, badge, title, body_lines,
+                status_color=PURPLE, accent_position='top'):
+    """Status card with colored accent and bullet body.
+
+    accent_position: 'top' or 'left'
+    body_lines: list of strings, each rendered with purple bullet
+    """
+    c.setStrokeColor(BORDER)
+    c.setFillColor(LIGHT_BG)
+    c.setLineWidth(0.5)
+    c.roundRect(x, y_top - h, w, h, 7, fill=1, stroke=1)
+    if accent_position == 'top':
+        c.setFillColor(status_color)
+        c.roundRect(x, y_top - 5, w, 5, 0, fill=1, stroke=0)
+    elif accent_position == 'left':
+        fill_rect(c, x, y_top - h, 5, h, status_color)
+    text(c, x + 16, y_top - 22, badge, font='Inter-Bold', size=8, color=status_color)
+    text(c, x + 16, y_top - 42, title, font='Anton', size=18, color=WHITE)
+    by = y_top - 62
+    for line in body_lines:
+        wrapped = wrap_text(line, 38)
+        for j, wl in enumerate(wrapped):
+            if j == 0:
+                text(c, x + 16, by, "·", font='Inter-Bold', size=11, color=status_color)
+                text(c, x + 24, by, wl, font='Inter', size=9, color=GRAY)
+            else:
+                text(c, x + 24, by, wl, font='Inter', size=9, color=GRAY)
+            by -= 12
+
+
+# =============================================================================
+# CHART STYLE STANDARDS (for matplotlib)
+# =============================================================================
+
+CHART_PURPLE = '#5E4FF0'
+CHART_DARK_GRAY = '#4B5563'
+CHART_LIGHT_GRAY = '#E5E7EB'
+CHART_GRAY = '#9CA3AF'
+CHART_BLACK = '#000000'
+CHART_RED = '#EF4444'
+CHART_GREEN = '#10B981'
+CHART_WHITE = '#FFFFFF'
+
+
+def chart_clean(ax):
+    """Apply standard egora chart styling: hide spines, set axis below."""
+    for spine in ['top', 'right', 'left']:
+        ax.spines[spine].set_visible(False)
+    ax.spines['bottom'].set_color(CHART_LIGHT_GRAY)
+    ax.tick_params(axis='y', length=0)
+    ax.tick_params(axis='x', length=0, pad=10)
+    ax.grid(axis='y', linestyle='-', linewidth=0.5,
+            color=CHART_LIGHT_GRAY, alpha=0.6, zorder=0)
+    ax.set_axisbelow(True)
+```

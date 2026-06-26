@@ -1,0 +1,119 @@
+---
+title: "Take a Step Back"
+description: "Mid-Conversation-Reflexion, die aus den Details rauszoomt und das Bigger Picture prüft — One-Shot-Neubewertung mit klarer Empfehlung."
+icon: "binoculars"
+---
+
+<Info>
+  **Runtime:** Claude Teams (Chat)  ·  **Status:** ✅ aktiv in Teams
+
+  **Trigger:** "step back", "zoom out", "sind wir off track", "sanity check"
+</Info>
+
+## Skill-Definition
+
+```yaml
+name: take-a-step-back
+description: "Mid-conversation Reflexion, die aus den Details rauszoomt und das Bigger Picture prüft. Nutze diesen Skill IMMER wenn der User sagt 'take a step back', 'step back', 'zoom out', 'sind wir off track', 'bigger picture', 'was übersehen wir', 'lass uns kurz pausieren', 'sanity check', 'are we on track', 'overthinken wir das', 'wood for the trees', 'verlieren wir uns', oder eine semantisch äquivalente Phrase nutzt, die signalisiert: raus aus dem Detail-Modus, rein in die Strategie-Perspektive. Auch nutzen wenn das Gespräch 10+ Turns tief in Implementierungsdetails gegangen ist ohne Strategie-Check, oder wenn der User frustriert wirkt, dass der Fortschritt stockt — das ist oft ein Zeichen, dass das Framing kaputt ist, nicht dass mehr Details gebraucht werden. Im Gegensatz zu challenge-me ist das hier ein One-Shot — eine einmalige Reflexion, kein Toggle, danach geht das Gespräch normal weiter."
+```
+
+Der User hat einen Timeout auf die Details gerufen. Etwas hat das ausgelöst, vielleicht ist das Gespräch zu lange in Spezifika gelandet, vielleicht ein Bauchgefühl, dass wir das falsche Problem lösen, vielleicht sind wir einfach tief genug, dass es sich lohnt, die Karte zu checken, bevor wir weiter wandern.
+
+Das hier ist **keine Zusammenfassung**. Das ist eine ehrliche Neubewertung.
+
+## Wann der Skill greift, wann nicht
+
+Greifen, wenn der User:
+- Explizit "step back" oder eine äquivalente Phrase sagt
+- Nach 10+ Turns Detail-Arbeit klingt, als ob er sich verloren hat
+- Frustration zeigt, dass nichts vorangeht, oft ein Frame-Problem, nicht ein Detail-Problem
+
+Nicht greifen für:
+- Reine Pause-Phrasen ohne Reassessment-Intent ("kurz Pipi"), das ist keine Reflexion
+- Single-issue Pushback auf eine konkrete Aussage, dafür ist challenge-me da
+- Ende eines Gesprächs als Closing-Summary, das ist auch nicht der Zweck
+
+## Vorgehen
+
+Stopp, was du gerade gemacht hast. Lies das ganze Gespräch von oben neu. Mache dann die Analyse nach den fünf Achsen unten. Sei direkt und ehrlich, der ganze Punkt ist, Dinge zu fangen, vor denen wir uns drücken oder die wir nicht sehen.
+
+### 1. Macro Perspective
+
+Zoom ganz raus. Was war das ursprüngliche Ziel, als das Gespräch angefangen hat? Welche größeren Themen sind im Spiel? Wie verbindet sich das, was wir gerade tun, mit dem größeren Ziel, oder verbindet es sich nicht?
+
+Wenn wir vom ursprünglichen Ziel abgedriftet sind, benenne das explizit. Drift ist nicht immer schlecht, manchmal entwickelt sich das Gespräch zu etwas Besserem hin, aber der User soll wissen, dass es passiert. Zitiere konkrete Stellen aus dem Gesprächsverlauf, wenn du Drift markierst, nicht nur "irgendwo da oben".
+
+### 2. Gap Analysis
+
+Welche Variablen, Perspektiven oder Kontextfaktoren wurden noch nicht eingebracht? Denk an:
+
+- Informationen, die wir angenommen, aber nie verifiziert haben
+- Stakeholder, die wir nicht bedacht haben (Co-Founder, Team-Member, betroffene Departments, Kunden, Investoren)
+- Technische oder operative Constraints, über die wir hinweggegangen sind
+- Alternative Ansätze, die wir zu schnell verworfen oder gar nicht betrachtet haben
+- Externe Faktoren, Markt-Timing, Wettbewerb, Saisonalität, Catering-Konjunktur
+
+Sei spezifisch. "Wir übersehen vielleicht etwas" ist nutzlos. "Wir haben nicht bedacht, wie sich das auf die Bandbreite des Co-Founders auswirkt, weil er gerade in der Sales-Operationalisierung steckt" ist nützlich.
+
+### 3. Reflective Inquiry
+
+Ohne Fehler zu unterstellen, prüf die aktuelle Trajektorie ehrlich:
+
+- Ist das die effektivste Formulierung des Problems?
+- Lösen wir das richtige Problem, oder ein angrenzendes, das sich einfacher anfühlte?
+- Gibt es einen einfacheren Weg, den wir überkomplizieren?
+- Gibt es einen härteren, aber wertvolleren Weg, den wir umgehen?
+- Würde jemand mit frischen Augen das anders angehen?
+
+Wenn der aktuelle Ansatz solide ist, sag das, aber sag *warum* er solide ist, nicht nur "sieht gut aus".
+
+### 4. Bias Check
+
+Such nach diesen Mustern im Gesprächsverlauf:
+
+- **Confirmation Bias**: Schauen wir nur auf Evidenz, die unsere Richtung stützt?
+- **Sunk Cost**: Hängen wir an einem Ansatz, weil wir schon Zeit investiert haben?
+- **Anchoring**: Hat eine frühe Annahme oder ein erster Vorschlag uns in einen engen Frame gesperrt?
+- **Complexity Bias**: Machen wir es schwerer als nötig, weil komplex sich gründlich anfühlt?
+- **Recency Bias**: Übergewichten wir die letzten Nachrichten und untergewichten wir den vollen Kontext?
+
+Plus häufige Operator-Patterns, die in solchen Gesprächen oft mitlaufen:
+
+- **Überoptimismus** — sind die Timelines realistisch oder gewohnheitsmäßig zu eng?
+- **Übercommitment** — wie viele parallele Prioritäten haben wir hier reingerührt?
+- **ASAP-Modus** — fühlt sich Dringlichkeit echt oder selbstgemacht an?
+- **Zu wenig Delegation** — wäre die richtige Antwort eigentlich, das abzugeben statt selbst zu lösen?
+
+Wenn eines davon greift, ruf es klar beim Namen.
+
+### 5. egora-Alignment
+
+Hier hältst du die aktuelle Richtung gegen die Business-Realität von egora:
+
+- Zahlt das auf die egora-Ziele / aktuellen OKRs ein, oder läuft es quer dazu?
+- Ist das der wirksamste Hebel jetzt, oder Beschäftigung, die sich wie Fortschritt anfühlt?
+- Welches Department / welcher Workstream wird davon bedient, welcher dafür verdrängt?
+- Gibt es Verbindungen zu anderen laufenden Sachen (Wochenplan, Pipeline, andere Departments, OKRs), die wir mitdenken sollten?
+- Ist das der beste Einsatz der Zeit und Energie *gerade jetzt*, gegeben was sonst diese Woche ansteht?
+
+## Ton und Format
+
+Schreib das als ehrliches Gespräch, nicht als Report. **Keine Headers im Output**, nur fließende Analyse, die sich gut liest. Tight, aber gründlich. Wenn alles wirklich on track ist, sag das klar und sag *warum*, fabriziere keine Probleme, nur damit die Übung etwas zu produzieren scheint. Aber wenn was off ist, federe es nicht ab.
+
+Zitiere konkrete Stellen aus dem Gesprächsverlauf, wenn du Drift, Anchoring oder Frame-Probleme markierst. Wörter wie "vor zehn Turns sagtest du..." machen die Beobachtung wiegender als generische Hinweise.
+
+Wenn du nach einer Schwachstelle suchst und keine findest, sag das direkt: "Ich habe gesucht und finde keinen kaputten Punkt." Erfinde nichts. Pseudo-Reflektion ist schlimmer als ehrliche Bestätigung.
+
+## Schluss-Move
+
+Beende mit **einer klaren Empfehlung**, nicht mit einer Frage zum drüber sitzen (das ist Challenge-Me-Territorium). Du hast gerade rausgezoomt, du sollst eine Richtung geben:
+
+- **Continue**: weiter wie bisher, und *warum* das jetzt der richtige Weg ist
+- **Pivot**: Richtungswechsel, *wohin* genau und *warum*
+- **Clarify**: eine spezifische Frage, die beantwortet sein muss, bevor es sinnvoll weitergeht
+
+Eine dieser drei. Nicht alle drei. Pick.
+
+## Nach der Reflexion
+
+Du bist jetzt fertig. Das ist ein One-Shot, keine Toggle-Frage am Ende, keine "soll ich weiter reflektieren". Der User weiß, dass er den Skill jederzeit wieder triggern kann. Bis dahin: zurück in den Normalmodus, die nächste Nachricht beantwortest du wieder ganz normal.

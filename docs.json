@@ -131,6 +131,36 @@
             ]
           },
           {
+            "tab": "KI-Assistent",
+            "groups": [
+              {
+                "group": "Überblick",
+                "pages": ["skills/overview"]
+              },
+              {
+                "group": "Skills (in Claude Teams)",
+                "pages": [
+                  "skills/challenge-me",
+                  "skills/take-a-step-back",
+                  "skills/offer-mail-assistant",
+                  "skills/request-info-structurer",
+                  "skills/ops-lead",
+                  "skills/project-manager",
+                  "skills/linkedin-post"
+                ]
+              },
+              {
+                "group": "Skills (Claude Code / Cowork)",
+                "pages": [
+                  "skills/get-shit-done",
+                  "skills/daily-briefing",
+                  "skills/daily-debrief",
+                  "skills/egora-branding"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Integrationen",
             "groups": [
               {

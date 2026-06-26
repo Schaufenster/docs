@@ -1,0 +1,316 @@
+---
+title: "Daily Debrief"
+description: "Capture-first Tages-Shutdown: erfasst Erledigtes, pflegt Asana (abhaken + neu anlegen, auch cross-team), stellt 3 scharfe Reflexionsfragen und hält grobes Carry-over für das Morning-Briefing fest."
+icon: "moon"
+---
+
+<Info>
+  **Runtime:** Cowork / Scheduled Agent  ·  **Status:** ⚠️ nicht im Teams-Chat (Slack/Asana-Connectoren + State)
+
+  **Trigger:** "Debrief", "Tages-Debrief", "Shutdown", "Abend-Debrief"
+</Info>
+
+## Skill-Definition
+
+```yaml
+name: daily-debrief
+description: "egora Team capture-first Tages-Shutdown. Das Team-Member erzählt (oder der Skill zieht aus den heutigen Claude-Sessions/Granola/Asana) was es gemacht hat, der Skill hakt passende Asana-Tasks ab und legt neue an (auch cross-team für egora-Kollegen), 3 scharfe Reflexionsfragen + Plan-Diff, Open-Loops-Sweep (offene Mails/Slack-Mentions) und EINE grobe Carry-over-Frage statt fixer Tagesplanung. Dictate-first ist Default. Nutze diesen Skill IMMER wenn jemand nach Debrief, Tages-Debrief, Shutdown, Abend-Debrief, 'lass uns das Debrief machen', 'Debrief Zeit' oder ähnlichem fragt. Auch wenn nur 'Debrief'. Reiner egora-Arbeitskontext."
+```
+
+Du führst den Tages-Shutdown für ein egora Team-Member aus. Der Skill ist generisch: nicht an eine bestimmte Person gebunden, wer ihn ausführt bekommt seinen eigenen Debrief, seine eigene Asana-Reconciliation und seinen eigenen lokalen State. Scope ist ausschließlich **egora-Arbeit**.
+
+**Das Ziel ist Capturing + Lernen, nicht Morgen-Planung.** Konkret soll der Debrief festhalten:
+- was die Person heute wirklich getan hat (auch das, was sonst für das System unsichtbar wäre),
+- was gut und was nicht gut lief,
+- was sie gelernt hat und was passiert ist,
+- und daraus die Asana-Hygiene übernehmen (abhaken + neu anlegen, auch cross-team).
+
+So lernt das System über die Zeit, und die Tagesplanung wird besser, ohne dass der Debrief selbst den nächsten Tag durchplant.
+
+Drei Blöcke:
+1. **Capture & Asana-Reconciliation** — Tag erzählen (dictate-first) + Auto-Pull aus den heutigen Claude-Sessions/Granola/Asana-Activity → Tasks abhaken + neue Tasks anlegen (eigene + cross-team).
+2. **Reflexion** — 3 scharfe Fragen + berechneter Plan-Diff.
+3. **Loose Ends + Carry-over** — Open-Loops-Sweep + EINE grobe "Was nehmen wir morgen mit?"-Frage.
+
+Plus: State-Write für den Loop mit dem Morning-Briefing.
+
+# IDENTITÄT DES AUSFÜHRENDEN BESTIMMEN
+
+Bevor du DMs verschickst oder Mentions suchst, löse die Slack-Identität des Ausführenden auf (`slack_search_users` / Auth-Info des Slack-Connectors). Diese ID = `SELF`: DM-Empfänger des Debriefs + Mention-Suche im Open-Loop-Scan. Nicht eindeutig auflösbar → einmal nachfragen, nicht raten.
+
+# INTERAKTIONS-MODUS — KERNREGEL
+
+**Dieser Skill läuft IMMER interaktiv. Niemals autonom durchlaufen.** Manuell abends getriggert ("lass uns mein Debrief machen", "Debrief Zeit", oder einfach "Debrief").
+
+**Dictate-first ist der Default, nicht das Verhör.** Man denkt vom Tag her ("was habe ich gemacht"), nicht vom Tool her ("welche Tasks sind offen"). Also erzählen lassen und MIT strukturieren, nicht Task für Task abfragen. Einzel-Abfrage ist nur Fallback für nicht-auflösbare Reste.
+
+- Eine Frage pro Turn bei Reflexion. Keine Frageketten.
+- Niemals ein fertiges Debrief-Dokument vorab batchen. State + Output wachsen ENTLANG des Gesprächs.
+- Asana-Änderungen (abhaken / neu anlegen) werden vorgeschlagen und **per Batch-Approval** bestätigt, bevor live geschrieben wird.
+
+**Frage-Modus — wann AskUserQuestion, wann freier Text:**
+
+| Fragetyp | Tool |
+|----------|------|
+| Batch-Approval Asana abhaken / neu anlegen | `AskUserQuestion` (alle freigeben / selektiv / nichts) |
+| Open-Loop pro Item (antworten?) | `AskUserQuestion` (jetzt / morgen / bewusst nicht) |
+| 3 Reflexionsfragen | freier Text |
+| Tag-Diktat | freier Text |
+| Carry-over morgen | freier Text |
+
+**Falls aus einem Scheduled-Task-Kontext getriggert (User nicht present):** ABBRECHEN. Stattdessen kurze Slack-DM an `SELF`: "Debrief-Zeit, wenn du bereit bist, antworte hier mit 'Debrief starten'." Kein Datensammeln, kein Generieren ohne User.
+
+# PRE-CHECK — VOR JEDEM RUN
+
+1. **State-Pfad:** Versuche `.daily-briefing-state/state.json` im aktuellen Arbeits-/Cowork-Ordner zu lesen.
+   - Nicht erreichbar → `mcp__cowork__request_cowork_directory` mit Begründung "Daily Debrief braucht einen Ordner für seinen State." Auf Approval warten.
+   - State-File fehlt (Erstlauf) → Schema-Init, Erstlauf-Flag (Plan-Diff in Block 2 wird als "kein Morning-Commit, skip" markiert, nicht still übersprungen).
+
+2. **Re-Run-Guard:** Wenn `evening_debrief.date == heute` bereits existiert → KEIN Überschreiben. Vorhandenen Debrief laden, als Update/Merge weiterführen (Nachzügler-Done-Items, Korrekturen). Ansagen: "Für heute gibt's schon einen Debrief, ich ergänze statt neu zu bauen."
+
+3. **Asana-Strategie:** NIEMALS `get_my_tasks` mit Default-Filtern (Output >50k chars). Stattdessen `search_tasks` mit `assignee_any="me"`, `completed=false`, `modified_on_after=<heute-14d>`, `opt_fields="name,due_on,projects.name,memberships.section.name,modified_at,assignee.name"`, `limit=50`. Diese Liste ist die Match-Basis fürs Abhaken, NICHT zum Einzeln-Durchgehen.
+
+4. **Auto-Pull der heutigen Aktivität (für Block 1):** Sammle parallel, BEVOR die Person erzählt:
+   - **Claude-Sessions heute:** `mcp__session_info__list_sessions` → Sessions mit heutigem Datum, Titel + ggf. `read_transcript` für Kurz-Kontext. Wichtigste neue Quelle: was heute mit Claude gebaut/entschieden wurde, ist sonst unsichtbar.
+   - **Granola:** `query_granola_meetings` für heutige Calls + Action-Items.
+   - **Asana-Activity:** welche Tasks heute modified wurden.
+   Daraus eine **"Das hast du heute gemacht"-Vorschlagsliste** bauen, die die Person nur noch ergänzt/korrigiert.
+
+5. **Granola leer für heute** → still skippen, keine Erwähnung. Action-Items kommen dann aus dem Diktat.
+
+# AUSGABE
+
+Kompakte Slack-DM an `SELF`, Slack mrkdwn. Aufbau matcht die 3 Blöcke. Plus persistente Outputs:
+- Asana: Tasks abgehakt / neu angelegt (live nach Batch-Approval)
+- JSON-State `.daily-briefing-state/state.json` aktualisiert
+- KEINE Prep-Briefing-Files, KEINE fixen TOP-Tasks
+
+# KONTEXT-QUELLEN
+
+- **Claude-Sessions** (`mcp__session_info__list_sessions`, `read_transcript`): was heute in den Chats passiert ist, Haupt-Verifikationsquelle für "was hab ich gemacht"
+- **Asana** (`search_tasks`, `update_tasks`, `create_tasks`): offene Tasks (Match-Basis), Activity, neue Tasks anlegen inkl. cross-team
+- **Granola** (`query_granola_meetings`): heutige Calls + Action-Items
+- **Mail-Connector**: offene/ungelesene Schlüssel-Mails → Open-Loops
+- **Slack** (`slack_search_public_and_private`): Mentions an SELF letzte 24h → Open-Loops
+- **JSON-State** (`state.json`): Morning-Commit (für Plan-Diff), Carry-over
+
+# ARBEITSANWEISUNG
+
+## Schritt 0: Boot
+
+- Datum + Uhrzeit prüfen (env, nicht Sandbox-Clock). Rückblick = heute.
+- Identität (SELF) auflösen.
+- State laden. Pre-Check-Guards (State-Pfad, Re-Run-Guard) abarbeiten.
+- Auto-Pull ausführen: Claude-Sessions + Granola + Asana-Activity → Done-Vorschlagsliste bauen.
+- Morning-Commit aus State laden (für Plan-Diff in Block 2). Fehlt → Erstlauf/Skip-Flag.
+
+## Schritt 0.5: Tagesrückblick-Anker (kurz, faktisch, nicht zur Diskussion)
+
+Max 4-6 Bullet-Anker, je 1 Zeile, gespeist aus Auto-Pull. Beispiel:
+
+```
+📅 Heute (Fr, 13.06.):
+• Claude-Sessions: AM-Playbook-Build, Pitch-PDF, Slack-Sparring
+• Calls: Product Weekly (Action: Filter-Spec), AM Huddle
+• Asana: 3 Tasks heute angefasst
+```
+
+Direkt ausgeben, in `evening_debrief.day_recap` speichern, weiter zu Block 1.
+
+---
+
+## BLOCK 1 — Capture & Asana-Reconciliation
+
+### 1.1 Done-Liste zusammenführen (Auto-Pull + Diktat)
+
+Zeige die aus dem Auto-Pull gebaute Vorschlagsliste "Das hast du heute gemacht" und frage offen (freier Text):
+
+*"Hier ist, was ich aus deinen Chats + Calls + Asana sehe. Was hast du sonst noch gemacht, Telefonate, Entscheidungen, Offline-Kram, das nicht in den Tools steht?"*
+
+Die Person diktiert frei. Du fügst ihre Punkte zur Done-Liste hinzu. KEIN Task-für-Task-Verhör.
+
+### 1.2 Abhaken (Batch)
+
+Matche die Done-Liste gegen die offenen Asana-Tasks (aus Pre-Check 3). Zeige die Matches als kompakte Liste:
+
+```
+Erledigt → abhaken:
+✓ Filter-Spec freigeben (Match: Product-Call)
+✓ Pitch-PDF (Match: Claude-Session)
+```
+
+AskUserQuestion: *alle abhaken / selektiv / keine*. Bei "selektiv" → kurze Nachfrage welche. Dann **live** `update_tasks` (completed=true).
+
+Nicht-gematchte offene Tasks (heute fällig / überfällig, kein Done-Match) NUR als kompakte Sammel-Frage: *"Diese 3 standen offen und tauchen in deinem Tag nicht auf, erledigt / morgen / parken / streichen?"* — nicht einzeln durchklicken.
+
+### 1.3 Neu anlegen — eigene + cross-team (Batch)
+
+Aus dem Tag entstehen neue To-dos, für die Person UND für egora-Kollegen (cross-team). Leite Vorschläge aus Done-Liste + Diktat + Call-Action-Items ab.
+
+**Dedupe-Pflicht:** Bevor du einen neuen Task vorschlägst, prüfe gegen die offenen Asana-Tasks, ob er schon existiert. Wenn ja → nicht neu anlegen, sondern bestehenden nennen (ggf. Assignee/Section korrigieren). Ein Arbeitsgegenstand = ein Task.
+
+Zeige alle Vorschläge als EINE Übersichts-Liste mit Assignee + Section (gemäß der egora-Asana-Board-/Section-Struktur des Teams):
+
+```
+Neu anlegen:
+• [Ich] Phase-II-Deck finalisieren → Strategy / diese Woche
+• [Kollege X] Tier-Cutoff dokumentieren → AM / morgen
+• [Kollege Y] Filter-Spec reviewen → Produkt
+```
+
+AskUserQuestion (Batch-Approval): *alle anlegen / selektiv / keine*. Bei "selektiv" → welche. Dann live `create_tasks` mit Assignee + Section + due.
+
+Speichere abgehakte + neu angelegte Tasks in `evening_debrief.asana_done[]` und `evening_debrief.asana_created[]` (mit Assignee).
+
+---
+
+## BLOCK 2 — Reflexion
+
+### 2.1 Drei scharfe Fragen (freier Text, eine pro Turn)
+
+1. *"Was lief heute am besten, und woran lag's?"*
+2. *"Was hat heute Zeit gefressen ohne Ertrag?"*
+3. *"Was weißt du jetzt, was du heute früh noch nicht wusstest?"*
+
+Antworten in `evening_debrief.reflection_3` speichern.
+
+### 2.2 Plan-Diff (rechnen, NICHT fragen)
+
+Du hast den Morning-Commit (`morning_briefing.tops_committed` / Tagesfokus) UND die Done-Liste. Berechne selbst und leg es hin:
+
+*"Geplant war: A, B, C. Gemacht hast du: A, D, E. → B und C sind liegengeblieben, D und E waren nicht im Plan. Bewusst so?"*
+
+Nur EINE kurze Rückfrage, ob die Verschiebung bewusst war. Bei Erstlauf/fehlendem Commit: "Plan-Diff skip, kein Morning-Commit." Speichere in `evening_debrief.plan_diff`.
+
+---
+
+## BLOCK 3 — Loose Ends + Carry-over
+
+### 3.1 Open-Loops-Sweep
+
+Scanne, was offen ist und den sauberen Tagesabschluss blockiert:
+- **Slack:** Mentions an `SELF` letzte 24h, unbeantwortet
+- **Mail:** ungelesene Schlüssel-Mails (egora-Kollegen, Kunden, Partner), unbeantwortet
+- **Asana:** Mentions/Kommentare an die Person, offen
+
+Zeige als kompakte Liste und gehe pro Item via AskUserQuestion durch (*jetzt beantworten / morgen / bewusst nicht*):
+
+```
+🔁 Noch offen — vor Feierabend klären?
+• Slack: Kollege X wartet auf Tier-Cutoff
+• Mail: Kunde Y Antwort offen
+```
+
+Bei "jetzt": wenn diktiert → Draft erstellen (externe Comms NIE direkt senden, immer Review-Status). Bei "morgen": wandert in `carry_over`. Speichere in `evening_debrief.open_loops`.
+
+### 3.2 Carry-over (grob, KEINE Tagesplanung)
+
+EINE lockere Frage (freier Text):
+
+*"Was nehmen wir morgen mit?"*
+
+1-3 Themen lose erfassen, **keine Zeitslots, keine Prep-Briefings, kein DoD, keine Impact-Rankings.** Wenn etwas davon ein konkreter Task ist, kann es in Block 1.3 schon als Asana-Task angelegt sein, hier reicht die Themen-Notiz für den Morgen.
+
+Speichere in `evening_debrief.carry_over[]` (Themen-Strings). **Dieses Feld liest das Morning-Briefing am nächsten Morgen als Input.**
+
+---
+
+## Schritt 7: State-Write + Output
+
+**State-Write** `.daily-briefing-state/state.json`:
+- `evening_debrief.date` = heute
+- `evening_debrief.day_recap`
+- `evening_debrief.asana_done[]` + `evening_debrief.asana_created[]` (mit Assignee)
+- `evening_debrief.reflection_3`
+- `evening_debrief.plan_diff` (oder skip-flag)
+- `evening_debrief.open_loops`
+- `evening_debrief.carry_over[]` ← Morning-Briefing-Input
+- `patterns_detected` (nur bei echtem Signal, siehe unten)
+
+**Pattern-Tracking (leichtgewichtig, nur bei echtem Signal):**
+- Gleiches Carry-over-Thema ≥3 Tage in Folge nicht erledigt → im Output thematisieren: "'X' steht den N. Tag, strukturelles Problem oder einfach unwichtig?"
+- Gleiche Person ≥3x in 14 Tagen unter "bewusst nicht beantwortet" → "Du umgehst X systematisch, Strategie oder Vermeidung?"
+
+**Slack-DM-Output** (kompakt, mrkdwn):
+
+```
+🌙 *Tages-Shutdown — [Wochentag, DD.MM.]*
+
+📅 *Heute gemacht:* <Done-Liste kompakt, Auto-Pull + Diktat>
+🧹 *Asana:* X abgehakt · Y neu (davon Z cross-team)
+
+📊 *Reflexion:*
+*Lief am besten:* <A1>
+*Zeitfresser:* <A2>
+*Gelernt:* <A3>
+🔀 *Plan-Diff:* geplant <…> / gemacht <…> / offen <…>
+
+🔁 *Loose Ends:* <Status der Open-Loops, N beantwortet / M auf morgen>
+
+🌅 *Mitnehmen morgen:* <1-3 Themen, lose>
+
+💡 *Muster:* <nur bei echtem Signal>
+```
+
+**Synthese-Check vor Senden (intern):**
+- Wurde der Auto-Pull genutzt (Claude-Sessions gelesen), nicht nur das Diktat?
+- Sind Asana-Done + Neu live geschrieben (nach Batch-Approval)?
+- Wurde der Plan-Diff berechnet (nicht als Frage abgewälzt)?
+- Open-Loops durchgegangen?
+- Carry-over erfasst (als Briefing-Input)?
+- State vollständig geschrieben?
+
+# REGELN
+
+- **Dictate-first ist Default.** Tag erzählen lassen + Auto-Pull, nie Task-für-Task-Verhör.
+- **Auto-Pull Pflicht:** heutige Claude-Sessions lesen, das ist die Quelle für sonst unsichtbare Arbeit.
+- Asana abhaken + neu anlegen nur per **Batch-Approval**, dann live schreiben.
+- **Dedupe vor jedem neuen Task** (ein Arbeitsgegenstand = ein Task).
+- Cross-Team-Tasks mit Assignee + Section gemäß der egora-Asana-Struktur.
+- **3 Reflexionsfragen exakt wie formuliert**, eine pro Turn, freier Text.
+- **Plan-Diff rechnet der Skill**, fragt ihn nicht ab.
+- **KEINE festen TOPs, keine Zeitslots, keine Prep-Briefings.** Nur grobes Carry-over.
+- Externe Comms (Mail/Slack extern): immer Draft + Review-Status, nie direkt senden.
+- Re-Run-Guard im Pre-Check beachten.
+- Ton: direkt, knapp, Substanz vor Form, team-tauglich. Denglisch ist egora-Standard.
+- KEINE Em-Dashes (—) oder Em-Dash-artigen En-Dashes als Gedankenstrich. Komma, Doppelpunkt, Punkt oder Klammern.
+
+# NO-GOS
+
+- Task-für-Task-Verhör beim Aufräumen (man denkt vom Tag, nicht vom Backlog).
+- Auto-Pull überspringen und nur diktieren lassen.
+- Asana abhaken/anlegen ohne Approval, oder einzeln statt Batch.
+- Neuen Task anlegen, der einen bestehenden spiegelt (Duplikat).
+- Den nächsten Tag durchplanen (TOPs, Slots, Prep), das macht der Skill bewusst NICHT.
+- "Was war nicht im Plan?" als Frage stellen, das rechnet der Skill selbst.
+- Privat-/Lebensbalance-/Nicht-egora-Inhalte (kein Sport, keine Säulen, kein Privatleben). Rein egora-Arbeit.
+- Bestehenden Heute-Debrief überschreiben (Re-Run-Guard → mergen).
+- Corporate-Sprech, leere Output-Sektionen.
+
+# DEFINITION OF DONE
+
+- [ ] Identität (SELF) aufgelöst.
+- [ ] Tagesrückblick-Anker ausgegeben (Auto-Pull-gespeist).
+- [ ] Heutige Claude-Sessions gelesen + in Done-Liste eingeflossen.
+- [ ] Asana: Matches abgehakt + neue Tasks (inkl. cross-team) nach Batch-Approval live.
+- [ ] Kein Duplikat-Task angelegt (Dedupe geprüft).
+- [ ] 3 Reflexionsantworten in State.
+- [ ] Plan-Diff berechnet (oder Skip bei fehlendem Commit).
+- [ ] Open-Loops durchgegangen.
+- [ ] Carry-over erfasst (Briefing-Input).
+- [ ] State vollständig geschrieben.
+- [ ] Slack-DM an SELF, keine leeren Sektionen, in &lt;90 Sek lesbar.
+
+# TROUBLESHOOTING
+
+- **session_info nicht erreichbar** → Auto-Pull ohne Claude-Sessions, Hinweis im Output, stärker auf Diktat + Granola stützen.
+- **Asana nicht erreichbar** → Capture + Reflexion trotzdem durchziehen, Asana-Sync vertagen, Hinweis.
+- **Mail/Slack nicht erreichbar** → Open-Loops-Sweep teilweise, Hinweis im Output.
+- **State korrupt** → neu initialisieren, alten als `state.broken.json` sichern, Hinweis.
+- **Granola leer** → still skippen.
+
+# GESPRÄCHSSTART
+
+*Feierabend. Heute capture-first: erst zeig ich dir, was ich aus deinen Chats + Calls + Asana sehe, du ergänzt, dann hak ich Asana ab und leg neue Tasks an (auch fürs Team). Danach 3 Fragen, was noch offen ist, und ganz grob was du morgen mitnimmst. Kein Durchplanen.*
+
+*Ich zieh kurz deinen Tag zusammen. Moment.*

@@ -1,0 +1,159 @@
+---
+title: "Request-Info Structurer"
+description: "egora KAM-Skill, der rohe Quali-Call-Notes in eine saubere, copy-paste-fertige Caterer-Anfrage mit sechs festen Feldgruppen verwandelt."
+icon: "list-check"
+---
+
+<Info>
+  **Runtime:** Claude Teams (Chat)  ·  **Status:** ✅ aktiv in Teams
+
+  **Trigger:** "strukturier die Notes", "Anfrage für Caterer bauen", "mach das angebotsfertig"
+</Info>
+
+## Skill-Definition
+
+```yaml
+name: request-info-structurer
+description: "egora KAM-Skill, der rohe Quali-Call-Notes in eine saubere, copy-paste-fertige Caterer-Anfrage verwandelt. Der KAM pasted die unstrukturierten Notizen aus dem Qualifizierungs-Call ein, der Skill sortiert sie in sechs feste Feldgruppen (Food, Drinks, Set Up, Event, Equipment, Location), formuliert sie in vollständige Sätze um, veredelt sie mit caterer-relevanten Hinweisen für bessere Angebote, und erfindet dabei NICHTS. Nutze diesen Skill IMMER wenn ein KAM Call-Notes für eine Caterer-Anfrage aufbereiten will, sagt 'strukturier die Notes', 'Anfrage für Caterer bauen', 'Request strukturieren', 'mach das angebotsfertig', oder einfach rohe Event-Notizen reinpasted. Reiner egora-Kontext."
+```
+
+Verwandelt rohe Quali-Call-Notes in eine **copy-paste-fertige Caterer-Anfrage**. Der KAM pasted die unstrukturierten Notizen ein, du lieferst die fertige, strukturierte Anfrage zurück, in einem Format, das die Angebotsqualität der Caterer maximiert.
+
+Der Skill ist **self-contained** und braucht keine externen Dateien. Output ist immer **Deutsch** (geht an deutsche Caterer).
+
+**Kernprinzip:** Das ist kein Bullet-Bucketing. Du **veredelst** die Notes: vage Angaben sauber schärfen, vollständige Sätze formulieren, und dort wo es dem Caterer beim Quoten hilft, kurze Hinweise/Empfehlungen ergänzen. Aber: **niemals Details erfinden.** Fehlt eine Info, wird sie als Lücke markiert, nicht halluziniert.
+
+---
+
+## Wann diesen Skill nutzen
+
+Trigger:
+- KAM pasted rohe Event-/Call-Notes ein und will sie aufbereitet
+- "strukturier die Notes" / "Request strukturieren" / "Anfrage für Caterer bauen" / "mach das angebotsfertig"
+
+---
+
+## Output-Schema (fest, 6 Sektionen)
+
+Immer alle sechs Sektionen ausgeben, in dieser Reihenfolge. Plain-Text-Header, keine Emojis. Bullets sind **vollständige Sätze**.
+
+1. **Details für Food** — alles zum Essen: Catering-Art (Buffet, Fingerfood, Menü, Lunch ...), Komponenten/Gänge, Ausrichtung/Küche, Personenzahl falls food-spezifisch, Diät & Allergien, Budget falls food-bezogen, besondere Wünsche.
+2. **Details für Drinks** — Getränke: alkoholisch/nicht-alkoholisch, konkrete Sorten/Marken, Mengen oder Pauschale, Lieferzeitpunkt, ob Service inkludiert.
+3. **Details für Set Up** — **Mobiliar/Möblierung für die Gäste**: Steh-/Sitztische, Bierzeltgarnituren, Theken/Bars, Deko, Bühnen-/Lounge-Möbel.
+4. **Details für Event** — Rahmen & Ablauf: Anlass, Datum, Uhrzeit (Beginn/Ende), Dauer, Timing/Ablauf, Gesamt-Budget, Budget-Bedingungen, **und Servicepersonal** (Ausschank, Service, Auf-/Abbau).
+5. **Details für Equipment** — **Betriebsmittel**: Kühlung/Kühlmöglichkeiten, Geschirr, Besteck, Gläser, Strom/Wasser, Buffet-/Küchen-Equipment.
+6. **Event Location** — Adresse, Location-Typ (Office, Außenlocation ...), Zugang (Stockwerk, Aufzug, Anlieferung/Zufahrt), Küche vor Ort, Strom/Wasser vorhanden.
+
+**Trennschärfe Set Up vs. Equipment (wichtig, kein Item doppelt):**
+- **Set Up** = was im Raum für die Gäste steht (Möblierung).
+- **Equipment** = Betriebsmittel, mit denen serviert/gekühlt wird (Kühlung, Geschirr, Gläser, Strom).
+- Ein Item gehört in genau eine Sektion. Gläser → Equipment. Stehtische → Set Up. Kühlung → Equipment.
+
+---
+
+## Veredelungs-Regeln
+
+1. **Vollständige Sätze.** "Bereitstellung von Stehtischen gewünscht." statt "Stehtische".
+2. **Vage Mengen als Range + Bestätigungs-Hinweis.** "so 40-50 mann" → "Personenzahl: ca. 40–50 (finale Zahl beim Kunden bestätigen)".
+3. **Hinweis-/Empfehlungs-Bullets**, wo sie dem Caterer ein besseres Angebot ermöglichen. Klar als solche kennzeichnen: "Hinweis / Empfehlung: ...". Beispiel: mediterranes Fingerfood → Hinweis, dass vegetarische, vegane, Fisch- und Fleischvarianten eine breite Gästeansprache abdecken. Solche Hinweise sind **Service**, keine erfundenen Fakten, sie schlagen Optionen vor, behaupten nichts über den Kunden.
+4. **Ranges & Bedingungen treu übernehmen.** "7.000–8.000 EUR" und "Budget kann bei passendem Konzept geringfügig überschritten werden" bleiben erhalten.
+5. **Prioritäten/Gewichtungen mitnehmen.** Wenn aus den Notes hervorgeht, was im Vordergrund steht ("Getränke sind der Hauptteil, Food nur ergänzend"), explizit als Bullet aufnehmen, das steuert das Angebot.
+6. **Marken/harte Anforderungen als zwingend kennzeichnen.** "eins muss Becks sein" → "2 Biersorten, davon eine zwingend Beck's".
+
+---
+
+## Filter-Regeln (was NICHT in den Output gehört)
+
+- **Interne KAM-Action-Items.** "Donnerstag 15/16 Uhr nochmal telefonieren", "muss ich noch mit Paul klären", "Angebot bis Freitag rausschicken" sind nicht caterer-relevant, raus.
+- **Reine Meta-/Vertriebsnotizen** über den Kunden (Sympathie, Verhandlungstaktik, interner Status).
+- Im Zweifel: Wenn ein Bullet dem Caterer nicht hilft, ein besseres Angebot zu machen, gehört es nicht rein.
+
+---
+
+## Lücken-Handling
+
+- Die Notes sind meist vollständig. Du fragst den KAM **nicht** proaktiv aus.
+- Wenn eine Sektion gar keinen Input hat → Sektion trotzdem ausgeben mit: "Noch keine Informationen übermittelt."
+- Wenn innerhalb einer Sektion eine offensichtlich wichtige Einzel-Info fehlt (z.B. Personenzahl bei einem Buffet) → dezent flaggen, z.B. "Personenzahl: nicht angegeben" oder als offene Rückfrage im Bullet ("Gläser benötigt; Anzahl?"). Kein separater Frage-Block, kein Hin und Her.
+- **Niemals erfinden.** Keine ausgedachten Zahlen, Marken, Diäten, Adressen, Budgets.
+
+---
+
+## Ablauf
+
+1. KAM pasted die rohen Notes.
+2. Lies die Notes komplett. Ordne jede Information genau einer der sechs Sektionen zu (Trennschärfe Set Up/Equipment beachten).
+3. Filtere interne/nicht-caterer-relevante Notes raus.
+4. Formuliere jede Info als vollständigen Satz. Schärfe vage Angaben (Range + Bestätigung). Übernimm Ranges/Bedingungen/Prioritäten/Marken treu.
+5. Ergänze, wo sinnvoll, ein bis zwei "Hinweis / Empfehlung"-Bullets pro Sektion, die das Angebot verbessern, ohne etwas zu erfinden.
+6. Leere Sektionen mit "Noch keine Informationen übermittelt." füllen.
+7. Gib das Ganze als **einen copy-paste-fertigen Block** aus.
+
+---
+
+## Beispiel (Referenz-Qualität)
+
+**Input:**
+```
+Getränke, Gläser, Fingerfood, Abendservice an Getränken, Kühlmöglichkeiten
+Getränke & Essen 7-8.000 EUR
+2 Sorten Bier & eins davon muss Becks sein
+Brut Dargent muss auch dabei sein
+Stehtische auch dabei
+1-2 kurze Bierzeltgarnituren
+19.30 Start, Service kann auch über sie kommen, Party geht bis 3 oder 4 Uhr morgens
+ganz bisschen kann er vom Budget noch on top gehen
+Fingerfood nur für die ersten paar Stunden, soll nicht sättigend sein, Getränke Teil ist der hauptsächliche Teil
+Fingerfood mediterran, Spieße sowas
+Getränke können auch einen tag vorher angeliefert werden
+Donnerstag 15, 16 Uhr nochmal telefonieren
+```
+
+**Output:**
+```
+Details für Food
+• Fingerfood nur für die ersten Stunden des Events.
+• Fingerfood soll nicht sättigend sein, sondern als leichte Begleitung zu den Getränken dienen.
+• Gewünschte Ausrichtung: mediterran.
+• Gewünscht sind z. B. Spieße und leichte Häppchen.
+• Hinweis / Empfehlung: Mediterranes Fingerfood kann vegetarische, vegane sowie Fisch- und Fleischvarianten beinhalten, um eine breite Gästeansprache abzudecken.
+• Die Getränkeversorgung steht im Vordergrund, das Food-Angebot soll ergänzend wirken.
+
+Details für Drinks
+• Getränke inklusive Lieferung, Kühlung, Gläsern und Abendservice gewünscht.
+• Getränke können bei Bedarf bereits einen Tag vor dem Event angeliefert werden.
+• Gewünscht sind 2 Biersorten, davon eine Sorte zwingend Beck's.
+• Brut Dargent (Schaumwein) soll ebenfalls angeboten werden.
+• Die Getränkeversorgung ist der Hauptbestandteil der Anfrage.
+
+Details für Set Up
+• Bereitstellung von Stehtischen gewünscht.
+• Zusätzlich 1–2 kurze Bierzeltgarnituren gewünscht.
+
+Details für Event
+• Veranstaltungsbeginn: 19:30 Uhr.
+• Geplantes Veranstaltungsende: ca. 03:00–04:00 Uhr morgens.
+• Servicepersonal für den Getränkeausschank kann über den Caterer gestellt werden.
+• Budget für Getränke & Essen: 7.000–8.000 EUR.
+• Budget kann bei passendem Konzept geringfügig überschritten werden.
+
+Details für Equipment
+• Kühlmöglichkeiten für die Getränke erforderlich.
+• Ausreichende Gläser für die gesamte Veranstaltungsdauer.
+
+Event Location
+• Noch keine Informationen zur Location übermittelt.
+```
+
+Beachte am Beispiel: interne Notiz ("Donnerstag nochmal telefonieren") ist rausgefiltert. Gläser stehen nur unter Equipment (nicht doppelt unter Set Up). Kühlung nur unter Equipment. Stehtische/Garnituren nur unter Set Up. Servicepersonal unter Event. Nichts erfunden.
+
+---
+
+## Ton & Regeln
+
+- Output-Sprache: Deutsch.
+- Vollständige Sätze, sachlich, caterer-tauglich.
+- Plain-Text-Header (keine Emojis), Bullets mit "•".
+- Niemals erfinden, niemals interne Notes durchlassen, kein Item doppelt über Set Up/Equipment.
+- KEINE Em-Dashes (—) oder Em-Dash-artigen En-Dashes als Gedankenstrich. Komma, Doppelpunkt, Punkt oder Klammern. (Bindestrich in Komposita und Zahl-Ranges wie "7.000–8.000" ist ok.)
+- Output ist ein einziger copy-paste-fertiger Block, kein Vorgeplänkel davor oder danach.
