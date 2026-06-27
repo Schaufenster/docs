@@ -51,7 +51,9 @@
             "groups": [
               {
                 "group": "Überblick",
-                "pages": ["rev-ops/overview"]
+                "pages": [
+                  "rev-ops/overview"
+                ]
               },
               {
                 "group": "Prozesse",
@@ -65,7 +67,9 @@
               },
               {
                 "group": "Datenmodell",
-                "pages": ["rev-ops/attribute-master-schema"]
+                "pages": [
+                  "rev-ops/attribute-master-schema"
+                ]
               }
             ]
           },
@@ -96,7 +100,9 @@
             "groups": [
               {
                 "group": "Überblick",
-                "pages": ["backend/overview"]
+                "pages": [
+                  "backend/overview"
+                ]
               },
               {
                 "group": "Menü-Bereiche",
@@ -109,7 +115,9 @@
               },
               {
                 "group": "Werkzeuge",
-                "pages": ["backend/tools"]
+                "pages": [
+                  "backend/tools"
+                ]
               }
             ]
           },
@@ -118,15 +126,22 @@
             "groups": [
               {
                 "group": "Erste Schritte",
-                "pages": ["it/overview"]
+                "pages": [
+                  "it/overview"
+                ]
               },
               {
                 "group": "Anleitungen",
-                "pages": ["it/mcp-setup", "it/kpi-catalog"]
+                "pages": [
+                  "it/mcp-setup",
+                  "it/kpi-catalog"
+                ]
               },
               {
                 "group": "Release-Kommunikation",
-                "pages": ["it/feature-changelog"]
+                "pages": [
+                  "it/feature-changelog"
+                ]
               }
             ]
           },
@@ -135,7 +150,9 @@
             "groups": [
               {
                 "group": "Überblick",
-                "pages": ["skills/overview"]
+                "pages": [
+                  "skills/overview"
+                ]
               },
               {
                 "group": "Skills (in Claude Teams)",
@@ -164,6 +181,12 @@
             "tab": "Integrationen",
             "groups": [
               {
+                "group": "Erste Schritte",
+                "pages": [
+                  "integrations/team-assistant-setup"
+                ]
+              },
+              {
                 "group": "So ist die KB verbunden",
                 "pages": [
                   "integrations/overview",
@@ -182,7 +205,10 @@
   },
   "navbar": {
     "links": [
-      { "label": "eGora", "href": "https://egora-catering.de" }
+      {
+        "label": "eGora",
+        "href": "https://egora-catering.de"
+      }
     ]
   },
   "footer": {

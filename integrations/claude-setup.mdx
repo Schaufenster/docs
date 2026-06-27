@@ -4,19 +4,25 @@ description: "Wie ein KAM Claude (Team Project, Code, Cowork) mit der Wissensdat
 icon: "robot"
 ---
 
-Der eGora KAM Assistant wird erst dann nützlich, wenn Claude die drei Live-Quellen lesen kann. Das Setup erfolgt pro Person.
+Der eGora Team Assistant wird erst dann nützlich, wenn Claude die drei Live-Quellen lesen kann. Das Setup erfolgt pro Person.
+
+<Tip>
+  Eine vollständige, geführte Einrichtung aller Connectors (inkl. HubSpot) findest Du unter
+  [Den eGora Team Assistant einrichten](/integrations/team-assistant-setup). Diese Seite ist die
+  Kurzfassung für die KB-Anbindung.
+</Tip>
 
 <Steps>
-  <Step title="Öffne das eGora KAM Assistant Project">
+  <Step title="Öffne das eGora Team Assistant Project">
     Öffne in claude.ai das geteilte Team Project. Power-User können auch Claude Code / Cowork verwenden.
   </Step>
   <Step title="Verbinde die KB (Mintlify MCP)">
     Füge einen **Custom Connector** hinzu, der auf den authentifizierten MCP-Endpoint der KB zeigt:
-    `https://docs.egora-catering.de/authed/mcp`. Melde dich bei Aufforderung als eGora-Org-Mitglied an.
+    `https://docs.egora-catering.de/mcp`. Melde dich bei Aufforderung als eGora-Org-Mitglied an.
 
     In Claude Code stattdessen:
     ```bash
-    claude mcp add --transport http egora-kb https://docs.egora-catering.de/authed/mcp
+    claude mcp add --transport http egora-kb https://docs.egora-catering.de/mcp
     ```
   </Step>
   <Step title="Verbinde Live-Daten (egora-data MCP)">
