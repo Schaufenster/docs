@@ -34,6 +34,48 @@ Jedes ausgelieferte Feature bekommt einen Changelog-Eintrag, der drei Fragen bea
 
 ## Changelog
 
+<Update label="2026-06-29" description="Multi-Date-Bestellungen: Mengen lassen sich ohne service_date-Fehler bearbeiten">
+  In Multi-Date-Bestellungen ließ sich die **Menge** einer bestehenden Positionszeile bisher nicht
+  ändern, wenn die Zeile aus Alt-Daten kein `service_date` trug — der Speichern-Versuch wurde mit
+  „Service date is required…\" abgewiesen, obwohl das Service-Datum gar nicht angefasst wurde. Die
+  Prüfung greift jetzt nur noch beim Anlegen einer neuen Zeile oder beim aktiven Leeren des
+  Service-Datums; reine Mengen-Updates auf Alt-Zeilen gehen wieder durch.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Du kannst Mengen in Multi-Date-Aufträgen wieder direkt anpassen. Wenn Du dabei feststellst,
+      dass eine Zeile gar kein Service-Datum trägt, setze es bei Gelegenheit — neue Zeilen ohne
+      Service-Datum bleiben blockiert.
+    </Card>
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-06-29" description="KAM kann den Absage-Mail-Tier pro Caterer setzen">
+  Ergänzend zum Caterer-Account-Schalter (siehe Eintrag vom 26.06.) lässt sich der Tier für die
+  automatische Absage-Mail jetzt auch im Nova-Branch-Resource pflegen — Feld **„Auto rejection
+  email\"** mit denselben drei Stufen (*For requests with an own offer* — Standard, *For all requests
+  proposed for*, *No notifications*).
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Wenn ein Caterer Dich bittet, seine Absage-Mail-Einstellung zu ändern, kannst Du das jetzt in
+      der Branch-Maske im Backend erledigen, statt ihn durch das Caterer-Account-Menü zu lotsen.
+    </Card>
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — der Schalter im Caterer-Account bleibt wie gehabt.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06-26" description="Automatische Absage-Mail an unterlegene Caterer">
   Sobald eine Catering-Anfrage einem Caterer fest zugeschlagen wird (Status **DATE_CONFIRMED**),
   bekommen unterlegene Caterer automatisch eine Absage-E-Mail — sie müssen nicht länger auf eine
