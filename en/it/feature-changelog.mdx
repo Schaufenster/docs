@@ -32,6 +32,47 @@ Every shipped feature gets a changelog entry that answers three questions:
 
 ## Changelog
 
+<Update label="2026-06-29" description="Multi-date orders: line-item quantities edit without service_date errors">
+  In multi-date orders, editing the **quantity** of an existing line was incorrectly rejected with
+  "Service date is required…" whenever that legacy line carried no `service_date`, even though the
+  service date wasn't being touched. The guard now fires only when a line is created or its
+  service_date is actively cleared; plain quantity updates on legacy lines go through again.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      You can adjust quantities in multi-date orders directly again. If you notice a line without a
+      service date, set one when you get the chance — new lines without a service date are still
+      blocked.
+    </Card>
+    <Card title="Customers" icon="user">
+      Not affected.
+    </Card>
+    <Card title="Caterers" icon="utensils">
+      Not affected.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-06-29" description="KAM can set the rejection-email tier per caterer">
+  In addition to the caterer-account toggle (see the 2026-06-26 entry in the German changelog), the
+  tier for the automatic rejection email is now editable in the Nova Branch resource — field **"Auto
+  rejection email"** with the same three levels (*For requests with an own offer* — default, *For all
+  requests proposed for*, *No notifications*).
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      When a caterer asks you to adjust their rejection-email setting, you can now do it from the
+      Branch view in the backend instead of walking them through the caterer-account menu.
+    </Card>
+    <Card title="Customers" icon="user">
+      Not affected.
+    </Card>
+    <Card title="Caterers" icon="utensils">
+      Not affected — the toggle in the caterer account still works as before.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06-25" description="OrderHub: invoice action verifies tax rates">
   The four KAM checklist actions in OrderHub (**Order Confirmation → Customer**, **Order Confirmation
   → Caterer**, **Delivery Sheet → Caterer**, **Invoice → Customer**) now behave identically to the
