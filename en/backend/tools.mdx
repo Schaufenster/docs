@@ -17,14 +17,19 @@ workflows. Some are menu items; others you open from a detail page.
 
 ## Catering creation
 
+There are currently **two paths** to pick the caterer for a request: via the **Caterer Matching Tool** (suggested matches) or via the **Catering offer tool** (manual pick, or by reusing a similar historic offer through the Historic Offer Tool).
+
 <CardGroup cols={2}>
   <Card title="Caterer Matching Tool" icon="people-arrows">
     `/caterer-matching-tool` – proposes suitable caterers for a request across several weighted layers
     and builds the menu. Includes a "Match all" mode that lists every published caterer flatly
-    (alphabetically) so you can pick directly.
+    (alphabetically) so you can pick directly. *Note: this tool is still in an early stage and is being
+    actively optimized.*
   </Card>
   <Card title="Catering offer tool (manual)" icon="pen-ruler">
-    `/catering-menu` – the manual tool to build/edit an offer menu.
+    `/catering-menu` – the manual tool to build/edit an offer menu. The caterer can be picked **manually**
+    here, or pulled in via the **Historic Offer Tool**, which searches similar past offers based on the
+    request's criteria.
   </Card>
   <Card title="AI Menu Creator" icon="wand-magic-sparkles">
     AI-assisted generation of menu proposals (draws on precomputed proposals).
