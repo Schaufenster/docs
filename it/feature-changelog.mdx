@@ -34,6 +34,59 @@ Jedes ausgelieferte Feature bekommt einen Changelog-Eintrag, der drei Fragen bea
 
 ## Changelog
 
+<Update label="2026-06-30" description="Offer / Menu-Proposal an Kunde: Kategorie- und Steuersatz-Gate vor dem Versand">
+  Beim Versand eines Angebots an die Kundschaft greifen jetzt zwei zusätzliche Prüfungen in Nova
+  (Actions **„Send bundled catering offers to customer"** und **„Send catering menu proposal based on
+  offer to customer"**):
+
+  - **Kategorien-Gate:** Hat eine Positionszeile noch keine Produktkategorie, wird der Versand mit
+    Hinweis auf die fehlenden Items abgebrochen. Über die Action **„Review item categories"** in der
+    Offer-Detailansicht lassen sich die fehlenden Kategorien nachpflegen.
+  - **Steuersatz-Gate:** Tauchen im Modal Hinweise auf abweichende Steuersätze auf (Cart 7 % / 19 %
+    gegen Kategorie- bzw. Stammdaten-Satz), muss die Checkbox **„I have checked the cart tax rates"**
+    aktiv bestätigt werden. Saubere Carts zeigen kein Modal-Element.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Bevor Du ein Angebot oder eine Menü-Vorschlags-Mail rausschickst, läuft das Kategorien-Gate
+      durch — fehlt irgendwo eine Produktkategorie, weist Nova die Action ab und nennt die
+      betroffenen Items. Öffne dann die Offer-Detailansicht und nutze **„Review item categories"**.
+      Beim Steuersatz-Hinweis im Action-Modal vor dem Versand die Cart-Sätze gegen die
+      ausgewiesenen Stammdaten-/Kategoriesätze prüfen und erst danach den Haken setzen.
+    </Card>
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-06-30" description="Menü-Editor: Lieferung und Abholung nur aus dem Standardkatalog">
+  Im Filament-Menü-Editor lassen sich Positionen mit Titeln wie **„Lieferung"**, **„Versand"**,
+  **„Abholung"** oder **„Rücktransport"** nicht mehr als freies Custom-Produkt anlegen — das Speichern
+  wird mit dem Hinweis abgebrochen, dass diese Positionen aus dem Standardproduktkatalog gewählt
+  werden müssen. Verglichen wird unabhängig von Groß-/Kleinschreibung, deutsche und englische
+  Schreibweisen werden erkannt (z. B. *delivery*, *shipping*, *pickup*, *collection*). Damit landen
+  Liefer- und Rücktransport-Gebühren immer auf demselben kanonischen Katalogeintrag.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Nicht direkt betroffen — wenn ein Caterer Rückfragen hat, weil er „Lieferung" nicht mehr frei
+      anlegen kann: er muss den Eintrag aus dem Standardproduktkatalog auswählen.
+    </Card>
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+    <Card title="Caterer" icon="utensils">
+      Wenn Du im Menü-Editor eine Liefer- oder Rücktransport-Position brauchst, lege sie ab sofort
+      aus dem **Standardproduktkatalog** an (Suchbegriff „Lieferung" bzw. „Abholung"). Eine eigene
+      Custom-Position mit diesem Titel wird abgelehnt.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06-29" description="Multi-Date-Bestellungen: Mengen lassen sich ohne service_date-Fehler bearbeiten">
   In Multi-Date-Bestellungen ließ sich die **Menge** einer bestehenden Positionszeile bisher nicht
   ändern, wenn die Zeile aus Alt-Daten kein `service_date` trug — der Speichern-Versuch wurde mit
