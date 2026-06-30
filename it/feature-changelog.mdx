@@ -7,6 +7,42 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-06-30" description="Cart: „Add to catalog“ direkt aus der Positionszeile">
+  In Nova-Cart-Views (OrderProductsCard und OfferProductsCard) gibt es neben dem Status jeder Positionszeile jetzt einen Hinweis, ob das zugrundeliegende Produkt **„Available in catalog"** ist oder **„This offer only"**. Im Edit-Modus erscheint bei _Offer-only_-Produkten zusätzlich ein grüner Button **„Add to catalog"** — ein Klick entfernt das _offer\_only_-Flag und setzt den Produktstatus auf _Available_, sodass der Caterer das Produkt im Standardkatalog wiederverwenden kann. Packages haben kein offer\_only-Feld und sind nicht betroffen. Die Aktion ist Admin-only.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Wenn Du in einer Offer- oder Order-Detailansicht eine Position siehst, die als **„This offer only"** markiert ist und im Caterer-Katalog landen soll: Edit-Modus an, **„Add to catalog"** klicken — das Produkt wird sofort in den Standardkatalog des Caterers übernommen. Keine Umwege mehr über die Produkt-Detailansicht.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht direkt betroffen — KAM kann jetzt aus dem Cart heraus Custom-Produkte in Deinen Standardkatalog überführen. Ein vorher als „nur für dieses Angebot" angelegtes Produkt steht danach in Deinen Katalogen für künftige Anfragen zur Verfügung.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-06-30" description="Cart-Positionen: Hinweis-Feld klar als kundenseitig gekennzeichnet">
+  Das Notiz-Feld einer Positionszeile (Offer Content, Order Content sowie die Nova-Bulk-Action **„Edit Multiple Offer Variants"**) heißt jetzt einheitlich **„Note (visible to customer)"** / **„Hinweis (für Kunden sichtbar)"**. Der Hilfetext stellt klar, wo der Text auftaucht: im Kunden-Backend (Angebot und gebuchter Auftrag), auf dem Angebots- und Auftrags-PDF, im Menü-Vorschlags-PDF sowie auf dem Lieferschein für Caterer/Fahrer. Das Feld ist **nicht** für interne Notizen gedacht.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Behandle das Hinweis-Feld einer Positionszeile als kundensichtbar — was Du dort reinschreibst, liest die Kundschaft im Backend, auf dem PDF und auf dem Lieferschein. Für interne Notizen die dafür vorgesehenen Felder nutzen (z. B. _Logistics Notes_, _Commission comment_). Die Bulk-Action **„Edit Multiple Offer Variants"** trägt denselben Hinweis in alle ausgewählten Varianten gleichzeitig ein.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht direkt betroffen — wenn Du auf einem Angebot oder PDF einen „Hinweis" unter einer Positionszeile siehst, stammt der vom Catering-Team und ist als Information für Dich gedacht.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht direkt betroffen — der Hinweis auf dem Lieferschein ist derselbe Text, den auch die Kundschaft sieht. Keine internen Anmerkungen erwarten.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06-30" description="Offer / Menu-Proposal an Kunde: Kategorie- und Steuersatz-Gate vor dem Versand">
   Beim Versand eines Angebots an die Kundschaft greifen jetzt zwei zusätzliche Prüfungen in Nova (Actions **„Send bundled catering offers to customer"** und **„Send catering menu proposal based on offer to customer"**):
 

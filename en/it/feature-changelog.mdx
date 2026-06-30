@@ -32,6 +32,57 @@ Every shipped feature gets a changelog entry that answers three questions:
 
 ## Changelog
 
+<Update label="2026-06-30" description="Cart: ‘Add to catalog’ directly from the line item">
+  Nova cart views (OrderProductsCard and OfferProductsCard) now show a status pill on every line
+  item: **'Available in catalog'** or **'This offer only'**. For _offer-only_ products in edit mode,
+  a green **'Add to catalog'** button appears next to the pill — one click clears the _offer\_only_
+  flag and sets the product status to _Available_, so the caterer can reuse the product from their
+  standard catalog. Packages have no offer\_only field and are unaffected. The action is admin-only.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      When you spot a line item marked **'This offer only'** in an offer or order detail view that
+      should live in the caterer's catalog, turn on edit mode and click **'Add to catalog'** — the
+      product is promoted into the caterer's standard catalog immediately. No more detour through
+      the product detail view.
+    </Card>
+    <Card title="Customers" icon="user">
+      Not affected.
+    </Card>
+    <Card title="Caterers" icon="utensils">
+      Not directly affected — KAM can now promote custom products into your standard catalog from
+      the cart. A product previously marked 'this offer only' becomes available in your catalogs for
+      future requests.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-06-30" description="Cart line items: note field clearly labelled as customer-facing">
+  The note field on a line item (offer content, order content, and the Nova bulk action **'Edit
+  Multiple Offer Variants'**) is now consistently labelled **'Note (visible to customer)'**. The
+  help text spells out where it surfaces: the customer backend (offer and booked order), the offer
+  and order PDF, the menu-proposal PDF, and the delivery note for the caterer/driver. The field is
+  **not** for internal notes.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Treat the line-item note field as customer-facing — whatever you type lands in the customer
+      backend, on the PDF, and on the delivery note. Use the dedicated internal fields (e.g.
+      _Logistics Notes_, _Commission comment_) for anything you don't want the customer to see. The
+      **'Edit Multiple Offer Variants'** bulk action writes the same note across every selected
+      variant.
+    </Card>
+    <Card title="Customers" icon="user">
+      Not directly affected — when you see a 'note' under a line item on an offer or PDF, it comes
+      from the catering team and is meant for you.
+    </Card>
+    <Card title="Caterers" icon="utensils">
+      Not directly affected — the note on the delivery note is the same text the customer sees.
+      Don't expect internal remarks here.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06-30" description="Offer / menu-proposal send: category and tax-rate gates before dispatch">
   Sending an offer to the customer now runs two extra checks in Nova (actions **"Send bundled
   catering offers to customer"** and **"Send catering menu proposal based on offer to customer"**):
