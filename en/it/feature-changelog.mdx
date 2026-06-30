@@ -32,6 +32,57 @@ Every shipped feature gets a changelog entry that answers three questions:
 
 ## Changelog
 
+<Update label="2026-06-30" description="Offer / menu-proposal send: category and tax-rate gates before dispatch">
+  Sending an offer to the customer now runs two extra checks in Nova (actions **"Send bundled
+  catering offers to customer"** and **"Send catering menu proposal based on offer to customer"**):
+
+  - **Category gate:** If any line item is missing a product category, the action is blocked and
+    Nova lists the affected items. Use **"Review item categories"** on the offer detail view to fix
+    them.
+  - **Tax-rate gate:** When the action modal flags tax-rate issues (cart 7 % / 19 % vs the category
+    or master rate), the **"I have checked the cart tax rates"** checkbox must be ticked before the
+    send goes through. Clean carts show no modal element.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Before sending an offer or menu-proposal email, the category gate runs — if any line item has
+      no product category, Nova rejects the action and names the items. Open the offer detail view
+      and use **"Review item categories"**. When the modal shows a tax-rate notice, compare the cart
+      rates against the listed master/category rates before ticking the checkbox.
+    </Card>
+    <Card title="Customers" icon="user">
+      Not affected.
+    </Card>
+    <Card title="Caterers" icon="utensils">
+      Not affected.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-06-30" description="Menu editor: 'Lieferung' and 'Abholung' must come from the standard catalog">
+  In the Filament menu editor, line items titled **"Lieferung"**, **"Versand"**, **"Abholung"** or
+  **"Rücktransport"** can no longer be created as free custom products — saving is blocked with a
+  notice telling you to pick the item from the standard product catalog instead. Matching is
+  case-insensitive and covers German and English spellings (e.g. *delivery*, *shipping*, *pickup*,
+  *collection*). Delivery and equipment-collection fees now always land on the same canonical
+  catalog entry.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Not directly affected — if a caterer asks why they can no longer create "Lieferung" freely,
+      tell them to select the entry from the standard product catalog.
+    </Card>
+    <Card title="Customers" icon="user">
+      Not affected.
+    </Card>
+    <Card title="Caterers" icon="utensils">
+      When you need a delivery or pickup line in the menu editor, add it from the **standard
+      product catalog** (search "Lieferung" or "Abholung"). A custom product with that title will
+      be rejected.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06-29" description="Multi-date orders: line-item quantities edit without service_date errors">
   In multi-date orders, editing the **quantity** of an existing line was incorrectly rejected with
   "Service date is required…" whenever that legacy line carried no `service_date`, even though the
