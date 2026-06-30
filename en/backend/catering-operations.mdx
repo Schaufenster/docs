@@ -43,9 +43,14 @@ Three of the menu items aren't resources but **dedicated Nova tools** (detail in
 - **Request Email Parser** (`/catering-email-parser`) – uses AI to turn incoming request emails into
   structured requests.
 - **Caterer Matching Tool** (`/caterer-matching-tool`) – proposes matching caterers for a request and
-  builds the menu; includes a "Match all" mode for manual caterer selection.
+  builds the menu; includes a "Match all" mode for manual caterer selection. *Note: this tool is still in
+  an early stage and is being actively optimized.*
 - **Catering offer tool (manual)** (`/catering-menu`) – the manual tool for creating/editing an offer
-  menu.
+  menu. The caterer can be picked manually here, or pulled in via the **Historic Offer Tool** based on
+  the request's criteria, using a similar past offer.
+
+There are therefore currently **two paths** to pick the caterer for a request: via the Caterer Matching
+Tool, or via the Catering offer tool (manual pick or Historic Offer Tool).
 
 <Tip>
   Most of the detail work on an **order** doesn't happen in the standard Nova view but in the

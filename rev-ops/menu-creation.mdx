@@ -10,12 +10,18 @@ icon: "utensils"
 
 Die Menü-Erstellung ist ein zentraler Prozessschritt zwischen Kundenanfrage und Angebot. Im Regelfall (Großteil der Anfragen) erstellt der KAM das Angebot selbst aus Caterer-Katalogen und historischen Angeboten. Bei komplexen/großen Anfragen erstellt der Caterer ein individuelles Angebot. Geschwindigkeit hier = direkte TTO-Impact = direkte CVR-Impact.
 
+### Zwei Wege zur Caterer-Auswahl
+
+1. **Caterer Matching Tool** — schlägt anhand der Anfrage-Parameter passende Caterer vor. *Hinweis: Das Tool befindet sich noch in der Anfangsphase und wird aktuell laufend optimiert.*
+2. **Catering-Angebots-Tool** — Caterer wird entweder **manuell** ausgewählt oder über das **Historic Offer Tool** anhand der Kriterien der Anfrage aus einem ähnlichen historischen Angebot übernommen.
+
 ## AI-Tool-Stack (Custom, GPT-API-basiert)
 
 | Tool | Was es tut |
 |------|-----------|
-| **Historic Offer Tool** | Findet passende historische Angebote als Vorlage |
-| **Caterer Matching Tool** | Matcht Anfrage-Parameter mit passenden Caterern (separates Tool, nicht Notion Matching Base) |
+| **Caterer Matching Tool** | Matcht Anfrage-Parameter mit passenden Caterern (separates Tool, nicht Notion Matching Base). Aktuell noch in der Anfangsphase, wird laufend optimiert. |
+| **Catering-Angebots-Tool** | Manuelle Caterer-Auswahl beim Bauen des Angebots — alternativ kann darüber das **Historic Offer Tool** angestoßen werden, um den Caterer aus einem passenden historischen Angebot zu übernehmen. |
+| **Historic Offer Tool** | Sucht anhand der Anfrage-Kriterien nach ähnlichen Angeboten aus der Vergangenheit und nutzt sie als Vorlage (inkl. Caterer-Auswahl). |
 | **PDF-to-Offer Converter** | Konvertiert Caterer-PDFs ins egora-Angebotsformat |
 | **Allergen AI** | Erkennt und taggt Allergene automatisch |
 | **Description Optimizer AI** | Verbessert Menü-Beschreibungen automatisch |
