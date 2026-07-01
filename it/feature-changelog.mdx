@@ -7,6 +7,24 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-06-30" description="Angebots- und Auftragszeilen: Beschreibung und Hinweis mehrsprachig, neue Translate-Actions">
+  Die pro Positionszeile hinterlegten Felder **Description** und **Hinweis** (bei Produktvarianten und Paketen — sowohl auf Offer- als auch auf Order-Ebene) werden jetzt genau wie Produkt- und Paketnamen mehrsprachig gespeichert (Deutsch + Englisch). KAM tippt weiterhin Deutsch; Englisch wird automatisch nachgezogen — beim Versand einer Menü-Vorschlags- oder Angebots-Mail an die Kundschaft übersetzen die Send-Jobs alle noch fehlenden Zeilen. Zusätzlich gibt es zwei neue Nova-Detail-Actions **„Translate the offer, i.e. all attached products"** (auf CateringOffer) und **„Translate the order, i.e. all attached products and line notes"** (auf Order), die die komplette Übersetzung — Produkte, Pakete und Zeilen-Overrides — als Hintergrund-Job anstoßen. Im Action-Modal wählst Du das Sprachmodell (`GPT-5.5` als Default, plus `GPT-5.4`, `GPT-5.4 mini`, `GPT-5.4 nano` als günstigere Alternativen). Läuft der Job schief, meldet sich der Slack-Channel `urgent_kam_actions`.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Wenn Du die deutsche Beschreibung oder den Hinweis einer Positionszeile im Nachhinein änderst und die Kundschaft englische Kommunikation bekommt, musst Du nicht mehr manuell die Übersetzung pflegen: entweder den Versand normal auslösen (fehlende Übersetzungen werden inline nachgezogen) oder auf der Offer-/Order-Detailseite die Action **„Translate the offer …"** bzw. **„Translate the order …"** starten. Für lange Legaltexte (z. B. Stornogarantie) lohnt sich das Vor-Übersetzen, weil die Send-Action selbst dadurch schneller durchläuft. Modell-Default `GPT-5.5` passt für den Regelfall — für Massen-Nachträge auf günstigere Varianten wechseln.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht direkt betroffen — wenn Du Deine Kommunikation auf Englisch bekommst, sind Beschreibung und Hinweis unter jeder Positionszeile jetzt zuverlässig auf Englisch übersetzt statt auf Deutsch stehen zu bleiben.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06-30" description="Cart: „Add to catalog“ direkt aus der Positionszeile">
   In Nova-Cart-Views (OrderProductsCard und OfferProductsCard) gibt es neben dem Status jeder Positionszeile jetzt einen Hinweis, ob das zugrundeliegende Produkt **„Available in catalog"** ist oder **„This offer only"**. Im Edit-Modus erscheint bei _Offer-only_-Produkten zusätzlich ein grüner Button **„Add to catalog"** — ein Klick entfernt das _offer\_only_-Flag und setzt den Produktstatus auf _Available_, sodass der Caterer das Produkt im Standardkatalog wiederverwenden kann. Packages haben kein offer\_only-Feld und sind nicht betroffen. Die Aktion ist Admin-only.
 
