@@ -32,6 +32,27 @@ Every shipped feature gets a changelog entry that answers three questions:
 
 ## Changelog
 
+<Update label="2026-07-03" description="Lieferung/Abholung: catalog-only rule now enforced everywhere; new 'Abholung' catalog item; 19 % default">
+  The "Lieferung and Abholung must come from the standard catalog" rule now applies to **every** product-creation path — not just the Filament menu editor: Filament _New Product_, Product edit (title field), Nova and Filament product resource, the _New Product_ modals in **Catering Request Detail** and **Catering Offer Detail**, the AI menu-import pipeline, and the Nova action **"Convert caterer proposal to catering offer"**. Matching is case-insensitive and recognises common title stems (_liefer_, _versand_, _delivery_, _logistik_, _anfahrt_ → **Lieferung**; _abhol_, _pickup_, _rücktransport_ → **Abholung**; combined "Lieferung & Abholung" lines count as Lieferung). In addition:
+
+  - **New catalog item "Abholung"** (caterer collecting / returning equipment after the event — Rücktransport, not customer self-pickup). Previously only "Lieferung" existed, so pickup fees always minted free custom products.
+  - **"Lieferung" default tax rate is now 19 %** (7 % remains allowed). Brings the catalog in line with the actual fee billing.
+  - **Catalog-backed products can no longer be deleted** — in Nova or Filament. Historical orders and offers reference them, and deleting one would orphan that history.
+  - **DB level:** a caterer can hold only **one** product per standard-catalog item (unique index). Existing duplicates were consolidated beforehand via `audit:delivery-pickup-products`.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      If a caterer reports that they can no longer create "Lieferung", "Abholung", "Versand" or "Rücktransport" as a standalone product: that's intended — they need to pick the entry from the **standard product catalog**. "Abholung" is newly available in the catalog, you don't need to create it. Cart tax rates for delivery can still be 7 % or 19 %; the catalog default is now 19 %.
+    </Card>
+    <Card title="Customers" icon="user">
+      Not affected.
+    </Card>
+    <Card title="Caterers" icon="utensils">
+      Delivery and return-transport lines (titles like "Lieferung", "Versand", "Abholung", "Rücktransport", "Logistikpauschale", "Anfahrtspauschale") must now be added from the **standard product catalog** **everywhere** in the backend — including single-product creation, the offer/request modal, and the AI menu import. A custom product with such a title is rejected. "Abholung" is newly available as its own catalog entry. Catalog-backed products can no longer be deleted.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06-30" description="Cart: ‘Add to catalog’ directly from the line item">
   Nova cart views (OrderProductsCard and OfferProductsCard) now show a status pill on every line
   item: **'Available in catalog'** or **'This offer only'**. For _offer-only_ products in edit mode,
