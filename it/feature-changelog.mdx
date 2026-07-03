@@ -7,6 +7,29 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-03" description="Lieferung/Abholung: Katalog-Zwang gilt überall; neuer Standardkatalog-Eintrag Abholung; 19 % Default">
+  Die Regel „Lieferung und Abholung nur aus dem Standardproduktkatalog" gilt jetzt in **jedem** Produktanlage-Pfad — nicht mehr nur im Filament-Menü-Editor: Filament _Neues Produkt_, Produkt-Bearbeiten (Titel-Feld), Nova- und Filament-Produkt-Resource, die _Neues Produkt_-Modals in **Catering Request Detail** und **Catering Offer Detail**, die AI-Menu-Import-Pipeline sowie die Nova-Action **„Convert caterer proposal to catering offer"**. Übereinstimmung ist unabhängig von Groß-/Kleinschreibung und erkennt gängige Titel-Stämme (_liefer_, _versand_, _delivery_, _logistik_, _anfahrt_ → **Lieferung**; _abhol_, _pickup_, _rücktransport_ → **Abholung**; kombinierte „Lieferung & Abholung"-Zeilen zählen als Lieferung). Zusätzlich:
+
+  - **Neuer Katalog-Eintrag „Abholung"** (Rücktransport des Equipments durch den Caterer nach der Veranstaltung — nicht Kunden-Selbstabholung). Vorher gab es nur „Lieferung"; Abhol-Gebühren erzeugten dadurch immer freie Custom-Produkte.
+  - **„Lieferung" jetzt mit 19 % Default-Steuersatz** (7 % bleibt zulässig). Angleichung an die tatsächliche Fee-Verrechnung.
+  - **Katalog-basierte Produkte lassen sich nicht mehr löschen** — weder in Nova noch in Filament. Historische Aufträge und Angebote referenzieren sie, ein Löschen würde diese Historie verwaisen lassen.
+  - **DB-Ebene:** pro Caterer kann es nur noch **ein** Produkt pro Standardkatalog-Eintrag geben (unique index). Bestehende Duplikate wurden zuvor mit `audit:delivery-pickup-products` konsolidiert.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Wenn ein Caterer meldet, dass er „Lieferung", „Abholung", „Versand" oder „Rücktransport" nicht mehr als eigenes Produkt anlegen kann: das ist gewollt — er muss den Eintrag aus dem **Standardproduktkatalog** wählen. „Abholung" ist neu im Katalog verfügbar, du musst nichts anlegen. Beim Umsatzsteuersatz für Lieferungen kannst du im Cart weiterhin 7 % oder 19 % führen; der Katalog-Default ist jetzt 19 %.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterers" icon="utensils">
+      Liefer- und Rücktransport-Positionen (Titel wie „Lieferung", „Versand", „Abholung", „Rücktransport", „Logistikpauschale", „Anfahrtspauschale") legst du ab sofort **überall** im Backend nur noch über den **Standardproduktkatalog** an — auch beim einzelnen Produkt-Anlegen, im Angebots-/Anfrage-Modal und im AI-Menü-Import. Ein Custom-Produkt mit so einem Titel wird abgelehnt. „Abholung" ist neu als eigener Katalog-Eintrag verfügbar. Katalog-basierte Produkte lassen sich nicht mehr löschen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-06-30" description="Angebots- und Auftragszeilen: Beschreibung und Hinweis mehrsprachig, neue Translate-Actions">
   Die pro Positionszeile hinterlegten Felder **Description** und **Hinweis** (bei Produktvarianten und Paketen — sowohl auf Offer- als auch auf Order-Ebene) werden jetzt genau wie Produkt- und Paketnamen mehrsprachig gespeichert (Deutsch + Englisch). KAM tippt weiterhin Deutsch; Englisch wird automatisch nachgezogen — beim Versand einer Menü-Vorschlags- oder Angebots-Mail an die Kundschaft übersetzen die Send-Jobs alle noch fehlenden Zeilen. Zusätzlich gibt es zwei neue Nova-Detail-Actions **„Translate the offer, i.e. all attached products"** (auf CateringOffer) und **„Translate the order, i.e. all attached products and line notes"** (auf Order), die die komplette Übersetzung — Produkte, Pakete und Zeilen-Overrides — als Hintergrund-Job anstoßen. Im Action-Modal wählst Du das Sprachmodell (`GPT-5.5` als Default, plus `GPT-5.4`, `GPT-5.4 mini`, `GPT-5.4 nano` als günstigere Alternativen). Läuft der Job schief, meldet sich der Slack-Channel `urgent_kam_actions`.
 
