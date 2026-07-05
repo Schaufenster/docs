@@ -7,6 +7,46 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-05" description="Event-Formate & Anlässe: Budget/Person jetzt als Min–Max-Feld (statt Freitext und „Preisniveau“)">
+  Das Per-Person-Budget auf **Event-Formaten** und **Catering-Anlässen** wird jetzt als numerisches **Min/Max in €** geführt. Bisher lagen dort ein Freitextfeld (`"15"` oder `"18-22"`) und — nur bei Event-Formaten — zusätzlich ein Preisniveau-Enum (_low / mid / high_). Das Preisniveau-Feld ist entfernt; seine Werte wurden per Backfill in Min/Max umgerechnet (_low → 15 €_, _mid → 25 €_, _high → 40 €_) und dienen dem KAM-Auswahl-/Vorschlags-Flow als saubere Zahl statt als Zeichenkette. Sichtbar wird das Feld an drei Stellen:
+
+  - **Nova** — auf `EventFormat` und `CateringOccasion` gibt es die Felder **Budget/Person Min (€)** und **Budget/Person Max (€)** (Cent-Konvertierung passiert intern). Beide Felder sind optional; nur eines gesetzt = feste Zahl.
+  - **Filament (Kunden-Backend, „Mein Konto → Events“)** — beim Anlegen/Bearbeiten eines eigenen Event-Formats gibt der Kunde Min und Max separat ein; die Kartenansicht zeigt weiterhin ein aufbereitetes Label (`18-22 €/Person`).
+  - **Neue-Anfrage-Flow (Filament)** — der Prefill beim Auswählen eines Event-Formats oder Anlasses zieht jetzt aus Min (Fallback: Max).
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Beim Pflegen eines Event-Formats oder Anlasses in Nova trägst Du das Budget ab sofort in **zwei** Feldern (**Budget/Person Min (€)** und **Max (€)**) statt in einem Freitextfeld ein. Das alte **Preisniveau** (low/mid/high) ist weg — bestehende Formate wurden automatisch auf 15 / 25 / 40 € umgeschrieben; prüfe bei Formaten, die Du aktiv nutzt, ob der Zielwert noch passt, und feintune Min/Max entsprechend. Für eine feste Zahl beide Felder gleich setzen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Wenn Du in **Mein Konto → Events** ein eigenes Event-Format anlegst oder bearbeitest, gibst Du beim Budget pro Person jetzt **Min** und **Max** getrennt an (bisher ein Freitextfeld). Für einen festen Betrag trage denselben Wert in beide Felder ein. Bestehende Formate wurden automatisch umgestellt — Du musst nichts nachpflegen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-05" description="Lead-Formular: separates „Anforderungen“-Feld entfällt — Freitext geht in „Sonstige Wünsche“">
+  Im öffentlichen Anfrage-Formular (`CateringRequestForm` und `EventDesigner`) ist das separate Freitext-Feld für **Anforderungen** (intern `requirements_info`) auf der Personal/Equipment/Location-Seite **entfernt**. Kundenkommentare zum Event wandern jetzt ausschließlich in das Freitextfeld **„Gibt es weitere Infos zu Deinem Event, die wir wissen sollten?“** auf der Satiety-/Freitext-Seite (intern `additional_info`, im KAM-Backend als **„Sonstige Wünsche“** sichtbar). Damit gibt es pro Anfrage nur noch ein Freitextfeld statt zwei parallele. Historische Anfragen behalten ihre alten Werte, bis das W3-Stage-3-Housekeeping sie in **Sonstige Wünsche** zusammenzieht.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Neue Leads bringen ihren Freitext ausschließlich in **Sonstige Wünsche** mit — das frühere Feld **Anforderungen** bleibt bei neuen Anfragen leer. Bei Altanfragen kannst Du beides noch nebeneinander sehen; verlasse Dich beim Weiterverarbeiten primär auf **Sonstige Wünsche**.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Auf dem Anfrage-Formular gibst Du zusätzliche Wünsche jetzt an genau einer Stelle an: dem Feld **„Gibt es weitere Infos zu Deinem Event, die wir wissen sollten?“**. Das frühere zweite Freitextfeld auf der Personal-/Equipment-Seite fällt weg.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-03" description="Lieferung/Abholung: Katalog-Zwang gilt überall; neuer Standardkatalog-Eintrag Abholung; 19 % Default">
   Die Regel „Lieferung und Abholung nur aus dem Standardproduktkatalog" gilt jetzt in **jedem** Produktanlage-Pfad — nicht mehr nur im Filament-Menü-Editor: Filament _Neues Produkt_, Produkt-Bearbeiten (Titel-Feld), Nova- und Filament-Produkt-Resource, die _Neues Produkt_-Modals in **Catering Request Detail** und **Catering Offer Detail**, die AI-Menu-Import-Pipeline sowie die Nova-Action **„Convert caterer proposal to catering offer"**. Übereinstimmung ist unabhängig von Groß-/Kleinschreibung und erkennt gängige Titel-Stämme (_liefer_, _versand_, _delivery_, _logistik_, _anfahrt_ → **Lieferung**; _abhol_, _pickup_, _rücktransport_ → **Abholung**; kombinierte „Lieferung & Abholung"-Zeilen zählen als Lieferung). Zusätzlich:
 
