@@ -7,6 +7,26 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-06" description="Sonstige Wünsche: gemergte Altfeld-Blöcke wieder als lesbare Bullet-Liste">
+  Beim W3-Stage-3-Housekeeping wurden die alten Freitextfelder (**Essen**, **Getränke**, **Aufbau**, **Equipment**, **Anforderungen**) als `[Altfeld – …]`-Anhang in **Sonstige Wünsche** (`additional_info`) zusammengezogen. Bei diesem ersten Merge sind die TinyMCE-Listen aus den Altfeldern zu einem unlesbaren Fließtext-Absatz kollabiert. Ein Nachlauf rekonstruiert die Anhänge jetzt aus dem archivierten Roh-HTML mit erhaltener Listenstruktur (`- ` Bullets, zwei Leerzeichen pro Ebene) und fasst byte-identische Blöcke (z. B. wenn **Essen** und **Getränke** denselben Inhalt hatten) zu einem einzigen Block zusammen.
+
+  Anfragen, deren `[Altfeld – …]`-Anhang seit dem Merge von einem KAM nachbearbeitet wurde, bleiben unverändert und werden im Report gemeldet.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Wenn Du bei Altanfragen in **Sonstige Wünsche** bisher einen unstrukturierten Textblock unter `[Altfeld – …]` gesehen hast, siehst Du dort ab jetzt eine Bullet-Liste, wie sie ursprünglich im Anfrageformular eingegeben wurde. Inhalte selbst ändern sich nicht. Hattest Du einen Altfeld-Block bereits selbst überarbeitet, bleibt Deine Version stehen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-05" description="Event-Formate & Anlässe: Budget/Person jetzt als Min–Max-Feld (statt Freitext und „Preisniveau“)">
   Das Per-Person-Budget auf **Event-Formaten** und **Catering-Anlässen** wird jetzt als numerisches **Min/Max in €** geführt. Bisher lagen dort ein Freitextfeld (`"15"` oder `"18-22"`) und — nur bei Event-Formaten — zusätzlich ein Preisniveau-Enum (_low / mid / high_). Das Preisniveau-Feld ist entfernt; seine Werte wurden per Backfill in Min/Max umgerechnet (_low → 15 €_, _mid → 25 €_, _high → 40 €_) und dienen dem KAM-Auswahl-/Vorschlags-Flow als saubere Zahl statt als Zeichenkette. Sichtbar wird das Feld an drei Stellen:
 
