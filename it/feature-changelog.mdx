@@ -7,6 +7,29 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-08" description="Anfrage-Attribute: Allergien und Präferenzen zu einem Feld „Ernährungshinweise“ zusammengeführt">
+  Die bisher zwei getrennten Freitext-Felder auf einer Catering-Anfrage — **Allergien** und **Präferenzen** — sind zu einem einzigen Feld **„Ernährungshinweise"** (`dietary_requirements`) zusammengeführt. Kundeneingaben aus dem Anfrage-Formular werden am Anfang des Feldes weiterhin als zwei feste Labels **`Allergien:`** und **`Präferenzen:`** eingesetzt; alles darunter gehört dem KAM. Die alten Spalten bleiben als eingefrorener Vor-Merge-Snapshot bestehen — ein Backfill (`audit:consolidate-dietary-freetext`) hebt die Alt-Werte in das neue Feld. Sichtbare Änderungen:
+
+  - **Nova (Catering-Anfrage-Formular)** — statt der Felder **Preferences** und **Allergies** gibt es genau ein Textarea **„Dietary requirements"** mit vorbelegten `Allergien:` / `Präferenzen:`-Blöcken. Beim Auswählen eines Event-Formats werden Küchen, Dislikes und Allergien des Formats als Startvorschlag in das Feld gezogen.
+  - **Caterer-E-Mails** (Anfrage-Zuweisung, Angebots-Anfrage inkl. Follow-up, Menü-Anfrage sowie die zugehörigen Änderungs- und Absage-Mails) zeigen jetzt eine einzige Zeile **„Ernährungshinweise:"** mit dem konsolidierten Inhalt statt zwei getrennter Zeilen.
+  - **HubSpot** — die neue Property `dietary_requirements` wird beidseitig synchronisiert (Push und Webhook). Die alten Properties `allergies` und `preferences` werden während der Übergangsphase weiter befüllt und akzeptiert; sobald sie in HubSpot archiviert sind, fallen sie weg.
+  - **MCP** — das gemergte Feld ist wie die Vorgänger als PII gekennzeichnet und in der `list-catering-requests`-Antwort **nicht** enthalten.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Im Nova-Formular einer Anfrage pflegst Du Ernährungsinfos ab sofort in **einem** Feld **„Dietary requirements"**. Die beiden ersten Zeilen `Allergien:` und `Präferenzen:` gehören den Kundeneingaben — **Labels nicht umbenennen** und nichts direkt hinter den Doppelpunkt schreiben, sonst überschreibt der nächste Kunden-Edit Deine Ergänzung. Eigene Notizen und Rückfragen darunter (freier Bereich). Beim Wechseln des Event-Formats zieht Nova Küchen, Dislikes und Allergien des Formats als Startwert; überschreibe sie, wenn sie für die konkrete Anfrage nicht passen. In der Caterer-Kommunikation taucht der Inhalt jetzt als eine Zeile **„Ernährungshinweise"** auf statt in zwei Blöcken.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht direkt betroffen — Du gibst Allergien und Präferenzen im Anfrage-Formular weiter wie gewohnt an zwei Stellen ein. Intern landen sie jetzt in einem gemeinsamen Ernährungshinweis-Feld.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      In den Anfrage- und Angebots-Mails (inklusive Änderungs- und Absage-Benachrichtigungen) siehst Du Ernährungsinfos ab sofort in einer einzigen Zeile **„Ernährungshinweise"** — Allergien und Präferenzen stehen darin als gekennzeichnete Absätze untereinander statt in zwei separaten Zeilen. Inhaltlich ändert sich nichts.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-07" description="MCP-Zugriff auch für KAM-Rolle (bislang nur Admin)">
   Der `/mcp`-Endpoint und die zugehörige `/api/admin/kpi/*`-Fläche akzeptieren jetzt neben der Spatie-Rolle **`admin`** auch die Rolle **`kam`**. Damit können KAM-Nutzer ihren Claude-Zugang selbst per OAuth aktivieren, ohne vorher Admin-Rechte zu bekommen. Die Konsolen-Aktion zum Ausstellen persönlicher Tokens heißt jetzt `mcp:issue-token` (löst `kpi:issue-token` ab) und schreibt die Ability `mcp:use` auf das Token; Tokens aus dem Vorgänger-Command (`kpi:read`) authentifizieren weiter, bis sie ablaufen.
 
