@@ -7,6 +7,71 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-08" description="Anfrage-Attribute: Allergien und Präferenzen zu einem Feld „Ernährungshinweise“ zusammengeführt">
+  Die bisher zwei getrennten Freitext-Felder auf einer Catering-Anfrage — **Allergien** und **Präferenzen** — sind zu einem einzigen Feld **„Ernährungshinweise"** (`dietary_requirements`) zusammengeführt. Kundeneingaben aus dem Anfrage-Formular werden am Anfang des Feldes weiterhin als zwei feste Labels **`Allergien:`** und **`Präferenzen:`** eingesetzt; alles darunter gehört dem KAM. Die alten Spalten bleiben als eingefrorener Vor-Merge-Snapshot bestehen — ein Backfill (`audit:consolidate-dietary-freetext`) hebt die Alt-Werte in das neue Feld. Sichtbare Änderungen:
+
+  - **Nova (Catering-Anfrage-Formular)** — statt der Felder **Preferences** und **Allergies** gibt es genau ein Textarea **„Dietary requirements"** mit vorbelegten `Allergien:` / `Präferenzen:`-Blöcken. Beim Auswählen eines Event-Formats werden Küchen, Dislikes und Allergien des Formats als Startvorschlag in das Feld gezogen.
+  - **Caterer-E-Mails** (Anfrage-Zuweisung, Angebots-Anfrage inkl. Follow-up, Menü-Anfrage sowie die zugehörigen Änderungs- und Absage-Mails) zeigen jetzt eine einzige Zeile **„Ernährungshinweise:"** mit dem konsolidierten Inhalt statt zwei getrennter Zeilen.
+  - **HubSpot** — die neue Property `dietary_requirements` wird beidseitig synchronisiert (Push und Webhook). Die alten Properties `allergies` und `preferences` werden während der Übergangsphase weiter befüllt und akzeptiert; sobald sie in HubSpot archiviert sind, fallen sie weg.
+  - **MCP** — das gemergte Feld ist wie die Vorgänger als PII gekennzeichnet und in der `list-catering-requests`-Antwort **nicht** enthalten.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Im Nova-Formular einer Anfrage pflegst Du Ernährungsinfos ab sofort in **einem** Feld **„Dietary requirements"**. Die beiden ersten Zeilen `Allergien:` und `Präferenzen:` gehören den Kundeneingaben — **Labels nicht umbenennen** und nichts direkt hinter den Doppelpunkt schreiben, sonst überschreibt der nächste Kunden-Edit Deine Ergänzung. Eigene Notizen und Rückfragen darunter (freier Bereich). Beim Wechseln des Event-Formats zieht Nova Küchen, Dislikes und Allergien des Formats als Startwert; überschreibe sie, wenn sie für die konkrete Anfrage nicht passen. In der Caterer-Kommunikation taucht der Inhalt jetzt als eine Zeile **„Ernährungshinweise"** auf statt in zwei Blöcken.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht direkt betroffen — Du gibst Allergien und Präferenzen im Anfrage-Formular weiter wie gewohnt an zwei Stellen ein. Intern landen sie jetzt in einem gemeinsamen Ernährungshinweis-Feld.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      In den Anfrage- und Angebots-Mails (inklusive Änderungs- und Absage-Benachrichtigungen) siehst Du Ernährungsinfos ab sofort in einer einzigen Zeile **„Ernährungshinweise"** — Allergien und Präferenzen stehen darin als gekennzeichnete Absätze untereinander statt in zwei separaten Zeilen. Inhaltlich ändert sich nichts.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-07" description="MCP-Zugriff auch für KAM-Rolle (bislang nur Admin)">
+  Der `/mcp`-Endpoint und die zugehörige `/api/admin/kpi/*`-Fläche akzeptieren jetzt neben der Spatie-Rolle **`admin`** auch die Rolle **`kam`**. Damit können KAM-Nutzer ihren Claude-Zugang selbst per OAuth aktivieren, ohne vorher Admin-Rechte zu bekommen. Die Konsolen-Aktion zum Ausstellen persönlicher Tokens heißt jetzt `mcp:issue-token` (löst `kpi:issue-token` ab) und schreibt die Ability `mcp:use` auf das Token; Tokens aus dem Vorgänger-Command (`kpi:read`) authentifizieren weiter, bis sie ablaufen.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Du kannst Claude jetzt selbst mit den eGora-Daten verbinden — Anleitung unter [Claude mit eGora-Daten verbinden (MCP)](/it/mcp-setup). Für den Standardweg (OAuth in Claude Web / Cowork / Teams) reicht Deine bestehende Nova-Anmeldung mit der KAM-Rolle; ein Admin-Konto ist nicht mehr Voraussetzung. Wenn Du bislang mit einem alten `kpi:read`-Token in Claude Code oder Desktop arbeitest, läuft das weiter — beim nächsten Rollover stellt Steffen ein neues `mcp:use`-Token aus.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-07" description="Kunden-Backend: „Präferenzen“-Tab in Mein Konto entfernt; Firmen-Präferenzen als Prefill-Quelle abgeschaltet">
+  Die firmenweiten Präferenzen (Spalten `companies.pref_*` mit Angebots-, Catering- und Rechnungs-Voreinstellungen) sind ersatzlos entfernt — die Auswertung zeigte 0 von 3.099 produktiven Firmen mit gepflegten Werten. Sichtbar wird das an mehreren Stellen:
+
+  - **Filament (Kunden-Backend, „Mein Konto")** — der Tab **Präferenzen** ist weg. Die dort ehemals gepflegten Werte werden nicht mehr angezeigt und nicht mehr in den Anfrage-Flow gezogen.
+  - **Filament (Neue Anfrage)** — der Prefill zieht Verpflegungs-Prozentsätze (vegetarisch / vegan / Fleisch) nur noch aus dem gewählten **Event-Format**; die Firma dient nicht mehr als Fallback.
+  - **Filament (Angebots-Detail)** — die Rechnungs-E-Mail wird nicht mehr aus der Firmen-Voreinstellung vorbelegt; verwendet wird der Order-Kontakt.
+  - **Nova** — die Panels **Offer Preferences**, **Catering Preferences** und **Billing Preferences** auf der `Company`-Resource sind entfernt; auf `CateringRequest` fällt das Panel **Angebots-Präferenzen (Kunde)** weg.
+  - **OrderHub** — die Ressource liefert `catering_preferences` nicht mehr aus.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      In Nova siehst Du auf Firmen- und Anfrage-Detailseiten keine Firmen-Präferenzen mehr — sie waren de facto ungenutzt. Prozentsätze für die Verpflegung (veggie / vegan / Fleisch) pflegst Du weiterhin am **Event-Format**; im Prefill des Neue-Anfrage-Flows zieht Filament jetzt nur noch von dort. Die Rechnungs-E-Mail einer neuen Offer kommt nicht mehr aus einer Firmen-Voreinstellung — falls Du bislang darauf gebaut hast, prüf den Order-Kontakt und trag sie ggf. manuell nach.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Der Tab **Präferenzen** in **Mein Konto** ist weg. Wenn Du firmenweite Standard-Verpflegungsanteile hinterlegen möchtest, lege sie stattdessen an einem **Event-Format** unter **Mein Konto → Events** an — von dort werden sie beim Anlegen einer neuen Anfrage übernommen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-06" description="Sonstige Wünsche: gemergte Altfeld-Blöcke wieder als lesbare Bullet-Liste">
   Beim W3-Stage-3-Housekeeping wurden die alten Freitextfelder (**Essen**, **Getränke**, **Aufbau**, **Equipment**, **Anforderungen**) als `[Altfeld – …]`-Anhang in **Sonstige Wünsche** (`additional_info`) zusammengezogen. Bei diesem ersten Merge sind die TinyMCE-Listen aus den Altfeldern zu einem unlesbaren Fließtext-Absatz kollabiert. Ein Nachlauf rekonstruiert die Anhänge jetzt aus dem archivierten Roh-HTML mit erhaltener Listenstruktur (`- ` Bullets, zwei Leerzeichen pro Ebene) und fasst byte-identische Blöcke (z. B. wenn **Essen** und **Getränke** denselben Inhalt hatten) zu einem einzigen Block zusammen.
 
