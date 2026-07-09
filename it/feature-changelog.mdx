@@ -7,6 +7,24 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-09" description="Bestellungen: Menügruppen bleiben erhalten, wenn der Caterer das Angebot annimmt">
+  Nahm ein **Caterer** ein Angebot in seinem Backend an, verlor die daraus erzeugte Bestellung die Menügruppen-Zuordnung ihrer Positionen: In der Bestellansicht (und auf gruppierten Dokumenten) landeten fast alle Produkte unter „Extras", obwohl das Angebot sauber in Buffet, Geschirr, Service usw. gruppiert war. Bei Paketen gingen auf diesem Weg zusätzlich die vom KAM angepassten Positions-Beschreibungen und Hinweise verloren. Beides ist behoben — und Bestellungen ohne gespeicherte Gruppe übernehmen die Gruppen jetzt automatisch aus dem verknüpften Angebot, wodurch auch alle **alten betroffenen Bestellungen** ohne Nacharbeit wieder korrekt angezeigt werden.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Die Gruppierung „Group by: Menu Group" in der Bestellansicht (Order Products &amp; Packages) stimmt jetzt wieder mit dem Angebot überein — auch rückwirkend. Falls Du bei einer betroffenen Bestellung Gruppen bereits manuell nachgezogen hast, bleiben Deine Werte erhalten (explizit gesetzte Gruppen haben Vorrang). Eine Datenkorrektur ist nicht nötig.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht direkt betroffen — auf Dokumenten zu betroffenen Bestellungen erscheinen Positionen wieder in den richtigen Abschnitten statt gesammelt unter „Extras".
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nimmst Du ein Angebot in Deinem Backend an, behält die Bestellung ab sofort die Menügruppen und alle Positions-Texte des Angebots. Nichts zu tun.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-09" description="Kunden-/Caterer-Backend: abgelaufene Sitzung führt zur Login-Seite statt zu einem Serverfehler">
   Wer eine Backend-Seite (Anfragen, Angebote, Menüvorschläge) länger offen ließ, bis die Sitzung abgelaufen war — oder sich in einem anderen Tab abmeldete —, bekam beim nächsten Klick auf der alten Seite einen Serverfehler. Jetzt leitet die Seite in diesem Fall sauber zur Anmeldung weiter; nach dem Login geht es normal weiter.
 
