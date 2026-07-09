@@ -7,6 +7,28 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-08" description="Anfrage-Attribute: Verpflegungs-Zahlen (vegetarisch/vegan/Fisch/Fleisch) als eigene Felder statt Tags im Type-of-catering-String">
+  Die pro-Diät-Kopfzahlen einer Catering-Anfrage — bislang als Tags im String **Type of catering** eingebettet (`vegetarisch=5,vegan=5,fleisch=10`, historisch auch `fisch=N`) — leben jetzt in vier eigenen Zahlenspalten (`dietary_headcount_vegetarian`, `_vegan`, `_fish`, `_meat`). **Type of catering** enthält damit nur noch die Typen (`fingerfood,weihnachten`); ein Backfill (`audit:extract-dietary-headcounts`) hebt die Alt-Tags in die neuen Spalten und schreibt den String types-only zurück. Sichtbare Änderungen:
+
+  - **Nova (Catering-Anfrage-Formular)** — unter **Type of catering** stehen jetzt vier separate Zahlenfelder **Vegetarian guests**, **Vegan guests**, **Fish guests** und **Meat guests**. Ein versehentlich mit­getipptes `vegetarisch=5` im String wird beim Speichern extrahiert; die Werte der Zahlenfelder haben Vorrang. Es gibt bewusst **keine** „Summe = Anzahl Gäste\"-Regel — historische Anfragen gehen häufig nicht auf.
+  - **MCP** — die `list-catering-requests`-Antwort führt `type_of_catering` (nur noch Typen) sowie zusätzlich `dietary_headcount_vegetarian`, `dietary_headcount_vegan`, `dietary_headcount_fish` und `dietary_headcount_meat` als strukturierte Zahlen. `null` heißt „nie erfasst\" und ist explizit von `0` unterschieden.
+  - **Filament (Neue Anfrage, Reorder-Wizard, Anfrage-Detail)** — Formularverhalten und Labels für Kunden bleiben unverändert. Intern werden die Zahlen jetzt in die neuen Spalten geschrieben.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      In Nova pflegst Du die Verpflegungs-Zahlen einer Anfrage nicht mehr durch Tippen von `vegetarisch=5` in **Type of catering**, sondern über die vier Zahlenfelder **Vegetarian / Vegan / Fish / Meat guests** direkt darunter. Der String **Type of catering** ist wieder nur für die Typen (`fingerfood`, `weihnachten`, `bowls` …); typt Du dort trotzdem einen `=`-Tag rein, wird er beim Speichern stillschweigend in die Zahlenfelder gehoben. Eine Plausiprüfung gegen die Gesamtzahl der Gäste gibt es bewusst nicht — Summen dürfen abweichen. Für MCP/Claude-Auswertungen stehen die Zahlen jetzt als eigene Felder zur Verfügung, statt aus dem String geparst werden zu müssen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht direkt betroffen — im Anfrage-Formular gibst Du die Anzahl vegetarischer, veganer und Fleisch/Fisch essender Gäste weiter wie gewohnt in drei Zahlenfeldern an. Intern landen sie jetzt in eigenen Spalten statt in einem gemeinsamen String.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-08" description="Anfrage-Attribute: Allergien und Präferenzen zu einem Feld „Ernährungshinweise“ zusammengeführt">
   Die bisher zwei getrennten Freitext-Felder auf einer Catering-Anfrage — **Allergien** und **Präferenzen** — sind zu einem einzigen Feld **„Ernährungshinweise"** (`dietary_requirements`) zusammengeführt. Kundeneingaben aus dem Anfrage-Formular werden am Anfang des Feldes weiterhin als zwei feste Labels **`Allergien:`** und **`Präferenzen:`** eingesetzt; alles darunter gehört dem KAM. Die alten Spalten bleiben als eingefrorener Vor-Merge-Snapshot bestehen — ein Backfill (`audit:consolidate-dietary-freetext`) hebt die Alt-Werte in das neue Feld. Sichtbare Änderungen:
 
