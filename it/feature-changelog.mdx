@@ -7,6 +7,24 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-09" description="Catering-Angebots-Tool: Komma-Preise werden korrekt gespeichert">
+  Preiseingaben mit Komma (z.&nbsp;B. `12,50`) werden im **Catering-Angebots-Tool (manuell)** jetzt korrekt gespeichert. Bisher wurde ein Komma-Preis beim Anlegen oder Bearbeiten eines Produkts stillschweigend auf volle Euro abgeschnitten — aus `12,50` wurden `12,00` €, ohne Fehlermeldung. Ungültige Eingaben (z.&nbsp;B. Buchstaben) werden jetzt mit einer klaren Meldung abgelehnt statt einen Serverfehler auszulösen.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Netto-Preise im Produkt-Formular des Angebots-Tools kannst Du jetzt mit Komma **oder** Punkt eingeben — beides landet korrekt im Katalog. Wichtig für die Vergangenheit: Komma-Preise der letzten Monate wurden abgerundet gespeichert. Wenn Dir ein Produktpreis verdächtig glatt vorkommt (volle Euro, wo Centbeträge üblich wären), prüfe und korrigiere ihn im Tool.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht direkt betroffen — falls ein von eGora gepflegter Katalogpreis fälschlich auf volle Euro lautete, kann das an diesem Fehler gelegen haben; melde ihn dem KAM zur Korrektur.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-08" description="Anfrage-Attribute: Verpflegungs-Zahlen (vegetarisch/vegan/Fisch/Fleisch) als eigene Felder statt Tags im Type-of-catering-String">
   Die pro-Diät-Kopfzahlen einer Catering-Anfrage — bislang als Tags im String **Type of catering** eingebettet (`vegetarisch=5,vegan=5,fleisch=10`, historisch auch `fisch=N`) — leben jetzt in vier eigenen Zahlenspalten (`dietary_headcount_vegetarian`, `_vegan`, `_fish`, `_meat`). **Type of catering** enthält damit nur noch die Typen (`fingerfood,weihnachten`); ein Backfill (`audit:extract-dietary-headcounts`) hebt die Alt-Tags in die neuen Spalten und schreibt den String types-only zurück. Sichtbare Änderungen:
 
