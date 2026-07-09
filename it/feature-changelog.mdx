@@ -24,6 +24,42 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     </Card>
 
     <Card title="Caterer" icon="utensils">
+      Nebenbei behoben: Die Zeile **„Besondere Wünsche"** in der Menü-Anfrage-E-Mail war wegen eines Fehlers seit Langem leer und zeigt jetzt wieder die Wünsche des Kunden.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-08" description="Caterer-Checkout: Liefer- und Abholgebühr netto erfassen">
+  Im Annahme-Dialog des Caterer-Backends werden Liefer- und Abholgebühr jetzt **netto** eingegeben — die Felder heißen entsprechend „Liefergebühr (netto, zzgl. 19 % MwSt.)" bzw. „Abholgebühr (netto, zzgl. 19 % MwSt.)". Beim Speichern rechnet das System auf brutto um; die Vorbelegung aus der Standard-Liefergebühr der Filiale wird passend netto angezeigt.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Auftrag und Rechnung enthalten weiterhin Bruttogebühren — nichts umzurechnen. Gut zu wissen bei Rückfragen: Caterer geben ihre Gebühren jetzt netto ein.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Beim Annehmen einer Anfrage die Gebühren **netto** eintragen — die 19 % MwSt. schlägt das System automatisch auf. Nicht mehr selbst auf brutto hochrechnen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-08" description="Freitexte behalten ihre Zeilenumbrüche">
+  Freitexte an der Anfrage („Sonstige Wünsche", „Ablauf des Events", „Location") werden im Kunden-Backend jetzt mit Zeilenumbrüchen angezeigt, und beim Inline-Bearbeiten bleibt die Zeilenstruktur erhalten — vorher wurde mehrzeiliger Text zu einem Block zusammengeschoben.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      In Nova gepflegte Absätze in „Ablauf des Events" / „Location" überleben es jetzt, wenn der Kunde die Felder im Backend inline bearbeitet.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Mehrzeilige Angaben erscheinen wieder mehrzeilig — keine Aktion nötig.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
   </CardGroup>

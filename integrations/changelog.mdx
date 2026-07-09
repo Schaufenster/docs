@@ -7,22 +7,35 @@ icon: "code-branch"
 Die ursprüngliche Lücke, auf die diese KB abzielt: **Features werden ausgeliefert, ohne kommuniziert zu werden** — an KAM, Kunden und
 Caterer. Die Changelog-Automatisierung schließt sie.
 
-## Funktionsweise (aktuelles Setup — Route 1)
+## Funktionsweise (aktuelles Setup — Route 2, credit-frei)
 
-Während des Tests nutzen wir die **nativen Automatisierungen** von Mintlify:
+Seit 2026-07-09 läuft der Changelog über den lokalen **`/kb-update`-Skill** in Claude Code
+(im egora-Repo unter `.claude/skills/kb-update/`) — die nativen Mintlify-Automatisierungen
+(„Aktualisierung aus Code-Änderungen" + „Changelog-Entwurf") sind abgeschaltet, weil sie
+Agent-Credits pro Push verbrauchen.
 
-<CardGroup cols={2}>
-  <Card title="Aktualisierung aus Code-Änderungen" icon="code">
-    Erzeugt Entwürfe für Inhalts-Updates, wenn sich Produkt-/Feature-/API-Quellcode ändert.
-  </Card>
-  <Card title="Changelog-Entwurf" icon="list">
-    Erzeugt regelmäßig Changelog-Entwürfe aus den jüngsten Produkt-Updates.
-  </Card>
-</CardGroup>
+<Steps>
+  <Step title="Committen wie gewohnt">
+    Feature im egora-Repo committen — optional mit `Changelog:`-Trailer (siehe unten).
+  </Step>
+  <Step title="/kb-update ausführen">
+    Claude Code liest alle Commits seit dem letzten Sync-Marker (`.kb-sync.json` in diesem
+    Repo), entwirft die Einträge direkt in
+    [Release-Kommunikation](/it/feature-changelog) und passt betroffene KB-Seiten an.
+    Übersprungene Commits werden mit Begründung gelistet.
+  </Step>
+  <Step title="Review, Push, Ankündigung">
+    Diff prüfen, nach `main` pushen — Mintlify deployt in ~1–2 Minuten kostenlos. Der Eintrag
+    erreicht damit die KAMs (Web), Claude (MCP) und den Slack-Agenten. Die von Claude
+    mitgelieferte Slack-Ankündigung postest du selbst ins Team.
+  </Step>
+</Steps>
 
-Jeder Entwurf landet als **Pull Request** in `Schaufenster/docs` und aktualisiert
-[Release-Kommunikation](/it/feature-changelog). Ein Mensch prüft und merged → der Eintrag erreicht sowohl die KAMs
-(Web) als auch Claude (MCP).
+<Note>
+  Kostenmodell: ein Push löst nur den kostenlosen Site-Rebuild aus — **keine
+  Mintlify-Agent-Credits**. Credits fallen nur noch an, wenn jemand den Slack-Agenten
+  aktiv @mentionst.
+</Note>
 
 ## Hilf nach: der `Changelog:`-Trailer
 
@@ -42,7 +55,7 @@ Jeder Eintrag sagt, **was sich geändert hat**, **wer betroffen ist** (KAM / Kun
 siehe die Beispiele unter [Release-Kommunikation](/it/feature-changelog).
 
 <Note>
-  Route 1 läuft auf den kostenpflichtigen Agent-Credits von Mintlify (während des Tests im Trial). Falls das zu einer Einschränkung wird,
-  wechseln wir auf eine credit-freie Custom-Pipeline (eine GitHub Action + ein Claude-`changelog`-Skill), die **dieselbe**
-  Changelog-Datei schreibt — sodass nachgelagert nichts angepasst werden muss.
+  Historie: Route 1 (Mintlifys native Agenten, auf Trial-Credits) lief bis 2026-07-09. Der Wechsel
+  auf Route 2 war von Anfang an als Fallback geplant — der Skill schreibt **dieselbe**
+  Changelog-Datei, nachgelagert musste nichts angepasst werden.
 </Note>
