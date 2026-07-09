@@ -7,6 +7,24 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-09" description="Kunden-/Caterer-Backend: abgelaufene Sitzung führt zur Login-Seite statt zu einem Serverfehler">
+  Wer eine Backend-Seite (Anfragen, Angebote, Menüvorschläge) länger offen ließ, bis die Sitzung abgelaufen war — oder sich in einem anderen Tab abmeldete —, bekam beim nächsten Klick auf der alten Seite einen Serverfehler. Jetzt leitet die Seite in diesem Fall sauber zur Anmeldung weiter; nach dem Login geht es normal weiter.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Nicht direkt betroffen (Nova war nie betroffen). Gut zu wissen für den Support: Meldungen wie „ich bekomme einen Fehler, wenn ich auf meine Anfrage klicke" nach längerer Inaktivität sollten damit verschwinden — die Empfehlung „Seite neu laden und neu einloggen" ist nicht mehr nötig, das passiert jetzt automatisch.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Ein lange offener Backend-Tab zeigt beim nächsten Klick die Login-Seite statt einer Fehlermeldung. Einfach neu anmelden — keine Daten gehen verloren.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Wie bei Kunden: Nach abgelaufener Sitzung führt der nächste Klick im Backend zur Anmeldung statt zu einem Fehler.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-09" description="Catering-Angebots-Tool: Komma-Preise werden korrekt gespeichert">
   Preiseingaben mit Komma (z.&nbsp;B. `12,50`) werden im **Catering-Angebots-Tool (manuell)** jetzt korrekt gespeichert. Bisher wurde ein Komma-Preis beim Anlegen oder Bearbeiten eines Produkts stillschweigend auf volle Euro abgeschnitten — aus `12,50` wurden `12,00` €, ohne Fehlermeldung. Ungültige Eingaben (z.&nbsp;B. Buchstaben) werden jetzt mit einer klaren Meldung abgelehnt statt einen Serverfehler auszulösen.
 
