@@ -7,6 +7,24 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-10" description="Catering-Anfragen: Neues Feld „Getränke benötigt“ (Ja / Nein / unbeantwortet)">
+  Ob ein Kunde Getränke braucht, war bisher nur indirekt erkennbar — über ausgewählte Getränkearten oder ein Tag im Catering-Typ. Jetzt hat jede Catering-Anfrage ein eigenes Feld mit drei Zuständen: leer (nie gefragt), Ja, Nein. Wählt der Kunde in seinem Backend Getränkearten aus, springt das Feld automatisch auf Ja. Nein wird bewusst nur manuell gesetzt — wer die Getränkefrage einfach übersprungen hat, gilt nicht als „braucht keine Getränke“.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      In Nova heißt das neue Feld „Drinks required“ und steht direkt unter „Equipment required“ (Auswahl: — / Yes / No). Setze „No“ nur nach einer expliziten Kundenantwort (z.&nbsp;B. im Quali-Call); „Yes“ setzt sich bei Getränke-Auswahl des Kunden von selbst. Das Feld synchronisiert in beide Richtungen mit dem neuen HubSpot-Deal-Property „drinks_required“ (Dropdown Ja/Nein) — Pflege in HubSpot ist gleichwertig. Auf den Anfrage-Karten erscheint die Zeile „Drinks Required“ im Abschnitt „Drink Details“. Bestandsanfragen mit Getränke-Auswahl oder Getränke-Tag wurden per Backfill auf Ja gesetzt; ältere HubSpot-Deals zeigen den Wert erst nach der nächsten regulären Synchronisation. Nebenbei behoben: Anfragen mit leerem „Type of catering“ lassen sich in Nova wieder speichern.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — die Auswahl der Getränkearten im Kunden-Backend funktioniert unverändert, und im Anfrageformular gibt es keine neue Frage.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-09" description="Bestellungen: Menügruppen bleiben erhalten, wenn der Caterer das Angebot annimmt">
   Nahm ein **Caterer** ein Angebot in seinem Backend an, verlor die daraus erzeugte Bestellung die Menügruppen-Zuordnung ihrer Positionen: In der Bestellansicht (und auf gruppierten Dokumenten) landeten fast alle Produkte unter „Extras", obwohl das Angebot sauber in Buffet, Geschirr, Service usw. gruppiert war. Bei Paketen gingen auf diesem Weg zusätzlich die vom KAM angepassten Positions-Beschreibungen und Hinweise verloren. Beides ist behoben — und Bestellungen ohne gespeicherte Gruppe übernehmen die Gruppen jetzt automatisch aus dem verknüpften Angebot, wodurch auch alle **alten betroffenen Bestellungen** ohne Nacharbeit wieder korrekt angezeigt werden.
 
