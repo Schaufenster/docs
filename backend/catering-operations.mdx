@@ -24,8 +24,14 @@ genaue Statusfluss steht im [Request-Lifecycle](/kam-handbook/request-lifecycle)
     Details unter [Anfrage → Angebot → Order](/kam-handbook/request-lifecycle). Trägt die
     [Post-Booking-Checkliste](/kam-handbook/post-booking-checklist).
   </Card>
+  <Card title="CollectiveInvoice (Sammelrechnung)" icon="file-invoice-dollar">
+    Eine Stripe-Rechnung über mehrere Bestellungen desselben Kunden (Kunde/Firma muss den Schalter
+    „Sammelrechnung (aggregated billing)" gesetzt haben — Einzelrechnungen sind dann blockiert). Erstellt
+    über die Sammelaktion in der Order-Liste; bei Zahlung springen alle enthaltenen Orders auf „Bezahlt".
+  </Card>
   <Card title="InvoiceDunningReminder" icon="bell">
-    Mahnungen zu offenen Rechnungen einer Order.
+    Mahnungen zu offenen Rechnungen einer Order. Orders in einer Sammelrechnung sind vom
+    Einzel-Mahnlauf ausgenommen.
   </Card>
   <Card title="PrecomputedMenuProposal" icon="wand-magic-sparkles">
     Vorab berechnete Menü-Vorschläge, auf die der Angebots-/Matching-Flow zurückgreift.

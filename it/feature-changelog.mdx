@@ -7,6 +7,24 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-11" description="Sammelrechnungen: eine Stripe-Rechnung über mehrere Bestellungen">
+  Für ausgewählte Kunden bzw. Firmen gibt es jetzt Sammelrechnungen: Statt einer Stripe-Rechnung pro Bestellung erstellt der KAM **eine** gesammelte Rechnung über beliebig viele Bestellungen desselben Kunden (z.&nbsp;B. am Monatsende). Die Rechnung weist jede Bestellung einzeln aus — getrennt nach 7&nbsp;% und 19&nbsp;% USt., inklusive Pfand und pro Bestellung zugeordneter Gutscheine. Wird die Sammelrechnung bezahlt, springen alle enthaltenen Bestellungen automatisch auf „Bezahlt“. Für so eingestellte Kunden sind Einzelrechnungen hart blockiert, damit niemand versehentlich doppelt abrechnet.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Aktivierung: Schalter „Sammelrechnung (aggregated billing)“ am **Kunden oder an der Firma** in Nova — ab dann sind die Einzelrechnungs-Aktionen für deren Bestellungen gesperrt. Abrechnen: In der Bestellliste die gewünschten Bestellungen anhaken und die Aktion „CUSTOMER: Create collective Stripe invoice (Sammelrechnung)“ ausführen (alle Bestellungen müssen zum selben Kunden gehören, Zahlungsart Rechnung; dieselbe Steuersatz-Prüfung wie bei Einzelrechnungen). Das Zahlungsziel kommt aus dem Billing Profile des Kunden (Standard 14 Tage). Neue Ressource „Collective Invoices (Sammelrechnungen)“ unter Catering Operations: Status-Sync, E-Mail erneut senden, Stornieren (nur Admin). Storno-Weg bei Änderungen: Sammelrechnung stornieren, dann die verbleibenden Bestellungen neu abrechnen. Die Bestellliste zeigt bei enthaltenen Bestellungen „Sammelrechnung #…“ statt „INVOICE NOT CREATED“; die Filter „Sum Mismatch“, „Status Mismatch“ und „Invoices without Stripe“ sowie der nächtliche Status-Abgleich berücksichtigen Sammelrechnungen mit.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Betroffene Kunden erhalten eine einzige Rechnungs-E-Mail mit einer Liste aller enthaltenen Bestellungen (Bestellnummer, Datum, Betrag), einem Online-Zahlungslink und dem PDF. Alle anderen Kunden: nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — Auszahlung und monatliche Gutschrift laufen unverändert.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-10" description="Catering-Anfragen: Neues Feld „Getränke benötigt“ (Ja / Nein / unbeantwortet)">
   Ob ein Kunde Getränke braucht, war bisher nur indirekt erkennbar — über ausgewählte Getränkearten oder ein Tag im Catering-Typ. Jetzt hat jede Catering-Anfrage ein eigenes Feld mit drei Zuständen: leer (nie gefragt), Ja, Nein. Wählt der Kunde in seinem Backend Getränkearten aus, springt das Feld automatisch auf Ja. Nein wird bewusst nur manuell gesetzt — wer die Getränkefrage einfach übersprungen hat, gilt nicht als „braucht keine Getränke“.
 
