@@ -7,6 +7,24 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-13" description="KPI-Dashboard: Filter greifen jetzt auch bei der transaktionsbasierten GMV-Kennzahl">
+  Auf der Nova-Seite „Catering KPIs" (Sektion „General KPIs") hat die Karte **„Total GMV (transaction-based)"** bisher nur den Zeitraum beachtet — alle anderen Filter der Sektion wurden stillschweigend ignoriert. Jetzt greifen dieselben Filter wie bei den beiden anderen GMV-Karten: Lead Source, Neu-/Bestandskunde, Stadt, KAM, B2B, Budget und Formular-Variante. Ohne gesetzte Filter bleibt der Wert exakt wie bisher.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Filter in der Sektion „General KPIs" setzen wie gewohnt — die Karte zeigt aktive Filter jetzt als Badges unter „Applied Filters" und rechnet nur die passenden Bestellungen ein. Wichtig fürs Interpretieren: Bei anfragebezogenen Filtern (Lead Source, KAM, Formular-Variante, Stadt) fallen Bestellungen ohne verknüpfte Anfrage aus der Zahl heraus; ungefiltert zählen sie weiterhin mit. Auch der eGora-Datenzugang in Claude (get_catering_kpi) wendet diese Filter jetzt an, statt sie als „ignoriert" zu melden.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-13" description="Anfragen: Anlass und Formate als strukturierte Felder">
   Jede Catering-Anfrage hat jetzt zwei strukturierte Felder statt loser Text-Tags: **einen Anlass** (genau einer aus 16 Werten, z.&nbsp;B. Business Lunch, Weihnachtsfeier, Hochzeit — neu dabei: „Sonstiges Firmenevent") und **beliebig viele Formate** aus der vereinheitlichten 9er-Liste (Fingerfood, Warmes Buffet, Kaltes Buffet, Flying Buffet, Menü/Mehrgängig serviert, Einzelportionen — Boxen &amp; Bowls, Live Cooking, BBQ, Food Truck). Bei neuen Anfragen werden beide automatisch aus dem Anfrageformular abgeleitet — z.&nbsp;B. Kachel „Sommerfest / Weihnachtsfeier" + Event-Datum Nov–Jan ergibt Weihnachtsfeier, Haken „Buffet" ergibt Warmes Buffet. Bestandsanfragen wurden konservativ per Backfill befüllt; was nicht eindeutig war, bleibt bewusst leer.
 
