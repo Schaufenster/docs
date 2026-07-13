@@ -7,6 +7,42 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-13" description="Anfragen: Anlass und Formate als strukturierte Felder">
+  Jede Catering-Anfrage hat jetzt zwei strukturierte Felder statt loser Text-Tags: **einen Anlass** (genau einer aus 16 Werten, z.&nbsp;B. Business Lunch, Weihnachtsfeier, Hochzeit — neu dabei: „Sonstiges Firmenevent") und **beliebig viele Formate** aus der vereinheitlichten 9er-Liste (Fingerfood, Warmes Buffet, Kaltes Buffet, Flying Buffet, Menü/Mehrgängig serviert, Einzelportionen — Boxen &amp; Bowls, Live Cooking, BBQ, Food Truck). Bei neuen Anfragen werden beide automatisch aus dem Anfrageformular abgeleitet — z.&nbsp;B. Kachel „Sommerfest / Weihnachtsfeier" + Event-Datum Nov–Jan ergibt Weihnachtsfeier, Haken „Buffet" ergibt Warmes Buffet. Bestandsanfragen wurden konservativ per Backfill befüllt; was nicht eindeutig war, bleibt bewusst leer.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      An der Anfrage in Nova: neues Suchfeld „Occasion" (neben „Type of catering") und das Panel „Formats". Im Caterer-Matching-Tool sind die Anlass- und Format-Chips (Reiter „L2: Tags") beim Auswählen einer Anfrage bereits mit den gespeicherten Werten vorbelegt. Im Backend-Anfrageformular nutzt das Anlass-Dropdown jetzt dieselbe 16er-Liste und speichert die Auswahl auf der Anfrage; Standardwerte je Anlass (Personenzahl, Budget) pflegst Du in Nova unter „Occasions (Anlass)" — sie füllen das Formular nach Rückfrage vor. Wichtig: HubSpot bekommt die neuen Felder bewusst noch nicht (folgt zusammen mit der Ablösung von „Type of catering"); der bisherige Catering-Typ-Text bleibt unverändert bestehen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — im Anfrageformular gibt es keine neuen Fragen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-13" description="Pakete: eine Format-Liste für Caterer und Pakete, Add-on-Pakete, Kategorie-Auswahl entfernt">
+  Die Paket-„Stile" und die Caterer-Formate waren zwei getrennte Listen mit fast gleichem Inhalt — jetzt gibt es **eine** Format-Liste (die 9 Werte von oben) für beides; bestehende Stil-Zuordnungen wurden automatisch übernommen. Frühstück und Brunch sind als Formate ausgemustert (Tageszeiten, keine Servierformen). Die alte Paket-Kategorie ist aus dem Caterer-Backend verschwunden — Anlass + Format ersetzen sie. Neu ist das **Add-on-Kennzeichen** für Pakete, die kein eigenes Catering-Format sind (z.&nbsp;B. reine Getränke-Pakete): solche Pakete sind von der Pflicht „mindestens 1 Anlass + 1 Format" ausgenommen.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Nova: Paket-Ressource mit Spalten/Filtern „Occasions" und „Formats" plus „Add-on"-Haken; „Format Types" (unter Food &amp; Dietary) zeigt die Liste inkl. Aktiv-Status; „Package Styles" ist aus dem Menü entfernt (Altdaten bleiben erhalten). Nach dem Deploy setzt ein Auto-Tagger Paket-Anlässe aus den alten Freitext-Tags; übrig bleibt eine Kurationsliste: Pakete ohne Anlass, die Caterer-Format-Durchsicht (welche Warmes-Buffet-Caterer bekommen zusätzlich Kaltes Buffet? Wer ist Live-Cooking-/Food-Truck-Kandidat?) und Add-on-Kandidaten (Getränke-Pakete) — bitte einplanen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — auf Dokumenten ändert sich nichts; Gruppen-Überschriften nutzen jetzt bevorzugt das Format.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Unter „Pakete" wählst Du beim Anlegen/Bearbeiten weiterhin Anlässe, aber neu „Format" aus der 9er-Liste (statt der Stil-Liste) — und der Kategorie-Schritt ist weg. Neu: Schalter „Add-on-Paket (z.&nbsp;B. reines Getränke-Paket)", der die Anlass-/Format-Pflicht aufhebt. Die Paketliste zeigt die Spalte „Anlass &amp; Format", einen Add-on-Filter und ein Add-on-Kennzeichen. Speicher-Fehler (z.&nbsp;B. fehlendes Format) erscheinen jetzt als deutliche Meldung oben rechts.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-11" description="Sammelrechnungen: eine Stripe-Rechnung über mehrere Bestellungen">
   Für ausgewählte Kunden bzw. Firmen gibt es jetzt Sammelrechnungen: Statt einer Stripe-Rechnung pro Bestellung erstellt der KAM **eine** gesammelte Rechnung über beliebig viele Bestellungen desselben Kunden (z.&nbsp;B. am Monatsende). Die Rechnung weist jede Bestellung einzeln aus — getrennt nach 7&nbsp;% und 19&nbsp;% USt., inklusive Pfand und pro Bestellung zugeordneter Gutscheine. Wird die Sammelrechnung bezahlt, springen alle enthaltenen Bestellungen automatisch auf „Bezahlt“. Für so eingestellte Kunden sind Einzelrechnungen hart blockiert, damit niemand versehentlich doppelt abrechnet.
 
