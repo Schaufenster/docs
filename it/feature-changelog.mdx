@@ -7,6 +7,24 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-13" description="Caterer-Matching-Tool: parallele Tabs, Sticky-Kopfzeile, lesbare Beschreibungen">
+  Das Caterer-Matching-Tool merkt sich jetzt Anfrage, Caterer und Schritt in der URL — ein Reload wirft Dich nicht mehr auf Schritt 1 zurück, und über „Auswählen" lassen sich mehrere Menü-Erstellungen parallel in eigenen Tabs öffnen. In der Menü-Erstellung bleibt oben eine feste Kopfzeile mit Anfragenummer, Kunde und Firma sichtbar, auch beim Scrollen durch die Produktliste. Produktbeschreibungen (Produktliste, Warenkorb, Add-ons) erscheinen als sauberer Text mit Zeilenumbrüchen und Aufzählungspunkten statt zusammengequetschtem Fließtext.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      „Auswählen" ist jetzt ein echter Link: Cmd-/Strg-Klick oder mittlere Maustaste öffnet die Menü-Erstellung für diesen Caterer in einem neuen Tab — der Knopf steht neu auch an den Alternativen unterhalb der Top-Treffer. Doppelklick auf eine Caterer-Karte springt direkt zum nächsten Schritt. Beschreibungen klappst Du über den neuen „Info"-Knopf am Produkt auf. Nach „Angebot erstellen" landest Du auf der Detailseite der Anfrage statt in der allgemeinen Angebotsliste.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-13" description="Formelle (Sie) E-Mails: Grußformel mit vollem KAM-Namen + Vorschau-Fix">
   Bei Kunden mit formeller Anrede (Sie) endet die Angebots-E-Mail jetzt mit dem **vollen Namen** des Absenders („Mit freundlichen Grüßen, Rebecca Indlekofer") statt nur des Vornamens — passend zur förmlichen Begrüßung. Dafür gibt es den neuen Platzhalter `{{kam_name}}` (voller KAM-Name); die formellen Standard-Textbausteine nutzen ihn bereits. Außerdem behoben: Die Live-Vorschau im Versand-Dialog brach mit „Preview failed: HTTP 422" ab, sobald als Sprache „German (formal/Sie)" erzwungen wurde.
 
