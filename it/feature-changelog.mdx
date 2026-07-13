@@ -7,6 +7,24 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-13" description="Formelle (Sie) E-Mails: Grußformel mit vollem KAM-Namen + Vorschau-Fix">
+  Bei Kunden mit formeller Anrede (Sie) endet die Angebots-E-Mail jetzt mit dem **vollen Namen** des Absenders („Mit freundlichen Grüßen, Rebecca Indlekofer") statt nur des Vornamens — passend zur förmlichen Begrüßung. Dafür gibt es den neuen Platzhalter `{{kam_name}}` (voller KAM-Name); die formellen Standard-Textbausteine nutzen ihn bereits. Außerdem behoben: Die Live-Vorschau im Versand-Dialog brach mit „Preview failed: HTTP 422" ab, sobald als Sprache „German (formal/Sie)" erzwungen wurde.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Im Versand-Dialog (Einzelangebot und gebündelte Angebote) gibt es den neuen Chip `{{kam_name}}` — nutzbar auch in eigenen Textbausteinen unter Nova → Textbausteine; Du-Vorlagen behalten `{{kam_firstname}}`. Die Vorschau funktioniert jetzt auch mit erzwungener Sie-Form. Wichtig: Die Begrüßung („Guten Tag Vorname Nachname") folgt weiterhin der Anrede-Einstellung des Kunden, nicht der erzwungenen Sprache — für dauerhaft förmliche Kunden also die Anrede am Kunden bzw. an der Anfrage auf „formell" setzen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Formell (Sie) angeschriebene Kunden sehen am E-Mail-Ende jetzt Vor- und Nachnamen ihres Ansprechpartners. Kein Handlungsbedarf.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-13" description="KPI-Dashboard: Filter greifen jetzt auch bei der transaktionsbasierten GMV-Kennzahl">
   Auf der Nova-Seite „Catering KPIs" (Sektion „General KPIs") hat die Karte **„Total GMV (transaction-based)"** bisher nur den Zeitraum beachtet — alle anderen Filter der Sektion wurden stillschweigend ignoriert. Jetzt greifen dieselben Filter wie bei den beiden anderen GMV-Karten: Lead Source, Neu-/Bestandskunde, Stadt, KAM, B2B, Budget und Formular-Variante. Ohne gesetzte Filter bleibt der Wert exakt wie bisher.
 
