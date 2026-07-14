@@ -7,6 +7,60 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-14" description="Anlass + Formate ersetzen die alte „Art des Caterings“">
+  Anfragen werden ab jetzt strukturiert über **Anlass** (z.&nbsp;B. Sommerfest, Weihnachtsfeier) und **Formate** (z.&nbsp;B. Buffet, Fingerfood, Flying Buffet) beschrieben — der alte Freitext „Art des Caterings" wird nicht mehr geschrieben. Alle Wege, auf denen Anfragen entstehen oder bearbeitet werden (Lead-Formular, Backend-Anlage, Kunden-Selbstbearbeitung, Nachbestellung), pflegen direkt die strukturierten Felder. Bei Alt-Anfragen wird der alte Text weiterhin angezeigt, solange er vorhanden ist.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Beim Anlegen einer Anfrage im Backend und in der Bearbeitung der Anfrage-Detailseite heißt das Feld jetzt „Format" und bietet die 9 strukturierten Formate als Checkboxen (die alten Mahlzeiten-Häkchen wie Frühstück/Lunch/Dinner stecken jetzt im Anlass). Anfrage-Karten, Nova und die Detailseite zeigen Anlass + Formate. In HubSpot gibt es zwei neue Deal-Eigenschaften „occasion_type" und „format_types" — beide synchronisieren in beide Richtungen, Du kannst sie also auch in HubSpot pflegen. Die alte Freitext-Eigenschaft läuft übergangsweise weiter.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Im Kunden-Backend zeigt die Anfrage jetzt Anlass + Formate statt der alten Textliste. Kein Handlungsbedarf.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Anfrage- und Angebots-E-Mails an Caterer enthalten jetzt eine eigene „Anlass"-Zeile; die Zeile mit Formaten und Sonderwünschen bleibt. Kein Handlungsbedarf.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-14" description="„Ohne Allergen-Prüfung senden“ überspringt jetzt auch das Auto-Tagging">
+  Die Checkbox „Ohne Allergen-Prüfung senden" beim Menüversand übersprang bisher nur die Fehlerprüfung — das AI-Allergen-Tagging lief trotzdem und konnte den Versand ausbremsen. Jetzt werden Tagging und Prüfung komplett übersprungen, sowohl beim Einzel- als auch beim Bündel-Versand. Außerdem bricht der Versand nicht mehr ab, wenn die automatische Übersetzung der Menütexte fehlschlägt oder zu lange dauert: Das Angebot geht dann mit den deutschen Texten raus statt gar nicht.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Mit gesetztem Haken „Ohne Allergen-Prüfung senden" werden keine Allergene mehr automatisch getaggt — nutze ihn nur, wenn Allergene für das Angebot keine Rolle spielen oder schon gepflegt sind. Schlägt die Übersetzung beim Versand fehl, siehst Du keinen Fehler mehr; englischsprachige Kunden erhalten dann deutsche Beschreibungstexte — bei Bedarf Übersetzung nachziehen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Im seltenen Fall eines Übersetzungsfehlers erhalten englischsprachige Kunden deutsche Menütexte statt gar keines Angebots. Kein Handlungsbedarf.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-14" description="HubSpot: Deal-Firma übersteht Firmen-Zusammenführungen">
+  Wurden zwei Firmen in HubSpot zusammengeführt, konnte der nächste Anfrage-Sync die Firmen-Verknüpfung des Deals fälschlich entfernen, weil eGora noch die alte (aufgelöste) Firmen-ID kannte. Der Sync erkennt die Zusammenführung jetzt, merkt sich die überlebende Firma und lässt die Verknüpfung stehen. Ist eine Firma in HubSpot gar nicht auffindbar (gelöscht oder API-Störung), fasst der Sync die Verknüpfungen gar nicht mehr an, statt sie auf Verdacht zu entfernen.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Du kannst Firmen in HubSpot bedenkenlos zusammenführen — die Deals der betroffenen Anfragen behalten ihre Firma. Kein Handlungsbedarf.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-14" description="Sammelrechnungen: verschiedene Besteller derselben Firma kombinierbar">
   Eine Sammelrechnung kann jetzt Bestellungen **verschiedener Personen** enthalten, solange alle zur selben Firma gehören — z.&nbsp;B. wenn mehrere Mitarbeitende buchen und die Firma eine gemeinsame Monatsrechnung bekommen soll. Ohne hinterlegte Firma gilt weiterhin: alle Bestellungen müssen vom selben Kunden stammen.
 
