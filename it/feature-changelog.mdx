@@ -7,6 +7,24 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-14" description="Sammelrechnungen: Entwurf-Schritt + Gerichte auf der Rechnung">
+  Sammelrechnungen lassen sich jetzt zweistufig erstellen — wie Einzelrechnungen: erst als **Stripe-Entwurf** (es wird nichts finalisiert und keine E-Mail versendet), dann nach Prüfung finalisieren und an den Kunden senden. Der Entwurf kann vor dem Versand direkt in Stripe angepasst werden; die Anpassungen bleiben beim Finalisieren erhalten. Außerdem listet jede Rechnungsposition jetzt die enthaltenen Gerichte mit Stückzahl auf (z.&nbsp;B. „Bestellung E5e1 – 24.07.2026 – 7&nbsp;% USt.: 2× Quiche, 10× Brownie") — Kunden sehen damit wieder, was hinter den Summen steckt.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      In der Bestellliste gibt es jetzt zwei Sammelaktionen: „CUSTOMER: Create collective Stripe invoice (as DRAFT)" erstellt nur den Entwurf; die bisherige Ein-Schritt-Aktion heißt jetzt „… and send (Sammelrechnung)" und verhält sich unverändert. Einen Entwurf finalisierst Du auf der Sammelrechnung (Catering Operations → Collective Invoices) über die neue Aktion „Finalize and send" — das Zahlungsziel wird dabei neu ab dem Versandtag gerechnet, auch wenn der Entwurf Tage vorher angelegt wurde. „Void" auf einem Entwurf löscht ihn in Stripe (Entwürfe können nicht storniert werden); die enthaltenen Bestellungen sind danach wieder abrechenbar. Zu den Gerichtslisten: Namen werden auf 30 Zeichen gekürzt, und pro Position passen ca. 12–20 Artikel — sehr lange Listen enden mit „…" (Stripe-Limit von 500 Zeichen pro Position).
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Auf der Sammelrechnung steht bei jeder Bestellung jetzt, welche Gerichte mit welcher Anzahl enthalten sind. Kein Handlungsbedarf.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-13" description="Caterer-Matching-Tool: parallele Tabs, Sticky-Kopfzeile, lesbare Beschreibungen">
   Das Caterer-Matching-Tool merkt sich jetzt Anfrage, Caterer und Schritt in der URL — ein Reload wirft Dich nicht mehr auf Schritt 1 zurück, und über „Auswählen" lassen sich mehrere Menü-Erstellungen parallel in eigenen Tabs öffnen. In der Menü-Erstellung bleibt oben eine feste Kopfzeile mit Anfragenummer, Kunde und Firma sichtbar, auch beim Scrollen durch die Produktliste. Produktbeschreibungen (Produktliste, Warenkorb, Add-ons) erscheinen als sauberer Text mit Zeilenumbrüchen und Aufzählungspunkten statt zusammengequetschtem Fließtext.
 
