@@ -7,6 +7,42 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-14" description="Sammelrechnungen: verschiedene Besteller derselben Firma kombinierbar">
+  Eine Sammelrechnung kann jetzt Bestellungen **verschiedener Personen** enthalten, solange alle zur selben Firma gehören — z.&nbsp;B. wenn mehrere Mitarbeitende buchen und die Firma eine gemeinsame Monatsrechnung bekommen soll. Ohne hinterlegte Firma gilt weiterhin: alle Bestellungen müssen vom selben Kunden stammen.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Fürs Kombinieren verschiedener Besteller muss der Schalter „Sammelrechnung (aggregated billing)" an der **Firma** gesetzt sein — der Schalter an einem einzelnen Kunden zählt nur, wenn alle Bestellungen von genau diesem Kunden stammen. Rechnungsdaten (Rechnungsadresse, Zahlungsziel, Empfänger) kommen wie bisher aus der **neuesten** der ausgewählten Bestellungen; ist dort eine zentrale Rechnungs-E-Mail hinterlegt, geht die Rechnung dorthin. Vor dem Erstellen also kurz prüfen, dass die neueste Bestellung die richtigen Rechnungsdaten trägt. Gastbestellungen ohne Kundenkonto können weiterhin nicht auf eine Sammelrechnung.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Firmen mit mehreren Bestellern können eine gemeinsame Sammelrechnung erhalten. Kein Handlungsbedarf.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-14" description="HubSpot: Firmen-Verknüpfung an Deals zuverlässiger">
+  Bei Anfragen, deren Firma nur als Datensatz verknüpft war (ohne Firmennamen als Freitext an der Anfrage), wurde die Firma teils nicht nach HubSpot übertragen — und der nächste Sync konnte eine bestehende Deal-Firma-Verknüpfung sogar fälschlich entfernen. Beides ist behoben: Der Firmenname kommt jetzt zuerst aus der verknüpften Firma, eine in HubSpot noch fehlende Firma wird beim Deal-Sync direkt nachsynchronisiert, und Verknüpfungen werden nur noch entfernt, wenn die Firma auch in eGora tatsächlich entfernt wurde.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Deals von B2B-Anfragen zeigen in HubSpot jetzt zuverlässig ihre Firma — kein Handlungsbedarf. Alt-Deals, denen die Verknüpfung noch fehlt, werden per Reparaturlauf (audit:hubspot-company-associations --repair) nachgezogen; der Lauf auf Produktion steht noch aus. Fällt Dir danach noch ein Deal ohne Firma auf, bitte melden statt manuell verknüpfen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-14" description="Sammelrechnungen: Entwurf-Schritt + Gerichte auf der Rechnung">
   Sammelrechnungen lassen sich jetzt zweistufig erstellen — wie Einzelrechnungen: erst als **Stripe-Entwurf** (es wird nichts finalisiert und keine E-Mail versendet), dann nach Prüfung finalisieren und an den Kunden senden. Der Entwurf kann vor dem Versand direkt in Stripe angepasst werden; die Anpassungen bleiben beim Finalisieren erhalten. Außerdem listet jede Rechnungsposition jetzt die enthaltenen Gerichte mit Stückzahl auf (z.&nbsp;B. „Bestellung E5e1 – 24.07.2026 – 7&nbsp;% USt.: 2× Quiche, 10× Brownie") — Kunden sehen damit wieder, was hinter den Summen steckt.
 
