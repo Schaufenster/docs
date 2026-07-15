@@ -7,6 +7,78 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-15" description="Stripe-Rechnungen: Verwendungszweck verweist auf die Rechnungsnummer">
+  In der Überweisungs-Fußzeile von Stripe-Rechnungen stand als Verwendungszweck bisher die interne Bestell-ID (z.&nbsp;B. „E099-Ehrlich") bzw. bei Sammelrechnungen „Sammelrechnung SR-5". Jetzt lautet die Zeile „Verwendungszweck: siehe Rechnungsnummer" — Kunden geben bei der Banküberweisung also die Stripe-Rechnungsnummer an. Hintergrund: Stripe vergibt die Rechnungsnummer erst beim Finalisieren, danach ist die Fußzeile nicht mehr änderbar — die echte Nummer kann dort deshalb nie direkt stehen.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Beim Zahlungsabgleich eingehender Überweisungen künftig nach der **Rechnungsnummer** suchen statt nach der Bestell-ID. Bereits finalisierte Rechnungen behalten ihre alte Fußzeile. Die Bestell-ID steht intern weiterhin in den Stripe-Metadaten der Rechnung.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Bei Zahlung per Überweisung bitte die Rechnungsnummer als Verwendungszweck angeben. Kein weiterer Handlungsbedarf.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-15" description="Backend-Anlage: „Anlass:“ steht nicht mehr doppelt in den Sonstigen Wünschen">
+  Beim Anlegen einer Anfrage im Backend wurde der gewählte Anlass zusätzlich als Textzeile „Anlass: …" in die Sonstigen Wünsche geschrieben — seit der Umstellung auf das strukturierte Anlass-Feld war das eine Dublette. Die Textzeile entfällt; der Anlass lebt nur noch im strukturierten Feld.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Die Sonstigen Wünsche neuer Backend-Anfragen enthalten nur noch echten Freitext (plus ggf. den Event-Namen). Bestehende Anfragen mit der alten Dublette bleiben unverändert. Kein Handlungsbedarf.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-15" description="Präsentationsdetails erreichen Caterer schon vor der Vereinbarung">
+  Die strukturierten Präsentationsdetails einer Anfrage (Aufbau, Darreichung usw.) waren für Caterer bisher erst spät bzw. gar nicht sichtbar. Jetzt stehen sie in allen Anfrage- und Angebots-E-Mails an Caterer (Anfrage, Nachfass, Zuweisung, Stornierung, Kundenänderungen, Menü-Anfrage) — dort immer auf Deutsch — sowie im Kopfbereich des Menü-Editors. Zusätzlich wurden zwei Lücken geschlossen: Bei Bestellungen, die aus dem Caterer-Angebotsflow bzw. der Anfrage-Detailseite entstehen, wird „Aufbau &amp; Equipment" jetzt ebenfalls aus der Anfrage übernommen und landet damit korrekt auf dem Lieferschein.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Präsentationsdetails musst Du Caterern nicht mehr manuell weitergeben — sie stehen automatisch in den E-Mails und im Menü-Editor. Prüfe bei neuen Bestellungen wie gewohnt den Lieferschein; „Aufbau &amp; Equipment" wird jetzt auch in den Caterer-Flows automatisch befüllt.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Anfrage- und Angebots-E-Mails sowie der Menü-Editor zeigen jetzt die gewünschte Präsentation der Anfrage. Kein Handlungsbedarf.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-14" description="Slack-Lead-Benachrichtigung: Anlass + Formate sichtbar, Buttons aufgeräumt">
+  Die Slack-Benachrichtigung für neue Leads zeigt jetzt zusätzlich den strukturierten **Anlass** und die **Formate** der Anfrage (auf Deutsch, neben der bisherigen Type-Zeile). Die beiden Buttons „Open request" und „Create menu" stehen jetzt kompakt nebeneinander; „Create menu" führt direkt zur Menüerstellung für genau diese Anfrage statt zur allgemeinen Menü-Seite. Eine doppelt angezeigte Information wurde entfernt.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Anlass und Formate stehen direkt in der Slack-Nachricht — für die Ersteinschätzung musst Du die Anfrage nicht mehr öffnen. „Create menu" springt direkt in die Menüerstellung der jeweiligen Anfrage.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-14" description="Anlass + Formate ersetzen die alte „Art des Caterings“">
   Anfragen werden ab jetzt strukturiert über **Anlass** (z.&nbsp;B. Sommerfest, Weihnachtsfeier) und **Formate** (z.&nbsp;B. Buffet, Fingerfood, Flying Buffet) beschrieben — der alte Freitext „Art des Caterings" wird nicht mehr geschrieben. Alle Wege, auf denen Anfragen entstehen oder bearbeitet werden (Lead-Formular, Backend-Anlage, Kunden-Selbstbearbeitung, Nachbestellung), pflegen direkt die strukturierten Felder. Bei Alt-Anfragen wird der alte Text weiterhin angezeigt, solange er vorhanden ist.
 
