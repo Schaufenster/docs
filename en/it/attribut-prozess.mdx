@@ -1,0 +1,54 @@
+---
+title: "Introducing a new attribute — the process"
+description: "Checklist for every new structured field on request, package or caterer — distilled from the attribute consolidation project (W1–W15, completed July 2026)."
+icon: "list-check"
+---
+
+This process applies whenever a new structured field is about to be born on **request, package, offer or caterer** — whether it comes from a product wish, a KAM need or an integration. Goal: never again parallel vocabularies, orphaned columns or free-text sprawl.
+
+<Warning>
+**First question, always:** does this already exist? Before any new field, check whether an existing taxonomy fits (`occasion_types`, `format_types`, `culinary_types`, pivots like `presentationDetails`/`drinkTypes`, …). Half of the consolidation project consisted of merging duplicates that were created by skipping exactly this question.
+</Warning>
+
+<Steps>
+  <Step title="Decide the capture point (the timeline rule)">
+    Where does the information arise in the customer lifecycle?
+    - **Lead form** — only for conversion-critical minimal questions. Every extra funnel question costs CVR; when in doubt, do NOT capture here.
+    - **Quali call** — everything the KAM learns in conversation (commercial, preferences, clarifications).
+    - **Backend/ops** — everything that only exists at curation or booking time (execution details belong on the **order**, not the request).
+  </Step>
+  <Step title="Choose the storage shape">
+    - **Value list** = seeded table with stable `slug`s (+ `is_active` for retirement) — never hardcoded arrays.
+    - **Multi-select** → pivot table · **single-select** → nullable FK · **yes/no/never-asked** → nullable bool (NULL = never captured, false = explicit no — the W6 semantics).
+    - Free text only as a conscious decision with a documented reason (example: `cuisine_focus`, decision 07/2026).
+  </Step>
+  <Step title="Set up the HubSpot sync">
+    Bidirectional deal property following the established pattern: 3 outbound sites (`HubspotHelper` create + update, `CateringRequestSyncService`) and BOTH inbound webhook handlers; blank ⇒ NULL, unknown value ⇒ fail-closed with log. Enum internal values = exactly the slugs.
+    <Warning>
+    **The property alone does NOT sync inbound.** It must additionally be added to the **webhook subscription set** BEFORE the deploy — the most-forgotten step of the entire project.
+    </Warning>
+  </Step>
+  <Step title="Display sweep (the completeness checklist)">
+    A new field is only done once every read surface has been checked:
+    Nova request · both KAM cards (RequestDetails + OfferRequestDetail) · customer backend · the **7 caterer email templates** · documents (Lieferschein, order confirmation, menu proposal) · menu-editor header · MCP resource · Klaviyo where relevant.
+    Caterer emails and documents always render **in German** (force values via `getTranslation(..., 'de')` or a locale force).
+  </Step>
+  <Step title="Translations">
+    Keys are full English sentences; German translation goes into `de.json` **and** `de_formal.json` (the parity test fails CI otherwise). No snake_case keys.
+  </Step>
+  <Step title="Backfill & audit command">
+    Existing data via an `audit:*` artisan command: dry-run by default, explicit `--apply`, idempotent (re-run = 0), `updated_at` untouched, only-if-NULL / never-overwrite. When replacing a legacy field: **archive-first** into `catering_request_legacy_field_archive`.
+  </Step>
+  <Step title="Legacy retirement (if the new field replaces one)">
+    Writer freeze + dual display with "(legacy)" label on internal surfaces → ~2 weeks of stability → archive the HubSpot props → cleanup commit (remove sync keys + webhook cases + legacy rows). Columns may stay **dormant** afterwards — a physical drop is optional, not mandatory.
+  </Step>
+  <Step title="Verification — the full chain">
+    Tests plus one Playwright smoke across the complete chain: funnel → backend → Nova → HubSpot round-trip (both directions incl. clearing) → caterer email → PDF. "Every attribute once through the chain" was the acceptance rule of every W item.
+  </Step>
+</Steps>
+
+## References
+
+- Timeline rule & attribute list: `MASTER_SCHEMA_v1.2.md` (project documents)
+- Routing of free-text information: internal plan "KAM Info Routing" (Sonstige-Wünsche SOP)
+- Reference implementations in code: `drinks_required` (tri-state bool, W6) · `occasion_type_id` + `format_types` (FK + pivot + mapper, W10/W11) · `dietary_headcount_*` (typed columns + parser, W5)

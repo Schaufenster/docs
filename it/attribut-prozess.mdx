@@ -1,0 +1,54 @@
+---
+title: "Neues Attribut einführen — der Prozess"
+description: "Checkliste für jedes neue strukturierte Feld an Anfrage, Paket oder Caterer — destilliert aus dem Attribut-Konsolidierungsprojekt (W1–W15, abgeschlossen Juli 2026)."
+icon: "list-check"
+---
+
+Dieser Prozess gilt, sobald ein neues strukturiertes Feld an **Anfrage, Paket, Angebot oder Caterer** entstehen soll — egal ob aus einem Produktwunsch, einem KAM-Bedürfnis oder einer Integration. Ziel: nie wieder Parallel-Vokabulare, verwaiste Spalten oder Freitext-Wildwuchs.
+
+<Warning>
+**Erste Frage, immer:** Gibt es das schon? Vor jedem neuen Feld prüfen, ob eine bestehende Taxonomie passt (`occasion_types`, `format_types`, `culinary_types`, Pivots wie `presentationDetails`/`drinkTypes`, …). Das Konsolidierungsprojekt bestand zur Hälfte daraus, Duplikate zusammenzuführen, die genau an dieser Frage vorbei entstanden sind.
+</Warning>
+
+<Steps>
+  <Step title="Erfassungspunkt festlegen (die Zeitachsen-Regel)">
+    Wo entsteht die Information im Kundenlebenszyklus?
+    - **Lead-Formular** — nur für Conversion-kritische Minimalfragen. Jede zusätzliche Funnel-Frage kostet CVR; im Zweifel NICHT hier erfassen.
+    - **Quali-Call** — alles, was der KAM im Gespräch erfährt (kommerziell, Präferenzen, Präzisierungen).
+    - **Backend/Ops** — alles, was erst bei Kuration oder Buchung entsteht (Ausführungsdetails gehören auf die **Order**, nicht auf die Anfrage).
+  </Step>
+  <Step title="Speicherform wählen">
+    - **Werteliste** = geseedete Tabelle mit stabilen `slug`s (+ `is_active` für Retirement) — niemals hartkodierte Arrays.
+    - **Mehrfachauswahl** → Pivot-Tabelle · **Einfachauswahl** → nullable FK · **Ja/Nein/nie-gefragt** → nullable bool (NULL = nie erfasst, false = explizites Nein — die W6-Semantik).
+    - Freitext nur als bewusste Entscheidung mit dokumentiertem Grund (Beispiel: `cuisine_focus`, Entscheidung 07/2026).
+  </Step>
+  <Step title="HubSpot-Sync anlegen">
+    Bidirektionale Deal-Property nach dem etablierten Muster: 3 Outbound-Stellen (`HubspotHelper` create + update, `CateringRequestSyncService`) und BEIDE Inbound-Webhook-Handler; leer ⇒ NULL, unbekannter Wert ⇒ fail-closed mit Log. Enum-Internal-Values = exakt die Slugs.
+    <Warning>
+    **Die Property allein synct NICHT inbound.** Sie muss VOR dem Deploy zusätzlich ins **Webhook-Subscription-Set** aufgenommen werden — der meistvergessene Schritt des gesamten Projekts.
+    </Warning>
+  </Step>
+  <Step title="Anzeige-Sweep (die Vollständigkeits-Checkliste)">
+    Ein neues Feld ist erst fertig, wenn alle Leseflächen geprüft sind:
+    Nova-Request · beide KAM-Cards (RequestDetails + OfferRequestDetail) · Customer-Backend · die **7 Caterer-Mail-Templates** · Dokumente (Lieferschein, AB, Menüvorschlag) · Menü-Editor-Header · MCP-Resource · ggf. Klaviyo.
+    Caterer-Mails und -Dokumente rendern **immer deutsch** (Werte per `getTranslation(..., 'de')` bzw. Locale-Force erzwingen).
+  </Step>
+  <Step title="Übersetzungen">
+    Keys sind volle englische Sätze; deutsche Übersetzung in `de.json` **und** `de_formal.json` (Paritätstest schlägt sonst in CI fehl). Keine snake_case-Keys.
+  </Step>
+  <Step title="Backfill & Audit-Command">
+    Bestandsdaten per `audit:*`-Artisan-Command: Dry-Run als Default, `--apply` explizit, idempotent (Re-Run = 0), `updated_at` unangetastet, only-if-NULL / never-overwrite. Bei Ablösung eines Altfelds: **archive-first** in `catering_request_legacy_field_archive`.
+  </Step>
+  <Step title="Altfeld-Ablösung (falls das neue Feld eines ersetzt)">
+    Writer-Freeze + Dual-Display mit „(legacy)"-Label auf internen Flächen → ~2 Wochen Stabilität → HubSpot-Props archivieren → Cleanup-Commit (Sync-Keys + Webhook-Cases + Legacy-Zeilen entfernen). Spalten dürfen danach **dormant** bleiben — physischer Drop ist optional, nicht Pflicht.
+  </Step>
+  <Step title="Verifikation — die ganze Kette">
+    Tests plus ein Playwright-Smoke über die komplette Kette: Funnel → Backend → Nova → HubSpot-Round-Trip (beide Richtungen inkl. Leeren) → Caterer-Mail → PDF. „Jedes Attribut einmal durch die Kette" war die Abnahmeregel jedes W-Items.
+  </Step>
+</Steps>
+
+## Referenzen
+
+- Zeitachsen-Regel & Attributliste: `MASTER_SCHEMA_v1.2.md` (Projektunterlagen)
+- Routing von Freitext-Informationen: interner Plan „KAM Info Routing" (Sonstige-Wünsche-SOP)
+- Musterimplementierungen im Code: `drinks_required` (tri-state bool, W6) · `occasion_type_id` + `format_types` (FK + Pivot + Mapper, W10/W11) · `dietary_headcount_*` (typisierte Spalten + Parser, W5)
