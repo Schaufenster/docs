@@ -1,6 +1,6 @@
 ---
 title: "KAM tools"
-description: "The dedicated Nova tools beyond the standard resources – OrderHub, matching, menu creation, email parser, KAM Inbox."
+description: "The dedicated Nova tools beyond the standard resources – OrderHub, Request Hub, matching, menu creation, email parser, KAM Inbox."
 icon: "screwdriver-wrench"
 ---
 
@@ -15,6 +15,17 @@ workflows. Some are menu items; others you open from a detail page.
   [post-booking checklist](/kam-handbook/post-booking-checklist), documents, dispatch and the action log.
 </Card>
 
+## Request Hub
+
+<Card title="Request Hub" icon="grip">
+  The **request workspace** – the OrderHub counterpart for catering requests. You open it via
+  "Open hub" on the request detail page. It bundles overview, offers, matching, communication,
+  admin fields and the action log. Includes **call mode** (the quali-call wizard, "Open call mode"
+  on the request detail page): it walks through the open fields and routes the "other wishes" free
+  text into structured fields. Unprocessed other wishes show a warning on the request and on
+  caterer sends – nothing is blocked.
+</Card>
+
 ## Catering creation
 
 There are currently **two paths** to pick the caterer for a request: via the **Caterer Matching Tool** (suggested matches) or via the **Catering offer tool** (manual pick, or by reusing a similar historic offer through the Historic Offer Tool).
@@ -23,8 +34,9 @@ There are currently **two paths** to pick the caterer for a request: via the **C
   <Card title="Caterer Matching Tool" icon="people-arrows">
     `/caterer-matching-tool` – proposes suitable caterers for a request across several weighted layers
     and builds the menu. Includes a "Match all" mode that lists every published caterer flatly
-    (alphabetically) so you can pick directly. *Note: this tool is still in an early stage and is being
-    actively optimized.*
+    (alphabetically) so you can pick directly. The request search covers the full backlog server-side
+    (including city and KAM name); older requests load via "Load more". *Note: this tool is still in an
+    early stage and is being actively optimized.*
   </Card>
   <Card title="Catering offer tool (manual)" icon="pen-ruler">
     `/catering-menu` – the manual tool to build/edit an offer menu. The caterer can be picked **manually**

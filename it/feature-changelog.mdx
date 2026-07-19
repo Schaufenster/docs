@@ -7,6 +7,114 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-07-18" description="Request Hub: neuer Arbeitsplatz für Anfragen (inkl. Call-Modus)">
+  Analog zum OrderHub gibt es jetzt einen **Request Hub** für Catering-Anfragen. Du öffnest ihn über den Link „Hub öffnen" auf der Anfrage-Detailseite; er bündelt Übersicht, Angebote, Matching, Kommunikation, Admin-Felder und das Action-Log an einem Ort. Der Quali-Call-Wizard lebt darin als **Call-Modus** („Call-Modus öffnen" auf der Anfrage-Detailseite): Er führt durch die offenen Felder der Anfrage und sortiert die „Sonstigen Wünsche" in strukturierte Felder. Solange das noch nicht passiert ist, zeigen die Anfrage-Detailseite und die Caterer-Versandaktionen eine Warnung „Sonstige Wünsche unverarbeitet" — blockiert wird dadurch nichts.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Anfragen ab jetzt im Request Hub bearbeiten: Anfrage-Detailseite → „Hub öffnen" bzw. für den Quali-Call „Call-Modus öffnen". Nach dem Call den Call-Modus durchlaufen, damit die Sonstigen Wünsche strukturiert verarbeitet sind und die Warnung verschwindet. Mehr dazu: [KAM-Werkzeuge](/backend/tools).
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-18" description="Manuelle Menü-Follow-up-Aktionen entfernt — Nachfassen läuft über HubSpot">
+  Die drei manuellen Nova-Aktionen für Menüvorschlag-Follow-ups (erstes, zweites und letztes Follow-up) wurden von der Anfrage entfernt — manuelles Nachfassen läuft jetzt über HubSpot-Sequenzen. Die **automatischen** Follow-up-Mails sind davon unberührt und laufen weiter wie bisher. Ebenfalls entfernt wurde die nicht mehr benötigte Aktion „Update Company and Customer Lead Source".
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Für manuelles Nachfassen HubSpot-Sequenzen verwenden — die drei Follow-up-Aktionen auf der Anfrage gibt es nicht mehr. An den automatischen Follow-ups ändert sich nichts.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-18" description="Bestellliste: Gutschein-Spalte sichtbar + Filter „Voucher used?“">
+  In der Nova-Bestellliste ist die Gutschein-Spalte („Voucher code") jetzt direkt in der Übersicht sichtbar. Zusätzlich gibt es den neuen Filter „Voucher used?", der die Liste auf Bestellungen mit bzw. ohne Gutschein eingrenzt.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Für Gutschein-Auswertungen die Bestellliste über den Filter „Voucher used?" eingrenzen — der eingesetzte Gutschein steht direkt in der Liste, ohne die Bestellung zu öffnen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-16" description="KAM Inbox zeigt jetzt auch Chats auf Angebotsebene">
+  In der eingebetteten KAM Inbox auf Angebots- und Anfrageseiten fehlten bisher Chat-Nachrichten, die direkt am Angebot hängen — der Feed hat diese Threads beim Zusammenstellen übersehen. Jetzt erscheinen auch Angebots-Chats vollständig im Feed. Die Nachrichten selbst waren nie verloren, sie waren nur an dieser Stelle nicht sichtbar.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Wenn ein Kunden-Chat in der Inbox auf einer Angebotsseite scheinbar leer war: jetzt noch einmal prüfen — die Nachrichten sind da. Kein weiterer Handlungsbedarf.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-15" description="Matching Tool: Anfrage-Suche findet jetzt alle Anfragen">
+  Die Anfrage-Suche im Caterer Matching Tool durchsucht jetzt den gesamten Anfrage-Bestand auf dem Server statt nur die zuletzt geladenen 100 Anfragen — zusätzlich auch nach Stadt und KAM-Name. Über den Button „Mehr laden" blätterst Du ältere Anfragen nach; der Zähler über der Liste zeigt jetzt die echte Gesamtzahl.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Ältere Anfragen direkt über das Suchfeld finden (Name, E-Mail, Firma, ID, Stadt oder KAM-Name) — der Umweg über die Nova-Anfrageliste entfällt.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-15" description="Einzelrechnungen auch für Sammelrechnungs-Kunden möglich">
+  Der harte Block, der bei Kunden und Firmen mit aktivierter Sammelrechnung Einzelrechnungen pro Bestellung verhindert hat, wurde bewusst entfernt: Einzelrechnungen sind dort jetzt wieder möglich. Unverändert bleibt: Eine Bestellung, die bereits Teil einer Sammelrechnung ist, kann keine separate Einzelrechnung mehr erhalten.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Bei Sammelrechnungs-Kunden kannst Du einzelne Bestellungen bei Bedarf wieder separat abrechnen. Vor dem Erstellen einer Einzelrechnung kurz prüfen, ob die Bestellung in die nächste Sammelrechnung soll — sonst droht Doppelabrechnung. Bestellungen, die schon in einer Sammelrechnung stecken, bleiben blockiert.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Firmen mit Sammelrechnung können sich einzelne Bestellungen auf Wunsch wieder separat in Rechnung stellen lassen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-15" description="Stripe-Rechnungen: Verwendungszweck verweist auf die Rechnungsnummer">
   In der Überweisungs-Fußzeile von Stripe-Rechnungen stand als Verwendungszweck bisher die interne Bestell-ID (z.&nbsp;B. „E099-Ehrlich") bzw. bei Sammelrechnungen „Sammelrechnung SR-5". Jetzt lautet die Zeile „Verwendungszweck: siehe Rechnungsnummer" — Kunden geben bei der Banküberweisung also die Stripe-Rechnungsnummer an. Hintergrund: Stripe vergibt die Rechnungsnummer erst beim Finalisieren, danach ist die Fußzeile nicht mehr änderbar — die echte Nummer kann dort deshalb nie direkt stehen.
 

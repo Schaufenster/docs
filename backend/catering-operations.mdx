@@ -27,7 +27,8 @@ genaue Statusfluss steht im [Request-Lifecycle](/kam-handbook/request-lifecycle)
   <Card title="CollectiveInvoice (Sammelrechnung)" icon="file-invoice-dollar">
     Eine Stripe-Rechnung über mehrere Bestellungen desselben Kunden — oder, bei B2B, verschiedener
     Besteller derselben Firma (Kunde bzw. Firma muss den Schalter
-    „Sammelrechnung (aggregated billing)" gesetzt haben — Einzelrechnungen sind dann blockiert). Erstellt
+    „Sammelrechnung (aggregated billing)" gesetzt haben — Einzelrechnungen bleiben daneben möglich,
+    nur für Bestellungen, die bereits in einer Sammelrechnung stecken, sind sie blockiert). Erstellt
     über die Sammelaktion in der Order-Liste — wahlweise in einem Schritt („… and send") oder erst als
     Stripe-Entwurf („… as DRAFT"), der nach Prüfung auf der Sammelrechnungs-Ressource per „Finalize and send"
     versendet wird. Jede Position listet die enthaltenen Gerichte mit Stückzahl. Bei Zahlung springen alle
