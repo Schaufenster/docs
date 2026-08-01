@@ -7,6 +7,78 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-08-01" description="Marketing-Rolle: reduzierte KPI-Seite und eigenes Nova-Menü">
+  Nutzer, die nur die Marketing-Rolle haben (ohne Admin- oder KAM-Rolle), sehen auf der Catering-KPI-Seite jetzt ausschließlich die „General KPIs" und die beiden Google-Ads-Sektionen — alle anderen KPI-Sektionen sind für sie ausgeblendet und auch bei direktem Aufruf gesperrt. Dazu passt das Nova-Menü: „Performance &amp; Insights" enthält für diese Rolle nur noch die KPI-Links plus Lead Form Progress, Google Ads und Lead Sources. Für Admin und KAM ändert sich nichts.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Nicht betroffen — Du siehst die KPI-Seite weiterhin vollständig. Die Einschränkung gilt nur für reine Marketing-Accounts.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-08-01" description="Bestellungen und Caterer-Standorte von der Monatsgutschrift ausschließen">
+  Auf der Bestellung und auf dem Caterer-Standort (Branch) gibt es in Nova die neue Checkbox „Exclude from monthly bills". Auf der Bestellung heißt das: Diese Bestellung landet nie in der Monatsgutschrift — der Haken gewinnt gegen „Include in monthly bills"; nur Bestellungen, die beim Erstellen der Monatsgutschriften manuell über „Additional Order IDs" angegeben werden, kommen trotzdem rein. Auf dem Standort heißt das: Für diesen Caterer-Standort wird gar keine Monatsgutschrift mehr erzeugt. Außerdem wurde die Bestellliste auf Finance-Wunsch entrümpelt: Die nicht mehr genutzten Datev-Exclude-Felder sind ausgeblendet, und die Filter „Payment Method", „Catering Orders" und „Stripe Connect" wurden entfernt. Bestell-Tabellen auf Firmen- und Kunden-Detailseiten lassen sich jetzt mit bis zu 100 Zeilen pro Seite anzeigen — praktisch, um einen ganzen Monat für eine Sammelrechnung auf einer Seite auszuwählen.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Wenn eine Bestellung oder ein ganzer Standort nicht in die Monatsgutschrift soll: Haken „Exclude from monthly bills" auf der Bestellung bzw. dem Standort setzen. Die Datev-Exclude-Felder gibt es im UI nicht mehr; die drei genannten Bestelllisten-Filter ebenfalls nicht.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nur betroffen, wenn der Haken intern gesetzt wird — dann erhält der Standort bzw. die Bestellung keine Monatsgutschrift mehr (z. B. bei komplett externer Abrechnung).
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-31" description="Mehrtägige Events im Kunden-Formular „Neue Anfrage“">
+  Im Selfservice-Backend können Kunden beim Anlegen einer neuen Anfrage jetzt den Schalter „Mehrtägiges Event" aktivieren und statt eines einzelnen Termins ein Start- und Enddatum angeben — genau wie im öffentlichen Lead-Formular. Bei Wiederbestellungen bleibt es beim einzelnen Datum.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Solche Anfragen kommen mit einer Datumsspanne statt einem einzelnen Event-Termin an — genau wie mehrtägige Anfragen aus dem Lead-Formular. Kein neuer Handlungsbedarf.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Im Formular „Neue Anfrage" gibt es den neuen Schalter „Mehrtägiges Event" mit Start- und Enddatum — mehrtägige Anfragen müssen nicht mehr telefonisch oder als Freitext gestellt werden.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-07-19" description="Anfrage-Detailseite zeigt Ads-Klick-Attribution (Click Landing Page)">
+  Auf der Anfrage-Detailseite in Nova gibt es zwei neue schreibgeschützte Felder: „Click Landing Page" (die Seite, auf der der letzte Ads-Klick gelandet ist, inklusive Klick-Parametern — kann bei wiederkehrenden Besuchern von der First-Touch-„Landing Page" abweichen) und „Click at" (Zeitpunkt, zu dem der Klick bei uns erfasst wurde).
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Bei Attributionsfragen zu einer Anfrage („Kam die über Ads?") direkt auf der Anfrage-Detailseite die Felder „Click Landing Page" und „Click at" prüfen. Kein Handlungsbedarf.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-07-18" description="Request Hub: neuer Arbeitsplatz für Anfragen (inkl. Call-Modus)">
   Analog zum OrderHub gibt es jetzt einen **Request Hub** für Catering-Anfragen. Du öffnest ihn über den Link „Hub öffnen" auf der Anfrage-Detailseite; er bündelt Übersicht, Angebote, Matching, Kommunikation, Admin-Felder und das Action-Log an einem Ort. Der Quali-Call-Wizard lebt darin als **Call-Modus** („Call-Modus öffnen" auf der Anfrage-Detailseite): Er führt durch die offenen Felder der Anfrage und sortiert die „Sonstigen Wünsche" in strukturierte Felder. Solange das noch nicht passiert ist, zeigen die Anfrage-Detailseite und die Caterer-Versandaktionen eine Warnung „Sonstige Wünsche unverarbeitet" — blockiert wird dadurch nichts.
 
