@@ -7,6 +7,60 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-08-02" description="Sammelrechnung: Entwurf-Ersetzung, Rechnungsprofil als Datenquelle, Event-Kategorien">
+  Mehrere Verbesserungen an der Sammelrechnung. Steckt eine ausgewählte Bestellung noch in einem Sammelrechnungs-ENTWURF, bricht die Sammelaktion nicht mehr mit einem Fehler ab: Der alte Entwurf wird automatisch ersetzt (in Stripe gelöscht, lokal storniert) und die Erfolgsmeldung nennt die ersetzten Entwürfe — finalisierte Sammelrechnungen blockieren weiterhin. Rechnungsdaten (Adresse, Rechnungs-E-Mail), das Zahlungsziel sowie PO-Nummer und Kostenstelle (als Fallback, wenn die Bestellungen sich unterscheiden) kommen jetzt aus dem aktuellen Standard-Rechnungsprofil der Firma bzw. des Kunden. Neu ist außerdem der Firmen-Schalter „Event category on Sammelrechnung": Ist er an, trägt jede Rechnungsposition eine Event-Kategorie — das Event-Format der Bestellung, sonst das der Anfrage, sonst der Anlass-Typ der Anfrage. Auswahlen mit mehr als 250 Rechnungspositionen lehnt die Aktion mit einer klaren Meldung ab (Stripe-Limit) — die Bestellungen dann auf mehrere Sammelrechnungen aufteilen.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Neuer Schalter „Event category on Sammelrechnung" auf der Firma (Nova, Bereich Billing). Das Event-Format ist jetzt direkt im Bestellformular änderbar — leer lassen heißt: Auf der Sammelrechnung greift der Anlass-Typ der Anfrage. Die Aktionen „Finalize and send", „Resend email" und „Void" stehen jetzt auch direkt im Zeilenmenü der Sammelrechnungs-Liste, nicht mehr nur auf der Detailseite.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Firmen mit aktiviertem Schalter sehen auf jeder Rechnungsposition die Event-Kategorie (z. B. „Business Lunch"). Sonst keine Änderung.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-08-02" description="Firmen-Schalter: keine automatischen Bestell-Erinnerungsmails">
+  Auf der Firma gibt es den neuen Schalter „No order reminder emails". Ist er gesetzt, werden die automatischen Erinnerungsmails vor dem Event (48–72 Stunden vor der Leistung, inklusive Beleg zur Bestellung) für alle Bestellungen dieser Firma nicht mehr verschickt — gedacht z. B. für Sammelrechnungs-Kunden, die ihre Bestellungen ohnehin im egora-System verfolgen. Buchungsbestätigungen sind nicht betroffen.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Wenn eine Firma keine Erinnerungsmails (mit Beleg) mehr bekommen soll: Nova, Firma öffnen, Haken „No order reminder emails" setzen. Gilt für alle Bestellungen der Firma.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Besteller dieser Firmen erhalten vor dem Event keine Erinnerungsmail mehr; Buchungsbestätigungen kommen weiterhin.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
+<Update label="2026-08-02" description="Rechnungsprofil: Weitere Rechnungsempfänger (CC)">
+  Rechnungsprofile haben ein neues Feld „Weitere Rechnungsempfänger (CC)" — mehrere E-Mail-Adressen, durch Komma getrennt (z. B. die Buchhaltung). Die Adressen werden bei jeder neuen Bestellung mit diesem Profil in das CC-Feld der Bestellung übernommen und stehen damit auf allen Rechnungsmails in Kopie; bestehende Bestellungen behalten ihr eigenes CC-Feld. Beim Versand einer Sammelrechnung geht die Mail an die Rechnungs-E-Mail des Profils, und hat eine Bestellung kein eigenes CC, greifen die Profil-Adressen als Fallback.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Feld „Invoice CC Emails" im Rechnungsprofil pflegen (Nova, Billing Profiles) — kommagetrennt, jede Adresse muss eine gültige E-Mail sein. Wirkt auf neue Bestellungen des Profils; ältere Bestellungen bei Bedarf über deren eigenes CC-Feld ergänzen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Das Feld ist im Selfservice selbst pflegbar — auf der Seite „Rechnungsprofile" und in „Mein Konto" bei den Rechnungsdaten. Rechnungen gehen dann automatisch in Kopie an die hinterlegten Adressen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-08-01" description="Marketing-Rolle: reduzierte KPI-Seite und eigenes Nova-Menü">
   Nutzer, die nur die Marketing-Rolle haben (ohne Admin- oder KAM-Rolle), sehen auf der Catering-KPI-Seite jetzt ausschließlich die „General KPIs" und die beiden Google-Ads-Sektionen — alle anderen KPI-Sektionen sind für sie ausgeblendet und auch bei direktem Aufruf gesperrt. Dazu passt das Nova-Menü: „Performance &amp; Insights" enthält für diese Rolle nur noch die KPI-Links plus Lead Form Progress, Google Ads und Lead Sources. Für Admin und KAM ändert sich nichts.
 
