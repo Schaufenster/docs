@@ -23,7 +23,7 @@ This process applies whenever a new structured field is about to be born on **re
     - Free text only as a conscious decision with a documented reason (example: `cuisine_focus`, decision 07/2026).
   </Step>
   <Step title="Set up the HubSpot sync">
-    Bidirectional deal property following the established pattern: 3 outbound sites (`HubspotHelper` create + update, `CateringRequestSyncService`) and BOTH inbound webhook handlers; blank ⇒ NULL, unknown value ⇒ fail-closed with log. Enum internal values = exactly the slugs.
+    Bidirectional deal property following the established pattern: 3 outbound sites (`HubspotHelper` create + update, `CateringRequestSyncService`) and BOTH inbound webhook handlers; blank ⇒ NULL, unknown value ⇒ fail-closed with log. Enum internal values = exactly the slugs. The sync contract is additionally maintained in the constant arrays of `audit:hubspot-props-parity` — update them together with the payloads and run the command on prod after the deploy (it checks the contract against the live property list).
     <Warning>
     **The property alone does NOT sync inbound.** It must additionally be added to the **webhook subscription set** BEFORE the deploy — the most-forgotten step of the entire project.
     </Warning>
@@ -40,7 +40,7 @@ This process applies whenever a new structured field is about to be born on **re
     Existing data via an `audit:*` artisan command: dry-run by default, explicit `--apply`, idempotent (re-run = 0), `updated_at` untouched, only-if-NULL / never-overwrite. When replacing a legacy field: **archive-first** into `catering_request_legacy_field_archive`.
   </Step>
   <Step title="Legacy retirement (if the new field replaces one)">
-    Writer freeze + dual display with "(legacy)" label on internal surfaces → ~2 weeks of stability → archive the HubSpot props → cleanup commit (remove sync keys + webhook cases + legacy rows). Columns may stay **dormant** afterwards — a physical drop is optional, not mandatory.
+    Writer freeze + dual display with "(legacy)" label on internal surfaces → ~2 weeks of stability → archive the HubSpot props → cleanup commit (remove sync keys + webhook cases + legacy rows). Columns may stay **dormant** afterwards — a physical drop is optional, not mandatory. After the cleanup, run `audit:hubspot-props-parity` — it fails if a retired or "(veraltet)" property is still part of the sync contract.
   </Step>
   <Step title="Verification — the full chain">
     Tests plus one Playwright smoke across the complete chain: funnel → backend → Nova → HubSpot round-trip (both directions incl. clearing) → caterer email → PDF. "Every attribute once through the chain" was the acceptance rule of every W item.

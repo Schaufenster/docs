@@ -23,7 +23,7 @@ Dieser Prozess gilt, sobald ein neues strukturiertes Feld an **Anfrage, Paket, A
     - Freitext nur als bewusste Entscheidung mit dokumentiertem Grund (Beispiel: `cuisine_focus`, Entscheidung 07/2026).
   </Step>
   <Step title="HubSpot-Sync anlegen">
-    Bidirektionale Deal-Property nach dem etablierten Muster: 3 Outbound-Stellen (`HubspotHelper` create + update, `CateringRequestSyncService`) und BEIDE Inbound-Webhook-Handler; leer ⇒ NULL, unbekannter Wert ⇒ fail-closed mit Log. Enum-Internal-Values = exakt die Slugs.
+    Bidirektionale Deal-Property nach dem etablierten Muster: 3 Outbound-Stellen (`HubspotHelper` create + update, `CateringRequestSyncService`) und BEIDE Inbound-Webhook-Handler; leer ⇒ NULL, unbekannter Wert ⇒ fail-closed mit Log. Enum-Internal-Values = exakt die Slugs. Der Sync-Vertrag ist zusätzlich in den Konstanten-Arrays von `audit:hubspot-props-parity` gepflegt — bei jeder Payload-Änderung mitziehen und den Command nach dem Deploy auf Prod laufen lassen (prüft den Vertrag gegen die Live-Property-Liste).
     <Warning>
     **Die Property allein synct NICHT inbound.** Sie muss VOR dem Deploy zusätzlich ins **Webhook-Subscription-Set** aufgenommen werden — der meistvergessene Schritt des gesamten Projekts.
     </Warning>
@@ -40,7 +40,7 @@ Dieser Prozess gilt, sobald ein neues strukturiertes Feld an **Anfrage, Paket, A
     Bestandsdaten per `audit:*`-Artisan-Command: Dry-Run als Default, `--apply` explizit, idempotent (Re-Run = 0), `updated_at` unangetastet, only-if-NULL / never-overwrite. Bei Ablösung eines Altfelds: **archive-first** in `catering_request_legacy_field_archive`.
   </Step>
   <Step title="Altfeld-Ablösung (falls das neue Feld eines ersetzt)">
-    Writer-Freeze + Dual-Display mit „(legacy)"-Label auf internen Flächen → ~2 Wochen Stabilität → HubSpot-Props archivieren → Cleanup-Commit (Sync-Keys + Webhook-Cases + Legacy-Zeilen entfernen). Spalten dürfen danach **dormant** bleiben — physischer Drop ist optional, nicht Pflicht.
+    Writer-Freeze + Dual-Display mit „(legacy)"-Label auf internen Flächen → ~2 Wochen Stabilität → HubSpot-Props archivieren → Cleanup-Commit (Sync-Keys + Webhook-Cases + Legacy-Zeilen entfernen). Spalten dürfen danach **dormant** bleiben — physischer Drop ist optional, nicht Pflicht. Nach dem Cleanup `audit:hubspot-props-parity` laufen lassen — er schlägt fehl, wenn eine abgelöste oder „(veraltet)"-Property noch im Sync-Vertrag steckt.
   </Step>
   <Step title="Verifikation — die ganze Kette">
     Tests plus ein Playwright-Smoke über die komplette Kette: Funnel → Backend → Nova → HubSpot-Round-Trip (beide Richtungen inkl. Leeren) → Caterer-Mail → PDF. „Jedes Attribut einmal durch die Kette" war die Abnahmeregel jedes W-Items.

@@ -7,6 +7,24 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-08-02" description="HubSpot: veraltete Deal-Eigenschaften abgeklemmt (Type of catering, Preferences, Allergies)">
+  Die bei der Attribut-Konsolidierung angekündigte Übergangsphase ist beendet: Die drei als „(veraltet)" markierten HubSpot-Deal-Eigenschaften `type_of_catering`, `preferences` und `allergies` werden nicht mehr synchronisiert — in keine Richtung. eGora befüllt sie nicht mehr, und Änderungen an diesen Feldern in HubSpot kommen nicht mehr in eGora an. Gültig sind nur noch die strukturierten Nachfolger: `occasion_type` und `format_types` (statt Type of catering) sowie `dietary_requirements` (statt Preferences/Allergies) — diese synchronisieren weiterhin in beide Richtungen.
+
+  <CardGroup cols={3}>
+    <Card title="KAM" icon="headset">
+      Am Deal in HubSpot nur noch die aktuellen Felder pflegen: „Occasion type" + „Format types" statt „Type of catering (veraltet)", „Dietary requirements" statt „Preferences/Allergies (veraltet)". Einträge in den „(veraltet)"-Feldern erreichen eGora nicht mehr und werden dort auch nicht mehr aktualisiert.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </CardGroup>
+</Update>
+
 <Update label="2026-08-02" description="Sammelrechnung: Entwurf-Ersetzung, Rechnungsprofil als Datenquelle, Event-Kategorien">
   Mehrere Verbesserungen an der Sammelrechnung. Steckt eine ausgewählte Bestellung noch in einem Sammelrechnungs-ENTWURF, bricht die Sammelaktion nicht mehr mit einem Fehler ab: Der alte Entwurf wird automatisch ersetzt (in Stripe gelöscht, lokal storniert) und die Erfolgsmeldung nennt die ersetzten Entwürfe — finalisierte Sammelrechnungen blockieren weiterhin. Rechnungsdaten (Adresse, Rechnungs-E-Mail), das Zahlungsziel sowie PO-Nummer und Kostenstelle (als Fallback, wenn die Bestellungen sich unterscheiden) kommen jetzt aus dem aktuellen Standard-Rechnungsprofil der Firma bzw. des Kunden. Neu ist außerdem der Firmen-Schalter „Event category on Sammelrechnung": Ist er an, trägt jede Rechnungsposition eine Event-Kategorie — das Event-Format der Bestellung, sonst das der Anfrage, sonst der Anlass-Typ der Anfrage. Auswahlen mit mehr als 250 Rechnungspositionen lehnt die Aktion mit einer klaren Meldung ab (Stripe-Limit) — die Bestellungen dann auf mehrere Sammelrechnungen aufteilen.
 
