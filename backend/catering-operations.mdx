@@ -9,12 +9,12 @@ genaue Statusfluss steht im [Request-Lifecycle](/kam-handbook/request-lifecycle)
 
 ## Ressourcen
 
-<CardGroup cols={2}>
+<Columns cols={2}>
   <Card title="CateringRequest" icon="inbox">
     Die eingehende Kundenanfrage (Lead): Datum, Personenzahl, Budget, B2B-Flag, Lead-Quelle, zugewiesener KAM.
     Der Einstieg in den Funnel; trägt den [Status 1–17](/kam-handbook/request-lifecycle).
   </Card>
-  <Card title="CateringOffer" icon="file-invoice">
+  <Card title="CateringOffer" icon="file-text">
     Das Angebot eines Caterers zu einer Anfrage (Positionen, Pakete, Service-Gebühren). Startet **UNFINISHED**,
     wird **FINISHED**. „Gesendet" = Zeitstempel `sent_to_customer_at` (kein Status). Aus einem angenommenen
     Angebot wird eine Order.
@@ -24,7 +24,7 @@ genaue Statusfluss steht im [Request-Lifecycle](/kam-handbook/request-lifecycle)
     Details unter [Anfrage → Angebot → Order](/kam-handbook/request-lifecycle). Trägt die
     [Post-Booking-Checkliste](/kam-handbook/post-booking-checklist).
   </Card>
-  <Card title="CollectiveInvoice (Sammelrechnung)" icon="file-invoice-dollar">
+  <Card title="CollectiveInvoice (Sammelrechnung)" icon="receipt-euro">
     Eine Stripe-Rechnung über mehrere Bestellungen desselben Kunden — oder, bei B2B, verschiedener
     Besteller derselben Firma (Kunde bzw. Firma muss den Schalter
     „Sammelrechnung (aggregated billing)" gesetzt haben — Einzelrechnungen bleiben daneben möglich,
@@ -41,13 +41,13 @@ genaue Statusfluss steht im [Request-Lifecycle](/kam-handbook/request-lifecycle)
     Mahnungen zu offenen Rechnungen einer Order. Orders in einer Sammelrechnung sind vom
     Einzel-Mahnlauf ausgenommen.
   </Card>
-  <Card title="PrecomputedMenuProposal" icon="wand-magic-sparkles">
+  <Card title="PrecomputedMenuProposal" icon="wand-sparkles">
     Vorab berechnete Menü-Vorschläge, auf die der Angebots-/Matching-Flow zurückgreift.
   </Card>
-  <Card title="TextSnippet" icon="quote-left">
+  <Card title="TextSnippet" icon="quote">
     Wiederverwendbare Textbausteine für die Kunden-/Caterer-Kommunikation.
   </Card>
-</CardGroup>
+</Columns>
 
 ## Werkzeuge in diesem Bereich
 
@@ -66,7 +66,7 @@ Drei der Menüpunkte sind keine Ressourcen, sondern **eigene Nova-Werkzeuge** (D
 Aktuell gibt es damit **zwei Wege** zur Caterer-Auswahl für eine Anfrage: über das Caterer Matching Tool
 oder über das Catering-Angebots-Tool (manuell oder via Historic Offer Tool).
 
-<Tip>
+<Callout kind="tip">
   Die meiste Detailarbeit an einer **Order** läuft nicht in der Standard-Nova-Ansicht, sondern im
   **OrderHub** – dem Order-Arbeitsplatz, den du aus der Order-Detailseite öffnest. Siehe [Werkzeuge](/backend/tools).
-</Tip>
+</Callout>

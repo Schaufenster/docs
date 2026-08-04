@@ -7,19 +7,19 @@ icon: "book-bookmark"
 Kernvokabular, verankert in der eGora-Codebasis. Wo die fachliche Bedeutung über den Code hinaus nicht
 definiert ist, wird das markiert.
 
-<Info>
+<Callout kind="info">
   Dies ist die **KAM-Schnellreferenz** der wichtigsten System-Objekte. Das vollständige, teamweite
   Glossar inkl. KPI-Definitionen steht unter [Glossar & KPI-Definitionen](/grundlagen/glossar).
-</Info>
+</Callout>
 
 ## Objekte
 
-<CardGroup cols={2}>
+<Columns cols={2}>
   <Card title="CateringRequest" icon="inbox">
     Die eingehende Anfrage/der Lead: Personenzahl, Datum/Uhrzeit, Budget, B2B-Flag, Lead-Quelle, zugewiesener KAM. Eine
     Anfrage kann zu einem oder mehreren Angeboten führen.
   </Card>
-  <Card title="CateringOffer" icon="file-invoice">
+  <Card title="CateringOffer" icon="file-text">
     Ein Angebot zu einer Anfrage. Als *gesendet* markiert über den Zeitstempel `sent_to_customer_at` (kein Status).
     Aus einem angenommenen Angebot wird eine Order.
   </Card>
@@ -32,7 +32,7 @@ definiert ist, wird das markiert.
     Company-User, Event-Formate). *Die genaue Abgrenzung über das B2B-Flag hinaus ist im Code nicht
     ausformuliert – kläre das mit dem Team, falls es darauf ankommt.*
   </Card>
-</CardGroup>
+</Columns>
 
 ## Caterer-Seite
 
@@ -54,7 +54,7 @@ definiert ist, wird das markiert.
 
 **Nur Berlin und München** – die einzigen Städte, die im System angelegt sind. Zeitzone: Europe/Berlin.
 
-<Warning>
+<Callout kind="alert">
   Der Assistent kann **personenbezogene Daten** der Kunden (Namen, E-Mails, Telefonnummern, Adressen,
   Freitextnotizen) nicht sehen – sie sind im Daten-Connector bereinigt. Er erfindet sie nicht.
-</Warning>
+</Callout>

@@ -4,25 +4,25 @@ description: "Die tatsächliche Verdrahtung: eine git-basierte Quelle, gelesen v
 icon: "diagram-project"
 ---
 
-<Note>
+<Callout kind="info">
   Diese Seite beschreibt das **tatsächliche** Setup — kein Wunschbild. Wo etwas während des Tests gerade
   erst aktiviert wird, steht das ausdrücklich dabei.
-</Note>
+</Callout>
 
-Die KB ist **eine git-basierte Quelle** (`Schaufenster/docs` → Mintlify). Sie wird von zwei Arten von Consumern gelesen
+Die KB ist **eine git-basierte Quelle** (`Schaufenster/docs` → documentation.ai). Sie wird von zwei Arten von Consumern gelesen
 und durch einige reviewte Inflows gespeist.
 
 ## Wer sie liest
 
-<CardGroup cols={2}>
+<Columns cols={2}>
   <Card title="Menschen (diese Seite)" icon="user">
-    KAMs lesen die Web-KB direkt. Der Zugriff ist auf eGora-Org-Mitglieder beschränkt.
+    KAMs lesen die Web-KB direkt. Der Zugriff ist per geteiltem Team-Passwort geschützt.
   </Card>
-  <Card title="Claude (via MCP)" icon="robot">
-    Der eGora Team Assistant liest die KB über Mintlifys MCP-Server — siehe
+  <Card title="Claude (via MCP)" icon="bot">
+    Der eGora Team Assistant liest die KB über den documentation.ai Reader-MCP — siehe
     [Claude anbinden](/integrations/claude-setup).
   </Card>
-</CardGroup>
+</Columns>
 
 ## Was Claude füttert
 
@@ -30,7 +30,7 @@ Claude wird durch **vier** Quellen geerdet, jede für einen anderen Zweck:
 
 | Quelle | Wofür sie da ist |
 | --- | --- |
-| **Mintlify KB MCP** | Stabiles, offizielles Wissen (diese KB) |
+| **KB MCP (documentation.ai)** | Stabiles, offizielles Wissen (diese KB) |
 | **egora-data MCP** | Live-Geschäftsdaten (Bestellungen, Anfragen, KPIs) — siehe [egora data](/integrations/egora-mcp) |
 | **Notion** | Arbeitsdokumente, live gelesen — siehe [Notion](/integrations/notion) |
 | **Skills** | Power-User-Verhalten in Claude Code / Cowork |
@@ -40,19 +40,19 @@ Faustregel: **KB MCP** für "Wie funktioniert X", **egora-data** für "Wie sind 
 
 ## Was sie aktuell hält (Authoring-Inflows)
 
-Jede Änderung landet als **reviewbarer Pull Request** — nichts wird stillschweigend committet.
+Standard-Pfad: Änderungen entstehen als **reviewbare Git-Diffs** — Steffen oder Johannes prüfen vor dem Push.
 
-<CardGroup cols={2}>
-  <Card title="Changelog-Automatisierung" icon="code-branch" href="/integrations/changelog">
-    Ausgelieferter Produktcode erzeugt automatisch einen Changelog-Entwurf.
+<Columns cols={2}>
+  <Card title="Changelog via /kb-update" icon="git-branch" href="/integrations/changelog">
+    Ausgelieferter Produktcode wird per Claude-Skill zu Changelog-Entwürfen, reviewt und gepusht.
   </Card>
-  <Card title="Slack-Agent" icon="slack" href="/integrations/slack-agent">
-    `@mention` den Agent in einem Thread, um ein Docs-Update zu entwerfen.
+  <Card title="Slack → KB (in Arbeit)" icon="slack" href="/integrations/slack-agent">
+    Der frühere Mintlify-Slack-Agent ist entfallen; Nachfolger ist die geplante /kb-capture-Skill.
   </Card>
-  <Card title="Inhalte übersetzen" icon="language">
-    Mintlifys Automatisierung hält Deutsch synchron mit Englisch (wird während des Tests aktiviert).
+  <Card title="Nur Deutsch" icon="languages">
+    Die KB ist aktuell de-only; die frühere EN-Übersetzungs-Automatisierung ist mit dem Plattformwechsel entfallen.
   </Card>
   <Card title="Handeditierungen" icon="pen">
-    Direkte Edits via git / Web-Editor, reviewt wie jeder andere PR.
+    Direkte Edits via git (reviewt). Der documentation.ai-Web-Editor committet direkt auf `main` — sparsam einsetzen.
   </Card>
-</CardGroup>
+</Columns>

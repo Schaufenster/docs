@@ -8,11 +8,11 @@ Hiermit verbindest du **Claude** mit dem eGora-Datenserver, sodass du Fragen zu 
 Catering-Anfragen, Firmen, KPIs und mehr stellen kannst — direkt im Chat, gegen Live-Daten
 (PII-redigiert).
 
-<Note>
+<Callout kind="info">
   Es gibt **zwei** Wege, eine Verbindung herzustellen, je nachdem, welches Claude du nutzt. **OAuth ist
   Standard** für Claude im Web (Cowork / Teams) und am einfachsten. Die **Token**-Methode ist nur für
   Claude Code (CLI) und Claude-Desktop-Power-User.
-</Note>
+</Callout>
 
 ## Option A — OAuth (Claude Web / Cowork / Teams) — empfohlen
 
@@ -64,7 +64,7 @@ claude mcp add --transport http egora-data https://egora-catering.de/mcp \
 **Settings → Developer → Local MCP servers → Edit config**, dann innerhalb von `mcpServers`
 hinzufügen:
 
-<CodeGroup>
+<CodeGroup tabs="HTTP (neuere Clients),mcp-remote (Node.js)">
 ```json HTTP (recent versions)
 {
   "mcpServers": {
@@ -95,10 +95,10 @@ hinzufügen:
 Ersetze `YOUR_TOKEN_HERE` durch dein echtes Token (inklusive `4|`-Präfix), speichere, und **beende
 Claude Desktop vollständig** (`⌘ Q`), bevor du es wieder öffnest.
 
-<Warning>
+<Callout kind="alert">
   Das Token steht **im Klartext** in `claude_desktop_config.json`. Niemals committen oder
   synchronisieren. Falls es leakt, lass Steffen das Token sofort widerrufen.
-</Warning>
+</Callout>
 
 ## Staging vs Produktion
 
@@ -108,20 +108,20 @@ Claude Desktop vollständig** (`⌘ Q`), bevor du es wieder öffnest.
 
 ## Troubleshooting
 
-<AccordionGroup>
-  <Accordion title="OAuth: 'Authorize'-Seite lädt nicht oder Login klappt nicht">
+<ExpandableGroup>
+  <Expandable title="OAuth: 'Authorize'-Seite lädt nicht oder Login klappt nicht">
     Du brauchst einen eGora-Nova-Nutzer mit der Rolle `admin` oder `kam` — bitte Steffen, das
     einzurichten.
-  </Accordion>
-  <Accordion title="Token: 'failed' direkt nach dem Verbinden">
+  </Expandable>
+  <Expandable title="Token: 'failed' direkt nach dem Verbinden">
     Token ungültig oder abgelaufen — fordere ein neues bei Steffen an.
-  </Accordion>
-  <Accordion title="Token: 'unknown transport type'">
+  </Expandable>
+  <Expandable title="Token: 'unknown transport type'">
     Claude Desktop ist zu alt für `"type": "http"` — nutze die **mcp-remote**-Variante (benötigt
     Node.js).
-  </Accordion>
-  <Accordion title="Verbunden, aber Claude sagt, es habe keinen Zugriff">
+  </Expandable>
+  <Expandable title="Verbunden, aber Claude sagt, es habe keinen Zugriff">
     Im aktuellen Chat wurde noch keine Tool-Berechtigung erteilt — aktiviere die Tools des Connectors
     im Chat.
-  </Accordion>
-</AccordionGroup>
+  </Expandable>
+</ExpandableGroup>

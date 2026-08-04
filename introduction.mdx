@@ -4,26 +4,26 @@ description: "Die interne Quelle der Wahrheit für Key Account Manager – und d
 icon: "house"
 ---
 
-<Note>
+<Callout kind="info">
   **Intern & zugriffsbeschränkt.** Diese Knowledge Base ist für eGora KAMs. Sie befindet sich in einer aktiven
   **Real-Testing-Phase** – einige Seiten werden noch gegen reale Prozesse abgeglichen; behandle alles, was
   noch nicht geprüft ist, als Entwurf.
-</Note>
+</Callout>
 
 Dies ist eine **git-basierte Quelle der Wahrheit**, die zwei Zielgruppen gleichzeitig bedient:
 
-<CardGroup cols={2}>
+<Columns cols={2}>
   <Card title="Du als Mensch" icon="user">
     Lies sie hier im Web – KAM-Prozesse, die IT/internen Guides und was zuletzt ausgerollt wurde.
   </Card>
-  <Card title="Claude als dein Assistent" icon="robot">
+  <Card title="Claude als dein Assistent" icon="bot">
     Dieselben Inhalte speisen den **eGora KAM Assistant** via MCP, sodass du einfach *fragen* kannst, statt zu suchen.
   </Card>
-</CardGroup>
+</Columns>
 
 ## Was hier zu finden ist
 
-<CardGroup cols={3}>
+<Columns cols={3}>
   <Card title="KAM Handbook" icon="book" href="/kam-handbook/what-is-this-kb">
     Wie wir Accounts betreuen: Onboarding, Management, Eskalation, Offboarding.
   </Card>
@@ -33,7 +33,7 @@ Dies ist eine **git-basierte Quelle der Wahrheit**, die zwei Zielgruppen gleichz
   <Card title="Integrationen" icon="plug" href="/integrations/overview">
     Wie diese KB mit Claude, egora-data, Notion, Slack und dem Changelog verbunden ist.
   </Card>
-</CardGroup>
+</Columns>
 
 ## Wie sie aktuell bleibt
 
@@ -41,8 +41,8 @@ Dies ist eine **git-basierte Quelle der Wahrheit**, die zwei Zielgruppen gleichz
   <Step title="Versioniert in Git">
     Jede Änderung ist ein prüfbarer Pull Request in `Schaufenster/docs` – nichts ändert sich stillschweigend.
   </Step>
-  <Step title="Ausgelieferte Features erzeugen automatisch einen Changelog-Entwurf">
-    Mintlifys Changelog-Automatisierung entwirft einen Eintrag, wenn sich Produktcode ändert – siehe
+  <Step title="Ausgelieferte Features erzeugen einen Changelog-Entwurf">
+    Die /kb-update-Skill entwirft Einträge aus neuen Produkt-Commits, reviewt und gepusht von IT – siehe
     [Release-Kommunikation](/it/feature-changelog).
   </Step>
   <Step title="Claude liest immer den aktuellen Stand">

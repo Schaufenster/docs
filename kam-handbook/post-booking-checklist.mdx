@@ -24,29 +24,29 @@ Sobald eine Anfrage **DATE_CONFIRMED (17)** erreicht und eine Order existiert, v
 
 ## Wie sie sich verhält (Systemfakten)
 
-<CardGroup cols={2}>
-  <Card title="Automatisch erstellt" icon="wand-magic-sparkles">
+<Columns cols={2}>
+  <Card title="Automatisch erstellt" icon="wand-sparkles">
     Wird automatisch erzeugt, wenn die Anfrage in **DATE_CONFIRMED** übergeht (mit einem Fallback, der
     sie erstellt, sobald die Verknüpfung Angebot→Order hergestellt ist).
   </Card>
   <Card title="Benötigt eine verknüpfte Order" icon="link">
     Die Order muss mit einer Catering-Anfrage verknüpft sein.
   </Card>
-  <Card title="Synct nach HubSpot" icon="rotate">
+  <Card title="Synct nach HubSpot" icon="rotate-cw">
     Änderungen an der Checkliste werden automatisch nach HubSpot synchronisiert.
   </Card>
-  <Card title="Nachprüfen, nicht annehmen" icon="magnifying-glass">
+  <Card title="Nachprüfen, nicht annehmen" icon="search">
     Ob ein Punkt erledigt ist, lässt sich nur durch Nachschlagen der Order via Connector feststellen.
   </Card>
-</CardGroup>
+</Columns>
 
-<Warning>
+<Callout kind="alert">
   Der Assistent kann dich nur dann daran erinnern, welche der vier Punkte noch offen sind, **wenn er die Order
   nachschlägt** – er darf nie annehmen, dass ein Punkt erledigt ist.
-</Warning>
+</Callout>
 
-<Note>
+<Callout kind="info">
   Diese 4-Punkte-Checkliste und die [Status-Bezeichnungen](/kam-handbook/request-lifecycle) sind die Teile, die
   **systemseitig erzwungen** sind. Alles darüber hinaus in diesem Handbuch ist eine Arbeitsbeschreibung, wie wir
   arbeiten, und soll mit den realen SOPs des Teams verfeinert werden.
-</Note>
+</Callout>

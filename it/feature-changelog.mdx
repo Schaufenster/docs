@@ -7,10 +7,28 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-08-03" description="KB-Plattform: Umzug von Mintlify auf documentation.ai">
+  Die Wissensdatenbank läuft jetzt auf documentation.ai — gleiche Inhalte, gleiche Adresse (docs.egora-catering.de), neues Login: Statt des Mintlify-Org-Kontos gilt ein geteiltes Team-Passwort (steht im Team-Slack). Der Claude-Connector „egora KB" zeigt auf einen neuen Endpoint und muss einmalig neu verbunden werden — Anleitung unter [Den eGora Team Assistant einrichten](/integrations/team-assistant-setup).
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Einmalig mit dem Team-Passwort auf der KB einloggen und den Claude-Connector „egora KB" neu verbinden. Der Mintlify-Slack-Agent ist entfallen; KB-Wünsche bis auf Weiteres an Steffen oder Johannes.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
 <Update label="2026-08-02" description="HubSpot: veraltete Deal-Eigenschaften abgeklemmt (Type of catering, Preferences, Allergies)">
   Die bei der Attribut-Konsolidierung angekündigte Übergangsphase ist beendet: Die drei als „(veraltet)" markierten HubSpot-Deal-Eigenschaften `type_of_catering`, `preferences` und `allergies` werden nicht mehr synchronisiert — in keine Richtung. eGora befüllt sie nicht mehr, und Änderungen an diesen Feldern in HubSpot kommen nicht mehr in eGora an. Gültig sind nur noch die strukturierten Nachfolger: `occasion_type` und `format_types` (statt Type of catering) sowie `dietary_requirements` (statt Preferences/Allergies) — diese synchronisieren weiterhin in beide Richtungen.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Am Deal in HubSpot nur noch die aktuellen Felder pflegen: „Occasion type" + „Format types" statt „Type of catering (veraltet)", „Dietary requirements" statt „Preferences/Allergies (veraltet)". Einträge in den „(veraltet)"-Feldern erreichen eGora nicht mehr und werden dort auch nicht mehr aktualisiert.
     </Card>
@@ -22,13 +40,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-08-02" description="Sammelrechnung: Entwurf-Ersetzung, Rechnungsprofil als Datenquelle, Event-Kategorien">
   Mehrere Verbesserungen an der Sammelrechnung. Steckt eine ausgewählte Bestellung noch in einem Sammelrechnungs-ENTWURF, bricht die Sammelaktion nicht mehr mit einem Fehler ab: Der alte Entwurf wird automatisch ersetzt (in Stripe gelöscht, lokal storniert) und die Erfolgsmeldung nennt die ersetzten Entwürfe — finalisierte Sammelrechnungen blockieren weiterhin. Rechnungsdaten (Adresse, Rechnungs-E-Mail), das Zahlungsziel sowie PO-Nummer und Kostenstelle (als Fallback, wenn die Bestellungen sich unterscheiden) kommen jetzt aus dem aktuellen Standard-Rechnungsprofil der Firma bzw. des Kunden. Neu ist außerdem der Firmen-Schalter „Event category on Sammelrechnung": Ist er an, trägt jede Rechnungsposition eine Event-Kategorie — das Event-Format der Bestellung, sonst das der Anfrage, sonst der Anlass-Typ der Anfrage. Auswahlen mit mehr als 250 Rechnungspositionen lehnt die Aktion mit einer klaren Meldung ab (Stripe-Limit) — die Bestellungen dann auf mehrere Sammelrechnungen aufteilen.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Neuer Schalter „Event category on Sammelrechnung" auf der Firma (Nova, Bereich Billing). Das Event-Format ist jetzt direkt im Bestellformular änderbar — leer lassen heißt: Auf der Sammelrechnung greift der Anlass-Typ der Anfrage. Die Aktionen „Finalize and send", „Resend email" und „Void" stehen jetzt auch direkt im Zeilenmenü der Sammelrechnungs-Liste, nicht mehr nur auf der Detailseite.
     </Card>
@@ -40,13 +58,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-08-02" description="Firmen-Schalter: keine automatischen Bestell-Erinnerungsmails">
   Auf der Firma gibt es den neuen Schalter „No order reminder emails". Ist er gesetzt, werden die automatischen Erinnerungsmails vor dem Event (48–72 Stunden vor der Leistung, inklusive Beleg zur Bestellung) für alle Bestellungen dieser Firma nicht mehr verschickt — gedacht z. B. für Sammelrechnungs-Kunden, die ihre Bestellungen ohnehin im egora-System verfolgen. Buchungsbestätigungen sind nicht betroffen.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Wenn eine Firma keine Erinnerungsmails (mit Beleg) mehr bekommen soll: Nova, Firma öffnen, Haken „No order reminder emails" setzen. Gilt für alle Bestellungen der Firma.
     </Card>
@@ -58,13 +76,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-08-02" description="Rechnungsprofil: Weitere Rechnungsempfänger (CC)">
   Rechnungsprofile haben ein neues Feld „Weitere Rechnungsempfänger (CC)" — mehrere E-Mail-Adressen, durch Komma getrennt (z. B. die Buchhaltung). Die Adressen werden bei jeder neuen Bestellung mit diesem Profil in das CC-Feld der Bestellung übernommen und stehen damit auf allen Rechnungsmails in Kopie; bestehende Bestellungen behalten ihr eigenes CC-Feld. Beim Versand einer Sammelrechnung geht die Mail an die Rechnungs-E-Mail des Profils, und hat eine Bestellung kein eigenes CC, greifen die Profil-Adressen als Fallback.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Feld „Invoice CC Emails" im Rechnungsprofil pflegen (Nova, Billing Profiles) — kommagetrennt, jede Adresse muss eine gültige E-Mail sein. Wirkt auf neue Bestellungen des Profils; ältere Bestellungen bei Bedarf über deren eigenes CC-Feld ergänzen.
     </Card>
@@ -76,13 +94,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-08-01" description="Marketing-Rolle: reduzierte KPI-Seite und eigenes Nova-Menü">
   Nutzer, die nur die Marketing-Rolle haben (ohne Admin- oder KAM-Rolle), sehen auf der Catering-KPI-Seite jetzt ausschließlich die „General KPIs" und die beiden Google-Ads-Sektionen — alle anderen KPI-Sektionen sind für sie ausgeblendet und auch bei direktem Aufruf gesperrt. Dazu passt das Nova-Menü: „Performance &amp; Insights" enthält für diese Rolle nur noch die KPI-Links plus Lead Form Progress, Google Ads und Lead Sources. Für Admin und KAM ändert sich nichts.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Nicht betroffen — Du siehst die KPI-Seite weiterhin vollständig. Die Einschränkung gilt nur für reine Marketing-Accounts.
     </Card>
@@ -94,13 +112,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-08-01" description="Bestellungen und Caterer-Standorte von der Monatsgutschrift ausschließen">
   Auf der Bestellung und auf dem Caterer-Standort (Branch) gibt es in Nova die neue Checkbox „Exclude from monthly bills". Auf der Bestellung heißt das: Diese Bestellung landet nie in der Monatsgutschrift — der Haken gewinnt gegen „Include in monthly bills"; nur Bestellungen, die beim Erstellen der Monatsgutschriften manuell über „Additional Order IDs" angegeben werden, kommen trotzdem rein. Auf dem Standort heißt das: Für diesen Caterer-Standort wird gar keine Monatsgutschrift mehr erzeugt. Außerdem wurde die Bestellliste auf Finance-Wunsch entrümpelt: Die nicht mehr genutzten Datev-Exclude-Felder sind ausgeblendet, und die Filter „Payment Method", „Catering Orders" und „Stripe Connect" wurden entfernt. Bestell-Tabellen auf Firmen- und Kunden-Detailseiten lassen sich jetzt mit bis zu 100 Zeilen pro Seite anzeigen — praktisch, um einen ganzen Monat für eine Sammelrechnung auf einer Seite auszuwählen.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Wenn eine Bestellung oder ein ganzer Standort nicht in die Monatsgutschrift soll: Haken „Exclude from monthly bills" auf der Bestellung bzw. dem Standort setzen. Die Datev-Exclude-Felder gibt es im UI nicht mehr; die drei genannten Bestelllisten-Filter ebenfalls nicht.
     </Card>
@@ -112,13 +130,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nur betroffen, wenn der Haken intern gesetzt wird — dann erhält der Standort bzw. die Bestellung keine Monatsgutschrift mehr (z. B. bei komplett externer Abrechnung).
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-31" description="Mehrtägige Events im Kunden-Formular „Neue Anfrage“">
   Im Selfservice-Backend können Kunden beim Anlegen einer neuen Anfrage jetzt den Schalter „Mehrtägiges Event" aktivieren und statt eines einzelnen Termins ein Start- und Enddatum angeben — genau wie im öffentlichen Lead-Formular. Bei Wiederbestellungen bleibt es beim einzelnen Datum.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Solche Anfragen kommen mit einer Datumsspanne statt einem einzelnen Event-Termin an — genau wie mehrtägige Anfragen aus dem Lead-Formular. Kein neuer Handlungsbedarf.
     </Card>
@@ -130,13 +148,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-19" description="Anfrage-Detailseite zeigt Ads-Klick-Attribution (Click Landing Page)">
   Auf der Anfrage-Detailseite in Nova gibt es zwei neue schreibgeschützte Felder: „Click Landing Page" (die Seite, auf der der letzte Ads-Klick gelandet ist, inklusive Klick-Parametern — kann bei wiederkehrenden Besuchern von der First-Touch-„Landing Page" abweichen) und „Click at" (Zeitpunkt, zu dem der Klick bei uns erfasst wurde).
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Bei Attributionsfragen zu einer Anfrage („Kam die über Ads?") direkt auf der Anfrage-Detailseite die Felder „Click Landing Page" und „Click at" prüfen. Kein Handlungsbedarf.
     </Card>
@@ -148,13 +166,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-18" description="Request Hub: neuer Arbeitsplatz für Anfragen (inkl. Call-Modus)">
   Analog zum OrderHub gibt es jetzt einen **Request Hub** für Catering-Anfragen. Du öffnest ihn über den Link „Hub öffnen" auf der Anfrage-Detailseite; er bündelt Übersicht, Angebote, Matching, Kommunikation, Admin-Felder und das Action-Log an einem Ort. Der Quali-Call-Wizard lebt darin als **Call-Modus** („Call-Modus öffnen" auf der Anfrage-Detailseite): Er führt durch die offenen Felder der Anfrage und sortiert die „Sonstigen Wünsche" in strukturierte Felder. Solange das noch nicht passiert ist, zeigen die Anfrage-Detailseite und die Caterer-Versandaktionen eine Warnung „Sonstige Wünsche unverarbeitet" — blockiert wird dadurch nichts.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Anfragen ab jetzt im Request Hub bearbeiten: Anfrage-Detailseite → „Hub öffnen" bzw. für den Quali-Call „Call-Modus öffnen". Nach dem Call den Call-Modus durchlaufen, damit die Sonstigen Wünsche strukturiert verarbeitet sind und die Warnung verschwindet. Mehr dazu: [KAM-Werkzeuge](/backend/tools).
     </Card>
@@ -166,13 +184,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-18" description="Manuelle Menü-Follow-up-Aktionen entfernt — Nachfassen läuft über HubSpot">
   Die drei manuellen Nova-Aktionen für Menüvorschlag-Follow-ups (erstes, zweites und letztes Follow-up) wurden von der Anfrage entfernt — manuelles Nachfassen läuft jetzt über HubSpot-Sequenzen. Die **automatischen** Follow-up-Mails sind davon unberührt und laufen weiter wie bisher. Ebenfalls entfernt wurde die nicht mehr benötigte Aktion „Update Company and Customer Lead Source".
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Für manuelles Nachfassen HubSpot-Sequenzen verwenden — die drei Follow-up-Aktionen auf der Anfrage gibt es nicht mehr. An den automatischen Follow-ups ändert sich nichts.
     </Card>
@@ -184,13 +202,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-18" description="Bestellliste: Gutschein-Spalte sichtbar + Filter „Voucher used?“">
   In der Nova-Bestellliste ist die Gutschein-Spalte („Voucher code") jetzt direkt in der Übersicht sichtbar. Zusätzlich gibt es den neuen Filter „Voucher used?", der die Liste auf Bestellungen mit bzw. ohne Gutschein eingrenzt.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Für Gutschein-Auswertungen die Bestellliste über den Filter „Voucher used?" eingrenzen — der eingesetzte Gutschein steht direkt in der Liste, ohne die Bestellung zu öffnen.
     </Card>
@@ -202,13 +220,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-16" description="KAM Inbox zeigt jetzt auch Chats auf Angebotsebene">
   In der eingebetteten KAM Inbox auf Angebots- und Anfrageseiten fehlten bisher Chat-Nachrichten, die direkt am Angebot hängen — der Feed hat diese Threads beim Zusammenstellen übersehen. Jetzt erscheinen auch Angebots-Chats vollständig im Feed. Die Nachrichten selbst waren nie verloren, sie waren nur an dieser Stelle nicht sichtbar.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Wenn ein Kunden-Chat in der Inbox auf einer Angebotsseite scheinbar leer war: jetzt noch einmal prüfen — die Nachrichten sind da. Kein weiterer Handlungsbedarf.
     </Card>
@@ -220,13 +238,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-15" description="Matching Tool: Anfrage-Suche findet jetzt alle Anfragen">
   Die Anfrage-Suche im Caterer Matching Tool durchsucht jetzt den gesamten Anfrage-Bestand auf dem Server statt nur die zuletzt geladenen 100 Anfragen — zusätzlich auch nach Stadt und KAM-Name. Über den Button „Mehr laden" blätterst Du ältere Anfragen nach; der Zähler über der Liste zeigt jetzt die echte Gesamtzahl.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Ältere Anfragen direkt über das Suchfeld finden (Name, E-Mail, Firma, ID, Stadt oder KAM-Name) — der Umweg über die Nova-Anfrageliste entfällt.
     </Card>
@@ -238,13 +256,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-15" description="Einzelrechnungen auch für Sammelrechnungs-Kunden möglich">
   Der harte Block, der bei Kunden und Firmen mit aktivierter Sammelrechnung Einzelrechnungen pro Bestellung verhindert hat, wurde bewusst entfernt: Einzelrechnungen sind dort jetzt wieder möglich. Unverändert bleibt: Eine Bestellung, die bereits Teil einer Sammelrechnung ist, kann keine separate Einzelrechnung mehr erhalten.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Bei Sammelrechnungs-Kunden kannst Du einzelne Bestellungen bei Bedarf wieder separat abrechnen. Vor dem Erstellen einer Einzelrechnung kurz prüfen, ob die Bestellung in die nächste Sammelrechnung soll — sonst droht Doppelabrechnung. Bestellungen, die schon in einer Sammelrechnung stecken, bleiben blockiert.
     </Card>
@@ -256,13 +274,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-15" description="Stripe-Rechnungen: Verwendungszweck verweist auf die Rechnungsnummer">
   In der Überweisungs-Fußzeile von Stripe-Rechnungen stand als Verwendungszweck bisher die interne Bestell-ID (z.&nbsp;B. „E099-Ehrlich") bzw. bei Sammelrechnungen „Sammelrechnung SR-5". Jetzt lautet die Zeile „Verwendungszweck: siehe Rechnungsnummer" — Kunden geben bei der Banküberweisung also die Stripe-Rechnungsnummer an. Hintergrund: Stripe vergibt die Rechnungsnummer erst beim Finalisieren, danach ist die Fußzeile nicht mehr änderbar — die echte Nummer kann dort deshalb nie direkt stehen.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Beim Zahlungsabgleich eingehender Überweisungen künftig nach der **Rechnungsnummer** suchen statt nach der Bestell-ID. Bereits finalisierte Rechnungen behalten ihre alte Fußzeile. Die Bestell-ID steht intern weiterhin in den Stripe-Metadaten der Rechnung.
     </Card>
@@ -274,13 +292,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-15" description="Backend-Anlage: „Anlass:“ steht nicht mehr doppelt in den Sonstigen Wünschen">
   Beim Anlegen einer Anfrage im Backend wurde der gewählte Anlass zusätzlich als Textzeile „Anlass: …" in die Sonstigen Wünsche geschrieben — seit der Umstellung auf das strukturierte Anlass-Feld war das eine Dublette. Die Textzeile entfällt; der Anlass lebt nur noch im strukturierten Feld.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Die Sonstigen Wünsche neuer Backend-Anfragen enthalten nur noch echten Freitext (plus ggf. den Event-Namen). Bestehende Anfragen mit der alten Dublette bleiben unverändert. Kein Handlungsbedarf.
     </Card>
@@ -292,13 +310,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-15" description="Präsentationsdetails erreichen Caterer schon vor der Vereinbarung">
   Die strukturierten Präsentationsdetails einer Anfrage (Aufbau, Darreichung usw.) waren für Caterer bisher erst spät bzw. gar nicht sichtbar. Jetzt stehen sie in allen Anfrage- und Angebots-E-Mails an Caterer (Anfrage, Nachfass, Zuweisung, Stornierung, Kundenänderungen, Menü-Anfrage) — dort immer auf Deutsch — sowie im Kopfbereich des Menü-Editors. Zusätzlich wurden zwei Lücken geschlossen: Bei Bestellungen, die aus dem Caterer-Angebotsflow bzw. der Anfrage-Detailseite entstehen, wird „Aufbau &amp; Equipment" jetzt ebenfalls aus der Anfrage übernommen und landet damit korrekt auf dem Lieferschein.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Präsentationsdetails musst Du Caterern nicht mehr manuell weitergeben — sie stehen automatisch in den E-Mails und im Menü-Editor. Prüfe bei neuen Bestellungen wie gewohnt den Lieferschein; „Aufbau &amp; Equipment" wird jetzt auch in den Caterer-Flows automatisch befüllt.
     </Card>
@@ -310,13 +328,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Anfrage- und Angebots-E-Mails sowie der Menü-Editor zeigen jetzt die gewünschte Präsentation der Anfrage. Kein Handlungsbedarf.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-14" description="Slack-Lead-Benachrichtigung: Anlass + Formate sichtbar, Buttons aufgeräumt">
   Die Slack-Benachrichtigung für neue Leads zeigt jetzt zusätzlich den strukturierten **Anlass** und die **Formate** der Anfrage (auf Deutsch, neben der bisherigen Type-Zeile). Die beiden Buttons „Open request" und „Create menu" stehen jetzt kompakt nebeneinander; „Create menu" führt direkt zur Menüerstellung für genau diese Anfrage statt zur allgemeinen Menü-Seite. Eine doppelt angezeigte Information wurde entfernt.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Anlass und Formate stehen direkt in der Slack-Nachricht — für die Ersteinschätzung musst Du die Anfrage nicht mehr öffnen. „Create menu" springt direkt in die Menüerstellung der jeweiligen Anfrage.
     </Card>
@@ -328,13 +346,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-14" description="Anlass + Formate ersetzen die alte „Art des Caterings“">
   Anfragen werden ab jetzt strukturiert über **Anlass** (z.&nbsp;B. Sommerfest, Weihnachtsfeier) und **Formate** (z.&nbsp;B. Buffet, Fingerfood, Flying Buffet) beschrieben — der alte Freitext „Art des Caterings" wird nicht mehr geschrieben. Alle Wege, auf denen Anfragen entstehen oder bearbeitet werden (Lead-Formular, Backend-Anlage, Kunden-Selbstbearbeitung, Nachbestellung), pflegen direkt die strukturierten Felder. Bei Alt-Anfragen wird der alte Text weiterhin angezeigt, solange er vorhanden ist.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Beim Anlegen einer Anfrage im Backend und in der Bearbeitung der Anfrage-Detailseite heißt das Feld jetzt „Format" und bietet die 9 strukturierten Formate als Checkboxen (die alten Mahlzeiten-Häkchen wie Frühstück/Lunch/Dinner stecken jetzt im Anlass). Anfrage-Karten, Nova und die Detailseite zeigen Anlass + Formate. In HubSpot gibt es zwei neue Deal-Eigenschaften „occasion_type" und „format_types" — beide synchronisieren in beide Richtungen, Du kannst sie also auch in HubSpot pflegen. Die alte Freitext-Eigenschaft läuft übergangsweise weiter.
     </Card>
@@ -346,13 +364,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Anfrage- und Angebots-E-Mails an Caterer enthalten jetzt eine eigene „Anlass"-Zeile; die Zeile mit Formaten und Sonderwünschen bleibt. Kein Handlungsbedarf.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-14" description="„Ohne Allergen-Prüfung senden“ überspringt jetzt auch das Auto-Tagging">
   Die Checkbox „Ohne Allergen-Prüfung senden" beim Menüversand übersprang bisher nur die Fehlerprüfung — das AI-Allergen-Tagging lief trotzdem und konnte den Versand ausbremsen. Jetzt werden Tagging und Prüfung komplett übersprungen, sowohl beim Einzel- als auch beim Bündel-Versand. Außerdem bricht der Versand nicht mehr ab, wenn die automatische Übersetzung der Menütexte fehlschlägt oder zu lange dauert: Das Angebot geht dann mit den deutschen Texten raus statt gar nicht.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Mit gesetztem Haken „Ohne Allergen-Prüfung senden" werden keine Allergene mehr automatisch getaggt — nutze ihn nur, wenn Allergene für das Angebot keine Rolle spielen oder schon gepflegt sind. Schlägt die Übersetzung beim Versand fehl, siehst Du keinen Fehler mehr; englischsprachige Kunden erhalten dann deutsche Beschreibungstexte — bei Bedarf Übersetzung nachziehen.
     </Card>
@@ -364,13 +382,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-14" description="HubSpot: Deal-Firma übersteht Firmen-Zusammenführungen">
   Wurden zwei Firmen in HubSpot zusammengeführt, konnte der nächste Anfrage-Sync die Firmen-Verknüpfung des Deals fälschlich entfernen, weil eGora noch die alte (aufgelöste) Firmen-ID kannte. Der Sync erkennt die Zusammenführung jetzt, merkt sich die überlebende Firma und lässt die Verknüpfung stehen. Ist eine Firma in HubSpot gar nicht auffindbar (gelöscht oder API-Störung), fasst der Sync die Verknüpfungen gar nicht mehr an, statt sie auf Verdacht zu entfernen.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Du kannst Firmen in HubSpot bedenkenlos zusammenführen — die Deals der betroffenen Anfragen behalten ihre Firma. Kein Handlungsbedarf.
     </Card>
@@ -382,13 +400,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-14" description="Sammelrechnungen: verschiedene Besteller derselben Firma kombinierbar">
   Eine Sammelrechnung kann jetzt Bestellungen **verschiedener Personen** enthalten, solange alle zur selben Firma gehören — z.&nbsp;B. wenn mehrere Mitarbeitende buchen und die Firma eine gemeinsame Monatsrechnung bekommen soll. Ohne hinterlegte Firma gilt weiterhin: alle Bestellungen müssen vom selben Kunden stammen.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Fürs Kombinieren verschiedener Besteller muss der Schalter „Sammelrechnung (aggregated billing)" an der **Firma** gesetzt sein — der Schalter an einem einzelnen Kunden zählt nur, wenn alle Bestellungen von genau diesem Kunden stammen. Rechnungsdaten (Rechnungsadresse, Zahlungsziel, Empfänger) kommen wie bisher aus der **neuesten** der ausgewählten Bestellungen; ist dort eine zentrale Rechnungs-E-Mail hinterlegt, geht die Rechnung dorthin. Vor dem Erstellen also kurz prüfen, dass die neueste Bestellung die richtigen Rechnungsdaten trägt. Gastbestellungen ohne Kundenkonto können weiterhin nicht auf eine Sammelrechnung.
     </Card>
@@ -400,13 +418,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-14" description="HubSpot: Firmen-Verknüpfung an Deals zuverlässiger">
   Bei Anfragen, deren Firma nur als Datensatz verknüpft war (ohne Firmennamen als Freitext an der Anfrage), wurde die Firma teils nicht nach HubSpot übertragen — und der nächste Sync konnte eine bestehende Deal-Firma-Verknüpfung sogar fälschlich entfernen. Beides ist behoben: Der Firmenname kommt jetzt zuerst aus der verknüpften Firma, eine in HubSpot noch fehlende Firma wird beim Deal-Sync direkt nachsynchronisiert, und Verknüpfungen werden nur noch entfernt, wenn die Firma auch in eGora tatsächlich entfernt wurde.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Deals von B2B-Anfragen zeigen in HubSpot jetzt zuverlässig ihre Firma — kein Handlungsbedarf. Alt-Deals, denen die Verknüpfung noch fehlt, werden per Reparaturlauf (audit:hubspot-company-associations --repair) nachgezogen; der Lauf auf Produktion steht noch aus. Fällt Dir danach noch ein Deal ohne Firma auf, bitte melden statt manuell verknüpfen.
     </Card>
@@ -418,13 +436,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-14" description="Sammelrechnungen: Entwurf-Schritt + Gerichte auf der Rechnung">
   Sammelrechnungen lassen sich jetzt zweistufig erstellen — wie Einzelrechnungen: erst als **Stripe-Entwurf** (es wird nichts finalisiert und keine E-Mail versendet), dann nach Prüfung finalisieren und an den Kunden senden. Der Entwurf kann vor dem Versand direkt in Stripe angepasst werden; die Anpassungen bleiben beim Finalisieren erhalten. Außerdem listet jede Rechnungsposition jetzt die enthaltenen Gerichte mit Stückzahl auf (z.&nbsp;B. „Bestellung E5e1 – 24.07.2026 – 7&nbsp;% USt.: 2× Quiche, 10× Brownie") — Kunden sehen damit wieder, was hinter den Summen steckt.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       In der Bestellliste gibt es jetzt zwei Sammelaktionen: „CUSTOMER: Create collective Stripe invoice (as DRAFT)" erstellt nur den Entwurf; die bisherige Ein-Schritt-Aktion heißt jetzt „… and send (Sammelrechnung)" und verhält sich unverändert. Einen Entwurf finalisierst Du auf der Sammelrechnung (Catering Operations → Collective Invoices) über die neue Aktion „Finalize and send" — das Zahlungsziel wird dabei neu ab dem Versandtag gerechnet, auch wenn der Entwurf Tage vorher angelegt wurde. „Void" auf einem Entwurf löscht ihn in Stripe (Entwürfe können nicht storniert werden); die enthaltenen Bestellungen sind danach wieder abrechenbar. Zu den Gerichtslisten: Namen werden auf 30 Zeichen gekürzt, und pro Position passen ca. 12–20 Artikel — sehr lange Listen enden mit „…" (Stripe-Limit von 500 Zeichen pro Position).
     </Card>
@@ -436,13 +454,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-13" description="Caterer-Matching-Tool: parallele Tabs, Sticky-Kopfzeile, lesbare Beschreibungen">
   Das Caterer-Matching-Tool merkt sich jetzt Anfrage, Caterer und Schritt in der URL — ein Reload wirft Dich nicht mehr auf Schritt 1 zurück, und über „Auswählen" lassen sich mehrere Menü-Erstellungen parallel in eigenen Tabs öffnen. In der Menü-Erstellung bleibt oben eine feste Kopfzeile mit Anfragenummer, Kunde und Firma sichtbar, auch beim Scrollen durch die Produktliste. Produktbeschreibungen (Produktliste, Warenkorb, Add-ons) erscheinen als sauberer Text mit Zeilenumbrüchen und Aufzählungspunkten statt zusammengequetschtem Fließtext.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       „Auswählen" ist jetzt ein echter Link: Cmd-/Strg-Klick oder mittlere Maustaste öffnet die Menü-Erstellung für diesen Caterer in einem neuen Tab — der Knopf steht neu auch an den Alternativen unterhalb der Top-Treffer. Doppelklick auf eine Caterer-Karte springt direkt zum nächsten Schritt. Beschreibungen klappst Du über den neuen „Info"-Knopf am Produkt auf. Nach „Angebot erstellen" landest Du auf der Detailseite der Anfrage statt in der allgemeinen Angebotsliste.
     </Card>
@@ -454,13 +472,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-13" description="Formelle (Sie) E-Mails: Grußformel mit vollem KAM-Namen + Vorschau-Fix">
   Bei Kunden mit formeller Anrede (Sie) endet die Angebots-E-Mail jetzt mit dem **vollen Namen** des Absenders („Mit freundlichen Grüßen, Rebecca Indlekofer") statt nur des Vornamens — passend zur förmlichen Begrüßung. Dafür gibt es den neuen Platzhalter `{{kam_name}}` (voller KAM-Name); die formellen Standard-Textbausteine nutzen ihn bereits. Außerdem behoben: Die Live-Vorschau im Versand-Dialog brach mit „Preview failed: HTTP 422" ab, sobald als Sprache „German (formal/Sie)" erzwungen wurde.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Im Versand-Dialog (Einzelangebot und gebündelte Angebote) gibt es den neuen Chip `{{kam_name}}` — nutzbar auch in eigenen Textbausteinen unter Nova → Textbausteine; Du-Vorlagen behalten `{{kam_firstname}}`. Die Vorschau funktioniert jetzt auch mit erzwungener Sie-Form. Wichtig: Die Begrüßung („Guten Tag Vorname Nachname") folgt weiterhin der Anrede-Einstellung des Kunden, nicht der erzwungenen Sprache — für dauerhaft förmliche Kunden also die Anrede am Kunden bzw. an der Anfrage auf „formell" setzen.
     </Card>
@@ -472,13 +490,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-13" description="KPI-Dashboard: Filter greifen jetzt auch bei der transaktionsbasierten GMV-Kennzahl">
   Auf der Nova-Seite „Catering KPIs" (Sektion „General KPIs") hat die Karte **„Total GMV (transaction-based)"** bisher nur den Zeitraum beachtet — alle anderen Filter der Sektion wurden stillschweigend ignoriert. Jetzt greifen dieselben Filter wie bei den beiden anderen GMV-Karten: Lead Source, Neu-/Bestandskunde, Stadt, KAM, B2B, Budget und Formular-Variante. Ohne gesetzte Filter bleibt der Wert exakt wie bisher.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Filter in der Sektion „General KPIs" setzen wie gewohnt — die Karte zeigt aktive Filter jetzt als Badges unter „Applied Filters" und rechnet nur die passenden Bestellungen ein. Wichtig fürs Interpretieren: Bei anfragebezogenen Filtern (Lead Source, KAM, Formular-Variante, Stadt) fallen Bestellungen ohne verknüpfte Anfrage aus der Zahl heraus; ungefiltert zählen sie weiterhin mit. Auch der eGora-Datenzugang in Claude (get_catering_kpi) wendet diese Filter jetzt an, statt sie als „ignoriert" zu melden.
     </Card>
@@ -490,13 +508,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-13" description="Anfragen: Anlass und Formate als strukturierte Felder">
   Jede Catering-Anfrage hat jetzt zwei strukturierte Felder statt loser Text-Tags: **einen Anlass** (genau einer aus 16 Werten, z.&nbsp;B. Business Lunch, Weihnachtsfeier, Hochzeit — neu dabei: „Sonstiges Firmenevent") und **beliebig viele Formate** aus der vereinheitlichten 9er-Liste (Fingerfood, Warmes Buffet, Kaltes Buffet, Flying Buffet, Menü/Mehrgängig serviert, Einzelportionen — Boxen &amp; Bowls, Live Cooking, BBQ, Food Truck). Bei neuen Anfragen werden beide automatisch aus dem Anfrageformular abgeleitet — z.&nbsp;B. Kachel „Sommerfest / Weihnachtsfeier" + Event-Datum Nov–Jan ergibt Weihnachtsfeier, Haken „Buffet" ergibt Warmes Buffet. Bestandsanfragen wurden konservativ per Backfill befüllt; was nicht eindeutig war, bleibt bewusst leer.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       An der Anfrage in Nova: neues Suchfeld „Occasion" (neben „Type of catering") und das Panel „Formats". Im Caterer-Matching-Tool sind die Anlass- und Format-Chips (Reiter „L2: Tags") beim Auswählen einer Anfrage bereits mit den gespeicherten Werten vorbelegt. Im Backend-Anfrageformular nutzt das Anlass-Dropdown jetzt dieselbe 16er-Liste und speichert die Auswahl auf der Anfrage; Standardwerte je Anlass (Personenzahl, Budget) pflegst Du in Nova unter „Occasions (Anlass)" — sie füllen das Formular nach Rückfrage vor. Wichtig: HubSpot bekommt die neuen Felder bewusst noch nicht (folgt zusammen mit der Ablösung von „Type of catering"); der bisherige Catering-Typ-Text bleibt unverändert bestehen.
     </Card>
@@ -508,13 +526,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-13" description="Pakete: eine Format-Liste für Caterer und Pakete, Add-on-Pakete, Kategorie-Auswahl entfernt">
   Die Paket-„Stile" und die Caterer-Formate waren zwei getrennte Listen mit fast gleichem Inhalt — jetzt gibt es **eine** Format-Liste (die 9 Werte von oben) für beides; bestehende Stil-Zuordnungen wurden automatisch übernommen. Frühstück und Brunch sind als Formate ausgemustert (Tageszeiten, keine Servierformen). Die alte Paket-Kategorie ist aus dem Caterer-Backend verschwunden — Anlass + Format ersetzen sie. Neu ist das **Add-on-Kennzeichen** für Pakete, die kein eigenes Catering-Format sind (z.&nbsp;B. reine Getränke-Pakete): solche Pakete sind von der Pflicht „mindestens 1 Anlass + 1 Format" ausgenommen.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Nova: Paket-Ressource mit Spalten/Filtern „Occasions" und „Formats" plus „Add-on"-Haken; „Format Types" (unter Food &amp; Dietary) zeigt die Liste inkl. Aktiv-Status; „Package Styles" ist aus dem Menü entfernt (Altdaten bleiben erhalten). Nach dem Deploy setzt ein Auto-Tagger Paket-Anlässe aus den alten Freitext-Tags; übrig bleibt eine Kurationsliste: Pakete ohne Anlass, die Caterer-Format-Durchsicht (welche Warmes-Buffet-Caterer bekommen zusätzlich Kaltes Buffet? Wer ist Live-Cooking-/Food-Truck-Kandidat?) und Add-on-Kandidaten (Getränke-Pakete) — bitte einplanen.
     </Card>
@@ -526,13 +544,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Unter „Pakete" wählst Du beim Anlegen/Bearbeiten weiterhin Anlässe, aber neu „Format" aus der 9er-Liste (statt der Stil-Liste) — und der Kategorie-Schritt ist weg. Neu: Schalter „Add-on-Paket (z.&nbsp;B. reines Getränke-Paket)", der die Anlass-/Format-Pflicht aufhebt. Die Paketliste zeigt die Spalte „Anlass &amp; Format", einen Add-on-Filter und ein Add-on-Kennzeichen. Speicher-Fehler (z.&nbsp;B. fehlendes Format) erscheinen jetzt als deutliche Meldung oben rechts.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-11" description="Sammelrechnungen: eine Stripe-Rechnung über mehrere Bestellungen">
   Für ausgewählte Kunden bzw. Firmen gibt es jetzt Sammelrechnungen: Statt einer Stripe-Rechnung pro Bestellung erstellt der KAM **eine** gesammelte Rechnung über beliebig viele Bestellungen desselben Kunden (z.&nbsp;B. am Monatsende). Die Rechnung weist jede Bestellung einzeln aus — getrennt nach 7&nbsp;% und 19&nbsp;% USt., inklusive Pfand und pro Bestellung zugeordneter Gutscheine. Wird die Sammelrechnung bezahlt, springen alle enthaltenen Bestellungen automatisch auf „Bezahlt“. Für so eingestellte Kunden sind Einzelrechnungen hart blockiert, damit niemand versehentlich doppelt abrechnet.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Aktivierung: Schalter „Sammelrechnung (aggregated billing)“ am **Kunden oder an der Firma** in Nova — ab dann sind die Einzelrechnungs-Aktionen für deren Bestellungen gesperrt. Abrechnen: In der Bestellliste die gewünschten Bestellungen anhaken und die Aktion „CUSTOMER: Create collective Stripe invoice (Sammelrechnung)“ ausführen (alle Bestellungen müssen zum selben Kunden gehören, Zahlungsart Rechnung; dieselbe Steuersatz-Prüfung wie bei Einzelrechnungen). Das Zahlungsziel kommt aus dem Billing Profile des Kunden (Standard 14 Tage). Neue Ressource „Collective Invoices (Sammelrechnungen)“ unter Catering Operations: Status-Sync, E-Mail erneut senden, Stornieren (nur Admin). Storno-Weg bei Änderungen: Sammelrechnung stornieren, dann die verbleibenden Bestellungen neu abrechnen. Die Bestellliste zeigt bei enthaltenen Bestellungen „Sammelrechnung #…“ statt „INVOICE NOT CREATED“; die Filter „Sum Mismatch“, „Status Mismatch“ und „Invoices without Stripe“ sowie der nächtliche Status-Abgleich berücksichtigen Sammelrechnungen mit.
     </Card>
@@ -544,13 +562,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen — Auszahlung und monatliche Gutschrift laufen unverändert.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-10" description="Catering-Anfragen: Neues Feld „Getränke benötigt“ (Ja / Nein / unbeantwortet)">
   Ob ein Kunde Getränke braucht, war bisher nur indirekt erkennbar — über ausgewählte Getränkearten oder ein Tag im Catering-Typ. Jetzt hat jede Catering-Anfrage ein eigenes Feld mit drei Zuständen: leer (nie gefragt), Ja, Nein. Wählt der Kunde in seinem Backend Getränkearten aus, springt das Feld automatisch auf Ja. Nein wird bewusst nur manuell gesetzt — wer die Getränkefrage einfach übersprungen hat, gilt nicht als „braucht keine Getränke“.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       In Nova heißt das neue Feld „Drinks required“ und steht direkt unter „Equipment required“ (Auswahl: — / Yes / No). Setze „No“ nur nach einer expliziten Kundenantwort (z.&nbsp;B. im Quali-Call); „Yes“ setzt sich bei Getränke-Auswahl des Kunden von selbst. Das Feld synchronisiert in beide Richtungen mit dem neuen HubSpot-Deal-Property „drinks_required“ (Dropdown Ja/Nein) — Pflege in HubSpot ist gleichwertig. Auf den Anfrage-Karten erscheint die Zeile „Drinks Required“ im Abschnitt „Drink Details“. Bestandsanfragen mit Getränke-Auswahl oder Getränke-Tag wurden per Backfill auf Ja gesetzt; ältere HubSpot-Deals zeigen den Wert erst nach der nächsten regulären Synchronisation. Nebenbei behoben: Anfragen mit leerem „Type of catering“ lassen sich in Nova wieder speichern.
     </Card>
@@ -562,13 +580,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-09" description="Bestellungen: Menügruppen bleiben erhalten, wenn der Caterer das Angebot annimmt">
   Nahm ein **Caterer** ein Angebot in seinem Backend an, verlor die daraus erzeugte Bestellung die Menügruppen-Zuordnung ihrer Positionen: In der Bestellansicht (und auf gruppierten Dokumenten) landeten fast alle Produkte unter „Extras", obwohl das Angebot sauber in Buffet, Geschirr, Service usw. gruppiert war. Bei Paketen gingen auf diesem Weg zusätzlich die vom KAM angepassten Positions-Beschreibungen und Hinweise verloren. Beides ist behoben — und Bestellungen ohne gespeicherte Gruppe übernehmen die Gruppen jetzt automatisch aus dem verknüpften Angebot, wodurch auch alle **alten betroffenen Bestellungen** ohne Nacharbeit wieder korrekt angezeigt werden.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Die Gruppierung „Group by: Menu Group" in der Bestellansicht (Order Products &amp; Packages) stimmt jetzt wieder mit dem Angebot überein — auch rückwirkend. Falls Du bei einer betroffenen Bestellung Gruppen bereits manuell nachgezogen hast, bleiben Deine Werte erhalten (explizit gesetzte Gruppen haben Vorrang). Eine Datenkorrektur ist nicht nötig.
     </Card>
@@ -580,13 +598,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nimmst Du ein Angebot in Deinem Backend an, behält die Bestellung ab sofort die Menügruppen und alle Positions-Texte des Angebots. Nichts zu tun.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-09" description="Kunden-/Caterer-Backend: abgelaufene Sitzung führt zur Login-Seite statt zu einem Serverfehler">
   Wer eine Backend-Seite (Anfragen, Angebote, Menüvorschläge) länger offen ließ, bis die Sitzung abgelaufen war — oder sich in einem anderen Tab abmeldete —, bekam beim nächsten Klick auf der alten Seite einen Serverfehler. Jetzt leitet die Seite in diesem Fall sauber zur Anmeldung weiter; nach dem Login geht es normal weiter.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Nicht direkt betroffen (Nova war nie betroffen). Gut zu wissen für den Support: Meldungen wie „ich bekomme einen Fehler, wenn ich auf meine Anfrage klicke" nach längerer Inaktivität sollten damit verschwinden — die Empfehlung „Seite neu laden und neu einloggen" ist nicht mehr nötig, das passiert jetzt automatisch.
     </Card>
@@ -598,13 +616,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Wie bei Kunden: Nach abgelaufener Sitzung führt der nächste Klick im Backend zur Anmeldung statt zu einem Fehler.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-09" description="Catering-Angebots-Tool: Komma-Preise werden korrekt gespeichert">
   Preiseingaben mit Komma (z.&nbsp;B. `12,50`) werden im **Catering-Angebots-Tool (manuell)** jetzt korrekt gespeichert. Bisher wurde ein Komma-Preis beim Anlegen oder Bearbeiten eines Produkts stillschweigend auf volle Euro abgeschnitten — aus `12,50` wurden `12,00` €, ohne Fehlermeldung. Ungültige Eingaben (z.&nbsp;B. Buchstaben) werden jetzt mit einer klaren Meldung abgelehnt statt einen Serverfehler auszulösen.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Netto-Preise im Produkt-Formular des Angebots-Tools kannst Du jetzt mit Komma **oder** Punkt eingeben — beides landet korrekt im Katalog. Wichtig für die Vergangenheit: Komma-Preise der letzten Monate wurden abgerundet gespeichert. Wenn Dir ein Produktpreis verdächtig glatt vorkommt (volle Euro, wo Centbeträge üblich wären), prüfe und korrigiere ihn im Tool.
     </Card>
@@ -616,7 +634,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht direkt betroffen — falls ein von eGora gepflegter Katalogpreis fälschlich auf volle Euro lautete, kann das an diesem Fehler gelegen haben; melde ihn dem KAM zur Korrektur.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-08" description="Anfrage-Attribute: Verpflegungs-Zahlen (vegetarisch/vegan/Fisch/Fleisch) als eigene Felder statt Tags im Type-of-catering-String">
@@ -626,7 +644,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
   - **MCP** — die `list-catering-requests`-Antwort führt `type_of_catering` (nur noch Typen) sowie zusätzlich `dietary_headcount_vegetarian`, `dietary_headcount_vegan`, `dietary_headcount_fish` und `dietary_headcount_meat` als strukturierte Zahlen. `null` heißt „nie erfasst\" und ist explizit von `0` unterschieden.
   - **Filament (Neue Anfrage, Reorder-Wizard, Anfrage-Detail)** — Formularverhalten und Labels für Kunden bleiben unverändert. Intern werden die Zahlen jetzt in die neuen Spalten geschrieben.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       In Nova pflegst Du die Verpflegungs-Zahlen einer Anfrage nicht mehr durch Tippen von `vegetarisch=5` in **Type of catering**, sondern über die vier Zahlenfelder **Vegetarian / Vegan / Fish / Meat guests** direkt darunter. Der String **Type of catering** ist wieder nur für die Typen (`fingerfood`, `weihnachten`, `bowls` …); typt Du dort trotzdem einen `=`-Tag rein, wird er beim Speichern stillschweigend in die Zahlenfelder gehoben. Eine Plausiprüfung gegen die Gesamtzahl der Gäste gibt es bewusst nicht — Summen dürfen abweichen. Für MCP/Claude-Auswertungen stehen die Zahlen jetzt als eigene Felder zur Verfügung, statt aus dem String geparst werden zu müssen.
     </Card>
@@ -638,13 +656,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nebenbei behoben: Die Zeile **„Besondere Wünsche"** in der Menü-Anfrage-E-Mail war wegen eines Fehlers seit Langem leer und zeigt jetzt wieder die Wünsche des Kunden.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-08" description="Caterer-Checkout: Liefer- und Abholgebühr netto erfassen">
   Im Annahme-Dialog des Caterer-Backends werden Liefer- und Abholgebühr jetzt **netto** eingegeben — die Felder heißen entsprechend „Liefergebühr (netto, zzgl. 19 % MwSt.)" bzw. „Abholgebühr (netto, zzgl. 19 % MwSt.)". Beim Speichern rechnet das System auf brutto um; die Vorbelegung aus der Standard-Liefergebühr der Filiale wird passend netto angezeigt.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Auftrag und Rechnung enthalten weiterhin Bruttogebühren — nichts umzurechnen. Gut zu wissen bei Rückfragen: Caterer geben ihre Gebühren jetzt netto ein.
     </Card>
@@ -656,13 +674,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Beim Annehmen einer Anfrage die Gebühren **netto** eintragen — die 19 % MwSt. schlägt das System automatisch auf. Nicht mehr selbst auf brutto hochrechnen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-08" description="Freitexte behalten ihre Zeilenumbrüche">
   Freitexte an der Anfrage („Sonstige Wünsche", „Ablauf des Events", „Location") werden im Kunden-Backend jetzt mit Zeilenumbrüchen angezeigt, und beim Inline-Bearbeiten bleibt die Zeilenstruktur erhalten — vorher wurde mehrzeiliger Text zu einem Block zusammengeschoben.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       In Nova gepflegte Absätze in „Ablauf des Events" / „Location" überleben es jetzt, wenn der Kunde die Felder im Backend inline bearbeitet.
     </Card>
@@ -674,7 +692,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-08" description="Anfrage-Attribute: Allergien und Präferenzen zu einem Feld „Ernährungshinweise“ zusammengeführt">
@@ -685,7 +703,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
   - **HubSpot** — die neue Property `dietary_requirements` wird beidseitig synchronisiert (Push und Webhook). Die alten Properties `allergies` und `preferences` werden während der Übergangsphase weiter befüllt und akzeptiert; sobald sie in HubSpot archiviert sind, fallen sie weg.
   - **MCP** — das gemergte Feld ist wie die Vorgänger als PII gekennzeichnet und in der `list-catering-requests`-Antwort **nicht** enthalten.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Im Nova-Formular einer Anfrage pflegst Du Ernährungsinfos ab sofort in **einem** Feld **„Dietary requirements"**. Die beiden ersten Zeilen `Allergien:` und `Präferenzen:` gehören den Kundeneingaben — **Labels nicht umbenennen** und nichts direkt hinter den Doppelpunkt schreiben, sonst überschreibt der nächste Kunden-Edit Deine Ergänzung. Eigene Notizen und Rückfragen darunter (freier Bereich). Beim Wechseln des Event-Formats zieht Nova Küchen, Dislikes und Allergien des Formats als Startwert; überschreibe sie, wenn sie für die konkrete Anfrage nicht passen. In der Caterer-Kommunikation taucht der Inhalt jetzt als eine Zeile **„Ernährungshinweise"** auf statt in zwei Blöcken.
     </Card>
@@ -697,13 +715,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       In den Anfrage- und Angebots-Mails (inklusive Änderungs- und Absage-Benachrichtigungen) siehst Du Ernährungsinfos ab sofort in einer einzigen Zeile **„Ernährungshinweise"** — Allergien und Präferenzen stehen darin als gekennzeichnete Absätze untereinander statt in zwei separaten Zeilen. Inhaltlich ändert sich nichts.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-07" description="MCP-Zugriff auch für KAM-Rolle (bislang nur Admin)">
   Der `/mcp`-Endpoint und die zugehörige `/api/admin/kpi/*`-Fläche akzeptieren jetzt neben der Spatie-Rolle **`admin`** auch die Rolle **`kam`**. Damit können KAM-Nutzer ihren Claude-Zugang selbst per OAuth aktivieren, ohne vorher Admin-Rechte zu bekommen. Die Konsolen-Aktion zum Ausstellen persönlicher Tokens heißt jetzt `mcp:issue-token` (löst `kpi:issue-token` ab) und schreibt die Ability `mcp:use` auf das Token; Tokens aus dem Vorgänger-Command (`kpi:read`) authentifizieren weiter, bis sie ablaufen.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Du kannst Claude jetzt selbst mit den eGora-Daten verbinden — Anleitung unter [Claude mit eGora-Daten verbinden (MCP)](/it/mcp-setup). Für den Standardweg (OAuth in Claude Web / Cowork / Teams) reicht Deine bestehende Nova-Anmeldung mit der KAM-Rolle; ein Admin-Konto ist nicht mehr Voraussetzung. Wenn Du bislang mit einem alten `kpi:read`-Token in Claude Code oder Desktop arbeitest, läuft das weiter — beim nächsten Rollover stellt Steffen ein neues `mcp:use`-Token aus.
     </Card>
@@ -715,7 +733,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-07" description="Kunden-Backend: „Präferenzen“-Tab in Mein Konto entfernt; Firmen-Präferenzen als Prefill-Quelle abgeschaltet">
@@ -727,7 +745,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
   - **Nova** — die Panels **Offer Preferences**, **Catering Preferences** und **Billing Preferences** auf der `Company`-Resource sind entfernt; auf `CateringRequest` fällt das Panel **Angebots-Präferenzen (Kunde)** weg.
   - **OrderHub** — die Ressource liefert `catering_preferences` nicht mehr aus.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       In Nova siehst Du auf Firmen- und Anfrage-Detailseiten keine Firmen-Präferenzen mehr — sie waren de facto ungenutzt. Prozentsätze für die Verpflegung (veggie / vegan / Fleisch) pflegst Du weiterhin am **Event-Format**; im Prefill des Neue-Anfrage-Flows zieht Filament jetzt nur noch von dort. Die Rechnungs-E-Mail einer neuen Offer kommt nicht mehr aus einer Firmen-Voreinstellung — falls Du bislang darauf gebaut hast, prüf den Order-Kontakt und trag sie ggf. manuell nach.
     </Card>
@@ -739,7 +757,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-06" description="Sonstige Wünsche: gemergte Altfeld-Blöcke wieder als lesbare Bullet-Liste">
@@ -747,7 +765,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
   Anfragen, deren `[Altfeld – …]`-Anhang seit dem Merge von einem KAM nachbearbeitet wurde, bleiben unverändert und werden im Report gemeldet.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Wenn Du bei Altanfragen in **Sonstige Wünsche** bisher einen unstrukturierten Textblock unter `[Altfeld – …]` gesehen hast, siehst Du dort ab jetzt eine Bullet-Liste, wie sie ursprünglich im Anfrageformular eingegeben wurde. Inhalte selbst ändern sich nicht. Hattest Du einen Altfeld-Block bereits selbst überarbeitet, bleibt Deine Version stehen.
     </Card>
@@ -759,7 +777,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-05" description="Event-Formate & Anlässe: Budget/Person jetzt als Min–Max-Feld (statt Freitext und „Preisniveau“)">
@@ -769,7 +787,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
   - **Filament (Kunden-Backend, „Mein Konto → Events“)** — beim Anlegen/Bearbeiten eines eigenen Event-Formats gibt der Kunde Min und Max separat ein; die Kartenansicht zeigt weiterhin ein aufbereitetes Label (`18-22 €/Person`).
   - **Neue-Anfrage-Flow (Filament)** — der Prefill beim Auswählen eines Event-Formats oder Anlasses zieht jetzt aus Min (Fallback: Max).
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Beim Pflegen eines Event-Formats oder Anlasses in Nova trägst Du das Budget ab sofort in **zwei** Feldern (**Budget/Person Min (€)** und **Max (€)**) statt in einem Freitextfeld ein. Das alte **Preisniveau** (low/mid/high) ist weg — bestehende Formate wurden automatisch auf 15 / 25 / 40 € umgeschrieben; prüfe bei Formaten, die Du aktiv nutzt, ob der Zielwert noch passt, und feintune Min/Max entsprechend. Für eine feste Zahl beide Felder gleich setzen.
     </Card>
@@ -781,13 +799,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-05" description="Lead-Formular: separates „Anforderungen“-Feld entfällt — Freitext geht in „Sonstige Wünsche“">
   Im öffentlichen Anfrage-Formular (`CateringRequestForm` und `EventDesigner`) ist das separate Freitext-Feld für **Anforderungen** (intern `requirements_info`) auf der Personal/Equipment/Location-Seite **entfernt**. Kundenkommentare zum Event wandern jetzt ausschließlich in das Freitextfeld **„Gibt es weitere Infos zu Deinem Event, die wir wissen sollten?“** auf der Satiety-/Freitext-Seite (intern `additional_info`, im KAM-Backend als **„Sonstige Wünsche“** sichtbar). Damit gibt es pro Anfrage nur noch ein Freitextfeld statt zwei parallele. Historische Anfragen behalten ihre alten Werte, bis das W3-Stage-3-Housekeeping sie in **Sonstige Wünsche** zusammenzieht.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Neue Leads bringen ihren Freitext ausschließlich in **Sonstige Wünsche** mit — das frühere Feld **Anforderungen** bleibt bei neuen Anfragen leer. Bei Altanfragen kannst Du beides noch nebeneinander sehen; verlasse Dich beim Weiterverarbeiten primär auf **Sonstige Wünsche**.
     </Card>
@@ -799,7 +817,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-07-03" description="Lieferung/Abholung: Katalog-Zwang gilt überall; neuer Standardkatalog-Eintrag Abholung; 19 % Default">
@@ -810,7 +828,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
   - **Katalog-basierte Produkte lassen sich nicht mehr löschen** — weder in Nova noch in Filament. Historische Aufträge und Angebote referenzieren sie, ein Löschen würde diese Historie verwaisen lassen.
   - **DB-Ebene:** pro Caterer kann es nur noch **ein** Produkt pro Standardkatalog-Eintrag geben (unique index). Bestehende Duplikate wurden zuvor mit `audit:delivery-pickup-products` konsolidiert.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Wenn ein Caterer meldet, dass er „Lieferung", „Abholung", „Versand" oder „Rücktransport" nicht mehr als eigenes Produkt anlegen kann: das ist gewollt — er muss den Eintrag aus dem **Standardproduktkatalog** wählen. „Abholung" ist neu im Katalog verfügbar, du musst nichts anlegen. Beim Umsatzsteuersatz für Lieferungen kannst du im Cart weiterhin 7 % oder 19 % führen; der Katalog-Default ist jetzt 19 %.
     </Card>
@@ -822,13 +840,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterers" icon="utensils">
       Liefer- und Rücktransport-Positionen (Titel wie „Lieferung", „Versand", „Abholung", „Rücktransport", „Logistikpauschale", „Anfahrtspauschale") legst du ab sofort **überall** im Backend nur noch über den **Standardproduktkatalog** an — auch beim einzelnen Produkt-Anlegen, im Angebots-/Anfrage-Modal und im AI-Menü-Import. Ein Custom-Produkt mit so einem Titel wird abgelehnt. „Abholung" ist neu als eigener Katalog-Eintrag verfügbar. Katalog-basierte Produkte lassen sich nicht mehr löschen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06-30" description="Angebots- und Auftragszeilen: Beschreibung und Hinweis mehrsprachig, neue Translate-Actions">
   Die pro Positionszeile hinterlegten Felder **Description** und **Hinweis** (bei Produktvarianten und Paketen — sowohl auf Offer- als auch auf Order-Ebene) werden jetzt genau wie Produkt- und Paketnamen mehrsprachig gespeichert (Deutsch + Englisch). KAM tippt weiterhin Deutsch; Englisch wird automatisch nachgezogen — beim Versand einer Menü-Vorschlags- oder Angebots-Mail an die Kundschaft übersetzen die Send-Jobs alle noch fehlenden Zeilen. Zusätzlich gibt es zwei neue Nova-Detail-Actions **„Translate the offer, i.e. all attached products"** (auf CateringOffer) und **„Translate the order, i.e. all attached products and line notes"** (auf Order), die die komplette Übersetzung — Produkte, Pakete und Zeilen-Overrides — als Hintergrund-Job anstoßen. Im Action-Modal wählst Du das Sprachmodell (`GPT-5.5` als Default, plus `GPT-5.4`, `GPT-5.4 mini`, `GPT-5.4 nano` als günstigere Alternativen). Läuft der Job schief, meldet sich der Slack-Channel `urgent_kam_actions`.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Wenn Du die deutsche Beschreibung oder den Hinweis einer Positionszeile im Nachhinein änderst und die Kundschaft englische Kommunikation bekommt, musst Du nicht mehr manuell die Übersetzung pflegen: entweder den Versand normal auslösen (fehlende Übersetzungen werden inline nachgezogen) oder auf der Offer-/Order-Detailseite die Action **„Translate the offer …"** bzw. **„Translate the order …"** starten. Für lange Legaltexte (z. B. Stornogarantie) lohnt sich das Vor-Übersetzen, weil die Send-Action selbst dadurch schneller durchläuft. Modell-Default `GPT-5.5` passt für den Regelfall — für Massen-Nachträge auf günstigere Varianten wechseln.
     </Card>
@@ -840,13 +858,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06-30" description="Cart: „Add to catalog“ direkt aus der Positionszeile">
   In Nova-Cart-Views (OrderProductsCard und OfferProductsCard) gibt es neben dem Status jeder Positionszeile jetzt einen Hinweis, ob das zugrundeliegende Produkt **„Available in catalog"** ist oder **„This offer only"**. Im Edit-Modus erscheint bei _Offer-only_-Produkten zusätzlich ein grüner Button **„Add to catalog"** — ein Klick entfernt das _offer\_only_-Flag und setzt den Produktstatus auf _Available_, sodass der Caterer das Produkt im Standardkatalog wiederverwenden kann. Packages haben kein offer\_only-Feld und sind nicht betroffen. Die Aktion ist Admin-only.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Wenn Du in einer Offer- oder Order-Detailansicht eine Position siehst, die als **„This offer only"** markiert ist und im Caterer-Katalog landen soll: Edit-Modus an, **„Add to catalog"** klicken — das Produkt wird sofort in den Standardkatalog des Caterers übernommen. Keine Umwege mehr über die Produkt-Detailansicht.
     </Card>
@@ -858,13 +876,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht direkt betroffen — KAM kann jetzt aus dem Cart heraus Custom-Produkte in Deinen Standardkatalog überführen. Ein vorher als „nur für dieses Angebot" angelegtes Produkt steht danach in Deinen Katalogen für künftige Anfragen zur Verfügung.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06-30" description="Cart-Positionen: Hinweis-Feld klar als kundenseitig gekennzeichnet">
   Das Notiz-Feld einer Positionszeile (Offer Content, Order Content sowie die Nova-Bulk-Action **„Edit Multiple Offer Variants"**) heißt jetzt einheitlich **„Note (visible to customer)"** / **„Hinweis (für Kunden sichtbar)"**. Der Hilfetext stellt klar, wo der Text auftaucht: im Kunden-Backend (Angebot und gebuchter Auftrag), auf dem Angebots- und Auftrags-PDF, im Menü-Vorschlags-PDF sowie auf dem Lieferschein für Caterer/Fahrer. Das Feld ist **nicht** für interne Notizen gedacht.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Behandle das Hinweis-Feld einer Positionszeile als kundensichtbar — was Du dort reinschreibst, liest die Kundschaft im Backend, auf dem PDF und auf dem Lieferschein. Für interne Notizen die dafür vorgesehenen Felder nutzen (z. B. _Logistics Notes_, _Commission comment_). Die Bulk-Action **„Edit Multiple Offer Variants"** trägt denselben Hinweis in alle ausgewählten Varianten gleichzeitig ein.
     </Card>
@@ -876,7 +894,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht direkt betroffen — der Hinweis auf dem Lieferschein ist derselbe Text, den auch die Kundschaft sieht. Keine internen Anmerkungen erwarten.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06-30" description="Offer / Menu-Proposal an Kunde: Kategorie- und Steuersatz-Gate vor dem Versand">
@@ -885,7 +903,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
   - **Kategorien-Gate:** Hat eine Positionszeile noch keine Produktkategorie, wird der Versand mit Hinweis auf die fehlenden Items abgebrochen. Über die Action **„Review item categories"** in der Offer-Detailansicht lassen sich die fehlenden Kategorien nachpflegen.
   - **Steuersatz-Gate:** Tauchen im Modal Hinweise auf abweichende Steuersätze auf (Cart 7 % / 19 % gegen Kategorie- bzw. Stammdaten-Satz), muss die Checkbox **„I have checked the cart tax rates"** aktiv bestätigt werden. Saubere Carts zeigen kein Modal-Element.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Bevor Du ein Angebot oder eine Menü-Vorschlags-Mail rausschickst, läuft das Kategorien-Gate durch — fehlt irgendwo eine Produktkategorie, weist Nova die Action ab und nennt die betroffenen Items. Öffne dann die Offer-Detailansicht und nutze **„Review item categories"**. Beim Steuersatz-Hinweis im Action-Modal vor dem Versand die Cart-Sätze gegen die ausgewiesenen Stammdaten-/Kategoriesätze prüfen und erst danach den Haken setzen.
     </Card>
@@ -897,13 +915,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06-30" description="Menü-Editor: Lieferung und Abholung nur aus dem Standardkatalog">
   Im Filament-Menü-Editor lassen sich Positionen mit Titeln wie **„Lieferung"**, **„Versand"**, **„Abholung"** oder **„Rücktransport"** nicht mehr als freies Custom-Produkt anlegen — das Speichern wird mit dem Hinweis abgebrochen, dass diese Positionen aus dem Standardproduktkatalog gewählt werden müssen. Verglichen wird unabhängig von Groß-/Kleinschreibung, deutsche und englische Schreibweisen werden erkannt (z. B. _delivery_, _shipping_, _pickup_, _collection_). Damit landen Liefer- und Rücktransport-Gebühren immer auf demselben kanonischen Katalogeintrag.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Nicht direkt betroffen — wenn ein Caterer Rückfragen hat, weil er „Lieferung" nicht mehr frei anlegen kann: er muss den Eintrag aus dem Standardproduktkatalog auswählen.
     </Card>
@@ -915,13 +933,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Wenn Du im Menü-Editor eine Liefer- oder Rücktransport-Position brauchst, lege sie ab sofort aus dem **Standardproduktkatalog** an (Suchbegriff „Lieferung" bzw. „Abholung"). Eine eigene Custom-Position mit diesem Titel wird abgelehnt.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06-29" description="Multi-Date-Bestellungen: Mengen lassen sich ohne service_date-Fehler bearbeiten">
   In Multi-Date-Bestellungen ließ sich die **Menge** einer bestehenden Positionszeile bisher nicht ändern, wenn die Zeile aus Alt-Daten kein `service_date` trug — der Speichern-Versuch wurde mit „Service date is required…" abgewiesen, obwohl das Service-Datum gar nicht angefasst wurde. Die Prüfung greift jetzt nur noch beim Anlegen einer neuen Zeile oder beim aktiven Leeren des Service-Datums; reine Mengen-Updates auf Alt-Zeilen gehen wieder durch.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Du kannst Mengen in Multi-Date-Aufträgen wieder direkt anpassen. Wenn Du dabei feststellst, dass eine Zeile gar kein Service-Datum trägt, setze es bei Gelegenheit — neue Zeilen ohne Service-Datum bleiben blockiert.
     </Card>
@@ -933,13 +951,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06-29" description="KAM kann den Absage-Mail-Tier pro Caterer setzen">
   Ergänzend zum Caterer-Account-Schalter (siehe Eintrag vom 26.06.) lässt sich der Tier für die automatische Absage-Mail jetzt auch im Nova-Branch-Resource pflegen — Feld **„Auto rejection email"** mit denselben drei Stufen (_For requests with an own offer_ — Standard, _For all requests proposed for_, _No notifications_).
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Wenn ein Caterer Dich bittet, seine Absage-Mail-Einstellung zu ändern, kannst Du das jetzt in der Branch-Maske im Backend erledigen, statt ihn durch das Caterer-Account-Menü zu lotsen.
     </Card>
@@ -951,13 +969,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen — der Schalter im Caterer-Account bleibt wie gehabt.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06-26" description="Automatische Absage-Mail an unterlegene Caterer">
   Sobald eine Catering-Anfrage einem Caterer fest zugeschlagen wird (Status **DATE\_CONFIRMED**), bekommen unterlegene Caterer automatisch eine Absage-E-Mail — sie müssen nicht länger auf eine Rückmeldung warten. Pro Filiale steuert der Caterer im **Caterer-Account → Benachrichtigungen → Absage-Benachrichtigungen**, ob und wann er diese Mails erhält: nur für Anfragen mit eigenem Angebot (Standard), für jede Anfrage, für die er vorgeschlagen wurde, oder gar nicht. Caterer, die bereits selbst abgesagt haben, werden ausgespart; der Versand erfolgt einmalig pro Anfrage und wird im KAM-Inbox als ausgehende E-Mail dokumentiert.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Manuelles Hinterher-Absagen entfällt für die Standardfälle. Im KAM-Inbox erscheinen die automatischen Absagen als ausgehende E-Mail-Einträge (Kategorie _Offer Rejected_) — prüfe dort, bevor Du eine zusätzliche Absage rausschickst.
     </Card>
@@ -969,13 +987,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Öffne im Caterer-Account den Reiter **Benachrichtigungen** und wähle unter **Absage-Benachrichtigungen** die passende Stufe. Standard ist **„Für Anfragen, für die ich ein Angebot abgegeben habe"**. Ohne hinterlegte Filial-E-Mail wird nichts versandt.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06-25" description="OrderHub: Rechnungs-Action prüft Steuersätze">
   Die vier KAM-Checklisten-Actions im OrderHub (**Bestellbestätigung → Kunde**, **Bestellbestätigung → Caterer**, **Lieferschein → Caterer**, **Rechnung → Kunde**) verhalten sich jetzt identisch zum Actions-Dropdown. Insbesondere zeigt **Rechnung → Kunde** bei abweichenden Steuersätzen im Warenkorb keine grüne Erfolgsmeldung mehr ohne dass die Stripe-Rechnung erzeugt wurde — stattdessen erscheint eine Bestätigung mit den betroffenen Positionen, und erst nach „OK" wird die Rechnung erstellt.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Wenn Du in der Checklist auf **Rechnung → Kunde** klickst und ein Tax-Hinweis erscheint, prüfe die aufgelisteten Positionen. Mit „Abbrechen" wird nichts gesendet, mit „OK" wird die Rechnung trotzdem erstellt. Vorher gemeldete „falsche" grüne Toasts gibt es nicht mehr.
     </Card>
@@ -987,13 +1005,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06 · Beispiel" description="Anrede pro Kunde (Du / Sie)">
   Kunden können jetzt konsistent über E-Mails, das Kunden-Backend, Umfragen und PDFs hinweg formell (**Sie**) oder informell (**Du**) angesprochen werden.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Lege den Anredestil im Kundendatensatz fest. Standard ist informell (**Du**).
     </Card>
@@ -1005,13 +1023,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06 · Beispiel" description="Stornogarantie auf Auftragsebene">
   Die Stornogarantie-Stufe folgt jetzt automatisch der **Auftragssumme**, und KAM kann einen einzelnen Auftrag davon ausnehmen. Eingefroren wird, sobald der Auftrag fakturiert oder bezahlt ist.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Neuer Opt-out-Schalter pro Auftrag. Die Stufe passt sich von selbst an — keine manuelle Neuberechnung nötig.
     </Card>
@@ -1023,13 +1041,13 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Die Stornogarantie-Zeile erscheint nicht mehr auf dem Lieferschein.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
 <Update label="2026-06 · Beispiel" description="Layer-Matching im Caterer-Matching deaktivieren">
   KAM kann das Caterer-Matching auf eine flache, alphabetische Liste aller veröffentlichten Caterer umstellen, um direkt auszuwählen und die Scoring-Layer zu umgehen.
 
-  <CardGroup cols={3}>
+  <Columns cols={3}>
     <Card title="KAM" icon="headset">
       Neuer Schalter „Layer-Matching deaktivieren" im Matching-Tool.
     </Card>
@@ -1041,9 +1059,9 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
     <Card title="Caterer" icon="utensils">
       Nicht betroffen.
     </Card>
-  </CardGroup>
+  </Columns>
 </Update>
 
-<Tip>
+<Callout kind="tip">
   Da das Ganze in Git lebt, ist jeder Eintrag in einem Pull Request reviewbar — und da Mintlify `llms.txt` bereitstellt, können dieselben Notizen den Claude-Team-„eGora KAM Assistant" grounden, sodass KAM einfach _fragen_ kann, was sich geändert hat.
-</Tip>
+</Callout>

@@ -16,28 +16,28 @@ Der Analytics-Bereich. Die vier KPI-Menüpunkte verlinken alle auf **dieselbe** 
 | **Finance KPIs** | `#finance-kpis` | Umsatz, Provision, Auszahlungen, Steuern |
 | **Diverse KPIs** | `#backend-visit-rate-kpis` | Backend-Nutzung, Caterer-/Kunden-Interaktion |
 
-<Note>
+<Callout kind="info">
   Die KPI-Seite definiert **~109 kanonische Kennzahl-Kacheln** in 12 Abschnitten. Sie ist die Quelle der
   Wahrheit für „Wie hoch ist unser X?". Die vollständige Liste steht im
   [KPI-Katalog](/it/kpi-catalog); der Claude-Assistent liest dieselben Werte serverseitig über die
   `get_catering_kpi`-MCP-Funktion.
-</Note>
+</Callout>
 
 ## Funnel- & Attributions-Ressourcen
 
-<CardGroup cols={2}>
+<Columns cols={2}>
   <Card title="LeadFormProgress" icon="filter">
     Funnel-Sessions des Lead-Formulars – wie weit ein Interessent im Formular gekommen ist.
   </Card>
-  <Card title="GoogleAd" icon="bullhorn">
+  <Card title="GoogleAd" icon="megaphone">
     Google-Ads-Klick-/View-Zeilen zur Attribution (Kampagne + Anzeigengruppe).
   </Card>
-  <Card title="LeadSource" icon="signs-post">
+  <Card title="LeadSource" icon="signpost">
     Die Lead-Quellen-Lookup – woher eine Anfrage stammt (Ads vs. organisch etc.).
   </Card>
-</CardGroup>
+</Columns>
 
-<Warning>
+<Callout kind="alert">
   Es gibt zwei GMV-Sichtweisen (nach **Anfragedatum** vs. nach **Buchungs-/Item-Datum**) sowie eine
   transaktionsbasierte Variante. Vergleiche immer dieselbe Definition – die KPI-Seite benennt sie je Kachel.
-</Warning>
+</Callout>

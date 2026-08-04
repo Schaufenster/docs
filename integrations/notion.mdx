@@ -7,22 +7,22 @@ icon: "book"
 Notion bleibt der Ort, an dem KAMs ihre **laufende, sich ändernde** Dokumentation pflegen. Wir synchronisieren Notion **nicht**
 automatisch in diese KB. Stattdessen:
 
-<CardGroup cols={2}>
-  <Card title="Claude liest Notion live" icon="robot">
+<Columns cols={2}>
+  <Card title="Claude liest Notion live" icon="bot">
     Über den **Notion-Connector** von claude.ai kann der Assistent die neuesten Notion-Entwürfe direkt lesen —
     keine Sync, immer aktuell.
   </Card>
   <Card title="Stabile Dokumente werden befördert" icon="arrow-up">
     Sobald ein Notion-Dokument zu einem "offiziellen" Prozess wird, wandert es in diese KB (git-versioniert, reviewt).
   </Card>
-</CardGroup>
+</Columns>
 
 ## Warum diese Trennung
 
 - **Notion** = schnell, unaufgeräumt, aktuellster Stand → live lesen für "Was ist der neueste Entwurf?".
 - **Diese KB** = kuratiert, reviewt, offiziell → die Single Source of Truth für "Wie machen wir X tatsächlich?".
 
-<Note>
-  Mintlify bietet ebenfalls einen nativen Notion-Connector für seinen Agent. Wir evaluieren ihn während des Tests, aber
-  das Standardmodell ist vorerst **N1: Notion bleibt live, Claude liest direkt darauf zu.**
-</Note>
+<Callout kind="info">
+  Das Standardmodell ist **N1: Notion bleibt live, Claude liest direkt darauf zu.** In die KB wird nur
+  übernommen, was kuratiert und stabil ist.
+</Callout>

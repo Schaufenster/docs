@@ -8,10 +8,10 @@ Ein KAM bewegt eine Anfrage durch das System anhand der **tatsächlichen Caterin
 Path ist aus den Status-Gruppen des Systems abgeleitet – es ist **keine** fest verdrahtete Sequenz, sodass echte
 Anfragen Schritte überspringen oder erneut durchlaufen können.
 
-<Info>
+<Callout kind="info">
   Diese Seite zeigt die **KAM-Status-Mechanik** im Detail. Das große Bild end-to-end (Geschäftsmodell,
   Funnel, Departments) steht unter [So funktioniert egora](/grundlagen/so-funktioniert-egora).
-</Info>
+</Callout>
 
 ## CateringRequest-Status (Systemwerte)
 
@@ -67,15 +67,15 @@ Anfragen Schritte überspringen oder erneut durchlaufen können.
   </Step>
 </Steps>
 
-<Note>
+<Callout kind="info">
   Guard: Die kundenseitigen Feedback-Status (OFFER_SENT_TO_CUSTOMER, REJECTED_BY_CUSTOMER,
   IN_EXCHANGE_WITH_CUSTOMER …) sind nur gültig, **sobald ein Angebot tatsächlich versendet wurde**
   (`sent_to_customer_at` ist gesetzt). Für terminale/verlorene Fälle siehe
   [Wenn es schiefläuft](/kam-handbook/when-it-goes-sideways).
-</Note>
+</Callout>
 
-<Info>
+<Callout kind="info">
   Status-Übergänge werden in `catering_request_logs` protokolliert (z. B. *Received request → Creating menu
   proposals → … → Offer sent to customer → … → Invoice paid*). Frag den Assistenten „was ist mit dieser
   Anfrage wann passiert", um diesen Audit-Trail über den Connector zu lesen.
-</Info>
+</Callout>

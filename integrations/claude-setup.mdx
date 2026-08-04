@@ -6,23 +6,24 @@ icon: "robot"
 
 Der eGora Team Assistant wird erst dann nützlich, wenn Claude die drei Live-Quellen lesen kann. Das Setup erfolgt pro Person.
 
-<Tip>
+<Callout kind="tip">
   Eine vollständige, geführte Einrichtung aller Connectors (inkl. HubSpot) findest Du unter
   [Den eGora Team Assistant einrichten](/integrations/team-assistant-setup). Diese Seite ist die
   Kurzfassung für die KB-Anbindung.
-</Tip>
+</Callout>
 
 <Steps>
   <Step title="Öffne das eGora Team Assistant Project">
     Öffne in claude.ai das geteilte Team Project. Power-User können auch Claude Code / Cowork verwenden.
   </Step>
-  <Step title="Verbinde die KB (Mintlify MCP)">
+  <Step title="Verbinde die KB (documentation.ai Reader-MCP)">
     Füge einen **Custom Connector** hinzu, der auf den authentifizierten MCP-Endpoint der KB zeigt:
-    `https://docs.egora-catering.de/mcp`. Melde dich bei Aufforderung als eGora-Org-Mitglied an.
+    `https://docs.egora-catering.de/_mcp/auth`. Melde dich bei Aufforderung mit dem geteilten
+    **KB-Team-Passwort** an (steht im Team-Slack; im Zweifel bei Steffen fragen).
 
     In Claude Code stattdessen:
     ```bash
-    claude mcp add --transport http egora-kb https://docs.egora-catering.de/mcp
+    claude mcp add --transport http egora-kb https://docs.egora-catering.de/_mcp/auth
     ```
   </Step>
   <Step title="Verbinde Live-Daten (egora-data MCP)">
@@ -33,11 +34,11 @@ Der eGora Team Assistant wird erst dann nützlich, wenn Claude die drei Live-Que
   </Step>
 </Steps>
 
-<Tip>
+<Callout kind="tip">
   Sobald alles verbunden ist, frage zum Beispiel *"Wie onboarden wir einen neuen Account?"* (KB), *"Wie viele B2B-Anfragen
   in den letzten 7 Tagen?"* (egora-data) oder *"Was ist der aktuellste Entwurf des Eskalationsprozesses?"* (Notion).
-</Tip>
+</Callout>
 
-<Note>
+<Callout kind="info">
   Die Live-KB-Domain ist `docs.egora-catering.de`.
-</Note>
+</Callout>

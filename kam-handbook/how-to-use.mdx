@@ -6,14 +6,14 @@ icon: "compass"
 
 Du kannst dieses Wissen auf zwei Arten nutzen.
 
-<CardGroup cols={2}>
+<Columns cols={2}>
   <Card title="Hier lesen" icon="book-open">
     Stöbere in den Tabs **KAM Handbook**, **IT / Intern** und **Integrationen**.
   </Card>
-  <Card title="Den Assistenten fragen" icon="robot">
+  <Card title="Den Assistenten fragen" icon="bot">
     Der **eGora KAM Assistant** (Claude) liest diese KB live und kann zusätzlich Live-Daten und Notion abrufen.
   </Card>
-</CardGroup>
+</Columns>
 
 ## Welche Quelle welche Frage beantwortet
 
@@ -21,18 +21,18 @@ Der Assistent ist mit drei Quellen verbunden. Er wählt je nach Frage:
 
 | Deine Frage | Quelle |
 | --- | --- |
-| „Wie funktioniert X / wie ist der Prozess?" | **Diese KB** (Mintlify) |
+| „Wie funktioniert X / wie ist der Prozess?" | **Diese KB** |
 | „Was ist der aktuelle Status / die Anzahl von Datensatz Y?" | **egora-data** (live, PII-bereinigt) |
 | „Was ist der aktuellste Entwurf / noch nicht offiziell?" | **Notion** |
 
 ## Was der Assistent tut – und was nicht
 
-<Check>Er entwirft Kundenantworten und Angebotstexte (Deutsch, informelles „Du", mit Platzhaltern).</Check>
-<Check>Er ruft Live-Status und Anzahlen von Requests/Orders über den Connector ab.</Check>
-<Check>Er führt dich durch den Lifecycle und die Post-Booking-Checkliste.</Check>
+<Callout kind="success">Er entwirft Kundenantworten und Angebotstexte (Deutsch, informelles „Du", mit Platzhaltern).</Callout>
+<Callout kind="success">Er ruft Live-Status und Anzahlen von Requests/Orders über den Connector ab.</Callout>
+<Callout kind="success">Er führt dich durch den Lifecycle und die Post-Booking-Checkliste.</Callout>
 
-<Warning>
+<Callout kind="alert">
   Er erfindet **keine** Preise, Termine, Mengen, Status oder IDs und führt **keine** verbindlichen
   Aktionen aus (Angebote senden, Buchungen bestätigen, Rechnungsstellung, Erstattungen) – das bleibt im
   eGora-Backend, bei dir.
-</Warning>
+</Callout>

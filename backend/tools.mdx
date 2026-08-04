@@ -30,8 +30,8 @@ bündeln. Einige sind Menüpunkte, andere öffnest du aus einer Detailseite.
 
 Aktuell gibt es **zwei Wege** zur Caterer-Auswahl für eine Anfrage: über das **Caterer Matching Tool** (vorgeschlagen) oder über das **Catering-Angebots-Tool** (manuell oder via Historic Offer Tool).
 
-<CardGroup cols={2}>
-  <Card title="Caterer Matching Tool" icon="people-arrows">
+<Columns cols={2}>
+  <Card title="Caterer Matching Tool" icon="users">
     `/caterer-matching-tool` – schlägt über mehrere gewichtete Layer passende Caterer für eine Anfrage vor
     und baut das Menü. Mit „Match all"-Modus, der alle veröffentlichten Caterer flach (alphabetisch)
     auflistet, sodass du direkt auswählen kannst. Anfrage, Caterer und Schritt stehen in der URL —
@@ -40,23 +40,23 @@ Aktuell gibt es **zwei Wege** zur Caterer-Auswahl für eine Anfrage: über das *
     lädst du per „Mehr laden" nach.
     *Hinweis: Das Tool befindet sich noch in der Anfangsphase und wird aktuell laufend optimiert.*
   </Card>
-  <Card title="Catering-Angebots-Tool (manuell)" icon="pen-ruler">
+  <Card title="Catering-Angebots-Tool (manuell)" icon="pencil-ruler">
     `/catering-menu` – das manuelle Werkzeug zum Aufbauen/Bearbeiten eines Angebots-Menüs. Der Caterer kann
     hier **direkt manuell ausgewählt** oder über das **Historic Offer Tool** anhand der Kriterien der
     Anfrage aus einem ähnlichen historischen Angebot übernommen werden.
   </Card>
-  <Card title="AI Menu Creator" icon="wand-magic-sparkles">
+  <Card title="AI Menu Creator" icon="wand-sparkles">
     KI-gestützte Generierung von Menü-Vorschlägen (greift auf vorab berechnete Vorschläge zurück).
   </Card>
-  <Card title="Request Email Parser" icon="envelope-open-text">
+  <Card title="Request Email Parser" icon="mail-open">
     `/catering-email-parser` – wandelt eine eingehende Anfrage-E-Mail per KI in eine strukturierte
     CateringRequest um.
   </Card>
-</CardGroup>
+</Columns>
 
 ## KAM Inbox
 
-<Card title="KAM Inbox" icon="inbox-full">
+<Card title="KAM Inbox" icon="inbox">
   Ein vereinheitlichter Aktivitäts-Feed pro KAM (E-Mail, Chat, System-Events, HubSpot-Aufgaben). Per
   Feature-Flag freigeschaltet; nur für die Rollen `kam`/`admin`. Jedes KAM-relevante Ereignis (Statuswechsel,
   Kundenbearbeitung, Zuweisung) wird hier protokolliert.
@@ -67,7 +67,7 @@ Aktuell gibt es **zwei Wege** zur Caterer-Auswahl für eine Anfrage: über das *
 Die Catering-KPI-Seite (`/catering-kpi-page`) und ihre B2B-Variante sind ebenfalls eigene Werkzeuge; sie
 sind im Bereich [Performance & Insights](/backend/performance-insights) beschrieben.
 
-<Tip>
+<Callout kind="tip">
   Hub-Aktionen (z. B. im OrderHub) protokollieren ins dauerhafte Spatie-Activity-Log – der „Action Log"-Tab
   im Hub ist die vollständige Sicht. Das alte Nova-Panel „Action Events" zeigt nur die letzten 25 Einträge.
-</Tip>
+</Callout>

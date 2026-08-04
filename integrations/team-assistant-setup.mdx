@@ -9,11 +9,11 @@ Der **eGora Team Assistant** ist ein geteiltes **Projekt in Claude Teams** (clau
 jedes Teammitglied — KAM, Rev Ops und weitere Abteilungen — im Chat fundierte Antworten bekommt, die auf
 echten eGora-Quellen beruhen.
 
-<Note>
+<Callout kind="info">
   Das Projekt ist **org-weit geteilt** („Shared with your org"). Du musst es nicht selbst anlegen — es
   taucht in Deiner Projektliste auf. Die **Connectors** aber aktiviert/autorisiert jede Person **mit den
   eigenen Accounts** (einmalig).
-</Note>
+</Callout>
 
 ## Was Du danach kannst
 
@@ -31,16 +31,16 @@ Faustregel: **egora KB** für „Wie funktioniert X", **egora data** für „Wie
 **HubSpot** für CRM/Deals, **Microsoft 365** für Mail/Kalender/Dateien, **Notion** für „Was ist der
 neueste Entwurf".
 
-<Warning>
+<Callout kind="alert">
   **Quellen-Hierarchie bei Widersprüchen:** Live-Zahlen (egora data / HubSpot) &gt; diese KB &gt; Notion.
   Der Assistent soll immer die Quelle benennen.
-</Warning>
+</Callout>
 
 ---
 
 ## Voraussetzungen (pro Person, einmalig)
 
-<CardGroup cols={2}>
+<Columns cols={2}>
   <Card title="Claude-Teams-Sitz" icon="user-check">
     Du bist Mitglied der eGora-Organisation in claude.ai (Teams). Fehlt der Zugang → bei Steffen melden.
   </Card>
@@ -54,7 +54,7 @@ neueste Entwurf".
   <Card title="Eigene Logins (HubSpot / M365 / Notion)" icon="key">
     Die Autorisierung läuft jeweils über Deinen **eigenen** HubSpot-, Microsoft-365- und Notion-Account.
   </Card>
-</CardGroup>
+</Columns>
 
 ---
 
@@ -63,29 +63,29 @@ neueste Entwurf".
 In claude.ai links auf **Projects** → Tab **Your projects** (oder **Team**) → das Projekt
 **„egora assistant"** öffnen.
 
-<Frame caption="Projektliste — „egora assistant“ ist org-weit geteilt">
-  <img src="/images/connectors/01-projects-list.png" alt="Claude Teams Projektliste mit dem Projekt egora assistant" />
-</Frame>
+<img src="/images/connectors/01-projects-list.png" alt="Claude Teams Projektliste mit dem Projekt egora assistant" />
 
-<Tip>
+*Projektliste — „egora assistant“ ist org-weit geteilt*
+
+<Callout kind="tip">
   Power-User können dieselben Connectors auch in **Claude Code / Cowork** nutzen — die URLs stehen unten
   bei den jeweiligen Schritten.
-</Tip>
+</Callout>
 
 ## Schritt 2 — Das Connectors-Menü öffnen
 
 Im Chat-Eingabefeld auf das **„+"** klicken → **Connectors**. Du siehst eine Liste mit **Toggles**. Schalte
 **egora data, egora KB, HubSpot, Microsoft 365 und Notion** ein. **Slack bleibt aus** (siehe unten).
 
-<Frame caption="„+“ → Connectors: alle Quellen außer Slack auf AN">
-  <img src="/images/connectors/02-connectors-menu.png" alt="Connectors-Menü mit Toggles für egora data, egora KB, HubSpot, Microsoft 365, Notion (an) und Slack (aus)" />
-</Frame>
+<img src="/images/connectors/02-connectors-menu.png" alt="Connectors-Menü mit Toggles für egora data, egora KB, HubSpot, Microsoft 365, Notion (an) und Slack (aus)" />
 
-<Info>
+*„+“ → Connectors: alle Quellen außer Slack auf AN*
+
+<Callout kind="info">
   **„Add connector"** (oben im Menü) brauchst Du nur, falls **egora data** oder **egora KB** bei Dir noch
   **nicht** in der Liste stehen — dann einmalig die URL aus Schritt 3/4 eintragen. Stehen sie schon da,
   genügt der Toggle. Über **„Manage connectors"** verwaltest Du bestehende Verbindungen.
-</Info>
+</Callout>
 
 ## Schritt 3 — egora KB (diese Wissensdatenbank)
 
@@ -96,22 +96,21 @@ Liefert **stabiles, offizielles Wissen** (wie Dinge funktionieren).
     Im Connectors-Menü **egora KB** auf AN.
   </Step>
   <Step title="Falls nicht vorhanden: als Custom Connector hinzufügen">
-    **Add connector** → URL `https://docs.egora-catering.de/mcp`, Scope **Read content**. Bei Aufforderung
-    als **eGora-Org-Mitglied** anmelden.
+    **Add connector** → URL `https://docs.egora-catering.de/_mcp/auth`. Bei Aufforderung mit dem
+    geteilten **KB-Team-Passwort** anmelden (steht im Team-Slack).
 
     In Claude Code stattdessen:
     ```bash
-    claude mcp add --transport http egora-kb https://docs.egora-catering.de/mcp
+    claude mcp add --transport http egora-kb https://docs.egora-catering.de/_mcp/auth
     ```
   </Step>
 </Steps>
 
-<Warning>
-  **URL nach dem Domain-Wechsel verifizieren.** Falls die Registrierung fehlschlägt
-  (*„Couldn't register with sign-in service"*), nutze die Deployment-URL `https://<deployment>.mintlify.io/mcp`
-  (`.io`, nicht `.app`; `/mcp`, nicht `/authed/mcp`). Voraussetzung in Mintlify: **Admin → MCP → Hosted MCP →
-  „Enable MCP Server"** an, und unter **„Allowed OAuth redirect URIs"** den Toggle **„Claude Desktop"** an.
-</Warning>
+<Callout kind="alert">
+  **Wichtig:** Die URL endet auf `/_mcp/auth` (der authentifizierte Endpoint). `/_mcp` ohne `/auth`
+  liefert bei passwortgeschützter Site nichts. Schlägt die Verbindung fehl, funktioniert als
+  Ausweich-URL auch `https://egora.documentationai.com/_mcp/auth` (die Plattform-Adresse derselben Site).
+</Callout>
 
 ## Schritt 4 — egora data (Live-Geschäftsdaten)
 
@@ -155,11 +154,11 @@ Diese drei sind **offizielle Connectors** (kein Custom-URL nötig). Pro Connecto
 | **Microsoft 365** | Outlook-Mail, Kalender, SharePoint/Teams-Dateien | Deinem Microsoft-Work-Account |
 | **Notion** | laufende Arbeitsdokumente, Entwürfe, SOPs (live gelesen) | Deinem Notion-Account |
 
-<Note>
+<Callout kind="info">
   **HubSpot und Microsoft 365** sind **Live-Quellen** — in der Quellen-Hierarchie gleichrangig mit egora
   data, über KB und Notion. **Notion** = laufender Stand; sobald ein Dok offiziell wird, wandert es in die
   [KB](/integrations/notion).
-</Note>
+</Callout>
 
 ---
 
@@ -185,21 +184,22 @@ Stelle dem Assistenten je eine Frage pro Quelle und prüfe, dass er die **richti
   </Step>
 </Steps>
 
-<Tip>
+<Callout kind="tip">
   Wenn der Assistent rät statt eine Quelle zu nennen, ist meist ein Connector **nicht eingeschaltet oder
   nicht autorisiert** — das **„+" → Connectors**-Menü prüfen.
-</Tip>
+</Callout>
 
 ---
 
 ## Slack: beitragen, nicht anbinden
 
-Slack bleibt im Connectors-Menü **AUS**. Es ist **kein** Lese-Connector des Assistenten. Stattdessen kannst
-Du aus Slack heraus **KB-Updates entwerfen**, indem Du den Mintlify-Agent `@mentionst` (Opt-in pro Thread,
-jede Änderung wird ein reviewbarer Pull Request).
+Slack bleibt im Connectors-Menü **AUS**. Es ist **kein** Lese-Connector des Assistenten. Der frühere
+Mintlify-Slack-Agent ist mit dem Plattformwechsel entfallen; sein Nachfolger — die **/kb-capture**-Skill
+(Slack-Channel → reviewte KB-Entwürfe) — ist in Arbeit. Bis dahin: KB-Wünsche im Team-Slack posten
+oder direkt an Steffen/Johannes.
 
-<Card title="Slack-Agent (Authoring)" icon="slack" href="/integrations/slack-agent">
-  So entwirfst Du Docs-Updates aus Slack — `@mention` → PR → Merge.
+<Card title="Slack → KB (Authoring)" icon="slack" href="/integrations/slack-agent">
+  Stand und Nachfolge-Plan des Slack-Authoring-Wegs.
 </Card>
 
 ---
@@ -211,10 +211,10 @@ jede Änderung wird ein reviewbarer Pull Request).
 ops-lead, project-manager, request-info-structurer, take-a-step-back u. a.). **Conversational Skills** laufen
 direkt im Teams-Chat; einige Power-Skills brauchen Claude Code / Cowork.
 
-<Frame caption="Skills-Menü im Projekt („/“ bzw. „+“ → Skills)">
-  <img src="/images/connectors/03-skills-menu.png" alt="Skills-Menü im egora-assistant-Projekt" />
-</Frame>
+<img src="/images/connectors/03-skills-menu.png" alt="Skills-Menü im egora-assistant-Projekt" />
 
-<Card title="Zum Skill-Katalog" icon="wand-magic-sparkles" href="/skills/overview">
+*Skills-Menü im Projekt („/“ bzw. „+“ → Skills)*
+
+<Card title="Zum Skill-Katalog" icon="wand-sparkles" href="/skills/overview">
   Alle Skills mit Laufzeit-Einordnung und Auslöser.
 </Card>

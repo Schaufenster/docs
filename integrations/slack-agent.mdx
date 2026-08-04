@@ -4,26 +4,33 @@ description: "Entwirf KB-Updates aus Slack, indem du den Agent @mentionst — Op
 icon: "slack"
 ---
 
-Mit dem Mintlify Slack-Agent kann jede:r aus Slack heraus ein KB-Update entwerfen — ohne dem Agent breiten Zugriff
-auf deine Nachrichten zu geben.
+<Callout kind="alert">
+  **Stand 08/2026: entfallen.** Der Mintlify-Slack-Agent wurde mit dem Plattformwechsel zu documentation.ai
+  abgeschaltet. Nachfolger ist die geplante **/kb-capture**-Skill (Slack-Channel → reviewte KB-Entwürfe).
+  Bis dahin: KB-Wünsche im Team-Slack posten oder direkt an Steffen/Johannes. Der Rest dieser Seite
+  beschreibt das alte Setup und bleibt als Referenz stehen.
+</Callout>
+
+Mit dem Mintlify Slack-Agent konnte jede:r aus Slack heraus ein KB-Update entwerfen — ohne dem Agent breiten Zugriff
+auf die eigenen Nachrichten zu geben.
 
 ## Wie er eingegrenzt ist (datenschutzfreundlich)
 
-<CardGroup cols={2}>
-  <Card title="Nur @mention" icon="at">
+<Columns cols={2}>
+  <Card title="Nur @mention" icon="at-sign">
     Nichts passiert, solange du den Agent nicht in einem Thread **@mentionst**. Er agiert nur in diesem Thread.
   </Card>
-  <Card title="Kein passives Mitlesen" icon="eye-slash">
+  <Card title="Kein passives Mitlesen" icon="eye-off">
     Channel-"Knowledge Ingestion" ist **aus** (oder auf einen dedizierten `#kb-updates`-Channel beschränkt). Er liest
     weder DMs noch alle Channels mit.
   </Card>
-  <Card title="PR-gesichert" icon="code-pull-request">
+  <Card title="PR-gesichert" icon="git-pull-request">
     Er öffnet einen **Pull Request** gegen `Schaufenster/docs` — er committet nie direkt auf `main`.
   </Card>
   <Card title="Preview-Links" icon="eye">
     Prüfe die vorgeschlagene Änderung vor dem Merge auf einer Preview-URL.
   </Card>
-</CardGroup>
+</Columns>
 
 ## So nutzt du ihn
 
@@ -39,6 +46,6 @@ auf deine Nachrichten zu geben.
   </Step>
 </Steps>
 
-<Warning>
+<Callout kind="alert">
   Ein Slack-**Workspace-Admin** genehmigt die Berechtigungen des Agents bei der Installation. Prüfe die angefragten Scopes.
-</Warning>
+</Callout>

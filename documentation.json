@@ -1,0 +1,363 @@
+{
+  "name": "eGora KAM-Wissensdatenbank",
+  "initialRoute": "grundlagen/overview",
+  "colors": {
+    "light": {
+      "brand": "#38808a"
+    },
+    "dark": {
+      "brand": "#5BA3AD"
+    }
+  },
+  "seo": {
+    "robots:index": false,
+    "robots:follow": false,
+    "sitemap:enabled": false
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Grundlagen",
+        "groups": [
+          {
+            "group": "Überblick",
+            "pages": [
+              {
+                "title": "Team-Wissensbasis – Überblick",
+                "path": "grundlagen/overview"
+              },
+              {
+                "title": "So funktioniert egora",
+                "path": "grundlagen/so-funktioniert-egora"
+              }
+            ]
+          },
+          {
+            "group": "Nachschlagen",
+            "pages": [
+              {
+                "title": "Glossar & KPI-Definitionen",
+                "path": "grundlagen/glossar"
+              },
+              {
+                "title": "Wo finde ich was?",
+                "path": "grundlagen/wo-finde-ich-was"
+              }
+            ]
+          },
+          {
+            "group": "Zusammenarbeit",
+            "pages": [
+              {
+                "title": "Ways of Working",
+                "path": "grundlagen/ways-of-working"
+              },
+              {
+                "title": "Tool-Stack",
+                "path": "grundlagen/tools"
+              },
+              {
+                "title": "Team & Rollen",
+                "path": "grundlagen/team"
+              },
+              {
+                "title": "Asana-Struktur",
+                "path": "grundlagen/asana-struktur"
+              },
+              {
+                "title": "Notion Knowledge Playbook",
+                "path": "grundlagen/notion-knowledge-playbook"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Rev Ops",
+        "groups": [
+          {
+            "group": "Überblick",
+            "pages": [
+              {
+                "title": "Rev Ops – Department Briefing",
+                "path": "rev-ops/overview"
+              }
+            ]
+          },
+          {
+            "group": "Prozesse",
+            "pages": [
+              {
+                "title": "Anfrage-Betreuung",
+                "path": "rev-ops/anfrage-betreuung"
+              },
+              {
+                "title": "Revenue Conversion",
+                "path": "rev-ops/revenue-conversion"
+              },
+              {
+                "title": "Customer Experience",
+                "path": "rev-ops/customer-experience"
+              },
+              {
+                "title": "Menu Creation & Admin Backend",
+                "path": "rev-ops/menu-creation"
+              },
+              {
+                "title": "Operations & Support",
+                "path": "rev-ops/operations-support"
+              }
+            ]
+          },
+          {
+            "group": "Datenmodell",
+            "pages": [
+              {
+                "title": "Attribut-Master-Schema",
+                "path": "rev-ops/attribute-master-schema"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "KAM Handbuch",
+        "groups": [
+          {
+            "group": "Überblick",
+            "pages": [
+              {
+                "title": "eGora KAM Knowledge Base",
+                "path": "introduction"
+              },
+              {
+                "title": "Was diese KB ist",
+                "path": "kam-handbook/what-is-this-kb"
+              },
+              {
+                "title": "Wie du diese KB nutzt",
+                "path": "kam-handbook/how-to-use"
+              }
+            ]
+          },
+          {
+            "group": "KAM-Prozesse",
+            "pages": [
+              {
+                "title": "Request → Offer → Order Lifecycle",
+                "path": "kam-handbook/request-lifecycle"
+              },
+              {
+                "title": "Post-Booking-Checkliste",
+                "path": "kam-handbook/post-booking-checklist"
+              },
+              {
+                "title": "Wenn eine Anfrage schiefläuft",
+                "path": "kam-handbook/when-it-goes-sideways"
+              },
+              {
+                "title": "Schlüsselbegriffe & Vokabular",
+                "path": "kam-handbook/key-concepts"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Backend-Referenz",
+        "groups": [
+          {
+            "group": "Überblick",
+            "pages": [
+              {
+                "title": "Das KAM-Backend im Überblick",
+                "path": "backend/overview"
+              }
+            ]
+          },
+          {
+            "group": "Menü-Bereiche",
+            "pages": [
+              {
+                "title": "Catering Operations",
+                "path": "backend/catering-operations"
+              },
+              {
+                "title": "Catalog & Suppliers",
+                "path": "backend/catalog-suppliers"
+              },
+              {
+                "title": "Kunden, Profile & Feedback",
+                "path": "backend/customers-profiles"
+              },
+              {
+                "title": "Performance & Insights",
+                "path": "backend/performance-insights"
+              }
+            ]
+          },
+          {
+            "group": "Werkzeuge",
+            "pages": [
+              {
+                "title": "KAM-Werkzeuge",
+                "path": "backend/tools"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "IT / Intern",
+        "groups": [
+          {
+            "group": "Erste Schritte",
+            "pages": [
+              {
+                "title": "IT / Interne Übersicht",
+                "path": "it/overview"
+              }
+            ]
+          },
+          {
+            "group": "Anleitungen",
+            "pages": [
+              {
+                "title": "Claude mit eGora-Daten verbinden (MCP)",
+                "path": "it/mcp-setup"
+              },
+              {
+                "title": "KPI-Katalog (vollständig)",
+                "path": "it/kpi-catalog"
+              },
+              {
+                "title": "Neues Attribut einführen — der Prozess",
+                "path": "it/attribut-prozess"
+              }
+            ]
+          },
+          {
+            "group": "Release-Kommunikation",
+            "pages": [
+              {
+                "title": "Release-Kommunikation",
+                "path": "it/feature-changelog"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "KI-Assistent",
+        "groups": [
+          {
+            "group": "Überblick",
+            "pages": [
+              {
+                "title": "KI-Assistent & Skills",
+                "path": "skills/overview"
+              }
+            ]
+          },
+          {
+            "group": "Skills (in Claude Teams)",
+            "pages": [
+              {
+                "title": "Challenge Me",
+                "path": "skills/challenge-me"
+              },
+              {
+                "title": "Take a Step Back",
+                "path": "skills/take-a-step-back"
+              },
+              {
+                "title": "Offer-Mail Assistant",
+                "path": "skills/offer-mail-assistant"
+              },
+              {
+                "title": "Request-Info Structurer",
+                "path": "skills/request-info-structurer"
+              },
+              {
+                "title": "Ops Lead",
+                "path": "skills/ops-lead"
+              },
+              {
+                "title": "Project Manager",
+                "path": "skills/project-manager"
+              },
+              {
+                "title": "LinkedIn Post",
+                "path": "skills/linkedin-post"
+              }
+            ]
+          },
+          {
+            "group": "Skills (Claude Code / Cowork)",
+            "pages": [
+              {
+                "title": "Get Shit Done (GSD)",
+                "path": "skills/get-shit-done"
+              },
+              {
+                "title": "Daily Briefing",
+                "path": "skills/daily-briefing"
+              },
+              {
+                "title": "Daily Debrief",
+                "path": "skills/daily-debrief"
+              },
+              {
+                "title": "egora Branding",
+                "path": "skills/egora-branding"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Integrationen",
+        "groups": [
+          {
+            "group": "Erste Schritte",
+            "pages": [
+              {
+                "title": "Den eGora Team Assistant einrichten",
+                "path": "integrations/team-assistant-setup"
+              }
+            ]
+          },
+          {
+            "group": "So ist die KB verbunden",
+            "pages": [
+              {
+                "title": "Wie diese Wissensdatenbank verbunden ist",
+                "path": "integrations/overview"
+              },
+              {
+                "title": "Claude an die KB anbinden",
+                "path": "integrations/claude-setup"
+              },
+              {
+                "title": "egora data (Live-Geschäftsdaten)",
+                "path": "integrations/egora-mcp"
+              },
+              {
+                "title": "Notion (Arbeitsdokumente, live gelesen)",
+                "path": "integrations/notion"
+              },
+              {
+                "title": "Slack-Agent (Authoring)",
+                "path": "integrations/slack-agent"
+              },
+              {
+                "title": "Changelog-Automatisierung",
+                "path": "integrations/changelog"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
