@@ -1,15 +1,17 @@
 ---
-title: "Den eGora Team Assistant einrichten"
-description: "Schritt-für-Schritt: das geteilte Claude-Teams-Projekt egora assistant öffnen und alle Connectors aktivieren (egora KB, egora data, HubSpot, Microsoft 365, Notion). Pro Person, einmalig."
-icon: "wand-magic-sparkles"
+title: Den eGora Team Assistant einrichten
+description: >-
+  Schritt-für-Schritt: das geteilte Claude-Teams-Projekt egora assistant öffnen
+  und alle Connectors aktivieren (egora KB, egora data, HubSpot, Microsoft 365,
+  Notion). Pro Person, einmalig.
+icon: wand-magic-sparkles
 ---
-
 Der **eGora Team Assistant** ist ein geteiltes **Projekt in Claude Teams** (claude.ai) mit dem Namen
 **„egora assistant"**. Er bündelt diese Wissensdatenbank, Live-Geschäftsdaten und Arbeits-Tools, damit
 jedes Teammitglied — KAM, Rev Ops und weitere Abteilungen — im Chat fundierte Antworten bekommt, die auf
 echten eGora-Quellen beruhen.
 
-<Callout kind="info">
+<Callout kind="info" collapsed="false">
   Das Projekt ist **org-weit geteilt** („Shared with your org"). Du musst es nicht selbst anlegen — es
   taucht in Deiner Projektliste auf. Die **Connectors** aber aktiviert/autorisiert jede Person **mit den
   eigenen Accounts** (einmalig).
@@ -19,20 +21,20 @@ echten eGora-Quellen beruhen.
 
 Sobald die Connectors aktiv sind, beantwortet der Assistent Fragen aus der jeweils richtigen Quelle:
 
-| Frage | Quelle (Connector) |
-| --- | --- |
-| „Wie onboarden wir einen neuen Account?" | **egora KB** (diese Wissensdatenbank) |
-| „Wie viele B2B-Anfragen in den letzten 7 Tagen, nach Stadt?" | **egora data** |
-| „Zeig mir den Deal / die Company XY in HubSpot" | **HubSpot** |
-| „Such die Mail / den Termin zu XY" | **Microsoft 365** (Outlook/Kalender/SharePoint) |
-| „Was ist der aktuellste Entwurf des Eskalationsprozesses?" | **Notion** |
+| Frage                                                        | Quelle (Connector)                              |
+| ------------------------------------------------------------ | ----------------------------------------------- |
+| „Wie onboarden wir einen neuen Account?"                     | **egora KB** (diese Wissensdatenbank)           |
+| „Wie viele B2B-Anfragen in den letzten 7 Tagen, nach Stadt?" | **egora data**                                  |
+| „Zeig mir den Deal / die Company XY in HubSpot"              | **HubSpot**                                     |
+| „Such die Mail / den Termin zu XY"                           | **Microsoft 365** (Outlook/Kalender/SharePoint) |
+| „Was ist der aktuellste Entwurf des Eskalationsprozesses?"   | **Notion**                                      |
 
 Faustregel: **egora KB** für „Wie funktioniert X", **egora data** für „Wie sind die aktuellen Zahlen",
 **HubSpot** für CRM/Deals, **Microsoft 365** für Mail/Kalender/Dateien, **Notion** für „Was ist der
 neueste Entwurf".
 
-<Callout kind="alert">
-  **Quellen-Hierarchie bei Widersprüchen:** Live-Zahlen (egora data / HubSpot) &gt; diese KB &gt; Notion.
+<Callout kind="alert" collapsed="false">
+  **Quellen-Hierarchie bei Widersprüchen:** Live-Zahlen (egora data / HubSpot) > diese KB > Notion.
   Der Assistent soll immer die Quelle benennen.
 </Callout>
 
@@ -40,18 +42,21 @@ neueste Entwurf".
 
 ## Voraussetzungen (pro Person, einmalig)
 
-<Columns cols={2}>
-  <Card title="Claude-Teams-Sitz" icon="user-check">
+<Columns cols="2">
+  <Card title="Claude-Teams-Sitz" icon="user-check" horizontal="false">
     Du bist Mitglied der eGora-Organisation in claude.ai (Teams). Fehlt der Zugang → bei Steffen melden.
   </Card>
-  <Card title="eGora-Org-Mitglied (für egora KB)" icon="book">
+
+  <Card title="eGora-Org-Mitglied (für egora KB)" icon="book" horizontal="false">
     Die KB ist auth-gated auf Org-Mitglieder. Mit demselben Login liest Claude die KB.
   </Card>
-  <Card title="Nova-Admin-Nutzer (für egora data)" icon="database">
-    egora data verlangt einen **eGora-Nova-Nutzer mit Rolle `admin`**. Fehlt er → Steffen bitten, ihn in
+
+  <Card title="Nova-Admin-Nutzer (für egora data)" icon="database" horizontal="false">
+    egora data verlangt einen **eGora-Nova-Nutzer mit Rolle&#x20;****`admin`**. Fehlt er → Steffen bitten, ihn in
     Nova → Users anzulegen.
   </Card>
-  <Card title="Eigene Logins (HubSpot / M365 / Notion)" icon="key">
+
+  <Card title="Eigene Logins (HubSpot / M365 / Notion)" icon="key" horizontal="false">
     Die Autorisierung läuft jeweils über Deinen **eigenen** HubSpot-, Microsoft-365- und Notion-Account.
   </Card>
 </Columns>
@@ -63,11 +68,13 @@ neueste Entwurf".
 In claude.ai links auf **Projects** → Tab **Your projects** (oder **Team**) → das Projekt
 **„egora assistant"** öffnen.
 
-<img src="/images/connectors/01-projects-list.png" alt="Claude Teams Projektliste mit dem Projekt egora assistant" />
 
-*Projektliste — „egora assistant“ ist org-weit geteilt*
 
-<Callout kind="tip">
+<Image src="https://blob-cdn.documentation.ai/org-01a507e2-6a93-4a87-9037-196f1f2f7be7/doc-a8bd2c1f-827f-4bcb-9542-f5fa4d2d6525/1785914038325-xcptssr4jg-01-projects-list.png?fm=auto&auto=compress%2Cformat" width="2164" height="1210" alt="" />
+
+_Projektliste — „egora assistant“ ist org-weit geteilt_
+
+<Callout kind="tip" collapsed="false">
   Power-User können dieselben Connectors auch in **Claude Code / Cowork** nutzen — die URLs stehen unten
   bei den jeweiligen Schritten.
 </Callout>
@@ -77,11 +84,13 @@ In claude.ai links auf **Projects** → Tab **Your projects** (oder **Team**) �
 Im Chat-Eingabefeld auf das **„+"** klicken → **Connectors**. Du siehst eine Liste mit **Toggles**. Schalte
 **egora data, egora KB, HubSpot, Microsoft 365 und Notion** ein. **Slack bleibt aus** (siehe unten).
 
-<img src="/images/connectors/02-connectors-menu.png" alt="Connectors-Menü mit Toggles für egora data, egora KB, HubSpot, Microsoft 365, Notion (an) und Slack (aus)" />
 
-*„+“ → Connectors: alle Quellen außer Slack auf AN*
 
-<Callout kind="info">
+<Image src="https://blob-cdn.documentation.ai/org-01a507e2-6a93-4a87-9037-196f1f2f7be7/doc-a8bd2c1f-827f-4bcb-9542-f5fa4d2d6525/1785914066955-7zf0d41t6jk-02-connectors-menu.png?fm=auto&auto=compress%2Cformat" width="1452" height="1350" alt="" />
+
+_„+“ → Connectors: alle Quellen außer Slack auf AN_
+
+<Callout kind="info" collapsed="false">
   **„Add connector"** (oben im Menü) brauchst Du nur, falls **egora data** oder **egora KB** bei Dir noch
   **nicht** in der Liste stehen — dann einmalig die URL aus Schritt 3/4 eintragen. Stehen sie schon da,
   genügt der Toggle. Über **„Manage connectors"** verwaltest Du bestehende Verbindungen.
@@ -92,21 +101,23 @@ Im Chat-Eingabefeld auf das **„+"** klicken → **Connectors**. Du siehst eine
 Liefert **stabiles, offizielles Wissen** (wie Dinge funktionieren).
 
 <Steps>
-  <Step title="Toggle einschalten">
+  <Step title="Toggle einschalten" title-type="p">
     Im Connectors-Menü **egora KB** auf AN.
   </Step>
-  <Step title="Falls nicht vorhanden: als Custom Connector hinzufügen">
+
+  <Step title="Falls nicht vorhanden: als Custom Connector hinzufügen" title-type="p">
     **Add connector** → URL `https://docs.egora-catering.de/_mcp/auth`. Bei Aufforderung mit dem
     geteilten **KB-Team-Passwort** anmelden (steht im Team-Slack).
 
     In Claude Code stattdessen:
+
     ```bash
     claude mcp add --transport http egora-kb https://docs.egora-catering.de/_mcp/auth
     ```
   </Step>
 </Steps>
 
-<Callout kind="alert">
+<Callout kind="alert" collapsed="false">
   **Wichtig:** Die URL endet auf `/_mcp/auth` (der authentifizierte Endpoint). `/_mcp` ohne `/auth`
   liefert bei passwortgeschützter Site nichts. Schlägt die Verbindung fehl, funktioniert als
   Ausweich-URL auch `https://egora.documentationai.com/_mcp/auth` (die Plattform-Adresse derselben Site).
@@ -118,17 +129,18 @@ Liefert **Live-Geschäftsdaten** (Bestellungen, Anfragen, Firmen, KPIs — PII-r
 **etwas anderes** als die KB: KB = Wissen, egora data = aktuelle Zahlen.
 
 <Steps>
-  <Step title="Toggle einschalten">
+  <Step title="Toggle einschalten" title-type="p">
     Im Connectors-Menü **egora data** auf AN.
   </Step>
-  <Step title="Falls nicht vorhanden: hinzufügen & in Nova autorisieren">
+
+  <Step title="Falls nicht vorhanden: hinzufügen & in Nova autorisieren" title-type="p">
     **Add connector** → URL `https://egora-catering.de/mcp` — **Client ID und Client Secret leer lassen** →
     **Connect** → Du wirst zu eGoras Nova weitergeleitet, loggst Dich **als Du selbst** ein und klickst
     **Authorize**.
   </Step>
 </Steps>
 
-<Card title="Vollständige Anleitung inkl. Token-Methode" icon="plug" href="/it/mcp-setup">
+<Card title="Vollständige Anleitung inkl. Token-Methode" href="/it/mcp-setup" icon="plug" horizontal="false">
   Detaillierte Schritt-für-Schritt-Anleitung (OAuth für Web/Teams **und** Token-Methode für Claude Code /
   Desktop, Staging vs. Produktion, Troubleshooting).
 </Card>
@@ -138,23 +150,24 @@ Liefert **Live-Geschäftsdaten** (Bestellungen, Anfragen, Firmen, KPIs — PII-r
 Diese drei sind **offizielle Connectors** (kein Custom-URL nötig). Pro Connector:
 
 <Steps>
-  <Step title="Toggle einschalten">
+  <Step title="Toggle einschalten" title-type="p">
     Im Connectors-Menü den jeweiligen Toggle (**HubSpot**, **Microsoft 365**, **Notion**) auf AN.
   </Step>
-  <Step title="Mit Deinem eigenen Login autorisieren">
+
+  <Step title="Mit Deinem eigenen Login autorisieren" title-type="p">
     Beim ersten Einschalten wirst Du zur Anmeldung weitergeleitet — melde Dich mit Deinem **eigenen**
     HubSpot- / Microsoft-365- / Notion-Account an und bestätige den Zugriff. Der Connector liest dann mit
     **Deinen** Rechten.
   </Step>
 </Steps>
 
-| Connector | Wofür | Anmeldung mit |
-| --- | --- | --- |
-| **HubSpot** | CRM: Deals, Companies, Contacts, Owner | Deinem HubSpot-Account |
-| **Microsoft 365** | Outlook-Mail, Kalender, SharePoint/Teams-Dateien | Deinem Microsoft-Work-Account |
-| **Notion** | laufende Arbeitsdokumente, Entwürfe, SOPs (live gelesen) | Deinem Notion-Account |
+| Connector         | Wofür                                                    | Anmeldung mit                 |
+| ----------------- | -------------------------------------------------------- | ----------------------------- |
+| **HubSpot**       | CRM: Deals, Companies, Contacts, Owner                   | Deinem HubSpot-Account        |
+| **Microsoft 365** | Outlook-Mail, Kalender, SharePoint/Teams-Dateien         | Deinem Microsoft-Work-Account |
+| **Notion**        | laufende Arbeitsdokumente, Entwürfe, SOPs (live gelesen) | Deinem Notion-Account         |
 
-<Callout kind="info">
+<Callout kind="info" collapsed="false">
   **HubSpot und Microsoft 365** sind **Live-Quellen** — in der Quellen-Hierarchie gleichrangig mit egora
   data, über KB und Notion. **Notion** = laufender Stand; sobald ein Dok offiziell wird, wandert es in die
   [KB](/integrations/notion).
@@ -167,24 +180,28 @@ Diese drei sind **offizielle Connectors** (kein Custom-URL nötig). Pro Connecto
 Stelle dem Assistenten je eine Frage pro Quelle und prüfe, dass er die **richtige Quelle** zieht:
 
 <Steps>
-  <Step title="egora KB">
-    *„Wie sieht die Post-Booking-Checkliste aus?"* → Antwort aus dieser KB.
+  <Step title="egora KB" title-type="p">
+    _„Wie sieht die Post-Booking-Checkliste aus?"_ → Antwort aus dieser KB.
   </Step>
-  <Step title="egora data">
-    *„Wie viele Catering-Anfragen in den letzten 7 Tagen?"* → Live-Zahl.
+
+  <Step title="egora data" title-type="p">
+    _„Wie viele Catering-Anfragen in den letzten 7 Tagen?"_ → Live-Zahl.
   </Step>
-  <Step title="HubSpot">
-    *„Welche offenen Deals hat Company XY?"* → aus HubSpot.
+
+  <Step title="HubSpot" title-type="p">
+    _„Welche offenen Deals hat Company XY?"_ → aus HubSpot.
   </Step>
-  <Step title="Microsoft 365">
-    *„Hab ich eine Mail von XY zu &lt;Thema&gt;?"* → aus Outlook.
+
+  <Step title="Microsoft 365" title-type="p">
+    _„Hab ich eine Mail von XY zu \<Thema>?"_ → aus Outlook.
   </Step>
-  <Step title="Notion">
-    *„Was ist der aktuellste Entwurf von &lt;Prozess&gt;?"* → aus Notion.
+
+  <Step title="Notion" title-type="p">
+    _„Was ist der aktuellste Entwurf von \<Prozess>?"_ → aus Notion.
   </Step>
 </Steps>
 
-<Callout kind="tip">
+<Callout kind="tip" collapsed="false">
   Wenn der Assistent rät statt eine Quelle zu nennen, ist meist ein Connector **nicht eingeschaltet oder
   nicht autorisiert** — das **„+" → Connectors**-Menü prüfen.
 </Callout>
@@ -198,7 +215,7 @@ Mintlify-Slack-Agent ist mit dem Plattformwechsel entfallen; sein Nachfolger —
 (Slack-Channel → reviewte KB-Entwürfe) — ist in Arbeit. Bis dahin: KB-Wünsche im Team-Slack posten
 oder direkt an Steffen/Johannes.
 
-<Card title="Slack → KB (Authoring)" icon="slack" href="/integrations/slack-agent">
+<Card title="Slack → KB (Authoring)" href="/integrations/slack-agent" icon="slack" horizontal="false">
   Stand und Nachfolge-Plan des Slack-Authoring-Wegs.
 </Card>
 
@@ -211,10 +228,13 @@ oder direkt an Steffen/Johannes.
 ops-lead, project-manager, request-info-structurer, take-a-step-back u. a.). **Conversational Skills** laufen
 direkt im Teams-Chat; einige Power-Skills brauchen Claude Code / Cowork.
 
-<img src="/images/connectors/03-skills-menu.png" alt="Skills-Menü im egora-assistant-Projekt" />
 
-*Skills-Menü im Projekt („/“ bzw. „+“ → Skills)*
 
-<Card title="Zum Skill-Katalog" icon="wand-sparkles" href="/skills/overview">
+<Image src="https://blob-cdn.documentation.ai/org-01a507e2-6a93-4a87-9037-196f1f2f7be7/doc-a8bd2c1f-827f-4bcb-9542-f5fa4d2d6525/1785914093940-4q58c4mrobj-03-skills-menu.png?fm=auto&auto=compress%2Cformat" width="1290" height="916" alt="" />
+
+_Skills-Menü im Projekt („/“ bzw. „+“ → Skills)_
+
+<Card title="Zum Skill-Katalog" href="/skills/overview" icon="wand-sparkles" horizontal="false">
   Alle Skills mit Laufzeit-Einordnung und Auslöser.
 </Card>
+
