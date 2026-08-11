@@ -7,6 +7,240 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-08-10" description="KPI-Korrektur: Transaktions-KPIs zählen nur noch echte Wertbewegungen als Records">
+  Die Record-Listen der transaktionsbasierten GMV- und Netto-KPIs enthielten auch Bestellungen, deren Buchungen im Zeitraum in Summe null ergaben — etwa durch interne Umstellungsbuchungen (Netto-Baseline, Provisionsänderungen). Solche Bestellungen tauchten in der Record-Liste eines Monats auf, zu dem sie nichts beigetragen haben. Jetzt zählen als Records nur noch Bestellungen, die den jeweiligen Wert im Zeitraum tatsächlich bewegt haben; an den Summen selbst ändert sich nichts.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Wenn Record-Anzahl und Record-Liste einer Transaktions-KPI bisher nicht zur Summe zu passen schienen: Das ist behoben, die Listen führen nur noch relevante Bestellungen. Kein Handlungsbedarf.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-10" description="Positionsbeschreibungen mit Formatierung (OrderHub + Angebots-Produktkarte)">
+  Die Beschreibung einer einzelnen Angebots- oder Bestellposition lässt sich jetzt formatieren: Im OrderHub und auf der Angebots-Produktkarte gibt es statt des einfachen Textfelds einen Rich-Text-Editor (fett, kursiv, Aufzählungen). Die Formatierung erscheint überall dort, wo die Beschreibung ohnehin sichtbar ist — etwa in der Kundenansicht des Angebots. Eingaben werden beim Speichern serverseitig bereinigt, unerlaubtes HTML wird entfernt.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Positionsbeschreibungen kannst Du im OrderHub (Produkte-Karte) und auf der Angebots-Produktkarte jetzt mit Fett, Kursiv und Aufzählungen strukturieren — praktisch für mehrzeilige Menü-Beschreibungen. Im manuellen Angebots-Tool gibt es den Editor noch nicht.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Positionsbeschreibungen in Angebot und Bestellung können jetzt formatiert dargestellt sein (z. B. als Aufzählung). Keine Aktion nötig.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-10" description="Mehrtages-Angebote: Position duplizieren + „Hinweis für den Kunden“ pro Position">
+  Ein Angebot kann jetzt dieselbe Position mehrfach enthalten — z. B. dasselbe Buffet einmal pro Event-Tag. Dafür gibt es in den Menü-Werkzeugen den Button „Position duplizieren"; jede duplizierte Zeile ist unabhängig (eigene Menge, eigenes Datum, eigener Optional-Haken). Außerdem kann jede Position einen „Hinweis für den Kunden" tragen (z. B. Allergene oder Servierhinweise) — dieser ist für den Kunden im Angebot sichtbar. Die alten Bearbeiten-Dialoge auf den Detailseiten können solche Angebote nicht abbilden: Sie blocken mit einer Meldung ab bzw. leiten direkt in den Menü-Editor um, damit nichts stillschweigend kaputtgespeichert wird.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      „Position duplizieren" und der Kunden-Hinweis pro Position stehen Dir im Caterer Matching Tool zur Verfügung. Angebote mit duplizierten Positionen bitte nur noch dort bzw. im Menü-Editor bearbeiten — das alte Bearbeiten-Modal blockt solche Angebote mit einem Hinweis ab.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Angebotszeilen können jetzt Hinweise tragen (z. B. zu Allergenen), und dasselbe Produkt kann mehrfach aufgeführt sein — etwa einmal pro Veranstaltungstag.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Im Menü-Editor gibt es pro Position „Position duplizieren" und das Feld „Hinweis für den Kunden". Angebote mit duplizierten Positionen bearbeitest Du im Menü-Editor; die alten Bearbeiten-Dialoge zeigen dann eine entsprechende Meldung.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-10" description="Request Hub: „Sonstige Wünsche“ direkt bearbeitbar">
+  Der Freitext „Sonstige Wünsche" einer Anfrage lässt sich jetzt direkt im Request Hub bearbeiten — in der Übersichtskarte und im Call-Modus. Die Karte zeigt dazu den Verarbeitungsstatus („Verarbeitet" / „Unverarbeitet") und erinnert an den Zielzustand: möglichst alles in strukturierte Felder übertragen; im Freitext bleibt nur, was sich nicht strukturiert abbilden lässt — denn der Text geht 1:1 an den Caterer.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Freitext-Korrekturen (Tippfehler raus, Erledigtes löschen, Reste zusammenfassen) machst Du jetzt direkt in der Übersichtskarte des Request Hubs oder im Call-Modus — ohne Umweg über die Nova-Detailseite.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-10" description="Slack: Neue Kunden-Threads nennen den zuständigen KAM">
+  Die Benachrichtigung im Slack-Hauptkanal über einen neuen Kunden-Chat („New thread created") nennt jetzt zusätzlich den zuständigen KAM. Herangezogen werden die KAMs der verknüpften Anfrage(n); ist dort niemand zugewiesen, greift der Account Owner der Firma bzw. des Kunden. Ist niemand zuständig, entfällt die Zeile.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Im Haupt-Slack-Kanal siehst Du bei neuen Kunden-Threads sofort, wer zuständig ist — Threads mit Deinem Namen gehören Dir.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-10" description="Bestellung: Stripe-Rechnungsdaten manuell korrigierbar">
+  Die Stripe-Felder an der Bestellung sind jetzt bearbeitbar: Stripe invoice ID (auch leerbar), Invoice-PDF-URL, Rechnungsnummer, Rechnungsstatus (Auswahl: Draft, Open, Paid, Uncollectible, Void) und „Bezahlt am". Wichtig: Solange eine Stripe invoice ID gesetzt ist, holt der nächtliche Sync (03:30 Uhr) Status und Bezahlt-Zeitpunkt weiterhin aus Stripe und überschreibt manuelle Änderungen. Wer eine Bestellung dauerhaft manuell führen will, leert zuerst die Stripe invoice ID — das löst die Bestellung vom Sync.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Falsche oder verwaiste Stripe-Daten an einer Bestellung kannst Du jetzt selbst korrigieren. Merke: Manuelle Status-/Bezahlt-Änderungen halten nur, wenn Du vorher die Stripe invoice ID leerst — sonst stellt der Nacht-Sync den Stripe-Stand wieder her.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-08" description="Bestellliste: Mehrtages-Bestellungen zeigen ihren Zeitraum">
+  In der Nova-Bestellliste zeigte die Spalte „Service date" bei Mehrtages-Bestellungen bisher nur „—", weil dort kein Einzeldatum gesetzt ist. Jetzt steht in der Liste der Datumsbereich der Bestellung.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Mehrtages-Bestellungen sind in der Bestellliste jetzt am Datumsbereich erkennbar — kein Öffnen der Detailseite mehr nötig, um das Leistungsdatum zu sehen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-07" description="Hubs: Action-Log zeigt Warenkorb-Änderungen im Detail">
+  Das Action-Log in OrderHub und Request Hub zeigt bei Warenkorb-Änderungen jetzt die Details: welche Positionen hinzugefügt, entfernt oder geändert wurden — mit Vorher-/Nachher-Werten, lesbar aufbereitet statt als roher Datensatz.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Bei der Frage „wer hat wann was am Warenkorb geändert?" reicht jetzt ein Blick in den Action-Log-Tab des Hubs — die Einträge nennen die konkreten Änderungen inklusive alter und neuer Werte.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-06" description="Hubs sind jetzt der Standard-Arbeitsplatz für KAMs (inkl. Inbox-Tab)">
+  Wer als KAM eine Bestellung oder eine Catering-Anfrage in Nova öffnet, landet jetzt automatisch im OrderHub bzw. Request Hub — die klassischen Nova-Detailseiten sind Admins vorbehalten (auch der Button „In Nova öffnen" im Hub erscheint nur noch für Admins). Die KAM-Inbox ist dafür als eigener Tab „Inbox" in beide Hubs eingebettet (sofern die KAM-Inbox freigeschaltet ist). Außerdem: Ist eine Angebots-Aktion aus fachlichen Gründen gerade nicht möglich (Angebot noch „In Bearbeitung", Positionen ohne Produktkategorie), zeigt der Request Hub jetzt eine klare Meldung mit dem Grund — statt einer irreführenden „Not authorized"-Fehlerseite.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Bestellungen und Anfragen bearbeitest Du ab jetzt durchgängig in den Hubs — der Wechsel passiert automatisch beim Öffnen. Die Inbox findest Du dort als Tab „Inbox".
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-06" description="Neue Finanz-KPIs + KAM-Bonus-Bereich (Feature-Flag)">
+  Die Catering-KPI-Seite hat neue Finanz-Kennzahlen: Materialeinsatz (gebucht und realisiert), Gutschein-Volumen getrennt nach egora- und Caterer-getragen (jeweils auch realisiert), Stornogarantie-Umsatz (realisiert), Stornogarantie-Quote auf Angebotsebene sowie transaktionsbasierte Netto-Werte (Total Net, Total Internal Net) auf Basis der um Netto-Spalten erweiterten GMV-Transaktions-Ledger. Neu ist außerdem ein Bonus-Bereich in Nova: KAMs mit zugewiesenem Bonus-Plan sehen ein persönliches Bonus-Dashboard (Menüpunkt „Bonus"), Admins zusätzlich die Abrechnungs-Ressourcen (Bonus-Statements, Akquise-Boni mit Bestätigen/Ablehnen, Monatsabschluss). Der Bonus-Bereich ist per Feature-Flag geschaltet.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Die neuen Finanz-KPIs findest Du auf der KPI-Seite. Sobald der Bonus-Bereich freigeschaltet und Dir ein Bonus-Plan zugewiesen ist, erscheint im Nova-Menü der Punkt „Bonus" mit Deinem persönlichen Dashboard.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-06" description="Caterer archivieren">
+  Caterer (Retailer) haben jetzt ein „Archived"-Flag. Archivierte Caterer sind aus den KAM-Werkzeugen ausgeblendet: Sie erscheinen nicht mehr in Auswahl-Dropdowns, im Caterer-Matching und standardmäßig nicht in den Listen — dort holt sie der neue Filter „Archive status" zurück. Der Marktplatz-Auftritt ist davon unabhängig; das „Published"-Flag bleibt unberührt. Zum Setzen gibt es eine Nova-Aktion auf dem Retailer; ein einmaliger Aufräumlauf hat inaktive Alt-Caterer archiviert.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Inaktive Caterer kannst Du jetzt archivieren (Aktion auf dem Retailer) — sie verschwinden aus Dropdowns, Matching und Listen. Über den Filter „Archive status" in der Retailer- bzw. Branch-Liste erreichst Du sie weiterhin.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — das Archiv-Flag betrifft nur inaktive Alt-Konten und lässt den Marktplatz-Auftritt („Published") unberührt.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-06" description="Monatsgutschrift: Flags in der Massenbearbeitung + korrigierte Abzugs-Anzeige">
+  Zwei Ergänzungen rund um die Monatsgutschrift. Erstens: Die Bestell-Massenaktion „Edit multiple orders" kann die Anfang August eingeführten Haken „Exclude from monthly bills" und „Include in monthly bills" jetzt gesammelt setzen und entfernen; die nicht mehr genutzten „Outside order"-Felder sind auf Finance-Wunsch aus der Aktion entfernt. Zweitens eine Anzeige-Korrektur auf der Gutschrift selbst: Abzugs-Positionen („Abzgl. Korrektur …") zeigten den Betrag mit Minuszeichen, obwohl das Label den Abzug schon ausdrückt — doppelt negativ. Der Betrag erscheint jetzt als absoluter Wert, wie bei Gutschein- und Erstattungszeilen. An den Summen ändert sich nichts.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Wenn viele Bestellungen auf einmal von der Monatsgutschrift ausgeschlossen (oder erzwungen aufgenommen) werden sollen: Bestellungen markieren, Aktion „Edit multiple orders", dort die entsprechenden Häkchen setzen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Korrektur-Abzüge stehen auf der Monatsgutschrift jetzt ohne verwirrendes Minuszeichen — das „Abzgl." im Text sagt bereits, dass abgezogen wird. Beträge und Summen waren und sind korrekt.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-06" description="Produktliste: neuer Filter „Offer only“">
+  Die Nova-Produktliste hat einen neuen Filter „Offer only": Er schränkt die Liste auf Produkte ein, die nur für Angebote verwendbar sind und nicht im Marktplatz-Katalog stehen.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Reine Angebots-Produkte eines Caterers findest Du jetzt gezielt über den Filter „Offer only" in der Produktliste.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
 <Update label="2026-08-03" description="KB-Plattform: Umzug von Mintlify auf documentation.ai">
   Die Wissensdatenbank läuft jetzt auf documentation.ai — gleiche Inhalte, gleiche Adresse (docs.egora-catering.de), neues Login: Statt des Mintlify-Org-Kontos gilt ein geteiltes Team-Passwort (steht im Team-Slack). Der Claude-Connector „egora KB" zeigt auf einen neuen Endpoint und muss einmalig neu verbunden werden — Anleitung unter [Den eGora Team Assistant einrichten](/integrations/team-assistant-setup).
 
