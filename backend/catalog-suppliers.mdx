@@ -27,7 +27,9 @@ Konditionen, und was im Katalog steht.
 <Columns cols={2}>
   <Card title="MonthlyRetailerBill" icon="receipt-euro">
     Die monatliche **Gutschrift** pro Branch/Monat (mit PDF). Fasst Auszahlungen, Gebühren und manuelle
-    Anpassungen zusammen.
+    Anpassungen zusammen. Neu erzeugte Gutschriften führen ein Ledger der enthaltenen Bestellungen
+    (einsehbar auf der Detailseite) und sind gegen versehentliche Doppel-Erzeugung für denselben Monat
+    geschützt – bewusstes Neu-Erstellen geht über den Haken „Create anyway" in der Erstell-Aktion.
   </Card>
   <Card title="PayoutAdjustment" icon="sliders-horizontal">
     Manuelle Korrekturposten auf einer Monatsabrechnung. Brutto und Steuer werden aus dem Netto-Betrag ×

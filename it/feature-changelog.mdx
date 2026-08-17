@@ -7,6 +7,150 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-08-17" description="Caterer Hub: neuer zentraler Arbeitsplatz für Caterer">
+  Nach OrderHub und Request Hub gibt es jetzt den **Caterer Hub**: Wer in Nova einen Caterer (Retailer) oder einen Standort (Branch) öffnet, landet automatisch dort — das gilt für alle Rollen, nicht nur für KAMs. Der Hub bündelt alles zu einem Caterer in zwölf Tabs (Profil, Produkte, Basis-Produkte, Lieferung, Finanzen, Bilder, KPIs, Matching, Benachrichtigungen, Team, Admin, Aktivität), deren Aufbau bewusst das Caterer-Backend spiegelt — KAM und Caterer schauen damit auf dieselbe Struktur. Dazu kommen eine Caterer-Übersicht mit Suche und „Caterer anlegen"-Dialog sowie die neue Aktion „Send images to customer", die ausgewählte Bilder eines Standorts per E-Mail an einen Kunden schickt. Während der Testphase führt der Link „Klassische Ansicht" (bzw. der URL-Zusatz ?classic=1) zurück auf die alten Nova-Detailseiten.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Caterer pflegst Du ab jetzt im Caterer Hub — er öffnet sich automatisch, sobald Du einen Retailer oder Standort aufrufst. Möchte ein Kunde Impressionen sehen: Aktion „Send images to customer" (Bilder auswählen, Kunden-E-Mail angeben). Mehr dazu: [KAM-Werkzeuge](/backend/tools).
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht direkt betroffen. Neu ist nur: Der KAM kann Dir auf Wunsch ausgewählte Bilder eines Caterers per E-Mail schicken.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — der Hub ist ein internes Werkzeug. Er zeigt dieselbe Struktur wie Dein Backend, ändert dort aber nichts.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-17" description="KI-Kennzeichnung für Bilder (EU AI Act)">
+  Bilder können jetzt als KI-generiert gekennzeichnet werden: pro Bild („KI-generiert": ja/nein) und zusätzlich über einen Standard-Schalter am Caterer, der für alle Produkt- und Paketbilder gilt. Firmen-Bilder (Banner, Logo, Galerie und besonders Referenzfotos) erben diesen Standard bewusst nicht — sie werden immer einzeln deklariert; bei Referenzfotos warnt das System, weil sie tatsächlich erbrachte Leistungen belegen sollen. Gekennzeichnete Bilder tragen auf den Marktplatz-Seiten (Produktkarten, Menüs, Paketdetails, Store-Seite) ein sichtbares „KI-generiert"-Badge. Hintergrund ist der EU AI Act; für bestehende Inhalte gilt die Frist 02.12.2026 — bis die Durchsicht des Bild-Bestands bestätigt ist, erinnert das Caterer-Backend daran.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Im Caterer Hub (Tab „Bilder") setzt Du den Standard-Schalter „Alle Produktbilder dieses Betriebs sind KI-generiert" und beantwortest beim Hochladen die Frage, ob das Bild KI-generiert ist. Auf dem Retailer in Nova siehst Du außerdem, ob der Caterer die Durchsicht seines Bestands schon bestätigt hat.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      KI-generierte Bilder sind im Marktplatz ab jetzt als solche gekennzeichnet. Keine Aktion nötig.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      In Deinem Backend kennzeichnest Du jedes Bild einzeln als KI-generiert und kannst den Standard „alle Produktbilder KI-generiert" setzen. Bitte den bestehenden Bild-Bestand einmal durchgehen und die Durchsicht bestätigen — Frist laut EU AI Act für Bestandsinhalte: 02.12.2026.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-17" description="KI-Paket-Generator: Paket-Entwürfe aus dem Caterer-Katalog">
+  Über das Aktionsmenü des Caterers gibt es die neue Aktion „KI-Pakete generieren": Anlässe auswählen, Anzahl (bis zu 5) und optional ein Briefing angeben — im Hintergrund baut die KI aus dem aktiven Produktkatalog des Caterers Paket-Entwürfe inklusive Preiskalkulation. Voraussetzung sind mindestens 5 aktive Produktvarianten; das Ergebnis kommt als Nova-Benachrichtigung, sobald der Lauf fertig ist. Die Entwürfe bekommen den neuen Paket-Status „KI-Entwurf" und sind weder im Caterer-Backend noch im Marktplatz sichtbar, bis ein KAM sie veröffentlicht. Zum Prüfen und Nachschärfen gibt es auf der Paket-Detailseite den neuen Bereich „Package composition": Katalog des Caterers durchsuchen, Komponenten hinzufügen oder entfernen, Mengen ändern — mit Live-Preisvorschau (Komponentensumme gegen hinterlegten Paketpreis).
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Aktion „KI-Pakete generieren" auf dem Caterer ausführen (nur ein Caterer pro Lauf). Entwürfe anschließend über „Package composition" auf der Paket-Detailseite prüfen und erst dann auf einen sichtbaren Status stellen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — KI-Entwürfe erscheinen erst nach Prüfung und Freigabe im Marktplatz.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — KI-Entwürfe sind für Dich unsichtbar, bis ein KAM sie geprüft und veröffentlicht hat.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-17" description="Daily Lunch: Einladungslink, Bestätigungs-Mails, Absagen und Menü-Import">
+  Rund um den Daily-Lunch-Pilot (wöchentliche Team-Lunch-Abstimmung) ist ein Paket an Verbesserungen live. Jede Firma hat jetzt einen festen Einladungslink zur Abstimmung (Nova-Aktion auf der Firma; neu generieren macht den alten Link ungültig). Teilnehmer erhalten nach der Stimmabgabe eine Bestätigungs-Mail und können einzelne Tage auch nach Abstimmungsschluss noch absagen — bis 16:00 Uhr am Vortag der Lieferung. Der Caterer bekommt zum Absage-Stichtag eine konsolidierte Anpassungs-Mail mit den finalen Mengen pro Gericht, der Lunch-Verantwortliche der Firma eine Status-Mail zur Abstimmung. Für die Einrichtung gibt es außerdem einen Menü-Import als Nova-Aktion, und an der Firma sind Lunch-Lieferstandort und Lieferhinweise hinterlegbar.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Einladungslink über die Nova-Aktion auf der Firma erzeugen und dem Ansprechpartner geben (weiterleiten an das Team übernimmt der Kunde). Wochenmenüs über die Import-Aktion anlegen; Lunch-Standort und Lieferhinweise auf der Firma pflegen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Teilnahme läuft über den Firmen-Einladungslink (Name auswählen, abstimmen). Nach der Stimmabgabe kommt eine Bestätigung per E-Mail; einzelne Tage lassen sich bis 16:00 Uhr am Vortag absagen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Lunch-Caterer erhalten am Vortag der Lieferung (16:00 Uhr) eine Mail mit den endgültigen Mengen pro Gericht, wenn nach Abstimmungsschluss noch abgesagt wurde.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-16" description="Monatsgutschrift: Bestell-Ledger, Duplikatschutz und korrigierte Monatszuordnung">
+  Drei Verbesserungen an der monatlichen Caterer-Gutschrift. Erstens ein Ledger: Jede neu erzeugte Gutschrift hält jetzt fest, welche Bestellungen sie enthält (mit Auszahlungsbetrag und Abrechnungsdatum zum Zeitpunkt der Erstellung) — einsehbar auf der Detailseite der Gutschrift in Nova. Zweitens ein Duplikatschutz: Ein zweiter Lauf für denselben Standort und Monat wird abgefangen, statt eine zweite Gutschrift — und damit potenziell eine Doppel-Auszahlung — zu erzeugen; bewusstes Neu-Erstellen bleibt über den Haken „Create anyway" möglich. Drittens eine korrigierte Monatszuordnung: Mehrtages-Bestellungen, die am Monatsersten des Folgemonats enden, landeten bisher in zwei aufeinanderfolgenden Gutschriften, und eine per „Include in monthly bills" erzwungene Bestellung landete bis zu ihrer Auszahlung in jeder Gutschrift des Standorts — beides behoben, der Haken wirkt jetzt nur im Monat des Leistungsdatums. Neue Audit-Kommandos prüfen Bestand und Auswahl auf Auffälligkeiten.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Welche Bestellungen in einer Gutschrift stecken, siehst Du jetzt direkt auf deren Detailseite. Meldet die Aktion „Create monthly bills", dass es für den Monat schon eine Gutschrift gibt: nur mit „Create anyway" fortfahren, wenn wirklich eine zweite gewollt ist.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Doppelte Monatsgutschriften für denselben Monat und Mehrtages-Bestellungen, die in zwei Monatsgutschriften auftauchen, sind damit ausgeschlossen. Kein Handlungsbedarf.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-14" description="Request Hub: E-Mail-Versand mit korrekten Absätzen + Rich-Text-Editor">
+  Im Request Hub getippte E-Mail-Texte (etwa beim Angebots-Versand) kamen beim Kunden bisher als zusammengelaufener Fließtext an — die Mail-Pipeline schluckte einfache Zeilenumbrüche. Jetzt bleiben Absätze und Zeilenumbrüche zuverlässig erhalten; die Versand-Dialoge im Hub haben dafür einen Rich-Text-Editor, und die E-Mail-Vorschau zeigt exakt das, was verschickt wird.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      E-Mail-Texte in den Versand-Dialogen des Request Hubs kannst Du jetzt formatieren; Umbrüche kommen beim Kunden an wie getippt. Die Vorschau vor dem Versand ist verbindlich — was dort steht, geht raus.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      E-Mails von eGora kommen wieder sauber formatiert mit Absätzen an. Keine Aktion nötig.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-12" description="KPI-Korrektur: „Total issued gross revenue" zählt Sammelrechnungs-Bestellungen">
+  Bestellungen, die über eine Sammelrechnung fakturiert werden, haben bewusst keine eigene Stripe-Rechnung — die KPI „Total issued gross revenue (in invoices)" hat ihr Volumen deshalb bisher nicht mitgezählt. Jetzt zählen sie mit ihrem Brutto-Bestellwert abzüglich verrechnetem Kundenguthaben, sobald die Sammelrechnung in Stripe existiert und nicht storniert ist. Extern fakturierte Bestellungen zählen unverändert mit ihrem Bestellwert; noch gar nicht fakturierte Bestellungen zählen weiterhin 0 € — die Differenz zum realisierten Umsatz erklärt das Kommando audit:issued-vs-realized-gap.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Die Issued-KPI liegt ab jetzt näher am realisierten Umsatz, weil Sammelrechnungs-Volumen mitzählt — Vergleiche mit älteren Ablesungen entsprechend einordnen. Kein Handlungsbedarf.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-11" description="Netto-Preis-Caterer: korrekte Brutto-Preise bei der Menü-Übernahme ins Angebot">
+  Beim Umwandeln eines Caterer-Menüvorschlags in ein Angebot wurden bei Caterern, die ihre Preise netto pflegen, Liefergebühr-Positionen mit dem Netto-Betrag als Brutto-Preis angelegt — die Position war um die Mehrwertsteuer zu günstig. Jetzt wird für Netto-Caterer korrekt auf Brutto umgerechnet. Außerdem trugen Produkte, die bei der Umwandlung bzw. beim Speisekarten-Import neu entstehen, wegen eines Feldnamen-Fehlers ihre Kennzeichnung „Preis inkl. MwSt." nicht — auch das ist behoben. Ein neues Audit-Kommando findet betroffene Alt-Fälle (nur Bericht, keine automatische Korrektur).
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Bei Netto-Caterern stimmen die Brutto-Preise aus der Menü-Übernahme jetzt. Wirkt eine ältere Liefergebühr in einem Angebot zu niedrig, kann sie aus diesem Fehler stammen — im Zweifel prüfen und korrigieren.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Angebote, die aus Deiner eingereichten Speisekarte entstehen, übernehmen Netto-Preise jetzt korrekt inklusive Mehrwertsteuer. Kein Handlungsbedarf.
+    </Card>
+  </Columns>
+</Update>
+
 <Update label="2026-08-10" description="KPI-Korrektur: Transaktions-KPIs zählen nur noch echte Wertbewegungen als Records">
   Die Record-Listen der transaktionsbasierten GMV- und Netto-KPIs enthielten auch Bestellungen, deren Buchungen im Zeitraum in Summe null ergaben — etwa durch interne Umstellungsbuchungen (Netto-Baseline, Provisionsänderungen). Solche Bestellungen tauchten in der Record-Liste eines Monats auf, zu dem sie nichts beigetragen haben. Jetzt zählen als Records nur noch Bestellungen, die den jeweiligen Wert im Zeitraum tatsächlich bewegt haben; an den Summen selbst ändert sich nichts.
 
