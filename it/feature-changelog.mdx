@@ -7,6 +7,114 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-08-20" description="Caterer-Backend: doppelte Produkte finden und löschen">
+  Die Produktverwaltung im Caterer-Backend hat einen dritten Reiter: „Duplikate finden" (neben „Produkte" und „Basis-Produkte"). Er gruppiert alle Produkte des Betriebs, die denselben Namen **und** denselben Nettopreis tragen, zeigt je Gruppe Bild, Status und Erstelldatum und lässt die überzähligen Einträge in einem Rutsch entfernen — „Alle bis auf eines löschen" wählt automatisch alle bis auf das älteste Produkt der Gruppe aus. Pro Gruppe muss mindestens ein Produkt erhalten bleiben. Produkte aus dem Basis-Katalog und Produkte, die in Angeboten, Warenkörben oder Bestellungen stecken, sind gesperrt („In Verwendung — kann nicht gelöscht werden", mit Angabe des Grundes); für sie steht stattdessen „Archivieren" bereit. Das Löschen ist endgültig und wird vorher noch einmal bestätigt.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nicht direkt betroffen — die Seite gibt es nur im Caterer-Backend. Meldet ein Caterer doppelte Produkte in seinem Katalog, verweise ihn auf Produkte → „Duplikate finden" statt selbst aufzuräumen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Unter Produkte → „Duplikate finden" räumst Du doppelte Einträge selbst auf. Duplikat heißt: gleicher Name und gleicher Nettopreis. Achtung: Löschen ist endgültig — Produkte, die noch irgendwo verwendet werden, kannst Du nur archivieren.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-20" description="Anlass-Marktplatz und FU-Punch-out: KAM-Werkzeuge live, Storefront noch abgeschaltet">
+  Die Vorstufe des anlassbasierten Marktplatzes ist ausgeliefert — sichtbar wird davon vorerst nur die KAM-Seite. Sofort nutzbar ist die Nova-Aktion „FU-Marktplatz: Produkte im FU-Format exportieren" auf dem Standort: Sie liefert eine XLSX mit den 13 bekannten Caterer-Spalten plus „Anlässe" und „Gewicht (g)". Anlässe eintragen (von Hand oder über den KI-Prompt der Vorlage) und über „FU marketplace: import products from template" wieder einlesen — die ID-Spalte trifft dieselben Produkte, es entstehen also keine Dubletten. Der Download kommt zusätzlich als Nova-Benachrichtigung über die Glocke, falls der Browser den direkten Download blockt. Ebenfalls neu: das Feld „Occasions (Anlässe)" auf der Produkt-Ressource in Nova, damit eine importierte Zuordnung geprüft und korrigiert werden kann. Die eigentliche Storefront unter /marktplatz, Pakete im Warenkorb und die SAP-Übergabeseite des OCI-Punch-outs liegen hinter Feature-Flags und sind in allen Umgebungen aus (FEATURE_MARKETPLACE_ENABLED, FEATURE_OCI_ENABLED): Pakete lassen sich über die Online-Kasse noch nicht bezahlen, deshalb bleiben die Seiten zu, bis der Bezahlweg steht.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Für die FU-Vorbereitung: Auf dem Standort die Aktion „FU-Marktplatz: Produkte im FU-Format exportieren" laufen lassen, in der XLSX die Spalte „Anlässe" füllen und die Datei über die bestehende Import-Aktion zurückspielen. Einzelne Zuordnungen korrigierst Du danach direkt am Produkt in Nova im Feld „Occasions (Anlässe)".
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — die Marktplatz-Seiten sind noch nicht erreichbar.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — im Caterer-Backend ändert sich nichts.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-19" description="„Aktion erforderlich": 7-Tage-Fenster, Countdown-Hinweis und echte letzte Erinnerung">
+  Eine Anfrage bleibt 7 Tage in der Liste „Aktion erforderlich" des Caterers — gezählt ab dem Moment, in dem **dieser** Caterer zugewiesen wurde, nicht ab dem Anlegen der Anfrage. Neu ist, dass das Fenster unabhängig vom Anfragestatus gilt: Wer nie ein Angebot abgibt, behält die Anfrage nicht mehr bis zum Eventdatum in der Liste, und die Hinweise auf dem Caterer-Dashboard verschwinden mit demselben Fenster. Am letzten Tag bzw. einen Tag davor trägt die Anfragekarte ein Badge „Verschwindet morgen" bzw. „Verschwindet heute". Passend dazu ist die dritte Erinnerungsmail jetzt eine echte „Letzte Erinnerung" mit eigenem Betreff und Hinweis auf das Ende des Fensters — bisher war sie starr 5 Tage hinter der zweiten verkettet und fiel damit aus dem 7-Tage-Fenster heraus, wurde also faktisch nie verschickt. Erinnerungen hören auf, sobald das Fenster zu ist; umgekehrt bekommt ein spät zugewiesener Caterer seine Erinnerungen jetzt auch bei einer älteren Anfrage. Zusätzlich behoben: Nahm die Kundschaft ein Angebot an, blieb die interne Markierung „Caterer muss auf Änderungswunsch reagieren" gesetzt — verschob ein KAM die Anfrage später zurück auf einen frühen Status, tauchte sie beim Caterer erneut unter „Aktion erforderlich" auf. Die Markierung wird jetzt bei der Annahme zurückgesetzt; ein Audit-Kommando findet und repariert die Altfälle.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Rechne damit, dass ein Caterer eine Anfrage nur 7 Tage ab **seiner** Zuweisung unter „Aktion erforderlich" sieht — danach ist sie für ihn aus der Liste, auch wenn das Event weit in der Zukunft liegt. Soll er später doch noch anbieten, setze ihn neu auf die Anfrage: Mit der Zuweisung startet sein Fenster neu. Für Altfälle der hängengebliebenen Markierung gibt es `audit:stale-caterer-action-required` (mit `--backfill` repariert es sie).
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Anfragen stehen 7 Tage ab Deiner Zuweisung unter „Aktion erforderlich". Läuft die Frist ab, zeigt die Anfragekarte „Verschwindet morgen" bzw. „Verschwindet heute", und Du bekommst eine letzte Erinnerungsmail. Ohne Angebot verschwindet die Anfrage danach aus der Liste.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-18" description="Caterer Hub: neuer Pakete-Tab und vollständige Produktpflege">
+  Der Caterer Hub bekommt einen dreizehnten Tab „Pakete" und wird damit zum vollwertigen Pflegeplatz. Pakete lassen sich dort suchen, nach Status filtern, neu anlegen und komplett bearbeiten: Name, Beschreibung, Status, Add-on-Kennzeichen, Preis pro Person (Eingabe netto, gespeichert wird brutto), MwSt, Mindestpersonenzahl, Zusammenstellung (Produkte plus Menge pro Person), Anlässe und Formate, Saisonalität, Kleingruppen-Zuschläge, Servicepauschalen und das Paketbild samt KI-Kennzeichnung. Der Produkte-Tab kann jetzt dasselbe: Produkte anlegen und bearbeiten — inklusive Allergene, Tags, Saisonalität, Bild-Upload mit KI-Frage und einem KI-Vorschlag für die Kurzbeschreibung — und löschen, mit Sicherheitsabfrage und Sperre, wenn das Produkt aus dem Basis-Katalog stammt oder in Angeboten bzw. Bestellungen verwendet wird. Am Rand: Die Monatsgutschriften im Finanz-Tab sind jetzt seitenweise blätterbar und nennen den Standort (auch bei gelöschten Standorten), und die Produktliste lässt sich seit dem 20.08. per Klick auf ID, Titel, Preis, MwSt und Status sortieren.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Produkte und Pakete eines Caterers pflegst Du direkt im Hub — Tabs „Produkte" und „Pakete" — statt über die alten Nova-Formulare. Beim Paket gilt weiterhin: mindestens ein Anlass und ein Format, außer es ist als Add-on markiert. Löschen ist absichtlich gesperrt, sobald Angebote oder Bestellungen daran hängen. Mehr dazu: [KAM-Werkzeuge](/backend/tools).
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — der Hub ist ein internes Werkzeug. Er zeigt dieselben Felder wie Dein Backend, ändert dort aber nichts.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-18" description="Caterer sehen keine Kundenkontaktdaten mehr">
+  Mehrere Stellen im Backend zeigten Caterern Daten, die dort nicht hingehören. Behoben: Die Checkout-Vorbelegung auf der Angebotsseite (Name, E-Mail, Telefon, Firma der Kundschaft) wird nur noch für eingeloggte Kundschaft geladen; der Button „Menü-Vorschlag" ist für Caterer ausgeblendet, und sowohl der Download des Menü-Vorschlag-PDFs als auch die Rechnungsansicht sind serverseitig auf Kundschaft beschränkt — beide enthalten Kontaktdaten bzw. einen Kunden-Magic-Link. Die Rechnungsliste im Backend ist ebenfalls nur noch für Kundschaft sichtbar (Caterer nutzen weiterhin ihre Dokumente-Seite), die Bestell-Ressource nur noch für Admins (Kundschaft nutzt „Meine Bestellungen", Caterer die Bestellungen-Seite). Zusätzlich werden Freitexte — Ablaufplan, Veranstaltungsort, Chat-Nachrichten — in Caterer-Mails und auf der Anfrage-Detailseite jetzt escaped und mit erhaltenen Zeilenumbrüchen ausgegeben statt als rohes HTML. Und die Stornierungs-Mail an den Caterer nannte wegen eines falschen Feldnamens keinen Vornamen der Kundschaft — der steht jetzt wieder drin.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Verlass Dich nicht mehr darauf, dass ein Caterer Kundenkontaktdaten im Backend nachschlagen kann — was er wissen muss (Ansprechpartner vor Ort, Telefonnummer für die Anlieferung), gibst Du bewusst über die Anfrage bzw. den Lieferschein weiter.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Deine Kontaktdaten und Rechnungsdokumente sind im Caterer-Zugang nicht mehr einsehbar. Keine Aktion nötig.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Menü-Vorschlags-PDF und Rechnungsansicht der Kundschaft stehen Dir nicht mehr offen. Deine eigenen Unterlagen findest Du unverändert unter „Dokumente" bzw. „Bestellungen".
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-18" description="Daily Lunch: Label-CSV für den Etikettendruck, Kategorie heißt nur noch „Vegan"">
+  Für den Etikettendruck gibt es eine neue Nova-Aktion auf der Lunch-Woche: „Label-CSV exportieren". Die Datei enthält eine Zeile pro Person und Liefertag — Wochentag, Datum, Name, Kategorie mit Emoji, Gericht, Beschreibung und Allergene — sortiert nach Tag, Gericht und Name, damit identische Gerichte am Stück gedruckt werden. Tage ohne Gericht („Heute nichts") und abgesagte Tage stehen bewusst nicht drin, für sie wird kein Etikett gedruckt. Außerdem heißt die dritte Bowl-Kategorie jetzt nur noch „Vegan" statt „Vegan + GF": Diät-Marker wie „+GF" oder „+LF" wechseln von Gericht zu Gericht und gehören in den Gerichtstitel. Fischgerichte laufen unter „Carnivore".
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Aktion „Label-CSV exportieren" auf der Lunch-Woche (genau eine Woche pro Lauf); der Download ist auf Admin und KAM beschränkt. Beim Anlegen der Wochenmenüs Diät-Hinweise wie „+GF" in den Gerichtstitel schreiben — die Kategorie führt sie nicht mehr.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — die Etiketten entstehen in unserem Büro-Workflow.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
 <Update label="2026-08-17" description="Caterer Hub: neuer zentraler Arbeitsplatz für Caterer">
   Nach OrderHub und Request Hub gibt es jetzt den **Caterer Hub**: Wer in Nova einen Caterer (Retailer) oder einen Standort (Branch) öffnet, landet automatisch dort — das gilt für alle Rollen, nicht nur für KAMs. Der Hub bündelt alles zu einem Caterer in zwölf Tabs (Profil, Produkte, Basis-Produkte, Lieferung, Finanzen, Bilder, KPIs, Matching, Benachrichtigungen, Team, Admin, Aktivität), deren Aufbau bewusst das Caterer-Backend spiegelt — KAM und Caterer schauen damit auf dieselbe Struktur. Dazu kommen eine Caterer-Übersicht mit Suche und „Caterer anlegen"-Dialog sowie die neue Aktion „Send images to customer", die ausgewählte Bilder eines Standorts per E-Mail an einen Kunden schickt. Während der Testphase führt der Link „Klassische Ansicht" (bzw. der URL-Zusatz ?classic=1) zurück auf die alten Nova-Detailseiten.
 
