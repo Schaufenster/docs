@@ -7,6 +7,78 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-08-21" description="Caterer Hub: „Caterer anlegen“ setzt die Katalog-Grundeinstellungen automatisch">
+  Wer über den Caterer Hub einen neuen Caterer anlegt, bekommt ab jetzt die Standardwerte mitgeliefert, die jeder aktive Caterer braucht: Lager „immer verfügbar“, Nettopreise, Store-Typ „Caterer“ und Branche „Catering“. Vorher fehlten diese Einstellungen bei Hub-Neuanlagen — mit zwei Folgen: Der Caterer tauchte in der alten Caterer-Liste nicht auf, und per Import eingespielte Nettopreise wurden wie Bruttopreise behandelt.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Beim Anlegen über den Hub musst Du nichts mehr nachträglich setzen. Hast Du zwischen dem 17.08. und dem 21.08. einen Caterer über den Hub angelegt, prüfe dort einmal Nettopreise und „Lager immer verfügbar“.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — neu angelegte Betriebe starten mit den richtigen Einstellungen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-21" description="Anlass-Marktplatz (Staging-Test): Mengen nach Personenzahl, Mengensteuerung in der Seitenleiste, Bruttopreise; OCI-Partner in Nova">
+  Für die FU-Testphase auf Staging ist der Marktplatz weiterentwickelt; auf Prod bleibt die Storefront weiterhin abgeschaltet. Beim Hinzufügen eines Produkts wird die Menge jetzt aus der Personenzahl berechnet (Personen ÷ „sättigt“, aufgerundet) und an Mindestbestellmenge und Bestellintervall des Produkts angepasst — bisher wurde immer 1 Stück eingelegt. In der Warenkorb-Seitenleiste lassen sich Produkt- und Paketzeilen mit −/+ ändern und entfernen (Menge 0 löscht die Zeile). Die Produkt- und Paketkarten zeigen durchgehend Bruttopreise — dieselbe Basis wie Warenkorb und Mindestbestellwert-Leiste; bisher standen bei netto hinterlegten Produkten Nettopreise auf der Karte. Außerdem werden OCI-Partner (Zugangsdaten für Punch-out-Anbindungen wie die FU Berlin) jetzt in Nova gepflegt: System Admin → Import & Integration → „OCI Partners“ (Name, Benutzername, Passwort, IP-Allowlist, Aktiv) — nur für die Admin-Rolle sichtbar und erreichbar.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Auf Prod ändert sich für Dich nichts. Wer auf Staging mittestet: Kartenpreise sind brutto, Mengen richten sich nach der Personenzahl, Zeilen lassen sich in der Seitenleiste direkt anpassen. OCI-Partner legt und ändert ausschließlich ein Admin in Nova an.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — die Marktplatz-Seiten sind auf Prod weiterhin nicht erreichbar.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — im Caterer-Backend ändert sich nichts.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-20" description="Lead-Formular: neuer Kontakt-Schritt im A/B-Test, kurze Nachnamen wieder möglich">
+  Der letzte Schritt des Lead-Formulars (Kontaktdaten) läuft seit dem 20.08. als A/B-Test: Die Hälfte der Besucher sieht das bisherige Kontakt-Modal (contact_control), die andere Hälfte eine neue Variante (contact_v1) mit anlassbezogener Überschrift („Wohin dürfen wir die Angebote für Ihr Teamevent am … schicken?“), Bewertungszeile, Vertrauenshinweisen und Team-Fotos unter dem Button „Kostenlos 3 bis 4 Angebote anfordern“; Pflichtfeld-Hinweise erscheinen dort erst nach dem Klick, statt den Button zu sperren. Gleichzeitig behoben: Nachnamen mit zwei Buchstaben (z.&nbsp;B. „Ay“) blockierten bisher still das Absenden — der Button blieb grau, ohne Fehlermeldung. Jetzt reichen zwei Zeichen, in beiden Varianten.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Anfragen aus beiden Varianten sind inhaltlich identisch — kein Handlungsbedarf. Die Variante steht an der Anfrage im Feld „Form Variant“ (contact_control / contact_v1) und lässt sich auf der KPI-Seite filtern.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Sehen eine der beiden Varianten; Pflichtfelder (Nachname, Telefon, E-Mail) sind gleich. Kurze Nachnamen werden wieder akzeptiert.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-20" description="Selfservice-Backend: Rechnung und Gutschrift strikt nach Rolle">
+  Zwei weitere Stellen im Selfservice-Backend sind abgedichtet (Fortsetzung vom 18.08.): Der Rechnungs-Download auf der Anfrage-Detailseite ist nur noch für Kunden-Accounts erreichbar, und die Dokumenten-Seite gibt Dokumenttypen rollenabhängig heraus — Caterer erhalten Lieferschein und Gutschrift, Kunden Rechnung, Auftragsbestätigung und Lieferschein. Alles andere wird auch bei direktem URL-Aufruf mit 403 abgewiesen.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nicht betroffen — betrifft nur das Selfservice-Backend.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Keine Änderung im Normalbetrieb — Rechnung, Auftragsbestätigung und Lieferschein bleiben verfügbar.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Keine Änderung im Normalbetrieb — Lieferschein und Gutschrift bleiben verfügbar; Kundenrechnungen sind nicht mehr aufrufbar.
+    </Card>
+  </Columns>
+</Update>
+
 <Update label="2026-08-20" description="Caterer-Backend: doppelte Produkte finden und löschen">
   Die Produktverwaltung im Caterer-Backend hat einen dritten Reiter: „Duplikate finden" (neben „Produkte" und „Basis-Produkte"). Er gruppiert alle Produkte des Betriebs, die denselben Namen **und** denselben Nettopreis tragen, zeigt je Gruppe Bild, Status und Erstelldatum und lässt die überzähligen Einträge in einem Rutsch entfernen — „Alle bis auf eines löschen" wählt automatisch alle bis auf das älteste Produkt der Gruppe aus. Pro Gruppe muss mindestens ein Produkt erhalten bleiben. Produkte aus dem Basis-Katalog und Produkte, die in Angeboten, Warenkörben oder Bestellungen stecken, sind gesperrt („In Verwendung — kann nicht gelöscht werden", mit Angabe des Grundes); für sie steht stattdessen „Archivieren" bereit. Das Löschen ist endgültig und wird vorher noch einmal bestätigt.
 
@@ -43,7 +115,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
   </Columns>
 </Update>
 
-<Update label="2026-08-19" description="„Aktion erforderlich": 7-Tage-Fenster, Countdown-Hinweis und echte letzte Erinnerung">
+<Update label="2026-08-19" description="„Aktion erforderlich“: 7-Tage-Fenster, Countdown-Hinweis und echte letzte Erinnerung">
   Eine Anfrage bleibt 7 Tage in der Liste „Aktion erforderlich" des Caterers — gezählt ab dem Moment, in dem **dieser** Caterer zugewiesen wurde, nicht ab dem Anlegen der Anfrage. Neu ist, dass das Fenster unabhängig vom Anfragestatus gilt: Wer nie ein Angebot abgibt, behält die Anfrage nicht mehr bis zum Eventdatum in der Liste, und die Hinweise auf dem Caterer-Dashboard verschwinden mit demselben Fenster. Am letzten Tag bzw. einen Tag davor trägt die Anfragekarte ein Badge „Verschwindet morgen" bzw. „Verschwindet heute". Passend dazu ist die dritte Erinnerungsmail jetzt eine echte „Letzte Erinnerung" mit eigenem Betreff und Hinweis auf das Ende des Fensters — bisher war sie starr 5 Tage hinter der zweiten verkettet und fiel damit aus dem 7-Tage-Fenster heraus, wurde also faktisch nie verschickt. Erinnerungen hören auf, sobald das Fenster zu ist; umgekehrt bekommt ein spät zugewiesener Caterer seine Erinnerungen jetzt auch bei einer älteren Anfrage. Zusätzlich behoben: Nahm die Kundschaft ein Angebot an, blieb die interne Markierung „Caterer muss auf Änderungswunsch reagieren" gesetzt — verschob ein KAM die Anfrage später zurück auf einen frühen Status, tauchte sie beim Caterer erneut unter „Aktion erforderlich" auf. Die Markierung wird jetzt bei der Annahme zurückgesetzt; ein Audit-Kommando findet und repariert die Altfälle.
 
   <Columns cols={3}>
@@ -97,7 +169,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
   </Columns>
 </Update>
 
-<Update label="2026-08-18" description="Daily Lunch: Label-CSV für den Etikettendruck, Kategorie heißt nur noch „Vegan"">
+<Update label="2026-08-18" description="Daily Lunch: Label-CSV für den Etikettendruck, Kategorie heißt nur noch „Vegan“">
   Für den Etikettendruck gibt es eine neue Nova-Aktion auf der Lunch-Woche: „Label-CSV exportieren". Die Datei enthält eine Zeile pro Person und Liefertag — Wochentag, Datum, Name, Kategorie mit Emoji, Gericht, Beschreibung und Allergene — sortiert nach Tag, Gericht und Name, damit identische Gerichte am Stück gedruckt werden. Tage ohne Gericht („Heute nichts") und abgesagte Tage stehen bewusst nicht drin, für sie wird kein Etikett gedruckt. Außerdem heißt die dritte Bowl-Kategorie jetzt nur noch „Vegan" statt „Vegan + GF": Diät-Marker wie „+GF" oder „+LF" wechseln von Gericht zu Gericht und gehören in den Gerichtstitel. Fischgerichte laufen unter „Carnivore".
 
   <Columns cols={3}>
@@ -223,7 +295,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
   </Columns>
 </Update>
 
-<Update label="2026-08-12" description="KPI-Korrektur: „Total issued gross revenue" zählt Sammelrechnungs-Bestellungen">
+<Update label="2026-08-12" description="KPI-Korrektur: „Total issued gross revenue“ zählt Sammelrechnungs-Bestellungen">
   Bestellungen, die über eine Sammelrechnung fakturiert werden, haben bewusst keine eigene Stripe-Rechnung — die KPI „Total issued gross revenue (in invoices)" hat ihr Volumen deshalb bisher nicht mitgezählt. Jetzt zählen sie mit ihrem Brutto-Bestellwert abzüglich verrechnetem Kundenguthaben, sobald die Sammelrechnung in Stripe existiert und nicht storniert ist. Extern fakturierte Bestellungen zählen unverändert mit ihrem Bestellwert; noch gar nicht fakturierte Bestellungen zählen weiterhin 0 € — die Differenz zum realisierten Umsatz erklärt das Kommando audit:issued-vs-realized-gap.
 
   <Columns cols={3}>
