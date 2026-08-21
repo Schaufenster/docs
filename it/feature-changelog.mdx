@@ -1181,7 +1181,7 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
   </Columns>
 </Update>
 
-<Update label="2026-07-08" description="Anfrage-Attribute: Allergien und Präferenzen zu einem Feld „Ernährungshinweise“ zusammengeführt">
+<Update label="2026-07-08" description="Anfrage-Attribute: Allergien und Präferenzen zu einem Feld 'Ernährungshinweise“ zusammengeführt">
   Die bisher zwei getrennten Freitext-Felder auf einer Catering-Anfrage — **Allergien** und **Präferenzen** — sind zu einem einzigen Feld **„Ernährungshinweise"** (`dietary_requirements`) zusammengeführt. Kundeneingaben aus dem Anfrage-Formular werden am Anfang des Feldes weiterhin als zwei feste Labels **`Allergien:`** und **`Präferenzen:`** eingesetzt; alles darunter gehört dem KAM. Die alten Spalten bleiben als eingefrorener Vor-Merge-Snapshot bestehen — ein Backfill (`audit:consolidate-dietary-freetext`) hebt die Alt-Werte in das neue Feld. Sichtbare Änderungen:
 
   - **Nova (Catering-Anfrage-Formular)** — statt der Felder **Preferences** und **Allergies** gibt es genau ein Textarea **„Dietary requirements"** mit vorbelegten `Allergien:` / `Präferenzen:`-Blöcken. Beim Auswählen eines Event-Formats werden Küchen, Dislikes und Allergien des Formats als Startvorschlag in das Feld gezogen.
