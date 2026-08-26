@@ -7,6 +7,258 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-08-26" description="Caterer Hub: Take Rate wurde um den Faktor 100 falsch gespeichert — behoben, Prüfbefehl für Altfälle">
+  Im Caterer Hub (Tab „Finanzen“ → „Globale Take Rate“ sowie im Dialog „Caterer anlegen“ → „Take Rate (%)“) wurde die eingegebene Prozentzahl bisher unverändert gespeichert, obwohl das System intern einen Bruchwert erwartet: Aus „20“ wurden 2000 %. Umgekehrt zeigte der Hub korrekt hinterlegte Alt-Werte als „0,13 %“ statt „13 %“. Jetzt rechnet der Hub beim Speichern und Anzeigen richtig um; eingegeben werden ganze Prozentwerte (0–100), Nachkommastellen werden abgelehnt. Betroffen sind nur Take Rates, die seit dem Hub-Start am 17.08. über den Hub gesetzt wurden, und Caterer, die seitdem über den Hub angelegt wurden. Ein Prüfbefehl (audit:take-rate-scale) listet die betroffenen Standorte sowie Orders, die bereits eine Provision über 100 % übernommen haben, und korrigiert die Standorte; Orders bleiben unverändert und sind Einzelfall-Entscheidung.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Hast Du seit dem 17.08. eine Take Rate über den Hub gesetzt oder dort einen Caterer angelegt, prüfe im Tab „Finanzen“ den Wert — er muss als ganze Prozentzahl stehen (z. B. „13 %“). Orders aus dem Zeitraum mit auffällig hoher Provision kommen aus dem Scan als Liste; Korrektur pro Fall.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nur indirekt: Auf einzelnen Orders aus dem Zeitraum kann der Provisionsanteil falsch berechnet sein — das prüft der KAM.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-26" description="Daily Lunch: Menü zweisprachig mit automatischer Übersetzung, Abstimmung öffnet ohne Mindestanzahl; Request Hub: Request-Typ direkt bearbeitbar">
+  Gerichte einer Lunch-Woche haben jetzt Titel und Beschreibung in Deutsch und Englisch. Beim Menü-Import gibst Du die Sprache der eingefügten Texte an („Menu language“); die andere Sprache wird automatisch per KI übersetzt (im Hintergrund) und lässt sich pro Gericht in Nova korrigieren. Die Aktion „Translate menu items“ an der Woche füllt nur fehlende Übersetzungen — Handkorrekturen werden nie überschrieben. Die Bestätigungsmail zeigt die gewählten Gerichte in der Mail-Sprache des Teilnehmers. Außerdem öffnet eine Woche jetzt zum Startzeitpunkt unabhängig von der Anzahl der Gerichte — bisher waren 15 (3 Arten × 5 Tage) Pflicht, sonst gab es statt der Öffnung einen Hinweis an den KAM; auch Tage ohne Gericht sind erlaubt. Im Request Hub ist der Request-Typ als Kachel in der Übersichtskarte (neben Anlass und Event-Format) direkt bearbeitbar; im Admin-Tab bleibt er nur lesbar.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Menü-Import: „Menu language“ passend wählen, danach die automatische Übersetzung in Nova → Lunch Menu Items kurz gegenlesen. Die Aktion „Open Lunch Voting“ meldet nur noch die Anzahl der Gerichte, kein Soll mehr — Vollständigkeit des Menüs prüfst Du selbst (z. B. über den Vorschau-Link). Request-Typ: Request Hub → Übersicht → Kachel „Request-Typ“.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Mitarbeitende englischsprachiger Unternehmen sehen Gerichte und Bestätigungsmail auf Englisch. Wochen können auch mit weniger Gerichten oder leeren Tagen zur Abstimmung stehen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-25" description="Daily Lunch: Vorschau-Link, Order-Verknüpfung, mehrere Gerichte pro Art, Sprache pro Unternehmen, Erinnerung zu Bürozeiten">
+  Jede Lunch-Woche hat jetzt einen dauerhaften Vorschau-Link, der die echte Abstimmungsseite ohne Login zeigt — auch für Entwürfe — und bei dem nichts abgestimmt werden kann. Orders lassen sich nachträglich der Lunch-Woche zuordnen, die sie erfüllen. Pro Wochentag sind mehrere Gerichte derselben Art möglich (z. B. Fleisch und Fisch, beide „Carnivore“); die Wochen-Buchung nach Präferenz weicht bei Allergen-Konflikt auf das nächste Gericht der Art aus. Unternehmen haben eine Lunch-Sprache (Deutsch/Englisch) für Seiten und Mails. Die Erinnerung kommt weiterhin 3 Stunden vor Abstimmungsschluss, aber nicht mehr nachts: frühestens 8 Uhr, spätestens 18 Uhr, sonst 17 Uhr am Vortag — bei sehr kurzen Fenstern gar nicht. Die Ergebnis-Mail an den KAM enthält die Liefer-Notizen des Unternehmens.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nova → Lunch Week → Feld „Preview link“ kopieren und an den Lunch-Admin des Unternehmens geben; Aktion „Regenerate preview link“ macht den alten Link ungültig. Order → Feld „Lunch week“ (auch im Order Hub als Kachel „Lunch Week“ unter „Related Items“). Company → „Lunch language“. Beim Menü-Import gilt: Ein geänderter Titel legt ein neues Gericht an — das alte in Nova löschen. Liefer-Notizen aus der Ergebnis-Mail in die Order übernehmen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Mitarbeitende sehen ggf. mehrere Gerichte derselben Art pro Tag; die Erinnerung kommt zu Bürozeiten. Unternehmen mit Lunch-Sprache Englisch bekommen Seiten und Mails auf Englisch. Der Lunch-Admin kann die Woche über den Vorschau-Link vorab ansehen (Banner „Vorschau — … Abstimmen ist deaktiviert.“).
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — die Bestellung legt weiterhin der KAM an.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-22" description="Daily Lunch: Backend-Accounts per Liste anlegen, Abstimmen direkt aus dem Kunden-Backend, Status-Badge repariert">
+  An einem Unternehmen lassen sich jetzt aus einer eingefügten Liste („Name, E-Mail“ pro Zeile) echte Kunden-Backend-Accounts anlegen: Sie werden dem Unternehmen mit der gewählten Rolle zugeordnet, Lunch-Teilnehmer mit derselben E-Mail werden automatisch verknüpft, und neue Accounts bekommen auf Wunsch eine Willkommensmail mit 14 Tage gültigem Login-Link zur Team-Lunch-Seite. Bereits vorhandene Nutzer werden nur zugeordnet (keine Mail). Teilnehmer mit Backend-Account landen aus Einladung, Erinnerung und Bestätigung direkt eingeloggt auf der Team-Lunch-Seite (Link 96 Stunden gültig); alle anderen weiter auf der öffentlichen Abstimmungsseite. Außerdem behoben: Das Status-Badge der Lunch-Woche in Nova zeigte immer „draft“.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nova → Company → Aktion „Create backend accounts“: Liste einfügen, Rolle, Sprache, „Send welcome mail“ (Standard an), „Preview only“ zum Zählen ohne Anlegen. Die Aktion ist wiederholbar; ungültige, doppelte oder gelöschte Einträge werden übersprungen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Neue Accounts erhalten „Dein egora-Konto für [Unternehmen]“ mit Login-Button und Hinweis, per „Passwort vergessen“ ein Passwort zu setzen. Die Bestätigungsmail hat den Button „Auswahl ansehen oder ändern“.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-25" description="Bilder an Kunden senden: eingebettet oder als PDF-Galerie, Format-Filter, neue Aktion an der Anfrage">
+  Die Bild-Mail an Kunden bettet die Bilder jetzt direkt ein — vorher waren sie nur verlinkt, und Apple Mail/Outlook zeigten statt Bildern nur Dateinamen. Es gibt zwei Aktionen: Im Caterer Hub „Bilder an Kunden senden“ (mit Feld „Kunden-E-Mail“) und neu im Request Hub „3b - AN KUNDEN: Caterer-Bilder senden“ — die geht an die E-Mail der Anfrage, ist erst möglich, nachdem ein Angebot an den Kunden versendet wurde, und bietet nur Bilder der Caterer mit versendetem Angebot an (bei mehreren: Auswahl „Caterer“). Beide haben die Felder „Format-Kategorien“ (grenzt die Bildliste ein; Bilder ohne Kategorie bleiben immer sichtbar), „Bilder“, „Senden als“ („Bilder direkt in der E-Mail“ oder „Als PDF-Galerie im Anhang“), „Nachricht“ und bei KI-Bildern eine Pflicht-Bestätigung. Mit Anfrage-Kontext geht die Mail mit Anrede des Kunden (Du/Sie) über das KAM-Postfach raus und wird im Aktivitätslog der Anfrage vermerkt.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Bevorzugt die Anfrage-Aktion im Request Hub nutzen (richtige Anrede, Absender, Logging). Die PDF-Galerie nutzt dieselbe Seite wie der Menüvorschlag (6 Bilder pro Seite), aber ohne Mindestanzahl.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Betreff „Impressionen von [Caterer]“; Bilder sind ohne „Bilder laden“ sichtbar, oder es hängt „impressionen.pdf“ an.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-25" description="Referenzbilder mit Format-Kategorien — die Galerie im Menüvorschlag passt zum Anlass">
+  Referenzbilder eines Caterers können jetzt mit Serviervarianten getaggt werden (Fingerfood, Warmes/Kaltes/Flying Buffet, Menü serviert, Einzelportionen, Live Cooking, BBQ, Food Truck). Bilder ohne Kategorie gelten als „Allgemein/Mood“ und passen zu jeder Anfrage. Die Galerieseite im Menüvorschlags-PDF (ab 3 Bildern) wählt ihre 6 Bilder jetzt in Stufen: passendes Format, dann verwandte Formate (z. B. die Buffet-Varianten), dann Mood-Bilder, dann der Rest — innerhalb jeder Stufe zufällig. Ohne Tags bleibt es beim bisherigen Zufall.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Caterer Hub → Tab „Bilder“ → Referenzbilder: Unter jedem Bild steht „Allgemein/Mood“ oder die Kategorien; Klick öffnet die Auswahl. Lohnt sich pro Caterer einmal durchzugehen, damit Buffet-Anfragen keine Fingerfood-Bilder bekommen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Die Galerie im Menüvorschlag zeigt Bilder, die zum angefragten Format passen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Mein Konto → Profil → Referenzbilder: Unter jedem Bild „Allgemein / Stimmung“ bzw. die Kategorien anklicken und Serviervarianten wählen. Hinweis dort: „Bilder ohne Kategorie zählen als allgemeine Stimmungsbilder.“
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-25" description="Anfragen-Import aus Meeting-Notizen (Bulk): mehrere Anfragen aus einem Gesprächsprotokoll">
+  Neue Nova-Seite: Rohe Meeting-Notizen einfügen, die KI extrahiert pro neuem Event eine Zeile (Titel, Datum/Zeit oder Zeitraum, Personen, Anlass, Notizen), Du prüfst und ergänzt die Tabelle und legst bis zu 20 Anfragen auf einmal an. Kontakt, Firma, Stadt, Sprache, Lead Source und ein Standard-Budget werden einmal für den ganzen Stapel eingegeben. Ein Budget wird bewusst nie aus den Notizen geraten. Endlose Wiederholungen („jeden Dienstag“) und Änderungen an bestehenden Anfragen werden als Warnung ausgegeben, nicht als Anfrage. Das Häkchen „Exclude from all automated emails“ ist vorausgewählt.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nova → „Catering-Betrieb“ → „Anfragen-Import aus Notizen (Bulk)“. Ablauf: Notizen einfügen → „Parse Notes“ → Zeilen prüfen (Datum, Pax und Budget €/P sind Pflicht, Anlass ggf. wählen) → Batch-Settings → „Create n Requests“. Du wirst KAM der Anfragen. Fehlgeschlagene Zeilen bleiben in der Tabelle; erfolgreiche verschwinden, sodass ein zweiter Klick nichts doppelt anlegt. Die Seite selbst ist auf Englisch. Limit: 20 Parse-Vorgänge pro Stunde.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — solange das Häkchen aktiv bleibt, gehen keine automatischen Mails raus.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-25" description="Neue/empfohlene Caterer: Liste im Caterer Hub, sichtbar im Matching Tool">
+  Admins pflegen im Caterer Hub eine Empfehlungsliste; das Matching Tool zeigt sie in Schritt 2 als eigenen Block über den Top-Caterern — unabhängig von den Filtern des Laufs, mit dem Score des Laufs, „Nicht gematcht“ (Grund im Tooltip) oder „Kein Score“. Jeder Eintrag hat eine Notiz (ein Satz), eine Reihenfolge und ein „Sichtbar bis“-Datum (Standard: heute + 28 Tage); danach verschwindet er automatisch aus dem Tool. Nur veröffentlichte Caterer sind möglich.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Caterer Hub → Startseite, Karte „Neue/empfohlene Caterer“ unten. Pflegen (Caterer suchen, Notiz, Datum, „Hinzufügen“, Pfeile zum Sortieren, ✕) kann nur die Admin-Rolle; alle anderen sehen die Liste. Abgelaufene Einträge bleiben im Hub als „abgelaufen“ stehen, bis sie entfernt werden. Im Matching Tool: violetter Block „Neue/empfohlene Caterer“ mit der Notiz als Unterzeile.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — Caterer erfahren nichts von der Liste.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-25" description="Anlass-Marktplatz (Staging-Test): Sättigungsrechner, Detail-Ansicht, Partner-Branding; Produkt-Import läuft bei großen Dateien im Hintergrund">
+  Auf Prod bleibt die Storefront weiterhin abgeschaltet. Für den FU-Test: Die Seitenleiste zeigt „Ca. X g pro Person“ mit Einstufung (ab 150 g leicht sättigend, ab 300 g mäßig, ab 500 g sättigend, ab 750 g sehr sättigend, darunter Snack) und weist auf Positionen ohne Gewichtsangabe hin; die Warenkorb-Seite hat einen „Sättigungsrechner“ mit Personen-Eingabe. Klick auf Bild, Titel oder „Details“ öffnet eine Detail-Ansicht mit Beschreibung, Paketinhalt, Allergenen, Gewicht, Mindestbestellwert und „In den Warenkorb“; Pakete ohne Bild bekommen ein Platzhalterbild; der „Zum Caterer“-Link auf den Karten entfällt (im Detail weiterhin). OCI-Partner haben in Nova die Felder „Brand color“ und „Logo path“: Punch-out-Leiste (jetzt auch im Warenkorb), Übergabe- und Prüfseite erscheinen in Partnerfarbe mit Logo. Der Import „FU-Marktplatz: Produkte aus Vorlage importieren“ hat eine Modus-Auswahl (Standard „Aktualisieren + Fehlende anlegen (empfohlen)“), „FU-exklusiv“ ist nicht mehr vorausgewählt, und über 50 Zeilen laufen im Hintergrund — bisher brach der Lauf nach ca. 60 Sekunden scheinbar ab, während er weiterlief, was zu Doppel-Importen verleitete.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Auf Prod ändert sich nichts. Import (Branch-Aktion bzw. Caterer Hub → Aktionen → Filiale/Produkte): Bei großen Dateien erscheint „Der Import läuft im Hintergrund …“, das Ergebnis steht im Tab „Aktivität“. Meldungen bleiben stehen, bis Du sie wegklickst. Matchen IDs nicht (z. B. Prod-Export auf Staging), ID-Spalte leeren — dann wird über den Titel abgeglichen. „FU-exklusiv“ nur bewusst setzen: Diese Produkte sind im öffentlichen Marktplatz nicht sichtbar.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — auf Prod nicht erreichbar. Wer auf Staging testet, sieht Sättigungsrechner, Detail-Ansicht und im Punch-out die Partner-Farbe.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-25" description="Order Hub: Unternehmen verknüpfen; Mehrfachauswahl in Hub-Dialogen repariert">
+  Die Kunden-Karte im Order Hub trennt jetzt „Verknüpftes Unternehmen“ (echte Verknüpfung zum Company-Datensatz, mit Suche ab 2 Zeichen, „… anlegen und verknüpfen“ und „Unternehmensverknüpfung entfernen“) von „Firmenname auf Dokumenten“ (Freitext für Lieferschein und Mails). Bisher schrieb die Bearbeitung nur den Freitext. Beim Verknüpfen wird der Freitext mit dem Firmennamen überschrieben und bleibt danach frei editierbar; beim Entfernen bleibt er stehen. Ein gleichnamiges Unternehmen wird wiederverwendet statt doppelt angelegt. Außerdem behoben: In den Mehrfachauswahl-Feldern der Hub-Dialoge (Request Hub, Caterer Hub) schloss ein Klick ins geöffnete Feld die Liste, und der Suchtext blieb nach jeder Auswahl stehen.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Order Hub → Kunden-Karte → „Verknüpftes Unternehmen“ bearbeiten: tippen, Treffer wählen oder neu anlegen. Danach „Firmenname auf Dokumenten“ prüfen, falls der Lieferschein einen anderen Namen tragen soll.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — der Name auf Lieferschein und Mails ändert sich nur, wenn der KAM ihn setzt.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-22" description="Caterer Hub: „Caterer-Backend öffnen“ — als Caterer-Admin ins Caterer-Backend springen">
+  In der Titelzeile des Caterer Hubs, neben „Klassisch: Filiale“, gibt es den Button „Caterer-Backend öffnen“: Du wirst als erster aktiver Admin-Login des Caterers im Caterer-Backend (Filament) angemeldet und landest in „Mein Konto“ auf dem Tab, der Deinem Hub-Tab entspricht. „Verlassen“ im Backend führt zurück auf denselben Hub-Tab. Alles, was während dieser Sitzung geändert wird, trägt im Aktivitätslog Deinen Namen als Verursacher. Hat der Caterer keinen aktiven Admin-Login, ist der Button deaktiviert („im Team-Tab einladen“).
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Bist Du bereits als anderer Nutzer angemeldet, erst dort „Verlassen“. Der Button ersetzt keine Hub-Funktion — er ist der Weg für alles, was nur im Caterer-Backend geht.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — Änderungen durch einen KAM sind intern nachvollziehbar.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-22" description="Bonus-Dashboard: Neukunden/Bestandskunden immer sichtbar; KPI-Seite: Kontakt-Step-Test im Variantenfilter">
+  Im Bonus-Dashboard ist der Filter „Alle Kunden / Nur Neukunden / Nur Bestandskunden“ weg; stattdessen zeigt jede KAM-Karte immer zwei Boxen „Neukunden“ und „Bestandskunden“ mit eigenem Umsatzbonus und „Details anzeigen“. Akquise- und Qualitätspositionen stehen darunter in einem eigenen Block „Akquise &amp; Qualität“; die Karte ist nicht mehr eingeklappt. Die Boxen sind live berechnet und dienen nur der Beobachtung — Gesamtbonus und Lohnbüro-Meldung basieren weiter auf allen Kunden; bei Stufenplänen ergibt Neu + Bestand nicht zwingend die Gesamtsumme. Auf der Catering-KPI-Seite steht im Variantenfilter jetzt die Gruppe „Contact step test (current)“ mit contact_control / contact_v1; der Step-1-Anlass-Test ist als „legacy“ markiert.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Bonus-Übersicht: Neu/Bestand pro Monat direkt in der Karte ablesen. KPI-Seite: Für den laufenden Kontakt-Step-A/B-Test die neue Filtergruppe nutzen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-21" description="Caterer-Mails und Caterer-Portal: „Ablauf des Events“ und „Event Location“ kommen formatiert an">
+  Die beiden Felder werden in Nova als Rich-Text gepflegt, wurden beim Caterer aber als Rohtext ausgegeben: In der Zuweisungsmail, der Mail zu Kundenänderungen und auf der Anfrage-Detailseite im Caterer-Portal („Event schedule“, „Event location“) standen sichtbare HTML-Tags und Zeichencodes statt Umlauten. Jetzt kommen Fettung, Listen und Absätze an; unsichere Bestandteile werden entfernt statt angezeigt.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Formatierung, die Du in Nova in „Ablauf des Events“ und „Event Location“ setzt, kommt jetzt so beim Caterer an.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Ablauf und Event-Location sind in Mail und Portal lesbar formatiert.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-21" description="KI-Pakete generieren: ein Lauf pro Anlass">
+  Die Aktion „KI-Pakete generieren“ am Caterer startet jetzt pro gewähltem Anlass einen eigenen Lauf; das Feld heißt „Anzahl Pakete pro Anlass“ (1–5, Standard 3). Drei Anlässe mit je 3 Paketen ergeben also 9 Entwürfe und 3 Benachrichtigungen, jede mit dem Anlassnamen. Entwürfe, in denen die KI eine Produkt- statt Varianten-ID zurückgibt, werden bei eindeutiger Variante zugeordnet statt verworfen.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nova → Retailer → „KI-Pakete generieren“: Anzahl gilt je Anlass — Anlässe bewusst wählen, jeder kostet einen eigenen KI-Aufruf. Entwürfe wie bisher unter „Pakete ansehen“ prüfen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — Entwürfe landen wie bisher als Pakete im Status „KI-Entwurf“.
+    </Card>
+  </Columns>
+</Update>
+
 <Update label="2026-08-21" description="Caterer Hub: „Caterer anlegen“ setzt die Katalog-Grundeinstellungen automatisch">
   Wer über den Caterer Hub einen neuen Caterer anlegt, bekommt ab jetzt die Standardwerte mitgeliefert, die jeder aktive Caterer braucht: Lager „immer verfügbar“, Nettopreise, Store-Typ „Caterer“ und Branche „Catering“. Vorher fehlten diese Einstellungen bei Hub-Neuanlagen — mit zwei Folgen: Der Caterer tauchte in der alten Caterer-Liste nicht auf, und per Import eingespielte Nettopreise wurden wie Bruttopreise behandelt.
 

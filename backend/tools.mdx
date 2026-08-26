@@ -15,6 +15,10 @@ bündeln. Einige sind Menüpunkte, andere öffnest du aus einer Detailseite.
   Ort: Status, Positionen, Kategorien/Steuer, die
   [Post-Booking-Checkliste](/kam-handbook/post-booking-checklist), Dokumente, Versand, die eingebettete
   KAM-Inbox (Tab „Inbox") und das Action-Log (inkl. Warenkorb-Änderungen mit Vorher/Nachher).
+  In der Kunden-Karte ist das Unternehmen als echte Verknüpfung pflegbar („Verknüpftes Unternehmen":
+  suchen, neu anlegen, entfernen) — getrennt vom Freitext „Firmenname auf Dokumenten", der auf
+  Lieferschein und Mails landet. Bei Daily-Lunch-Unternehmen lässt sich die Order der Lunch-Woche
+  zuordnen (Kachel „Lunch Week" unter „Related Items").
 </Card>
 
 ## Request Hub
@@ -43,7 +47,15 @@ bündeln. Einige sind Menüpunkte, andere öffnest du aus einer Detailseite.
   Zuschläge) und löschen – gesperrt, sobald Basis-Katalog, Angebote oder Bestellungen daran hängen.
   Dazu eine Caterer-Übersicht mit Suche und „Caterer anlegen"-Dialog (setzt seit 21.08. automatisch Lager „immer
   verfügbar", Nettopreise, Store-Typ „Caterer" und Branche „Catering") sowie die
-  Aktion „Send images to customer" (ausgewählte Bilder eines Standorts per E-Mail an einen Kunden).
+  Aktion „Bilder an Kunden senden" (ausgewählte Bilder eines Standorts eingebettet oder als PDF-Galerie
+  per E-Mail an einen Kunden; an der Anfrage gibt es dafür im Request Hub die Aktion
+  „3b - AN KUNDEN: Caterer-Bilder senden"). Referenzbilder im Tab „Bilder" tragen Format-Kategorien
+  (Serviervarianten; ohne Kategorie = „Allgemein/Mood"), die die Galerie im Menüvorschlag steuern.
+  Der Button „Caterer-Backend öffnen" in der Titelzeile meldet dich als Admin-Login des Caterers im
+  Caterer-Backend an („Verlassen" führt zurück in den Hub; Änderungen werden dir im Aktivitätslog
+  zugeordnet). Die Take Rate im Tab „Finanzen" wird als ganze Prozentzahl eingegeben (0–100).
+  Unten auf der Caterer-Übersicht pflegen Admins die Liste „Neue/empfohlene Caterer" (Notiz,
+  Reihenfolge, „Sichtbar bis"), die das Matching Tool in Schritt 2 über den Top-Caterern zeigt.
 </Card>
 
 ## Catering-Erstellung
@@ -57,7 +69,9 @@ Aktuell gibt es **zwei Wege** zur Caterer-Auswahl für eine Anfrage: über das *
     auflistet, sodass du direkt auswählen kannst. Anfrage, Caterer und Schritt stehen in der URL —
     per Cmd-/Strg-Klick auf „Auswählen" öffnest du mehrere Menü-Erstellungen parallel in eigenen Tabs.
     Die Anfrage-Suche durchsucht den gesamten Bestand (auch Stadt und KAM-Name); ältere Anfragen
-    lädst du per „Mehr laden" nach.
+    lädst du per „Mehr laden" nach. In Schritt 2 steht über den Top-Caterern der Block
+    „Neue/empfohlene Caterer" (von Admins im Caterer Hub gepflegt) — unabhängig von den Filtern des
+    Laufs, mit Score, „Nicht gematcht" (Grund im Tooltip) oder „Kein Score".
     *Hinweis: Das Tool befindet sich noch in der Anfangsphase und wird aktuell laufend optimiert.*
   </Card>
   <Card title="Catering-Angebots-Tool (manuell)" icon="pencil-ruler">
@@ -71,6 +85,12 @@ Aktuell gibt es **zwei Wege** zur Caterer-Auswahl für eine Anfrage: über das *
   <Card title="Request Email Parser" icon="mail-open">
     `/catering-email-parser` – wandelt eine eingehende Anfrage-E-Mail per KI in eine strukturierte
     CateringRequest um.
+  </Card>
+  <Card title="Anfragen-Import aus Notizen (Bulk)" icon="notebook-pen">
+    `/catering-email-parser/bulk` (Menü „Catering-Betrieb") – Meeting-Notizen einfügen, die KI extrahiert
+    pro neuem Event eine Zeile, du prüfst die Tabelle und legst bis zu 20 Anfragen auf einmal an
+    (Kontakt/Firma/Stadt einmal für den Stapel; Budget wird nie geraten; „Exclude from all automated
+    emails" ist vorausgewählt).
   </Card>
 </Columns>
 
