@@ -106,6 +106,10 @@
               {
                 "title": "Operations & Support",
                 "path": "rev-ops/operations-support"
+              },
+              {
+                "title": "Gleap: Support-Chat & KI-Agent",
+                "path": "rev-ops/gleap-support"
               }
             ]
           },
