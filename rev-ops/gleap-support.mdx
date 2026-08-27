@@ -15,17 +15,17 @@ icon: "message-circle"
 ## Wofür Gleap da ist
 
 <Columns cols={2}>
-  <Card title="Support-Chat für Kunden & Caterer" icon="message-circle" horizontal="false">
+  <Card title="Support-Chat für Kunden und Caterer" icon="message-circle" horizontal="false">
     Das Widget ist auf der Website (egora-catering.de), im Kunden-Backend und im Caterer-Backend eingebunden. Eingeloggte Nutzer werden automatisch erkannt — Du siehst im Ticket Name, E-Mail, Firma und Rolle (Kunde/Caterer).
   </Card>
   <Card title="KI-Agent Clara" icon="bot" horizontal="false">
-    Clara beantwortet Fragen zu Ablauf, Angeboten, Rechnung, Storno, Kundenkonto und Caterer-Backend aus unseren Wissensdateien. Kann sie nicht helfen, bietet sie „Talk to our support team" an — dann entsteht ein Ticket für Euch.
+    Clara beantwortet Fragen zu Ablauf, Angeboten, Rechnung, Storno, Kundenkonto und Caterer-Backend aus unseren Wissensdateien. Kann sie nicht helfen, bietet sie „Talk to our support team“ an — dann entsteht ein Ticket für Euch.
   </Card>
   <Card title="WhatsApp-Kanal" icon="message-square" horizontal="false">
     Nachrichten an **+49 30 577130157** (WhatsApp Business) landen als Ticket in derselben Inbox und werden dort beantwortet.
   </Card>
   <Card title="Bug-Board" icon="bug" horizontal="false">
-    Unter „Tickets" gibt es ein Board für Fehler und Wünsche aus dem Caterer-/Kunden-Backend (Open → In progress → To test → Done), das die Entwicklung abarbeitet.
+    Unter „Tickets“ gibt es ein Board für Fehler und Wünsche aus dem Caterer-/Kunden-Backend (Open → In progress → To test → Done), das die Entwicklung abarbeitet.
   </Card>
 </Columns>
 
@@ -33,17 +33,17 @@ icon: "message-circle"
 
 | Oberfläche | Widget | Nutzer erkannt? |
 | --- | --- | --- |
-| Website egora-catering.de (Startseite, Landingpages, Blog, Login) | ja | nein — anonymer Besucher („Guest") |
+| Website egora-catering.de (Startseite, Landingpages, Blog, Login) | ja | nein — anonymer Besucher („Guest“) |
 | Kunden-Backend (`/backend`) | ja | ja — Name, E-Mail, Telefon, Firma, Rolle `customer` |
 | Caterer-Backend (`/backend`) | ja | ja — Rolle `caterer` |
 | Anfrageformular (Webflow/iframe) | **nein** | — |
 | Nova (KAM-Backend) | **nein** | — |
 
-Im Backend öffnet sich das Widget auf der Seite **Kontakt** nach zehn Sekunden automatisch. Das Kontaktformular auf dieser Seite („Nachricht senden", „Rückruf vereinbaren") geht dagegen **nicht** nach Gleap, sondern als Slack-Nachricht an das KAM-Team (Rückrufe zusätzlich in die KAM-Inbox in Nova).
+Im Backend öffnet sich das Widget auf der Seite **Kontakt** nach zehn Sekunden automatisch. Das Kontaktformular auf dieser Seite („Nachricht senden“, „Rückruf vereinbaren“) geht dagegen **nicht** nach Gleap, sondern als Slack-Nachricht an das KAM-Team (Rückrufe zusätzlich in die KAM-Inbox in Nova).
 
 <Image src="https://blob-cdn.documentation.ai/org-01a507e2-6a93-4a87-9037-196f1f2f7be7/doc-a8bd2c1f-827f-4bcb-9542-f5fa4d2d6525/1787833438084-9lry9cpkzkb-01-widget-backend-home.png?fm=auto&auto=compress%2Cformat" width="1440" height="900" alt="Kunden-Backend mit geöffnetem Gleap-Widget: Startseite mit Begrüßung und Frage-Feld" />
 
-_Das Widget im Kunden-Backend — Startseite mit „Frag mich alles…" (Clara) und dem Reiter „Nachrichten" für laufende Gespräche_
+_Das Widget im Kunden-Backend — Startseite mit „Frag mich alles…“ (Clara) und dem Reiter „Nachrichten“ für laufende Gespräche_
 
 ---
 
@@ -51,10 +51,10 @@ _Das Widget im Kunden-Backend — Startseite mit „Frag mich alles…" (Clara) 
 
 <Steps>
   <Step title="Einladung anfordern" title-type="p">
-    Gleap-Zugänge legt Steffen an (Settings → Project users → „Invite people", Rolle **Agent**). Du bekommst eine Einladungsmail von Gleap.
+    Gleap-Zugänge legt Steffen an (Settings → Project users → „Invite people“, Rolle **Agent**). Du bekommst eine Einladungsmail von Gleap.
   </Step>
   <Step title="Anmelden" title-type="p">
-    [app.gleap.io](https://app.gleap.io) → „Login with email" → Projekt **egora** öffnen. Beim ersten Start fragt Gleap nach **Desktop-Benachrichtigungen** — bitte erlauben, sonst siehst Du neue Tickets nur beim aktiven Nachschauen.
+    [app.gleap.io](https://app.gleap.io) → „Login with email“ → Projekt **egora** öffnen. Beim ersten Start fragt Gleap nach **Desktop-Benachrichtigungen** — bitte erlauben, sonst siehst Du neue Tickets nur beim aktiven Nachschauen.
   </Step>
   <Step title="Benachrichtigungen prüfen" title-type="p">
     Die Glocke unten links (Tastenkürzel **Shift+N**) zeigt Zuweisungen, Erwähnungen und Antworten. Zusätzlich gibt es eine Slack-Integration für Gleap-Benachrichtigungen.
@@ -69,7 +69,7 @@ Rollen in Gleap: **Administrator**, **Manager** und **Agent**. Für die täglich
 
 <Image src="https://blob-cdn.documentation.ai/org-01a507e2-6a93-4a87-9037-196f1f2f7be7/doc-a8bd2c1f-827f-4bcb-9542-f5fa4d2d6525/1787833530200-sle6yeery8f-03-inbox-uebersicht.png?fm=auto&auto=compress%2Cformat" width="1440" height="900" alt="Gleap-Inbox mit Ticketliste (Namen unkenntlich gemacht) und leerer Detailansicht" />
 
-_Die Inbox: links die Ticketliste mit Filter „Open", rechts öffnet sich das gewählte Ticket. Die Ansichten (My inbox, Needs my input, …) erscheinen, wenn Du links auf das Inbox-Symbol zeigst._
+_Die Inbox: links die Ticketliste mit Filter „Open“, rechts öffnet sich das gewählte Ticket. Die Ansichten (My inbox, Needs my input, …) erscheinen, wenn Du links auf das Inbox-Symbol zeigst._
 
 **Ansichten (linke Leiste, beim Zeigen auf das Inbox-Symbol):**
 
@@ -87,15 +87,15 @@ _Die Inbox: links die Ticketliste mit Filter „Open", rechts öffnet sich das g
 
 <Image src="https://blob-cdn.documentation.ai/org-01a507e2-6a93-4a87-9037-196f1f2f7be7/doc-a8bd2c1f-827f-4bcb-9542-f5fa4d2d6525/1787833562227-7nyufgsze5-04-ticket-ansicht.png?fm=auto&auto=compress%2Cformat" width="1440" height="900" alt="Ticketansicht in Gleap: Chat-Verlauf mit Clara-Antwort und Quelle, Antwortfeld mit Reply/Note/Ticket Copilot, rechts Details und Kontaktdaten" />
 
-_Ein Ticket aus der Bots-Ansicht (Test-Konto): Clara hat aus unserer Caterer-FAQ geantwortet („1 source used"); rechts Details und Kontaktdaten_
+_Ein Ticket aus der Bots-Ansicht (Test-Konto): Clara hat aus unserer Caterer-FAQ geantwortet („1 source used“); rechts Details und Kontaktdaten_
 
-- **Verlauf (Mitte):** alle Nachrichten inklusive Claras Antworten. Unter jeder KI-Antwort steht die genutzte Quelle („Snippet", „URL", Datei). Bei einer Übergabe fasst Gleap das Anliegen zusammen und schätzt Priorität und Stimmung.
+- **Verlauf (Mitte):** alle Nachrichten inklusive Claras Antworten. Unter jeder KI-Antwort steht die genutzte Quelle („Snippet“, „URL“, Datei). Bei einer Übergabe fasst Gleap das Anliegen zusammen und schätzt Priorität und Stimmung.
 - **Antwortfeld:** **Reply** = geht an den Kunden (im Widget bzw. WhatsApp; ist der Kunde nicht online, benachrichtigt Gleap ihn per E-Mail). **Note** = interne Notiz, für den Kunden unsichtbar, mit @Name erwähnst Du Kolleg:innen. **Ask Ticket Copilot** = KI-Hilfe für Dich (Zusammenfassung, Antwortvorschlag) — nichts davon geht automatisch raus.
 - **Details (rechts):** **Assignee** (wer bearbeitet), **Team**, **Type** (Inbox = Support-Anfrage, Bot = noch bei Clara, Bug = fürs Board), **Status** (Open / Snoozed / Closed), **Priority**, **Due on**, **Source** (Widget / WhatsApp / E-Mail), **URL** (Seite, auf der der Kunde geschrieben hat), Tags.
-- **Kontakt (rechts unten):** **User id** ist die egora-User-ID — damit oder mit der E-Mail findest Du den Kunden bzw. Caterer in Nova. Dazu Name, E-Mail, Telefon, Firma; unter „Custom data" die Rolle (`customer` / `caterer`) und Sprache.
+- **Kontakt (rechts unten):** **User id** ist die egora-User-ID — damit oder mit der E-Mail findest Du den Kunden bzw. Caterer in Nova. Dazu Name, E-Mail, Telefon, Firma; unter „Custom data“ die Rolle (`customer` / `caterer`) und Sprache.
 
 <Callout kind="tip" collapsed="false">
-  Tastenkürzel: **⌘K** öffnet die Befehlssuche (zuweisen, schließen, snoozen, Team wechseln), **⇧?** zeigt alle Kürzel. Gleap bietet unter „Start practice" ein kurzes Training an.
+  Tastenkürzel: **⌘K** öffnet die Befehlssuche (zuweisen, schließen, snoozen, Team wechseln), **⇧?** zeigt alle Kürzel. Gleap bietet unter „Start practice“ ein kurzes Training an.
 </Callout>
 
 ---
@@ -104,7 +104,7 @@ _Ein Ticket aus der Bots-Ansicht (Test-Konto): Clara hat aus unserer Caterer-FAQ
 
 <Steps>
   <Step title="Morgens und nachmittags: Needs my input und Unassigned öffnen" title-type="p">
-    Alles in **Unassigned** übernimmst Du mit „Assign to me" (oder einem Kollegen zuweisen, wenn der Kunde dessen Anfrage betreut). Tickets, die Clara gerade führt, siehst Du unter **Bots** — greif ein, wenn eine Antwort falsch ist oder der Kunde im Kreis dreht.
+    Alles in **Unassigned** übernimmst Du mit „Assign to me“ (oder einem Kollegen zuweisen, wenn der Kunde dessen Anfrage betreut). Tickets, die Clara gerade führt, siehst Du unter **Bots** — greif ein, wenn eine Antwort falsch ist oder der Kunde im Kreis dreht.
   </Step>
   <Step title="Kontext holen" title-type="p">
     User-ID oder E-Mail aus dem Ticket in Nova suchen: laufende Anfrage, Bestellung, Rechnungsstatus. Die URL im Ticket zeigt, wo der Kunde gerade war (z. B. Angebotsseite, Belege).
@@ -146,18 +146,18 @@ _AI agents → Overview: Clara (Kundenchat) und Ticket Copilot (Hilfe für Euch)
 
 <Image src="https://blob-cdn.documentation.ai/org-01a507e2-6a93-4a87-9037-196f1f2f7be7/doc-a8bd2c1f-827f-4bcb-9542-f5fa4d2d6525/1787833624457-4ieqolzjzgu-07-content-files.png?fm=auto&auto=compress%2Cformat" width="1440" height="900" alt="AI agents → Content → Files: die drei egora-Wissensdateien und das FAQ-PDF mit Status Completed" />
 
-_Content → Files: die Dateien, aus denen Clara antwortet. „AI usage" zählt, wie oft eine Datei für Antworten genutzt wurde_
+_Content → Files: die Dateien, aus denen Clara antwortet. „AI usage“ zählt, wie oft eine Datei für Antworten genutzt wurde_
 
-**So läuft die Übergabe:** Clara antwortet, fragt „Hilft dir das oder hast du noch weitere Fragen?" und bietet die Option **„Talk to our support team"** an. Wählt der Kunde sie, wechselt das Ticket von **Bot** nach **Inbox**, bekommt eine KI-Zusammenfassung, Priorität und Stimmung und taucht unter **Unassigned** auf.
+**So läuft die Übergabe:** Clara antwortet, fragt „Hilft dir das oder hast du noch weitere Fragen?“ und bietet die Option **„Talk to our support team“** an. Wählt der Kunde sie, wechselt das Ticket von **Bot** nach **Inbox**, bekommt eine KI-Zusammenfassung, Priorität und Stimmung und taucht unter **Unassigned** auf.
 
-**Clara testen, ohne ein Ticket zu erzeugen:** AI agents → Agents → **Clara** → im Feld „Ask Clara…" eine Frage stellen. So prüfst Du, was Kunden zu einem Thema hören.
+**Clara testen, ohne ein Ticket zu erzeugen:** AI agents → Agents → **Clara** → im Feld „Ask Clara…“ eine Frage stellen. So prüfst Du, was Kunden zu einem Thema hören.
 
 <Image src="https://blob-cdn.documentation.ai/org-01a507e2-6a93-4a87-9037-196f1f2f7be7/doc-a8bd2c1f-827f-4bcb-9542-f5fa4d2d6525/1787833498615-6fje6xfhkng-02-clara-test-chat.png?fm=auto&auto=compress%2Cformat" width="1440" height="900" alt="Test-Chat mit Clara: Frage zum Zahlungsziel, Antwort mit 14 bzw. 30 Tagen und Quellenlink; rechts die Agent-Einstellungen" />
 
-_Test Clara: Frage „Wann muss ich die Rechnung bezahlen?" — die Antwort kommt aus der Kunden-FAQ. Rechts die Einstellungen (Tonfall, Wissensbereich); bitte nichts ändern_
+_Test Clara: Frage „Wann muss ich die Rechnung bezahlen?“ — die Antwort kommt aus der Kunden-FAQ. Rechts die Einstellungen (Tonfall, Wissensbereich); bitte nichts ändern_
 
 <Callout kind="alert" collapsed="false">
-  **Clara antwortet falsch oder veraltet?** Nicht selbst in den Einstellungen herumstellen. Schick Steffen den Ticket-Link und die richtige Antwort — dann wird die Wissensdatei oder ein Snippet korrigiert, und Clara antwortet ab sofort richtig. Häufigste Ursache: alte Website-Texte (z. B. „Änderungen bis 48 Stunden vorher"), die noch im Website-Crawl stecken.
+  **Clara antwortet falsch oder veraltet?** Nicht selbst in den Einstellungen herumstellen. Schick Steffen den Ticket-Link und die richtige Antwort — dann wird die Wissensdatei oder ein Snippet korrigiert, und Clara antwortet ab sofort richtig. Häufigste Ursache: alte Website-Texte (z. B. „Änderungen bis 48 Stunden vorher“), die noch im Website-Crawl stecken.
 </Callout>
 
 ---
@@ -168,9 +168,9 @@ _Test Clara: Frage „Wann muss ich die Rechnung bezahlen?" — die Antwort komm
 
 _Settings → Channels → WhatsApp: der verbundene Business-Account_
 
-- Nachrichten an **+49 30 577130157** erscheinen als Ticket mit Source „WhatsApp" — Du antwortest ganz normal per **Reply**, der Kunde bekommt die Antwort in WhatsApp.
+- Nachrichten an **+49 30 577130157** erscheinen als Ticket mit Source „WhatsApp“ — Du antwortest ganz normal per **Reply**, der Kunde bekommt die Antwort in WhatsApp.
 - WhatsApp-Gespräche sind ein durchgehender Thread; schreibt ein Kunde nach dem Schließen erneut, legt Gleap nach der eingestellten Wartezeit ein neues Ticket an.
-- Für Nachrichten, die Ihr von Euch aus startet (z. B. Erinnerung vor dem Event), verlangt WhatsApp freigegebene **Vorlagen** („Manage message templates") — bitte mit Steffen abstimmen, bevor Ihr aktiv anschreibt.
+- Für Nachrichten, die Ihr von Euch aus startet (z. B. Erinnerung vor dem Event), verlangt WhatsApp freigegebene **Vorlagen** („Manage message templates“) — bitte mit Steffen abstimmen, bevor Ihr aktiv anschreibt.
 
 ---
 
@@ -204,7 +204,7 @@ Unter **Reports** siehst Du Antwort- und Lösungszeiten (Overview, Responsivenes
 
 - **Keine internen Infos in Replies:** keine Provisionssätze, keine Caterer-Interna, keine internen Prozesse, keine Namen anderer Kunden. Zweifel? Erst Note, dann Reply.
 - **Ticket-Link statt Copy & Paste:** Wenn Du Kolleg:innen in Slack um Hilfe bittest, teile den Gleap-Link (@Mention im Ticket geht auch) — keine Kundendaten in Slack kopieren.
-- **Zusagen im System nachziehen:** Änderungen an Anfragen, Bestellungen oder Rechnungen machst Du in Nova, nicht „nur im Chat".
+- **Zusagen im System nachziehen:** Änderungen an Anfragen, Bestellungen oder Rechnungen machst Du in Nova, nicht „nur im Chat“.
 - **Jedes Ticket hat einen Besitzer:** Unassigned darf am Abend leer sein.
 - **Schließen, nicht liegen lassen:** Erledigte Gespräche schließen — sonst verwässern sie die Reports und die Liste wird unübersichtlich.
 
@@ -213,14 +213,14 @@ Unter **Reports** siehst Du Antwort- und Lösungszeiten (Overview, Responsivenes
 ## Troubleshooting
 
 <ExpandableGroup>
-  <Expandable title="Ein Kunde schreibt „Hallo [KAM-Name]", aber der KAM hat kein Gleap">
+  <Expandable title="Ein Kunde schreibt „Hallo [KAM-Name]“, aber der KAM hat kein Gleap">
     Ticket dem Kollegen per Note beschreiben oder in Slack den Ticket-Link teilen und den Kunden kurz informieren, dass die Antwort von Dir kommt. Dauerhaft: Zugang für den Kollegen bei Steffen anfordern.
   </Expandable>
   <Expandable title="Kunde sagt, er sieht keinen Chat">
     Das Widget gibt es auf der Website und in den Backends — **nicht** im eingebetteten Anfrageformular und nicht in Nova. Alternative anbieten: WhatsApp oder E-Mail.
   </Expandable>
   <Expandable title="Kunde bekommt meine Antwort nicht">
-    War der Kunde beim Antworten nicht online, geht die Antwort per E-Mail vom Absender @egora.online raus — Spam-Ordner prüfen lassen. Bei anonymen Website-Besuchern („Guest") ohne hinterlegte E-Mail kann Gleap nicht nachbenachrichtigen; dann im Ticket nach einer Kontaktmöglichkeit fragen oder in Nova nachsehen.
+    War der Kunde beim Antworten nicht online, geht die Antwort per E-Mail vom Absender @egora.online raus — Spam-Ordner prüfen lassen. Bei anonymen Website-Besuchern („Guest“) ohne hinterlegte E-Mail kann Gleap nicht nachbenachrichtigen; dann im Ticket nach einer Kontaktmöglichkeit fragen oder in Nova nachsehen.
   </Expandable>
   <Expandable title="Ticket liegt beim falschen Team oder Type">
     Rechts in den Details Team bzw. Type ändern — das Ticket wandert sofort in die passende Ansicht (Team-Postfach, Bug-Board).
@@ -229,7 +229,7 @@ Unter **Reports** siehst Du Antwort- und Lösungszeiten (Overview, Responsivenes
     Im Ticket übernehmen, richtigstellen (freundlich, ohne die KI zu diskutieren) und den Fall an Steffen geben, damit die Quelle korrigiert wird. Rechtlich relevante Zusagen (Storno, Preise) immer gegen AGB und Angebot prüfen.
   </Expandable>
   <Expandable title="Ich sehe ein Ticket nicht mehr">
-    Wahrscheinlich geschlossen oder gesnoozt: In **All** oben den Filter von „Open" auf „Closed" bzw. „Snoozed" umstellen, oder über ⌘K nach Name/E-Mail suchen.
+    Wahrscheinlich geschlossen oder gesnoozt: In **All** oben den Filter von „Open“ auf „Closed“ bzw. „Snoozed“ umstellen, oder über ⌘K nach Name/E-Mail suchen.
   </Expandable>
 </ExpandableGroup>
 
