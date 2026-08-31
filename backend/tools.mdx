@@ -45,7 +45,7 @@ bündeln. Einige sind Menüpunkte, andere öffnest du aus einer Detailseite.
   KAM und Caterer schauen auf dieselbe Struktur. Produkte und Pakete pflegst du vollständig im Hub:
   anlegen, bearbeiten (inkl. Bild mit KI-Kennzeichnung, Allergene, Tags, Saisonalität, Zusammenstellung,
   Zuschläge) und löschen – gesperrt, sobald Basis-Katalog, Angebote oder Bestellungen daran hängen.
-  Dazu eine Caterer-Übersicht mit Suche und „Caterer anlegen"-Dialog (setzt seit 21.08. automatisch Lager „immer
+  Dazu eine Caterer-Übersicht mit Suche, Store-Typ-Filter und „Caterer anlegen"-Dialog (setzt seit 21.08. automatisch Lager „immer
   verfügbar", Nettopreise, Store-Typ „Caterer" und Branche „Catering") sowie die
   Aktion „Bilder an Kunden senden" (ausgewählte Bilder eines Standorts eingebettet oder als PDF-Galerie
   per E-Mail an einen Kunden; an der Anfrage gibt es dafür im Request Hub die Aktion
@@ -55,7 +55,8 @@ bündeln. Einige sind Menüpunkte, andere öffnest du aus einer Detailseite.
   Caterer-Backend an („Verlassen" führt zurück in den Hub; Änderungen werden dir im Aktivitätslog
   zugeordnet). Die Take Rate im Tab „Finanzen" wird als ganze Prozentzahl eingegeben (0–100).
   Unten auf der Caterer-Übersicht pflegen Admins die Liste „Neue/empfohlene Caterer" (Notiz,
-  Reihenfolge, „Sichtbar bis"), die das Matching Tool in Schritt 2 über den Top-Caterern zeigt.
+  Reihenfolge, „Sichtbar bis"; auch noch unveröffentlichte Caterer), die das Matching Tool in
+  Schritt 2 über den Top-Caterern zeigt.
 </Card>
 
 ## Catering-Erstellung
@@ -89,8 +90,8 @@ Aktuell gibt es **zwei Wege** zur Caterer-Auswahl für eine Anfrage: über das *
   <Card title="Anfragen-Import aus Notizen (Bulk)" icon="notebook-pen">
     `/catering-email-parser/bulk` (Menü „Catering-Betrieb") – Meeting-Notizen einfügen, die KI extrahiert
     pro neuem Event eine Zeile, du prüfst die Tabelle und legst bis zu 20 Anfragen auf einmal an
-    (Kontakt/Firma/Stadt einmal für den Stapel; Budget wird nie geraten; „Exclude from all automated
-    emails" ist vorausgewählt).
+    (Kontakt/Firma/Stadt sowie KAM und „Acquired by" einmal für den Stapel; Budget wird nie geraten;
+    „Exclude from all automated emails" ist vorausgewählt).
   </Card>
 </Columns>
 

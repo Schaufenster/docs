@@ -7,6 +7,186 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-08-31" description="Lieferschein-PDF: Zeilenumbrüche, Fett und Unterstreichung repariert">
+  Mehrzeilige Menü-Beschreibungen wurden auf dem Lieferschein-PDF bisher zu einem einzigen Textblock zusammengeklebt, und fett oder unterstrichen formatierte Stellen kamen im PDF nicht an. Beides ist behoben: Zeilenumbrüche, Absätze und Listen bleiben erhalten, Fett und Unterstreichung erscheinen wie im Editor. Gilt für alle ab jetzt erzeugten Lieferscheine; bereits verschickte PDFs bleiben, wie sie sind.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nichts zu tun — neu erzeugte oder erneut versendete Lieferscheine sind automatisch korrekt formatiert.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Lieferscheine zeigen mehrzeilige Beschreibungen wieder zeilenweise, inklusive Fett und Unterstreichung.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-31" description="Request Hub: Angebots-IDs in Karten und Versand-Aktion sichtbar">
+  Im Request Hub tragen die Angebots-Karten im Tab „Angebote" jetzt die Angebots-ID, und auch in der Aktion „2a - AN KUNDEN: Angebote senden" sind die Angebote mit ihrer ID beschriftet. Damit ist eindeutig referenzierbar, welches Angebot gemeint ist — etwa in Absprachen im Team oder beim Abgleich mit Nova.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Angebots-IDs stehen direkt an den Karten und in der 2a-Aktion — kein Umweg mehr über die Nova-Ressource, um eine ID nachzuschlagen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-31" description="Bilderversand an Kunden: Bildvorschau und Kategorie-Filter, jetzt auch in der klassischen Nova-Ansicht">
+  Die Bildauswahl beim Versand von Caterer-Bildern an Kunden ist komfortabler geworden: Das Auswahl-Dropdown zeigt Vorschau-Thumbnails, und die gewählten Bilder erscheinen als Chips (seit 29.08. im Caterer Hub). Die klassische Nova-Aktion zum Bilderversand hat jetzt ebenfalls Bildvorschauen und einen Filter nach Format-Kategorie — gleicher Stand wie im Hub.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Gilt für den Bilderversand im Caterer Hub, an der Anfrage („3b - AN KUNDEN: Caterer-Bilder senden") und in der klassischen Nova-Aktion.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — die Mail selbst ist unverändert.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-31" description="Team-Lunch: Monatsübersicht als Excel; Abstimmung öffnet nicht mehr vor dem Zeitfenster">
+  Für Daily-Lunch-Unternehmen gibt es eine Monatsübersicht als Excel: pro Kalenderwoche ein Block, pro Liefertag die finalen Stimmen je Gericht plus Tagessumme. Grundlage sind die Voting-Ergebnisse abgeschlossener Wochen; Tage werden dem Monat zugerechnet, in den sie fallen. Lunch-Admins laden die Datei direkt auf der Team-Lunch-Seite herunter (Monat wählbar), KAMs und Admins über eine Nova-Aktion am Unternehmen. Außerdem behoben: Eine Woche mit Status „offen", deren Abstimmungsfenster noch gar nicht begonnen hatte, erschien Mitarbeitenden bereits als offen und nahm Stimmen an — jetzt zählt das tatsächliche Zeitfenster.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nova → Company → Aktion „Export lunch monthly overview", Monat wählen. Beim Anlegen einer Woche in Nova gilt: Status „open" mit zukünftigem Öffnungszeitpunkt ist jetzt unschädlich — sichtbar wird die Woche erst zum Öffnungszeitpunkt.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Lunch-Admins finden den Excel-Download in der Kopfzeile der Team-Lunch-Seite. Mitarbeitende sehen eine Woche erst, wenn ihr Abstimmungsfenster wirklich begonnen hat.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-28" description="Team-Lunch: Absagen-Zusammenfassung geht an den KAM statt an den Caterer">
+  Sagen Mitarbeitende nach Abstimmungsschluss ab, verschickt das System am Vortag der Lieferung (16 Uhr) eine konsolidierte Mail mit den finalen Stückzahlen pro Gericht. Diese Mail geht jetzt an den Account Owner (KAM) des Unternehmens statt an den Caterer-Standort: Automatische Infos gehen nur an uns — der KAM passt die Order an bzw. informiert den Caterer, sodass der Caterer immer nur Bestellungen sieht. Hat das Unternehmen keinen Account Owner mit E-Mail, kommt stattdessen ein Slack-Alert in den Kanal urgent_kam_actions.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Du bekommst die Anpassungs-Mail mit den finalen Zahlen — Order anpassen bzw. den Caterer informieren liegt bei Dir.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Erhalten keine automatischen Anpassungs-Mails mehr — Änderungen nach Absagen kommen vom KAM.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-28" description="Kontakt- und Absenderadressen auf egora-catering.de umgestellt">
+  Die im Kunden-Frontend angezeigten Kontaktadressen (Bestellbestätigung, Anfrageformular, FAQ) lauten jetzt info@egora-catering.de bzw. catering@egora-catering.de statt der alten @egora.online-Adressen. Außerdem gehen alle Team-Lunch-Mails (Einladung, Erinnerung, Bestätigung, Ergebnis, Anpassung) sowie Bilder-Mails ohne Anfrage-Kontext (Versand aus dem Caterer Hub bzw. der Branch-Aktion) über den zentralen Catering-Absender raus (Standard: catering@egora-catering.de) — vorher der allgemeine System-Absender.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Bilderversand mit Anfrage-Kontext läuft weiter über Deine eigene Absenderadresse; nur ohne Anfrage greift catering@.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Sehen die neuen Kontaktadressen im Frontend; Team-Lunch-Mails kommen vom Catering-Absender.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-27" description="Caterer können ihren Firmennamen nicht mehr selbst ändern">
+  Im Caterer-Backend (Konto → Profil) ist der Firmenname für Caterer gesperrt. Ein Änderungsversuch wird abgelehnt mit dem Hinweis, sich für Namensänderungen an unser Team zu wenden. Hintergrund: Der Name hängt an Dokumenten, Abrechnung und Marktplatz-Auftritt — Änderungen sollen bewusst über uns laufen.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Namensänderungswünsche von Caterern landen jetzt bei Dir — Änderung über den Caterer Hub (Tab „Profil") bzw. Nova.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Der Firmenname im Profil ist nur noch lesbar; für Änderungen bitte das egora-Team kontaktieren.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-27" description="Neue/empfohlene Caterer: auch unveröffentlichte Caterer wählbar">
+  In die Admin-Liste „Neue/empfohlene Caterer" (Caterer-Übersicht im Caterer Hub) lassen sich jetzt auch Caterer aufnehmen, die noch nicht veröffentlicht sind — sie erscheinen dann ebenfalls im Block über den Top-Caterern in Schritt 2 des Matching Tools. So können neue Caterer schon vor der Veröffentlichung gezielt in Angebote genommen werden.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Im Featured-Block des Matching Tools können auch unveröffentlichte Caterer auftauchen — beim Auswählen daran denken, dass deren Katalog ggf. noch unvollständig ist.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-26" description="Team-Lunch: Lunch-Admins verwalten Teilnehmer selbst, Einladungen automatisch, Namensauswahl abgeschafft, Wochen-Historie und Vorschau">
+  Lunch-Admins verwalten ihr Team jetzt direkt auf der Team-Lunch-Seite: Teilnehmer anlegen, bearbeiten, deaktivieren und den Einladungslink erneut senden. Neue Teilnehmer mit E-Mail erhalten die Einladung sofort, solange eine Runde offen ist — egal ob sie über die Seite, in Nova oder per Import angelegt wurden; zusätzlich gibt es die Nova-Aktion „Send voting invitation" am Teilnehmer. Die Namensauswahl beim Abstimmen ist abgeschafft: Zugang nur noch über persönliche Magic-Links oder Backend-Login; die Seiten /lunch und alte Einladungslinks zeigen eine Info-Seite, Tagescodes sind deaktiviert. Außerdem können Lunch-Admins in der App zwischen Wochen wechseln: vergangene Ergebnisse ansehen und kommende Wochen als Vorschau.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Teilnehmerpflege kannst Du an den Lunch-Admin des Unternehmens abgeben; für Einzelfälle gibt es in Nova am Teilnehmer die Aktion „Send voting invitation". Meldet sich jemand ohne Zugang, braucht er seinen persönlichen Link (Lunch-Admin oder Du könnt ihn erneut senden).
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Lunch-Admins haben eine Teilnehmerverwaltung und einen Wochen-Wechsler (Historie und Vorschau). Mitarbeitende stimmen nur noch über ihren persönlichen Link oder eingeloggt ab — die Namensauswahl gibt es nicht mehr.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-26" description="Caterer Hub: Store-Typ-Filter; Notizen-Import: KAM und „Acquired by" pro Stapel">
+  Die Caterer-Übersicht im Caterer Hub lässt sich jetzt nach Store-Typ filtern. Im Bulk-Import aus Meeting-Notizen lassen sich pro Stapel zusätzlich der zuständige KAM und „Acquired by" setzen — ohne Angabe gehören die Anfragen wie bisher dem KAM, der den Stapel anlegt.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Bulk-Import (Menü „Catering-Betrieb" → Anfragen-Import aus Notizen): KAM und „Acquired by" einmal für den ganzen Stapel wählbar.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
 <Update label="2026-08-26" description="Caterer Hub: Take Rate wurde um den Faktor 100 falsch gespeichert — behoben, Prüfbefehl für Altfälle">
   Im Caterer Hub (Tab „Finanzen“ → „Globale Take Rate“ sowie im Dialog „Caterer anlegen“ → „Take Rate (%)“) wurde die eingegebene Prozentzahl bisher unverändert gespeichert, obwohl das System intern einen Bruchwert erwartet: Aus „20“ wurden 2000 %. Umgekehrt zeigte der Hub korrekt hinterlegte Alt-Werte als „0,13 %“ statt „13 %“. Jetzt rechnet der Hub beim Speichern und Anzeigen richtig um; eingegeben werden ganze Prozentwerte (0–100), Nachkommastellen werden abgelehnt. Betroffen sind nur Take Rates, die seit dem Hub-Start am 17.08. über den Hub gesetzt wurden, und Caterer, die seitdem über den Hub angelegt wurden. Ein Prüfbefehl (audit:take-rate-scale) listet die betroffenen Standorte sowie Orders, die bereits eine Provision über 100 % übernommen haben, und korrigiert die Standorte; Orders bleiben unverändert und sind Einzelfall-Entscheidung.
 
