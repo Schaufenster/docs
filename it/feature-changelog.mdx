@@ -7,6 +7,114 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-09-01" description="Team-Lunch: Puffer-Portionen pro Liefertag und Kategorie">
+  Daily-Lunch-Unternehmen können jetzt feste Puffer-Portionen hinterlegen — zusätzliche Portionen über die Stimmen hinaus, pro Liefertag und Kategorie (Carnivore, Veggie, Vegan, je 0–20). Die Einstellung gilt unternehmensweit und automatisch für jede Woche. Der Puffer hängt sich an das meistgewählte Gericht der Kategorie: In der Ergebnis-CSV erscheint er als eigene Zeile mit dem Zusatz „(Puffer)" und zählt in die Tagessumme; in der Etiketten-CSV bekommt jede Puffer-Portion ein eigenes Etikett mit dem Namen „Buffer".
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      In Nova am Unternehmen bearbeitbar (Felder „Puffer Carnivore/Veggie/Vegan"); die Detailseite zeigt die aktuelle Einstellung als „Lunch-Puffer". Die Zahlen fließen automatisch in Ergebnis- und Etiketten-Export.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Lunch-Admins stellen die Puffer selbst ein: Button „Puffer-Portionen" in der Kopfzeile der Team-Lunch-Seite.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Die finalen Zahlen aus Ergebnis- und Etiketten-Datei enthalten die Puffer-Portionen bereits — es ist keine separate Rechnung nötig.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-01" description="Team-Lunch: Export offener Wochen warnt vor unvollständigen Daten">
+  Nach einem Vorfall Ende August (eine späte Stimme fehlte in einer früh gezogenen Datei) blocken die Nova-Exporte für Ergebnis- und Etiketten-CSV jetzt, solange die Abstimmung einer Woche noch läuft: Statt der Datei kommt eine Warnung mit dem Abstimmungsschluss. Wer die Datei trotzdem braucht, hakt „Trotzdem exportieren (Runde noch offen)" an — die Datei trägt dann eine Warnzeile, dass sie unvollständig sein kann.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Exporte für offene Wochen erst nach Abstimmungsschluss ziehen — oder bewusst die Checkbox setzen und nach dem Schluss neu exportieren.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — schützt davor, dass unvollständige Stückzahlen weitergegeben werden.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-01" description="Team-Lunch: Allergien der Teilnehmenden in Nova sichtbar">
+  Die Allergien, die Lunch-Teilnehmende selbst im Profil-Dialog der Abstimmungsseite pflegen, sind jetzt in Nova am Teilnehmer-Datensatz sichtbar — als Lesefeld „Allergien" mit den ausgeschriebenen Namen (z. B. „Gluten, Milch"). Bearbeitet werden sie weiterhin nur von den Teilnehmenden selbst.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nova → Lunch Participant zeigt die Allergien als Lesefeld — praktisch für Rückfragen von Caterern oder Admins. Ändern können nur die Teilnehmenden selbst.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — Pflege wie bisher im Profil-Dialog der Abstimmungsseite.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-01" description="Request Hub Call-Modus: ausgemusterte Serviervarianten lassen sich abwählen">
+  Anfragen, an denen noch eine inzwischen ausgemusterte Serviervariante (Format) hing, steckten im Call-Modus fest: Die alte Variante war in der Auswahl unsichtbar, blieb aber beim Speichern gespeichert. Jetzt erscheint sie mit dem Zusatz „(alt)" in der Auswahl und kann abgewählt werden. Bei Anfragen ohne alte Variante tauchen weiterhin nur die aktiven Varianten auf.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Zeigt eine Anfrage im Call-Modus eine Serviervariante mit „(alt)": abwählen und eine aktuelle Variante setzen — das Feld lässt sich jetzt normal bereinigen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-01" description="Caterer-Konto: Leeren von Zahlenfeldern verursacht keinen Fehler mehr">
+  Wer im Caterer-Konto ein Zahlenfeld komplett leerte (Vorlaufzeit in Tagen/Stunden, Mindest-Gästezahl, Kapazität, Fläche), bekam beim Speichern eine Fehlermeldung und die Änderung ging verloren. Jetzt wird ein geleertes Feld als 0 gespeichert; die Fläche (m²) darf auch leer bleiben.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Falls Caterer den Speicherfehler gemeldet hatten: behoben, kein Workaround mehr nötig.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Zahlenfelder im Konto lassen sich wieder problemlos leeren und speichern.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-08-31" description="E-Mail-Versand: robuster bei großen Anhängen und Microsoft-Störungen">
+  Drei Zuverlässigkeits-Fixes am Mail-Versand über Microsoft: Mails mit großen PDF-Anhängen brachen bisher nach 30 Sekunden ab (aufgefallen beim Microsoft-Ausfall am 31.08.) — das Zeitlimit liegt jetzt bei 120 Sekunden. Außerdem werden kurzzeitige Microsoft-Fehler (Serverfehler, zeitweise Outlook-Ablehnungen) automatisch erneut versucht, statt dass die Mail und die zugehörige Slack-Benachrichtigung verloren gehen.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Angebots- und Anfrage-Mails mit großen Anhängen kommen zuverlässiger raus; bei kurzen Microsoft-Störungen versucht das System es selbst erneut. Hängen gebliebene Mails aus der Zeit davor ggf. einmalig neu anstoßen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — Mails kommen lediglich zuverlässiger an.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — Mails kommen lediglich zuverlässiger an.
+    </Card>
+  </Columns>
+</Update>
+
 <Update label="2026-08-31" description="Lieferschein-PDF: Zeilenumbrüche, Fett und Unterstreichung repariert">
   Mehrzeilige Menü-Beschreibungen wurden auf dem Lieferschein-PDF bisher zu einem einzigen Textblock zusammengeklebt, und fett oder unterstrichen formatierte Stellen kamen im PDF nicht an. Beides ist behoben: Zeilenumbrüche, Absätze und Listen bleiben erhalten, Fett und Unterstreichung erscheinen wie im Editor. Gilt für alle ab jetzt erzeugten Lieferscheine; bereits verschickte PDFs bleiben, wie sie sind.
 
