@@ -7,6 +7,240 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-09-10" description="Caterer Hub: Sammelaktionen auf der Übersicht, Monatsrechnungen im Caterer-Menü">
+  Auf der Caterer-Übersicht im Caterer Hub lassen sich jetzt mehrere Caterer ankreuzen: Sobald mindestens eine Zeile markiert ist, erscheint die Leiste „Sammelaktionen“ und wendet eine Aktion auf die ganze Auswahl an. Caterer-Aktionen laufen auf den markierten Caterern, Filial-Aktionen auf der jeweils ersten Filiale des Caterers; Caterer ohne Filiale werden übersprungen, und die Leiste sagt vorher, wie viele das sind. Die Auswahl gilt immer nur für die gerade sichtbare Seite. Außerdem ist „Create monthly bills“ im Aktions-Menü eines einzelnen Caterers nicht mehr versteckt, sondern für Admins verfügbar — das Datumsfeld im Dialog wird jetzt als echte Datumsauswahl dargestellt.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Beides ist Admins vorbehalten: Mit KAM-Rolle erscheinen weder die Ankreuzfelder noch „Create monthly bills“. Wichtig für Admins: Wie jede Filial-Aktion im Hub trifft auch die Monatsrechnung nur die **erste** Filiale eines Caterers — bei mehreren Filialen weiterhin über die klassische Nova-Ansicht arbeiten.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-10" description="Nächtlicher Stripe-Abgleich läuft wieder vollständig durch">
+  Der nächtliche Abgleich, der die Zahlungsstatus aus Stripe zurück in die Bestellungen schreibt, hat bisher jede Nacht die komplette Bestell-Historie erneut abgefragt. Mit jeder bezahlten Bestellung wuchs der Lauf, bis er länger dauerte als das Zeitfenster der Queue und abbrach — Statusänderungen kamen dann verspätet oder gar nicht an. Jetzt prüft der Lauf nur noch Bestellungen, deren Stripe-Status sich überhaupt noch ändern kann: alles außer endgültig bezahlt und storniert, dazu 30 Tage lang die frisch bezahlten (falls eine Rückmeldung von Stripe verloren ging) und dauerhaft die als uneinbringlich markierten, weil Stripe daraus noch „bezahlt“ machen kann. Die Bestellungen werden außerdem blockweise geladen statt alle auf einmal.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Der Zahlungsstatus an der Bestellung ist morgens wieder verlässlich aktuell — keine Aktion nötig.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-09" description="FU-Marktplatz: Punch-out-Umbau nach dem Demo-Feedback (Staging)">
+  Auf Prod bleibt die Storefront weiterhin abgeschaltet; für die FU-Testphase auf Staging ist der Punch-out nach dem Demo-Feedback umgebaut. Im Punch-out-Modus verschwinden das öffentliche Menü und der Footer, der Warenkorb-Link sitzt in der Punch-out-Leiste, und ein leerer Warenkorb führt zurück auf den Marktplatz statt auf die öffentliche Startseite — der öffentliche Inspirations-Block darunter entfällt. Die Personenzahl kommt aus dem Personen-Regler des Marktplatzes und wird auf der Prüfseite nur noch angezeigt, nicht mehr abgefragt. Die Prüfseite selbst ist deutlich schlanker: Kontaktdaten und Lieferadresse werden nicht mehr erfragt (sie kommen mit dem SAP-Bestellschein), die Uhrzeiten sind Auswahllisten in 30-Minuten-Schritten, und ein Zurück im Browser zeigt nicht mehr die alte Seite aus dem Cache. Neben den Anlass-Kacheln gibt es einen zweiten, dezenten Einstieg über den Caterer sowie einen Link auf ein individuelles Anfrageformular unter /marktplatz/anfrage — diese Seite ist an eine aktive Punch-out-Sitzung gebunden, für alle anderen antwortet sie mit 404. In Nova gibt es an der Bestellung die Aktion „Bestellschein erfassen“: Auftragsnummer, Kontakt und Lieferadresse aus dem SAP-Bestellschein eintragen, die zuvor unsichtbare Checkout-Bestellung wird damit aktiv (Status „Date confirmed“); es wird dabei keine E-Mail versendet. Die Aktion erscheint nur an Bestellungen aus einem Punch-out. Punch-out-Warenkörbe sind zusätzlich an ihre Sitzung gebunden, und Checkout-Bestellungen aus dem Punch-out lassen sich im Order Hub öffnen, obwohl Kontakt und E-Mail noch fehlen.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Kommt ein SAP-Bestellschein zur FU-Bestellung herein: Bestellung über die OCI-Referenz suchen, in Nova „Bestellschein erfassen“ ausführen und Auftragsnummer, Kontakt und Lieferadresse eintragen. Erst danach ist die Bestellung sichtbar und aktiv. Bestätigungsmails laufen wie gewohnt über die bestehenden Aktionen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Auf Prod ändert sich nichts. Wer auf Staging mittestet: Der Punch-out fragt keine Kontakt- und Lieferdaten mehr ab, die Personenzahl kommt aus dem Marktplatz, und ein individuelles Angebot lässt sich über das Anfrageformular im Marktplatz anfragen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-09" description="Lead Sources: Referral - Caterer als Sammelwert, neu Apollo und Daily Meals">
+  Die Lead-Source „Referral - Caterer (Fair Taste)“ heißt jetzt „Referral - Caterer“ und ist der Sammelwert für Empfehlungen von Caterern außerhalb von BerlinCuisine (Fair Taste, Mama and Sons, …) — „Referral - Caterer (BC)“ bleibt davon unberührt. In HubSpot bleibt der interne Wert unverändert, die Zuordnung in beide Richtungen ist angepasst. Neu dazugekommen sind zwei Lead-Sources: „Cold Outbound - Apollo“ (kalte Ansprache über Apollo; HubSpot-intern „Apollo Crawl“) und „Account Management - Daily Meals“ (Bestandskunden über das Daily-Meals-Programm). Außerdem wurde eine Lücke geschlossen, durch die „Referral - Website“ aus HubSpot nicht zurück ins Backend übernommen wurde.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      In Nova und HubSpot die neuen Werte verwenden: Apollo-Kaltakquise auf „Cold Outbound - Apollo“, Daily-Meals-Bestandskunden auf „Account Management - Daily Meals“. Caterer-Empfehlungen ohne BerlinCuisine laufen ab sofort unter „Referral - Caterer“.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-08" description="Caterer-Aktivität auf einen Blick: Login 14 Tage, Bestellung 2 Monate">
+  Caterer Hub, Catering-Angebots-Tool und Matching Tool zeigen jetzt zwei berechnete Aktivitätsmerkmale pro Caterer: ob sich in den letzten **14 Tagen** ein Caterer-Kontakt eingeloggt hat und ob es in den letzten **2 Monaten** eine nicht stornierte Bestellung gab. In der Caterer-Übersicht des Hubs sind das zwei sortierbare Spalten („Login 14 T“, „Order 2 M“) neben einer neuen Spalte „Typ“ (Store-Typ); im Matching Tool und im Angebots-Tool erscheinen bei fehlender Aktivität zwei orange Warn-Badges direkt am Caterer. Die bisherige Spalte „Rating“ im Angebots-Tool ist dafür entfallen.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nutz die Badges als Vorwarnung: Ein Caterer ohne Login seit 14 Tagen reagiert erfahrungsgemäß langsamer auf ein Angebot — vor dem Versand lieber kurz anrufen. Sortieren nach „Login 14 T“ in der Übersicht findet die stillen Caterer für die Reaktivierung.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — die Merkmale werden nur intern angezeigt.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-07" description="Request Hub: unfertige Angebote sind als „In Bearbeitung“ erkennbar">
+  Ein Angebot im Status „In Bearbeitung“ (unfertig) sah im Request Hub bisher aus wie ein normal versendetes: Der gebündelte Versand hat den Zeitstempel „an Kunden gesendet“ auf **alle** Angebote der Anfrage geschrieben, auch auf die nicht ausgewählten und die unfertigen. Jetzt bekommt ein unfertiges Angebot eine eigene gelbe Kennzeichnung „IN BEARBEITUNG“ und wird in der Angebotsliste hinter die fertigen einsortiert; der gebündelte Versand stempelt nur noch die tatsächlich versendeten Angebote und überspringt unfertige grundsätzlich.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Ein gelbes „IN BEARBEITUNG“ heißt: Dieses Angebot ist nicht beim Kunden und blockiert alle Versand- und Bestell-Aktionen. Erst fertigstellen, dann versenden.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-07" description="Kein zweites Anlegen einer Bestellung aus demselben Angebot">
+  Die Aktion „Bestellung anlegen“ ließ sich an einem Angebot mehrfach ausführen und legte dabei jedes Mal eine weitere Bestellung an. Jetzt ist sie gesperrt, sobald am Angebot bereits eine Bestellung hängt: In Nova ist der Eintrag nicht mehr ausführbar, im Request Hub kommt eine Meldung mit der Nummer der bestehenden Bestellung.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Braucht ein Angebot wirklich eine neue Bestellung, muss die bestehende erst abgehängt oder storniert werden — die Meldung nennt die betroffene Bestellnummer.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — schützt vor doppelten Bestellungen und doppelten Rechnungen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen — schützt vor einer doppelt eingesteuerten Bestellung.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-04" description="Telefonie-Routing: nur zu Bürozeiten auf den KAM, keine Weiterleitungs-Schleifen, Alarm bei verpassten Anrufen">
+  Das sipgate-Routing hat drei Korrekturen bekommen. Erstens klingelt ein bekannter Anrufer nur noch **innerhalb der Bürozeiten** (Mo–Fr 09:00–18:00, Europe/Berlin) direkt beim zuständigen KAM; abends und am Wochenende greift wieder die native Zeitsteuerung der Hotline, damit Wochenenddienst und Nachtschaltung der Kundenservice-Gruppe nicht übergangen werden. Zweitens wird ein bereits weitergeleiteter Anruf nicht erneut auf den KAM gewählt — vorher konnte ein nicht angenommener Anruf, der über die Gruppe zurückkam, in einer Schleife landen. Drittens meldet ein verpasster Kundenanruf sich jetzt in Slack, und zwar mit Unterscheidung: Wurde der Anruf an die Kundenservice-Gruppe weitergereicht, steht das in der Meldung und auch in der HubSpot-Notiz („Weiter an Kundenservice-Gruppe: Ja“). Die Meldung geht in denselben Kanal wie im Lead-Flow — ab 2.000 € Anfrage-Budget in den 2k-plus-Kanal, sonst in den Aktionen-Kanal unter 2k. Anruf-Notizen in HubSpot werden außerdem an **jedes** zugehörige Deal geschrieben, auch an verlorene; bisher entstand die Notiz nur bei offenen Deals.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Abends und am Wochenende klingelt es nicht mehr direkt bei Dir — das ist so gewollt. Verpasste Kundenanrufe siehst Du im Slack-Kanal Deines Budget-Segments; die Meldung sagt Dir, ob der Anruf danach noch in der Kundenservice-Gruppe gelandet ist. Notizen zu Anrufen findest Du jetzt auch an verlorenen Deals.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Anrufe außerhalb der Bürozeiten laufen wieder über die reguläre Hotline-Schaltung statt ins Leere.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-03" description="Anfrageformular: keine Sackgasse mehr, wenn der Browser Speicher blockiert">
+  Wenn Besucher Cookies und Website-Daten blockieren (in Firefox mit der Fehlermeldung NS_ERROR_FAILURE), warf der Speicherzugriff im Anfrageformular eine Ausnahme und das Formular blieb stehen. Jeder Zugriff auf den lokalen Speicher ist jetzt abgesichert: Fehlt der Speicher, läuft das Formular ohne Zwischenspeicherung weiter und hält die Sitzungs-Kennung stattdessen im Arbeitsspeicher.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nicht betroffen — schließt eine stille Quelle abgebrochener Anfragen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Das Anfrageformular funktioniert auch mit strengen Datenschutz-Einstellungen im Browser; nur die Wiederaufnahme eines halb ausgefüllten Formulars entfällt dann.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-02" description="Nova: Finanz- und Identitäts-Ressourcen sind für Nicht-Admins nur noch lesbar">
+  Nova erlaubt Schreibzugriff standardmäßig überall dort, wo keine Richtlinie hinterlegt ist — bei den meisten Ressourcen war das der Fall. Für die sensiblen Ressourcen gilt jetzt ein Grundschutz: Anlegen, Bearbeiten und Löschen ist auf die Admin-Rolle beschränkt, Lesen bleibt unverändert. Betroffen sind Administratoren, Nutzer, Kunden, Caterer, Take Rates der Filialen, Kundenguthaben, Mahn-Ausnahmen, Auszahlungs-Korrekturen, Monats-Rechnungen (inkl. Positionen), zeitbasierte Provisionen, Gutschein-Typen und Firmen-E-Mail-Domains. Die Aktion „Manage User Roles“ ist zusätzlich admin-only und kann die Admin-Rolle grundsätzlich nicht mehr vergeben. Ebenfalls in diesem Paket: Werte in CSV- und Excel-Exporten, die mit einem Gleichheits-, Plus-, Minus- oder At-Zeichen beginnen, werden als Text geschrieben, damit Tabellenprogramme sie nicht als Formel ausführen.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Diese Ressourcen lassen sich in der klassischen Nova-Ansicht nicht mehr bearbeiten — für Änderungen an Take Rate, Guthaben, Auszahlungen, Gutscheinen oder Rollen einen Admin fragen. Das Bearbeiten von Caterern läuft weiterhin über den Caterer Hub, der eigene Endpunkte nutzt.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-02" description="Caterer mit Doppelrolle können Angebote wieder bestätigen">
+  Wer im selben Konto sowohl Caterer- als auch Kunden-Rolle trägt, sah den Bestätigen-Button am eigenen Angebot nicht: Die Berechtigungsprüfung lief zuerst über die Kunden-Rolle und blockte dort ab, bevor der Caterer-Zweig überhaupt erreicht wurde. Die Prüfung stellt jetzt den Caterer-Zweig voran und bindet ihn an Eigentümerschaft und die vorherige Zusage des Kunden — alle bisherigen Einschränkungen für Kunden (Lese-Konten, fremde Angebote in Firmenkonten) bleiben unverändert.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Meldet ein Caterer, dass der Bestätigen-Button fehlt, ist die Doppelrolle nicht mehr die Ursache — dann prüfen, ob der Kunde bereits zugesagt hat.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Konten mit Caterer- und Kunden-Rolle können angenommene Angebote wieder selbst bestätigen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-01" description="„Lieferung inklusive Aufbau“ abgeschafft; Stornogarantie bei mehrtägigen Bestellungen repariert">
+  Das Merkmal „Lieferung inklusive Aufbau“ ist ausgemustert. Es hat bisher zwei Dinge bewirkt: die Liefergebühr mit 19 % statt 7 % zu besteuern und **alle** Positionen im Warenkorb auf 19 % zu heben. Beides entfällt — die Liefergebühr wird immer mit 7 % gerechnet, die Steuersätze der Positionen bleiben unangetastet. Die Felder sind in Nova am Angebot und an der Bestellung ausgeblendet, das Merkmal ist nirgends mehr setzbar. Zweite Korrektur im selben Paket: Wechselte bei einer **mehrtägigen** Bestellung die Stornogarantie-Stufe, schlug das Ersetzen der Position fehl, weil der Bestellung selbst kein Leistungsdatum zugeordnet ist. Die neue Position übernimmt jetzt das Leistungsdatum der ersetzten.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Das Häkchen „Delivery includes setup“ gibt es an Angebot und Bestellung nicht mehr — die Liefergebühr steht fest auf 7 %. Bei mehrtägigen Bestellungen passt sich die Stornogarantie-Stufe wieder ohne Fehler an.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Auf neuen Angeboten und Bestellungen erscheinen keine pauschal auf 19 % gehobenen Positionen mehr.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-01" description="Angebots-Editor: Positionsliste im Hinzufügen-Dialog scrollt wieder">
+  Im Dialog „Position hinzufügen“ der Angebotskarte ließ sich die Trefferliste nicht scrollen, und der Dialog war auf 40 % der Fensterhöhe begrenzt — bei mehr als ein paar Treffern waren die unteren nicht erreichbar. Der Dialog nutzt jetzt bis zu 90 % der Fensterhöhe, und die Liste scrollt innerhalb des Dialogs.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Produkte und Pakete lassen sich im Hinzufügen-Dialog wieder vollständig durchblättern.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
 <Update label="2026-09-01" description="Team-Lunch: Puffer-Portionen pro Liefertag und Kategorie">
   Daily-Lunch-Unternehmen können jetzt feste Puffer-Portionen hinterlegen — zusätzliche Portionen über die Stimmen hinaus, pro Liefertag und Kategorie (Carnivore, Veggie, Vegan, je 0–20). Die Einstellung gilt unternehmensweit und automatisch für jede Woche. Der Puffer hängt sich an das meistgewählte Gericht der Kategorie: In der Ergebnis-CSV erscheint er als eigene Zeile mit dem Zusatz „(Puffer)" und zählt in die Tagessumme; in der Etiketten-CSV bekommt jede Puffer-Portion ein eigenes Etikett mit dem Namen „Buffer".
 

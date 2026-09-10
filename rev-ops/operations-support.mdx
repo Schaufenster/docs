@@ -21,6 +21,8 @@ Zielbild für Erreichbarkeit ist ein Zwei-Schichten-Modell. Es löst die Schwäc
 
 Off-Hours-Anrufe sind in der Regel kein Spam, sondern zeitkritische Bestandskunden-Anliegen und warme Leads — entsprechend werden sie behandelt, nicht weggefiltert.
 
+**Live-Stand des Routings (seit 04.09.2026).** Ein bekannter Anrufer wird nur **innerhalb der Bürozeiten** (Mo–Fr 09:00–18:00, Europe/Berlin) direkt auf den zuständigen KAM gewählt; außerhalb greift die native Zeitsteuerung der Hotline, damit Wochenenddienst und Nachtschaltung der Kundenservice-Gruppe nicht übergangen werden. Ein bereits weitergeleiteter Anruf wird nicht erneut auf den KAM gewählt (sonst Schleife). Verpasste Kundenanrufe melden sich in Slack — im 2k-plus-Kanal bzw. im Aktionen-Kanal unter 2k, gesplittet nach Anfrage-Budget wie im Lead-Flow — und unterscheiden dabei, ob der Anruf anschließend in der Kundenservice-Gruppe gelandet ist. Notizen zu Anrufen schreibt das System an **jedes** zugehörige HubSpot-Deal, auch an verlorene.
+
 Offene Designfrage (noch nicht entschieden): ob Erstkontakt-Anrufer zu Bürozeiten zunächst kurz beim CS-Owner klingeln, bevor der KI-Agent übernimmt — Leitgedanke „KI als Netz, nicht als Empfangsdame", da der Quali-Call der stärkste CVR-Hebel ist.
 
 → Vollständiges Konzept inkl. Roadmap: [Telefonie-Setup 2.0 (Notion)](https://app.notion.com/p/37b0e460164b81c49342cecc48fd09f3)
