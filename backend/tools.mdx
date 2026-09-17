@@ -18,7 +18,12 @@ bündeln. Einige sind Menüpunkte, andere öffnest du aus einer Detailseite.
   In der Kunden-Karte ist das Unternehmen als echte Verknüpfung pflegbar („Verknüpftes Unternehmen":
   suchen, neu anlegen, entfernen) — getrennt vom Freitext „Firmenname auf Dokumenten", der auf
   Lieferschein und Mails landet. Bei Daily-Lunch-Unternehmen lässt sich die Order der Lunch-Woche
-  zuordnen (Kachel „Lunch Week" unter „Related Items").
+  zuordnen (Kachel „Lunch Week" unter „Related Items") und die Produktlinie setzen (Kachel
+  „Produktlinie": Event catering oder Daily Lunch; bei verknüpfter Lunch-Woche automatisch).
+  Ohne ID (`/nova/order-hub`) zeigt der Hub die **Bestell-Liste**: Status-Tabs mit Zählern
+  (Alle · Termin reserviert · Zahlung offen · Bezahlt · Storniert · Sonstiges), Suche, Filter
+  (KAM, Stadt, Caterer, Service- und Erstellzeitraum), sortierbare Spalten und Mehrfachauswahl
+  für Sammelaktionen (Sammelrechnung als Entwurf oder versendet, Caterer-Reminder).
 </Card>
 
 ## Request Hub
@@ -32,6 +37,57 @@ bündeln. Einige sind Menüpunkte, andere öffnest du aus einer Detailseite.
   Der Freitext „Sonstige Wünsche" ist direkt in der Übersichtskarte und im Call-Modus bearbeitbar.
   Unverarbeitete Sonstige Wünsche zeigen an der Anfrage und beim Caterer-Versand eine Warnung –
   blockiert wird nichts.
+  Ohne ID (`/nova/request-hub`) zeigt der Hub die **Anfragen-Liste**: Status-Tabs mit Zählern
+  (Alle · Offen · Bei Caterern · Beim Kunden · Gebucht · Lost), Checklisten-Pills, Suche, Filter
+  (KAM, Stadt inkl. unbekannter Städte, Qualifiziert, Datums- und Erstellzeitraum), sortierbare
+  Spalten sowie Mehrfachauswahl für Sammelaktionen. „Neue Anfrage" öffnet das Nova-Formular.
+</Card>
+
+## Offer Hub
+
+<Card title="Offer Hub" icon="grip">
+  Der **Angebots-Arbeitsplatz** (`/nova/offer-hub/` plus Angebots-ID). Oben ein Hero mit Caterer,
+  Kunde, Termin, Bruttosumme, KAM und Status; darunter die Angebotsdetails mit Zustandsbanner und
+  Inline-Einstellungen, die PDF-Kacheln, die Positionstabelle mit Inline-Bearbeitung und
+  „Position hinzufügen" (im Look des Matching Tools) sowie die Notizen mit Formatierung.
+  Dazu die Tabs Anfrage &amp; Kunde, Verlauf, Inbox (Feature-Flag) und Action Log. Stornogarantie-Zeilen
+  sind schreibgeschützt – die pflegt das System. Erreichbar über den Button „Offer Hub" je Angebot
+  im Request Hub und über das Feld „Hub öffnen" auf der Nova-Angebotsseite.
+</Card>
+
+## Customer Hub &amp; Company Hub
+
+<Columns cols={2}>
+  <Card title="Customer Hub" icon="user">
+    `/nova/customer-hub` – Kundenliste mit Suche, Filtern (Account Owner, Segment) und KPI-Spalten;
+    die Kundenseite bündelt Hero mit KPI-Leiste und die Tabs Übersicht · Anlässe · Bestellungen ·
+    Anfragen · Rechnungsprofile · Inbox (Feature-Flag) · Aktivität · Admin (nur Admins).
+  </Card>
+  <Card title="Company Hub" icon="building">
+    `/nova/company-hub` – Firmenliste mit Suche über Name, Domain und ID, Filtern (Owner, nur Daily
+    Lunch, gelöschte anzeigen) und KPI-Spalten; die Firmenseite zeigt Segment (Daily Lunch / Kunde /
+    Lead) und die Tabs Übersicht · Anlässe · Kontakte · Bestellungen · Anfragen · Rechnungsprofile ·
+    Daily Lunch · Aktivität · Admin (nur Admins). Änderungen an einer Firma werden seit 14.09.
+    protokolliert und erscheinen im Tab „Aktivität".
+  </Card>
+</Columns>
+
+<Callout kind="info">
+  **Testphase:** Angebot, Kunde und Firma öffnen sich weiterhin standardmäßig in der klassischen
+  Nova-Ansicht; in die Hubs kommst du über die Menüpunkte und über das Feld „Hub öffnen" auf der
+  Detailseite. Erst wenn das Flag `FEATURE_KAM_HUB_REDIRECTS` scharf geschaltet wird, leiten diese
+  drei Seiten für KAMs automatisch in den Hub um – so wie Bestellung, Anfrage, Caterer und Filiale
+  es schon länger tun. Der URL-Zusatz `?classic=1` führt überall zurück in die klassische Ansicht.
+</Callout>
+
+## Produkt- und Paketkatalog
+
+<Card title="Katalog-Übersichten" icon="boxes">
+  `/nova/caterer-hub/products` und `/nova/caterer-hub/packages` zeigen **alle Produkte bzw. Pakete
+  über alle Caterer hinweg** im Hub-Look: Suche, Filter, Sortierung, Bild und Caterer-Link. Ein Klick
+  auf eine Zeile öffnet den Caterer Hub des Anbieters direkt im passenden Tab mit geöffnetem Editor.
+  Im Menü heißen die Einträge „Produktkatalog" und „Paketkatalog" und stehen neben den
+  Nova-Ressourcen Produkte und Pakete, die unverändert bleiben.
 </Card>
 
 ## Caterer Hub

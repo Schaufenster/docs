@@ -46,10 +46,10 @@ acht Bereiche – verankert in der tatsächlichen Menü-Definition im Code.
 | --- | --- |
 | **Dashboard** | Haupt-Dashboard (Order-KPIs, Cart, Delivery, Voucher) |
 | **KAM Inbox** | Aktivitäts-Feed pro KAM *(Feature-Flag)* |
-| **Catering Operations** | CateringRequest · Request Email Parser · Caterer Matching Tool · Catering offer tool (manuell) · CateringOffer · Order · InvoiceDunningReminder · PrecomputedMenuProposal · TextSnippet |
+| **Catering Operations** | CateringRequest · **Request Hub** · Request Email Parser · Anfragen-Import aus Notizen (Bulk) · Caterer Matching Tool · Catering offer tool (manuell) · CateringOffer · Order · **Order Hub** · CollectiveInvoice · InvoiceDunningReminder · PrecomputedMenuProposal · TextSnippet |
 | **Feedback & Surveys** | SurveyInstance · SurveyAnswer · Survey-Insights-Dashboard |
-| **Catalog & Suppliers** | Retailer · Branch · MonthlyRetailerBill · PayoutAdjustment · Product · Package · Productvariant · Voucher |
-| **Users & Customers** | User · Company |
+| **Catalog & Suppliers** | Caterer Hub (statt Retailer/Branch) · **Produktkatalog** · **Paketkatalog** · MonthlyRetailerBill · PayoutAdjustment · Product · Package · Productvariant · Voucher |
+| **Users & Customers** | User · **Customer Hub** · **Company Hub** · Company |
 | **Smart Profiles** | BillingProfile · EventFormat |
 | **Performance & Insights** | Request-/Marketing-/Finance-/Diverse-KPIs · LeadFormProgress · GoogleAd · LeadSource |
 
@@ -61,6 +61,13 @@ Diese Bereiche sind nur für Admins sichtbar – wende dich ans Team, wenn du hi
   **Catering Config**, **Delivery Config**, **Content Management**, **Reference Data** (Stammdaten/Taxonomien),
   **System Admin** (Rollen, Rechte, Importe), **Email & Communication** (E-Mail-Templates/A-B-Tests) und
   **Accounting & Finance** (Mahn-Ausnahmen).
+</Callout>
+
+<Callout kind="info">
+  **Die Hub-Werkzeuge stehen neben den Nova-Ressourcen, nicht an ihrer Stelle.** Seit dem 14.09.2026
+  liegen Request Hub, Order Hub, Customer Hub, Company Hub sowie Produkt- und Paketkatalog als eigene
+  Menüpunkte im Menü – die klassischen Listen bleiben vorerst der Standard. Beschrieben sind alle
+  Werkzeuge unter [KAM-Werkzeuge](/backend/tools).
 </Callout>
 
 <Callout kind="tip">

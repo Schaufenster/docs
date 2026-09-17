@@ -7,6 +7,192 @@ Das Kernproblem, das diese Wissensdatenbank adressiert: **Features gehen live, o
 
 ## Changelog
 
+<Update label="2026-09-17" description="Marktplatz-Warenkorb: Zubehör und Servicekräfte des Caterers direkt buchbar">
+  Im Warenkorb des Marktplatzes steht jetzt der Block „Zubehör“ mit den Basis-Katalog-Positionen des gewählten Caterers: Geschirr, Getränke, Equipment und Servicekräfte, jeweils mit Mengenregler und Nettopreis. Diese Positionen tragen keinen Anlass und tauchten deshalb in den Anlass-Listen nie auf — der Warenkorb bietet sie ausdrücklich an. Servicekräfte werden damit direkt gebucht statt angefragt: Verkauft der Caterer Service-Positionen, verschwindet die Karte „Servicepersonal anfragen“. Logistik (Lieferung, Abholung) bleibt bewusst draußen, die setzt der Caterer und nie der Kunde. Dazu zwei Korrekturen: Basis-Katalog-Positionen sind Pauschalen ohne Lagerbestand und werden an der Kasse nicht mehr als ausverkauft behandelt, und auf der Anlass-Übersicht ist der zweite Einstieg „Zum Caterer-Modus“ entfallen, weil die Kacheln darüber bereits auf die Caterer-Seiten führen.
+
+  Die Storefront hängt weiterhin am Feature-Flag `FEATURE_MARKETPLACE_ENABLED` und ist auf Prod aus — `/marktplatz` antwortet dort mit 404.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nichts zu tun, solange die Storefront aus ist. Beim Testen gilt: Was im Warenkorb als Zubehör erscheint, kommt aus dem Basis-Katalog des Caterers (Caterer Hub → Tab „Basis-Produkte“). Fehlt dort eine Geschirr-, Getränke-, Equipment- oder Service-Position, fehlt sie auch im Warenkorb.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Auf Prod ändert sich nichts.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen. Sobald der Marktplatz aufgeht, entscheidet der gepflegte Basis-Katalog darüber, was Kunden im Warenkorb dazubuchen können.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-17" description="FU-Punch-out: zweite Bestellung startet mit einem frischen Warenkorb">
+  Nach der Übergabe an SAP konnte im Punch-out weiter im selben Warenkorb eingekauft werden. Ein erneutes Absenden hätte dann einen Korb übertragen, der nicht mehr zur bereits ausgestellten Referenz passt. Die Prüfseite erkennt das jetzt: Weicht die Auswahl von dem ab, was übergeben wurde, erscheint ein Hinweis auf die abgeschlossene Bestellung und der Übergabe-Button ist gesperrt. Stattdessen führt der Button „Neue Bestellung beginnen“ in einen frischen Warenkorb; die übertragene Bestellung bleibt davon unberührt.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nicht betroffen. Falls ein FU-Besteller meldet, er könne nicht erneut absenden: Das ist gewollt — er startet über „Neue Bestellung beginnen“ eine zweite Bestellung, die dann eine eigene OCI-Referenz bekommt.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nur für FU-Berlin im Punch-out: Für eine weitere Bestellung nach einer Übergabe wird ein neuer Warenkorb gestartet, statt den alten weiterzuverwenden.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-16" description="Angebot in eine andere Anfrage desselben Kunden kopieren">
+  Wenn ein Caterer das Menü unter der falschen Anfrage angelegt hat — typisch bei einem Event über zwei Tage, das als zwei Anfragen erfasst wurde —, musste es bisher neu gebaut werden. Neu gibt es am Angebot die Aktion „Angebot in andere Anfrage kopieren“: Ziel-Anfrage aus einer Liste wählen, fertig. Kopiert werden Positionen, Pakete, Preise, Steuersätze, Menügruppen und die zweisprachigen Zeilentexte; Versand-, Zusage- und Bestellbezüge werden zurückgesetzt, sodass die Kopie wie ein frisches Angebot dasteht. Optional lässt sich das Original mit abräumen (Häkchen „Original-Angebot löschen“; es wird nur soft-deleted und ist wiederherstellbar). Zur Auswahl stehen ausschließlich Anfragen desselben Kunden oder derselben Firma. Weil die Aktion an der Nova-Ressource hängt, erscheint sie automatisch auch im Request Hub (Tab „Angebote“, Zeilen-Menü) und im Offer Hub.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Angebot öffnen → Aktionen → „Angebot in andere Anfrage kopieren“. Danach die Positionsdaten prüfen: Liegt ein Leistungsdatum außerhalb der Ziel-Anfrage, weist die Aktion darauf hin — die Daten korrigierst Du selbst. Die Kopie trägt im Feld „Zusätzliche Notizen“ den Vermerk, aus welchem Angebot sie stammt, und beide Anfragen bekommen einen Eintrag im Aktivitätslog.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — die Kopie ist unversendet und erreicht den Kunden erst über den normalen Versand.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-16" description="Nova-Dashboard: die Tagesliste Heute im Fokus ist abgeschaltet">
+  Der Block „Heute im Fokus“ auf dem Nova-Dashboard ist ausgeblendet, und der nächtliche Lauf um 06:30 Uhr, der diese Liste per KI erzeugt hat, ist abgestellt. Grund: Die Liste wurde nicht genutzt, das Erzeugen hat nur KI-Budget verbraucht. Die übrigen Boxen der Dashboard-Karte bleiben unverändert. Technisch ist nichts entfernt — Service, Daten und Schnittstellen liegen weiter im Code, ein Wiedereinschalten ist eine Zeile.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Die Todo-Liste „Heute im Fokus“ ist weg. Wenn Du sie bisher als Tagesstart genutzt hast, sag Bescheid — dann schalten wir sie wieder ein.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-15" description="Lieferschein warnt, wenn ihn die automatische Caterer-Erinnerung vor der Freigabe verschickt">
+  Die Caterer-Erinnerung geht 48 bis 72 Stunden vor dem Leistungsdatum automatisch raus — unabhängig davon, ob ein KAM die Bestellung je Richtung Caterer freigegeben hat. War sie das nicht, können im Lieferschein noch Angaben fehlen oder sich ändern. Solche automatisch erzeugten Lieferscheine tragen jetzt oben einen roten Warnblock: Der Lieferschein ist noch nicht final, wurde vom egora-Team noch nicht geprüft, und der Caterer soll vor der Zubereitung beim Ansprechpartner rückfragen. Maßgeblich ist der Haken „Auftragsbestätigung an Caterer gesendet“ in der KAM-Checkliste; fehlt die Checkliste ganz, gilt die Bestellung als ungeprüft. Lieferscheine, die ein KAM selbst erzeugt oder versendet, sind unverändert ohne Warnung.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Die Warnung verschwindet, sobald die Bestellung über die reguläre Caterer-Bestätigung freigegeben ist. Kommt vom Caterer eine Rückfrage zu dem Hinweis, ist das der Anlass, die Bestellung durchzugehen und freizugeben.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen — der Kunden-Reminder trägt bewusst keine Warnung.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Steht der rote Block auf dem Lieferschein, ist die Planung noch nicht final: Einzelne Angaben können sich ändern oder werden nachgereicht. Vor der Zubereitung kurz beim egora-Ansprechpartner rückfragen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-14" description="Bonus-Pop-up beim Einbuchen einer Bestellung">
+  Bucht ein KAM aus einem Angebot eine Bestellung ein, erscheint direkt danach ein grünes Banner mit Betrag und Rechenweg, zum Beispiel „+ 10,42 € Bonus · 2 % auf 521,01 € netto“. Es erscheint nur, wenn der einbuchende Nutzer selbst der KAM der Anfrage ist und einen Bonusplan zugewiesen hat; bucht ein Admin stellvertretend ein, erscheint nichts. Der Betrag wird nach dem zugewiesenen Bonusmodell gerechnet; bei Stufenplänen ist es der Zuwachs, den genau diese Buchung im laufenden Monat auslöst. Die Anzeige ist eine Momentaufnahme — verbindlich bleibt das Monats-Dashboard.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Nichts zu tun. Das Banner ist eine Rückmeldung, keine Abrechnung: Für Zahlen, die zählen, weiter ins Bonus-Dashboard schauen. Nachbuchungen und Stornos zeigen bewusst kein Pop-up.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-14" description="KAM-Hub Phase 2: Offer Hub, Customer Hub, Company Hub, Listenseiten und Kataloge">
+  Die Hub-Oberfläche deckt jetzt die ganze Arbeitskette ab. Neu sind drei Arbeitsplätze: der **Offer Hub** (Angebot mit Hero, Angebotsdetails, Positionstabelle mit Inline-Bearbeitung und „Position hinzufügen“, Notizen, Tabs Anfrage &amp; Kunde, Verlauf, Action Log), der **Customer Hub** (Kundenliste plus Kundenseite mit Anlässen, Bestellungen, Anfragen, Rechnungsprofilen, Aktivität) und der **Company Hub** (Firmenliste plus Firmenseite mit Kontakten, Daily Lunch, Anlässen, Bestellungen, Anfragen). Dazu kommen Listenseiten im Hub-Look: `/nova/order-hub` zeigt die Bestellungen mit Status-Tabs, Suche, Filtern und Mehrfachauswahl, `/nova/request-hub` die Anfragen mit Status-Tabs, Checklisten-Pills, Filtern und ebenfalls Sammelaktionen. Im Bereich Katalog gibt es zwei neue Übersichten über alle Caterer hinweg — Produktkatalog und Paketkatalog —, aus denen ein Klick direkt in den passenden Editor im Caterer Hub springt. Alle fünf Hub-Oberflächen sind durchgehend auf Deutsch. Die Firmen-Aktivität wird ab jetzt protokolliert und füllt den Tab „Aktivität“ im Company Hub.
+
+  Der Einstieg läuft in der Testphase über Menüpunkte und über das Feld „Hub öffnen“ auf der jeweiligen Nova-Detailseite. Die klassischen Nova-Listen und -Seiten für Angebot, Kunde und Firma bleiben der Standard, bis das Flag `FEATURE_KAM_HUB_REDIRECTS` scharf geschaltet wird. Die schon länger laufenden Umleitungen für Bestellung, Anfrage, Caterer und Filiale sind davon unberührt.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Neue Menüpunkte: „Request Hub“ und „Order Hub“ unter Catering-Betrieb, „Customer Hub“ und „Company Hub“ unter Nutzer &amp; Kunden, „Produktkatalog“ und „Paketkatalog“ unter Katalog &amp; Lieferanten. Aus dem Request Hub führt je Angebot ein Button in den Offer Hub. Ein Angebot direkt geöffnet? Auf der Nova-Seite steht oben „Hub öffnen“. Zurück zur klassischen Ansicht kommst Du überall mit dem URL-Zusatz `?classic=1`. Rückmeldungen aus der Testphase bitte melden, bevor die Hubs zum Standard werden.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-14" description="Marktplatz-Umbau: Nettopreise, Typ-Reiter, Allergen-Filter, Caterer-Seiten, Gast-Kasse">
+  Der Marktplatz ist nach Johannes' Spezifikation und Pauls Feedback umgebaut. Die wichtigsten Änderungen: Preise werden durchgängig **netto** gezeigt — auf den Kacheln, in den Positionszeilen und in einem gemeinsamen Summenblock in Seitenleiste, Warenkorb und Kasse. Die Produktliste hat Typ-Reiter (Hauptgerichte, Fingerfood, Desserts, Getränke, Equipment), eine serverseitige Suche über Produkte und Caterer sowie Diät- und Allergen-Filter („frei von“), die auch Pakete einschließen und miteinander kombiniert werden. Jede Kachel hat einen Mengenregler, dazu gibt es eine globale Personenzahl und ein Detail-Overlay mit Allergenen. Der Warenkorb zeigt die Reichweite, macht Vorschläge für Getränke und Equipment, sperrt unterhalb des Mindestbestellwerts und führt eine Vertrauenszeile. Neu ist eine Caterer-Seite unter `/marktplatz/caterer/` mit Live-Filter im Verzeichnis. An der Kasse kann als Gast bestellt werden, die Firma wird nur bei Geschäftskunden abgefragt, der Newsletter ist ein aktives Opt-in, der Kalender berücksichtigt die Vorlaufzeit, eine Kostenstelle ist erfassbar, und die Bestätigungsmail enthält einen Magiclink ins Konto. Wer statt zu bestellen lieber ein Angebot oder Servicepersonal möchte, stellt aus dem Warenkorb heraus eine Anfrage — sie landet mit der Lead-Quelle „Marktplatz“ im Backend. Unter der Startseite steht eine Logo-Zeile „Vertraut von“, die in Nova gepflegt wird, und die Bewertungszahl kommt live von reviews.io. Im Hintergrund lesen Lieferschein, Menü-Editor, Matching Tool, Angebots-Editor und der Marktplatz die Menügruppen ab sofort aus einer einzigen Quelle.
+
+  Die Storefront ist auf Prod weiterhin abgeschaltet (`/marktplatz` antwortet dort mit 404).
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Zwei Dinge zum Vormerken: Die Lead-Quelle „Marktplatz“ muss in Nova auf jeder Umgebung existieren, sonst greift für Warenkorb-Anfragen nur der Fallback. Und die Menügruppen kommen jetzt zentral — sind Produkte historisch falsch einsortiert, zeigt das der Befehl `audit:menu-groups`, den wir vor dem Aufschalten einmal laufen lassen.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Auf Prod ändert sich nichts, solange der Marktplatz aus ist.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen. Für den Auftritt im Marktplatz zählen später der gepflegte Katalog mit Gewichten und Allergenen sowie der Mindestbestellwert je Filiale.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-11" description="Daily Lunch ist ein Produktkennzeichen an der Bestellung, keine Lead-Quelle">
+  Bestellungen tragen ein neues Feld „Produktlinie“ mit den Werten „Event catering“ und „Daily Lunch“. Wird eine Bestellung einer Lunch-Woche zugeordnet, setzt sie sich automatisch auf „Daily Lunch“ — eine Produktlinie, die ein KAM bewusst gesetzt hat, wird dabei nie überschrieben. Hintergrund der Entscheidung: Daily Lunch ist ein Produkt und kein Akquisekanal; DL-Kunden werden wie alle anderen über NC Sales, Google oder Nurturing gewonnen, und die Lead-Quelle bleibt genau dafür reserviert. Marktplatz- und Punch-out-Bestellungen behalten ihre eigenen Kennzeichen und tauchen hier bewusst nicht auf. Ein Audit-Befehl zeigt Altbestände, bei denen die Produktlinie zur Lunch-Woche nicht passt.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Das Feld steht in Nova an der Bestellung (Auswahlfeld „Product line“, auch als Filter in der Bestell-Liste) und im Order Hub als Kachel „Produktlinie“. Bei einer Bestellung mit Lunch-Woche musst Du nichts tun — die setzt sich selbst. Für Daily-Lunch-Bestellungen ohne verknüpfte Woche die Produktlinie einmal von Hand setzen, damit die Auswertungen stimmen; leerst Du die Kachel, steht wieder „Event catering“ darin. Die Lead-Quelle bleibt in beiden Fällen unverändert.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
+<Update label="2026-09-11" description="Eigene Lieferungen eingestellt: der Liefer-Status wird nicht mehr automatisch aktualisiert">
+  Mit dem Ende der eigenen Lieferungen ist der Abgleich abgeschaltet, der alle drei Minuten den Lieferstatus aus der Fahrer-Schnittstelle nachgezogen hat. Die Lieferungs-Datensätze in Nova bleiben bestehen, ihr Status bewegt sich aber nicht mehr von selbst. Der Abgleich war zuletzt auch die Ursache für tausende fehlgeschlagener Hintergrund-Jobs: Bei langsamer Schnittstelle lief er über das Zeitfenster der Queue hinaus und wurde als Fehler verbucht.
+
+  <Columns cols={3}>
+    <Card title="KAM" icon="headset">
+      Den Liefer-Status in Nova nicht mehr als Live-Information lesen — er ist ein historischer Stand. Auskunft über eine laufende Lieferung gibt der Caterer.
+    </Card>
+
+    <Card title="Kunden" icon="user">
+      Nicht betroffen.
+    </Card>
+
+    <Card title="Caterer" icon="utensils">
+      Nicht betroffen.
+    </Card>
+  </Columns>
+</Update>
+
 <Update label="2026-09-10" description="Caterer Hub: Sammelaktionen auf der Übersicht, Monatsrechnungen im Caterer-Menü">
   Auf der Caterer-Übersicht im Caterer Hub lassen sich jetzt mehrere Caterer ankreuzen: Sobald mindestens eine Zeile markiert ist, erscheint die Leiste „Sammelaktionen“ und wendet eine Aktion auf die ganze Auswahl an. Caterer-Aktionen laufen auf den markierten Caterern, Filial-Aktionen auf der jeweils ersten Filiale des Caterers; Caterer ohne Filiale werden übersprungen, und die Leiste sagt vorher, wie viele das sind. Die Auswahl gilt immer nur für die gerade sichtbare Seite. Außerdem ist „Create monthly bills“ im Aktions-Menü eines einzelnen Caterers nicht mehr versteckt, sondern für Admins verfügbar — das Datumsfeld im Dialog wird jetzt als echte Datumsauswahl dargestellt.
 

@@ -22,6 +22,15 @@ Sobald eine Anfrage **DATE_CONFIRMED (17)** erreicht und eine Order existiert, v
   </Step>
 </Steps>
 
+<Callout kind="alert">
+  **Punkt 2 steuert seit dem 15.09.2026 auch den Lieferschein.** Die automatische Caterer-Erinnerung geht
+  48 bis 72 Stunden vor dem Leistungsdatum raus, ganz gleich, ob ein KAM die Order schon freigegeben hat.
+  Ist `order_confirmation_sent_caterer` zu diesem Zeitpunkt noch nicht gesetzt (oder fehlt die Checkliste
+  ganz), trägt das Lieferschein-PDF einen roten Warnblock: noch nicht final, vom egora-Team ungeprüft,
+  Rückfrage vor der Zubereitung. Lieferscheine, die ein KAM selbst erzeugt oder versendet, sind unverändert
+  ohne Warnung.
+</Callout>
+
 ## Wie sie sich verhält (Systemfakten)
 
 <Columns cols={2}>
